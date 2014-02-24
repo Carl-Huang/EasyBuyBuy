@@ -111,9 +111,10 @@
     
     User * user = [PersistentStore getFirstObjectWithType:[User class]];
     if (user) {
-        ;
+        //Already login ,go to usercenter
     }else
     {
+        //Not login
         LoginViewController * loginViewController = [[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:loginViewController animated:YES];
         loginViewController = nil;

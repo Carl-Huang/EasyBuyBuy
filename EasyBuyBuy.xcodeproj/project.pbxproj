@@ -18,6 +18,8 @@
 		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
 		4EB1AE6E18BB34C90033364F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6C18BB34C90033364F /* RegisterViewController.m */; };
 		4EB1AE6F18BB34C90033364F /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */; };
+		4EB1AE7318BB3D5E0033364F /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE7118BB3D5E0033364F /* UserCenterViewController.m */; };
+		4EB1AE7418BB3D5E0033364F /* UserCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE7218BB3D5E0033364F /* UserCenterViewController.xib */; };
 		C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA2189666F900A26971 /* Foundation.framework */; };
 		C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA4189666F900A26971 /* CoreGraphics.framework */; };
 		C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA6189666F900A26971 /* UIKit.framework */; };
@@ -134,6 +136,9 @@
 		4EB1AE6B18BB34C90033364F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		4EB1AE6C18BB34C90033364F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
+		4EB1AE7018BB3D5E0033364F /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
+		4EB1AE7118BB3D5E0033364F /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
+		4EB1AE7218BB3D5E0033364F /* UserCenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenterViewController.xib; sourceTree = "<group>"; };
 		6EB2CF5BACC142DEACBA756F /* libPods-EasyBuyBuy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyBuyBuy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEB9F189666F900A26971 /* EasyBuyBuy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuyBuy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEBA2189666F900A26971 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -313,6 +318,9 @@
 				4EB1AE6B18BB34C90033364F /* RegisterViewController.h */,
 				4EB1AE6C18BB34C90033364F /* RegisterViewController.m */,
 				4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */,
+				4EB1AE7018BB3D5E0033364F /* UserCenterViewController.h */,
+				4EB1AE7118BB3D5E0033364F /* UserCenterViewController.m */,
+				4EB1AE7218BB3D5E0033364F /* UserCenterViewController.xib */,
 			);
 			name = User;
 			path = Login_Register;
@@ -639,6 +647,7 @@
 				C33EEC3C189667B200A26971 /* Home_Icon_Back@2x.png in Resources */,
 				C33EEC3B189667B200A26971 /* Home_Bg_1136@2x.png in Resources */,
 				C33EEC63189667B200A26971 /* Red Apple_Point_ShoppingCar@2x.png in Resources */,
+				4EB1AE7418BB3D5E0033364F /* UserCenterViewController.xib in Resources */,
 				C33EEC66189667B200A26971 /* Sale Promotion_Btn_Bidding@2x.png in Resources */,
 				C33EEC56189667B200A26971 /* My Adress_Btn_Edit@2x.png in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
@@ -726,6 +735,7 @@
 				4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */,
 				C33EEC35189667B200A26971 /* UIViewController+BarItem.m in Sources */,
 				C33EEC2C189667B200A26971 /* CommonViewController.m in Sources */,
+				4EB1AE7318BB3D5E0033364F /* UserCenterViewController.m in Sources */,
 				4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				4EB1AE6018BB2A9A0033364F /* LoginViewController.m in Sources */,
