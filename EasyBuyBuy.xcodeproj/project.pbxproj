@@ -7,19 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF488F18BB5D690038575F /* OneWayAlertView.m */; };
+		4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489118BB5D720038575F /* OneWayAlertView.xib */; };
+		4EAF48A918BB77870038575F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489B18BB77870038575F /* LoginViewController.m */; };
+		4EAF48AA18BB77870038575F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489C18BB77870038575F /* LoginViewController.xib */; };
+		4EAF48AB18BB77870038575F /* MyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489E18BB77870038575F /* MyOrderViewController.m */; };
+		4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489F18BB77870038575F /* MyOrderViewController.xib */; };
+		4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF48A118BB77870038575F /* RegisterViewController.m */; };
+		4EAF48AE18BB77870038575F /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF48A218BB77870038575F /* RegisterViewController.xib */; };
+		4EAF48AF18BB77870038575F /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF48A418BB77870038575F /* UserCenterViewController.m */; };
+		4EAF48B018BB77870038575F /* UserCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF48A518BB77870038575F /* UserCenterViewController.xib */; };
+		4EAF48B118BB77870038575F /* VerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF48A718BB77870038575F /* VerificationViewController.m */; };
+		4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF48A818BB77870038575F /* VerificationViewController.xib */; };
+		4EAF48B518BB78D20038575F /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF48B418BB78D20038575F /* OrderCell.m */; };
+		4EAF48B718BB78DC0038575F /* OrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF48B618BB78DB0038575F /* OrderCell.xib */; };
 		4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */; };
 		4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */; };
 		4EB1AE5B18BB2A880033364F /* ShopMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE5918BB2A880033364F /* ShopMainViewController.m */; };
 		4EB1AE5C18BB2A880033364F /* ShopMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE5A18BB2A880033364F /* ShopMainViewController.xib */; };
-		4EB1AE6018BB2A9A0033364F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE5E18BB2A9A0033364F /* LoginViewController.m */; };
-		4EB1AE6118BB2A9A0033364F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE5F18BB2A9A0033364F /* LoginViewController.xib */; };
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
 		4EB1AE6718BB2B010033364F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6618BB2B010033364F /* User.m */; };
 		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
-		4EB1AE6E18BB34C90033364F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6C18BB34C90033364F /* RegisterViewController.m */; };
-		4EB1AE6F18BB34C90033364F /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */; };
-		4EB1AE7318BB3D5E0033364F /* UserCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE7118BB3D5E0033364F /* UserCenterViewController.m */; };
-		4EB1AE7418BB3D5E0033364F /* UserCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE7218BB3D5E0033364F /* UserCenterViewController.xib */; };
 		C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA2189666F900A26971 /* Foundation.framework */; };
 		C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA4189666F900A26971 /* CoreGraphics.framework */; };
 		C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA6189666F900A26971 /* UIKit.framework */; };
@@ -118,6 +126,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4EAF488E18BB5D690038575F /* OneWayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneWayAlertView.h; sourceTree = "<group>"; };
+		4EAF488F18BB5D690038575F /* OneWayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneWayAlertView.m; sourceTree = "<group>"; };
+		4EAF489118BB5D720038575F /* OneWayAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneWayAlertView.xib; sourceTree = "<group>"; };
+		4EAF489A18BB77870038575F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		4EAF489B18BB77870038575F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4EAF489C18BB77870038575F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		4EAF489D18BB77870038575F /* MyOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderViewController.h; sourceTree = "<group>"; };
+		4EAF489E18BB77870038575F /* MyOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderViewController.m; sourceTree = "<group>"; };
+		4EAF489F18BB77870038575F /* MyOrderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderViewController.xib; sourceTree = "<group>"; };
+		4EAF48A018BB77870038575F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		4EAF48A118BB77870038575F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		4EAF48A218BB77870038575F /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
+		4EAF48A318BB77870038575F /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
+		4EAF48A418BB77870038575F /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
+		4EAF48A518BB77870038575F /* UserCenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenterViewController.xib; sourceTree = "<group>"; };
+		4EAF48A618BB77870038575F /* VerificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerificationViewController.h; sourceTree = "<group>"; };
+		4EAF48A718BB77870038575F /* VerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerificationViewController.m; sourceTree = "<group>"; };
+		4EAF48A818BB77870038575F /* VerificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerificationViewController.xib; sourceTree = "<group>"; };
+		4EAF48B318BB78D20038575F /* OrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCell.h; sourceTree = "<group>"; };
+		4EAF48B418BB78D20038575F /* OrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCell.m; sourceTree = "<group>"; };
+		4EAF48B618BB78DB0038575F /* OrderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderCell.xib; sourceTree = "<group>"; };
 		4EB1AE4A18BB1B0F0033364F /* RegionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionTableViewController.h; sourceTree = "<group>"; };
 		4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionTableViewController.m; sourceTree = "<group>"; };
 		4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegionTableViewController.xib; sourceTree = "<group>"; };
@@ -125,20 +154,11 @@
 		4EB1AE5818BB2A880033364F /* ShopMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopMainViewController.h; sourceTree = "<group>"; };
 		4EB1AE5918BB2A880033364F /* ShopMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopMainViewController.m; sourceTree = "<group>"; };
 		4EB1AE5A18BB2A880033364F /* ShopMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopMainViewController.xib; sourceTree = "<group>"; };
-		4EB1AE5D18BB2A9A0033364F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		4EB1AE5E18BB2A9A0033364F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		4EB1AE5F18BB2A9A0033364F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		4EB1AE6318BB2ABD0033364F /* EasyBuybuy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyBuybuy.xcdatamodel; sourceTree = "<group>"; };
 		4EB1AE6518BB2B010033364F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		4EB1AE6618BB2B010033364F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB1AE6818BB33860033364F /* PersistentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentStore.h; sourceTree = "<group>"; };
 		4EB1AE6918BB33860033364F /* PersistentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentStore.m; sourceTree = "<group>"; };
-		4EB1AE6B18BB34C90033364F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		4EB1AE6C18BB34C90033364F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
-		4EB1AE7018BB3D5E0033364F /* UserCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCenterViewController.h; sourceTree = "<group>"; };
-		4EB1AE7118BB3D5E0033364F /* UserCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCenterViewController.m; sourceTree = "<group>"; };
-		4EB1AE7218BB3D5E0033364F /* UserCenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserCenterViewController.xib; sourceTree = "<group>"; };
 		6EB2CF5BACC142DEACBA756F /* libPods-EasyBuyBuy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyBuyBuy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEB9F189666F900A26971 /* EasyBuyBuy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuyBuy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEBA2189666F900A26971 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -270,6 +290,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EAF489318BB6EE10038575F /* Language */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
+		4EAF489918BB77870038575F /* UserCenter */ = {
+			isa = PBXGroup;
+			children = (
+				4EAF489A18BB77870038575F /* LoginViewController.h */,
+				4EAF489B18BB77870038575F /* LoginViewController.m */,
+				4EAF489C18BB77870038575F /* LoginViewController.xib */,
+				4EAF48A018BB77870038575F /* RegisterViewController.h */,
+				4EAF48A118BB77870038575F /* RegisterViewController.m */,
+				4EAF48A218BB77870038575F /* RegisterViewController.xib */,
+				4EAF48A318BB77870038575F /* UserCenterViewController.h */,
+				4EAF48A418BB77870038575F /* UserCenterViewController.m */,
+				4EAF48A518BB77870038575F /* UserCenterViewController.xib */,
+				4EAF48A618BB77870038575F /* VerificationViewController.h */,
+				4EAF48A718BB77870038575F /* VerificationViewController.m */,
+				4EAF48A818BB77870038575F /* VerificationViewController.xib */,
+				4EAF489D18BB77870038575F /* MyOrderViewController.h */,
+				4EAF489E18BB77870038575F /* MyOrderViewController.m */,
+				4EAF489F18BB77870038575F /* MyOrderViewController.xib */,
+				4EAF48B318BB78D20038575F /* OrderCell.h */,
+				4EAF48B418BB78D20038575F /* OrderCell.m */,
+				4EAF48B618BB78DB0038575F /* OrderCell.xib */,
+			);
+			path = UserCenter;
+			sourceTree = "<group>";
+		};
 		4EB1AE4718BB1AFC0033364F /* Class */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +348,9 @@
 				4EB1AE4A18BB1B0F0033364F /* RegionTableViewController.h */,
 				4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */,
 				4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */,
+				4EAF488E18BB5D690038575F /* OneWayAlertView.h */,
+				4EAF488F18BB5D690038575F /* OneWayAlertView.m */,
+				4EAF489118BB5D720038575F /* OneWayAlertView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -303,27 +358,10 @@
 		4EB1AE5018BB2A390033364F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4EB1AE5618BB2A880033364F /* User */,
+				4EAF489918BB77870038575F /* UserCenter */,
 				4EB1AE5718BB2A880033364F /* Shop */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		4EB1AE5618BB2A880033364F /* User */ = {
-			isa = PBXGroup;
-			children = (
-				4EB1AE5D18BB2A9A0033364F /* LoginViewController.h */,
-				4EB1AE5E18BB2A9A0033364F /* LoginViewController.m */,
-				4EB1AE5F18BB2A9A0033364F /* LoginViewController.xib */,
-				4EB1AE6B18BB34C90033364F /* RegisterViewController.h */,
-				4EB1AE6C18BB34C90033364F /* RegisterViewController.m */,
-				4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */,
-				4EB1AE7018BB3D5E0033364F /* UserCenterViewController.h */,
-				4EB1AE7118BB3D5E0033364F /* UserCenterViewController.m */,
-				4EB1AE7218BB3D5E0033364F /* UserCenterViewController.xib */,
-			);
-			name = User;
-			path = Login_Register;
 			sourceTree = "<group>";
 		};
 		4EB1AE5718BB2A880033364F /* Shop */ = {
@@ -457,6 +495,7 @@
 		C33EEBED189667B200A26971 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4EAF489318BB6EE10038575F /* Language */,
 				C33EEBEE189667B200A26971 /* 2x */,
 			);
 			path = Resources;
@@ -609,7 +648,6 @@
 			files = (
 				C33EEC51189667B200A26971 /* Login_Icon_Lock02@2x.png in Resources */,
 				C33EEBAD189666F900A26971 /* InfoPlist.strings in Resources */,
-				4EB1AE6118BB2A9A0033364F /* LoginViewController.xib in Resources */,
 				C33EEC5F189667B200A26971 /* Red Apple_Bg@2x.png in Resources */,
 				C33EEC71189667B200A26971 /* Verification_Btn_Confirm@2x.png in Resources */,
 				C33EEC37189667B200A26971 /* Arrow_G@2x.png in Resources */,
@@ -617,7 +655,9 @@
 				C33EEC5B189667B200A26971 /* My Notification_Btn01@2x.png in Resources */,
 				C33EEC42189667B200A26971 /* Home_Icon_Shop@2x.png in Resources */,
 				C33EEC57189667B200A26971 /* My Car_Bg@2x.png in Resources */,
+				4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */,
 				C33EEC5A189667B200A26971 /* My Notification_Bg@2x.png in Resources */,
+				4EAF48AE18BB77870038575F /* RegisterViewController.xib in Resources */,
 				C33EEC50189667B200A26971 /* Login_Icon_Lock01@2x.png in Resources */,
 				C33EEC62189667B200A26971 /* Red Apple_Point_R@2x.png in Resources */,
 				C33EEC69189667B200A26971 /* Shop_Frame@2x.png in Resources */,
@@ -632,14 +672,17 @@
 				C33EEC67189667B200A26971 /* Sale Promotion_Btn_Confirm@2x.png in Resources */,
 				4EB1AE5C18BB2A880033364F /* ShopMainViewController.xib in Resources */,
 				C33EEC41189667B200A26971 /* Home_Icon_Region@2x.png in Resources */,
+				4EAF48B718BB78DC0038575F /* OrderCell.xib in Resources */,
 				C33EEC4D189667B200A26971 /* Login_Bar_User@2x.png in Resources */,
 				C33EEC64189667B200A26971 /* Red Apple_ShoppingCar@2x.png in Resources */,
 				C33EEC6D189667B200A26971 /* Top Bar1_88@2x.png in Resources */,
 				C33EEC60189667B200A26971 /* Red Apple_Frame_Product@2x.png in Resources */,
 				C33EEC70189667B200A26971 /* Verification_Btn_Code@2x.png in Resources */,
 				C33EEC5E189667B200A26971 /* Order Detail_Bg_User@2x.png in Resources */,
+				4EAF48B018BB77870038575F /* UserCenterViewController.xib in Resources */,
 				C33EEC3E189667B200A26971 /* Home_Icon_Choose@2x.png in Resources */,
 				C33EEC5D189667B200A26971 /* My Notification_Line@2x.png in Resources */,
+				4EAF48AA18BB77870038575F /* LoginViewController.xib in Resources */,
 				C33EEC45189667B200A26971 /* Home_Icon_User@2x.png in Resources */,
 				C33EEC61189667B200A26971 /* Red Apple_Point_G@2x.png in Resources */,
 				C33EEC47189667B200A26971 /* Home_Point_W@2x.png in Resources */,
@@ -647,9 +690,9 @@
 				C33EEC3C189667B200A26971 /* Home_Icon_Back@2x.png in Resources */,
 				C33EEC3B189667B200A26971 /* Home_Bg_1136@2x.png in Resources */,
 				C33EEC63189667B200A26971 /* Red Apple_Point_ShoppingCar@2x.png in Resources */,
-				4EB1AE7418BB3D5E0033364F /* UserCenterViewController.xib in Resources */,
 				C33EEC66189667B200A26971 /* Sale Promotion_Btn_Bidding@2x.png in Resources */,
 				C33EEC56189667B200A26971 /* My Adress_Btn_Edit@2x.png in Resources */,
+				4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
 				C33EEC6C189667B200A26971 /* Top Bar1_128@2x.png in Resources */,
 				C33EEC6B189667B200A26971 /* Shop_Icon_Like_R@2x.png in Resources */,
@@ -665,9 +708,9 @@
 				C33EEC65189667B200A26971 /* Sale Promotion_BottomBar@2x.png in Resources */,
 				C33EEC6E189667B200A26971 /* Verification_Bg@2x.png in Resources */,
 				C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */,
-				4EB1AE6F18BB34C90033364F /* RegisterViewController.xib in Resources */,
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
 				C33EEC58189667B200A26971 /* My Car_Bottom Bar@2x.png in Resources */,
+				4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */,
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
 				C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */,
 				C33EEC43189667B200A26971 /* Home_Icon_Transport2x.png in Resources */,
@@ -727,22 +770,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
+				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
 				C33EEC34189667B200A26971 /* UIImage+Util.m in Sources */,
 				4EB1AE6718BB2B010033364F /* User.m in Sources */,
+				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
+				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
+				4EAF48AB18BB77870038575F /* MyOrderViewController.m in Sources */,
 				C33EEC32189667B200A26971 /* OSHelper.m in Sources */,
+				4EAF48AF18BB77870038575F /* UserCenterViewController.m in Sources */,
+				4EAF48B118BB77870038575F /* VerificationViewController.m in Sources */,
 				C33EEC2E189667B200A26971 /* IO.m in Sources */,
 				4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */,
 				C33EEC35189667B200A26971 /* UIViewController+BarItem.m in Sources */,
+				4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */,
 				C33EEC2C189667B200A26971 /* CommonViewController.m in Sources */,
-				4EB1AE7318BB3D5E0033364F /* UserCenterViewController.m in Sources */,
 				4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
-				4EB1AE6018BB2A9A0033364F /* LoginViewController.m in Sources */,
 				C33EEC33189667B200A26971 /* UIColor+Utils.m in Sources */,
 				C33EEC36189667B200A26971 /* VersionManager.m in Sources */,
 				C33EEC2F189667B200A26971 /* NSDate+Utils.m in Sources */,
-				4EB1AE6E18BB34C90033364F /* RegisterViewController.m in Sources */,
 				C33EEC2D189667B200A26971 /* HWConnect.m in Sources */,
 				C33EEC30189667B200A26971 /* NSString+MD5_32.m in Sources */,
 				4EB1AE5B18BB2A880033364F /* ShopMainViewController.m in Sources */,

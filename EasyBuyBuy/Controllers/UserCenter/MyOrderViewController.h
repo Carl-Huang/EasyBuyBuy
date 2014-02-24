@@ -1,5 +1,5 @@
 //
-//  UserCenterViewController.h
+//  MyOrderViewController.h
 //  EasyBuyBuy
 //
 //  Created by vedon on 24/2/14.
@@ -8,6 +8,7 @@
 
 #import "CommonViewController.h"
 
-@interface UserCenterViewController : CommonViewController
+@interface MyOrderViewController : CommonViewController
 
+@property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @end

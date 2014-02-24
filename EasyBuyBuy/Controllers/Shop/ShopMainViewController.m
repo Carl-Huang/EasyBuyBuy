@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "User.h"
 #import "PersistentStore.h"
+#import "UserCenterViewController.h"
 
 @interface ShopMainViewController ()<UIScrollViewDelegate>
 {
@@ -81,8 +82,7 @@
 //    for (int i =0; i < [imageViews count]; ++ i) {
 //        UIImageView * tempImageView = [imageViews objectAtIndex:i];
 //        if (tempImageView.tag == page.currentPage) {
-//            
-//            tempImageView.transform = CGAffineTransformRotate(tempImageView.transform, scrollView.contentOffset.x/160 * M_PI);
+//
 //        }
 //    }
 }
@@ -110,8 +110,11 @@
 - (IBAction)showUserCenter:(id)sender {
     
     User * user = [PersistentStore getFirstObjectWithType:[User class]];
-    if (user) {
+    if (!user) {
         //Already login ,go to usercenter
+        UserCenterViewController * viewController = [[UserCenterViewController alloc]initWithNibName:@"UserCenterViewController" bundle:nil];
+        [self push:viewController];
+        viewController = nil;
     }else
     {
         //Not login
