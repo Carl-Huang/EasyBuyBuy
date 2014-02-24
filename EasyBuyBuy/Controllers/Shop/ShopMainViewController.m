@@ -9,6 +9,9 @@
 #define MainIconHeight 210
 #import "ShopMainViewController.h"
 #import "RegionTableViewController.h"
+#import "LoginViewController.h"
+#import "User.h"
+#import "PersistentStore.h"
 
 @interface ShopMainViewController ()<UIScrollViewDelegate>
 {
@@ -105,5 +108,19 @@
 }
 
 - (IBAction)showUserCenter:(id)sender {
+    
+    User * user = [PersistentStore getFirstObjectWithType:[User class]];
+    if (user) {
+        ;
+    }else
+    {
+        LoginViewController * loginViewController = [[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:loginViewController animated:YES];
+        loginViewController = nil;
+    }
+    
+    
+    
+   
 }
 @end

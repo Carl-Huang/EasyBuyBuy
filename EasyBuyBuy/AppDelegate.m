@@ -16,6 +16,8 @@
     //MagicalRecord
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"EasyBuybuy.sqlite"];
     
+    //Nav bar
+    [self custonNavigationBar];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -56,4 +58,20 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
+#pragma mark - Private
+- (void)custonNavigationBar
+{
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeTextColor:[UIColor whiteColor],NSFontAttributeName: [UIFont systemFontOfSize:21.0f]}];
+    if([OSHelper iOS7])
+    {
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar1_128.png"] forBarMetrics:UIBarMetricsDefault];
+    }
+    else
+    {
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar1_88.png"] forBarMetrics:UIBarMetricsDefault];
+    }
+    
+}
 @end

@@ -15,6 +15,9 @@
 		4EB1AE6118BB2A9A0033364F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE5F18BB2A9A0033364F /* LoginViewController.xib */; };
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
 		4EB1AE6718BB2B010033364F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6618BB2B010033364F /* User.m */; };
+		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
+		4EB1AE6E18BB34C90033364F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6C18BB34C90033364F /* RegisterViewController.m */; };
+		4EB1AE6F18BB34C90033364F /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */; };
 		C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA2189666F900A26971 /* Foundation.framework */; };
 		C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA4189666F900A26971 /* CoreGraphics.framework */; };
 		C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA6189666F900A26971 /* UIKit.framework */; };
@@ -126,6 +129,11 @@
 		4EB1AE6318BB2ABD0033364F /* EasyBuybuy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyBuybuy.xcdatamodel; sourceTree = "<group>"; };
 		4EB1AE6518BB2B010033364F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		4EB1AE6618BB2B010033364F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		4EB1AE6818BB33860033364F /* PersistentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentStore.h; sourceTree = "<group>"; };
+		4EB1AE6918BB33860033364F /* PersistentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentStore.m; sourceTree = "<group>"; };
+		4EB1AE6B18BB34C90033364F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		4EB1AE6C18BB34C90033364F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		6EB2CF5BACC142DEACBA756F /* libPods-EasyBuyBuy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyBuyBuy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEB9F189666F900A26971 /* EasyBuyBuy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuyBuy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEBA2189666F900A26971 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -260,6 +268,8 @@
 		4EB1AE4718BB1AFC0033364F /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				4EB1AE6818BB33860033364F /* PersistentStore.h */,
+				4EB1AE6918BB33860033364F /* PersistentStore.m */,
 				4EB1AE4F18BB28250033364F /* Macro.h */,
 			);
 			path = Class;
@@ -300,6 +310,9 @@
 				4EB1AE5D18BB2A9A0033364F /* LoginViewController.h */,
 				4EB1AE5E18BB2A9A0033364F /* LoginViewController.m */,
 				4EB1AE5F18BB2A9A0033364F /* LoginViewController.xib */,
+				4EB1AE6B18BB34C90033364F /* RegisterViewController.h */,
+				4EB1AE6C18BB34C90033364F /* RegisterViewController.m */,
+				4EB1AE6D18BB34C90033364F /* RegisterViewController.xib */,
 			);
 			name = User;
 			path = Login_Register;
@@ -643,6 +656,7 @@
 				C33EEC65189667B200A26971 /* Sale Promotion_BottomBar@2x.png in Resources */,
 				C33EEC6E189667B200A26971 /* Verification_Bg@2x.png in Resources */,
 				C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */,
+				4EB1AE6F18BB34C90033364F /* RegisterViewController.xib in Resources */,
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
 				C33EEC58189667B200A26971 /* My Car_Bottom Bar@2x.png in Resources */,
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
@@ -712,11 +726,13 @@
 				4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */,
 				C33EEC35189667B200A26971 /* UIViewController+BarItem.m in Sources */,
 				C33EEC2C189667B200A26971 /* CommonViewController.m in Sources */,
+				4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				4EB1AE6018BB2A9A0033364F /* LoginViewController.m in Sources */,
 				C33EEC33189667B200A26971 /* UIColor+Utils.m in Sources */,
 				C33EEC36189667B200A26971 /* VersionManager.m in Sources */,
 				C33EEC2F189667B200A26971 /* NSDate+Utils.m in Sources */,
+				4EB1AE6E18BB34C90033364F /* RegisterViewController.m in Sources */,
 				C33EEC2D189667B200A26971 /* HWConnect.m in Sources */,
 				C33EEC30189667B200A26971 /* NSString+MD5_32.m in Sources */,
 				4EB1AE5B18BB2A880033364F /* ShopMainViewController.m in Sources */,
