@@ -7,14 +7,24 @@
 //
 
 #import "AppDelegate.h"
+#import "ShopMainViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //MagicalRecord
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"EasyBuybuy.sqlite"];
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    ShopMainViewController * mainViewContrller = [[ShopMainViewController alloc]initWithNibName:@"ShopMainViewController" bundle:nil];
+    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:mainViewContrller];
+    mainViewContrller = nil;
+    self.window.rootViewController = nav;
+    nav = nil;
     [self.window makeKeyAndVisible];
     return YES;
 }
