@@ -28,6 +28,16 @@
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
 		4EB1AE6718BB2B010033364F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6618BB2B010033364F /* User.m */; };
 		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
+		4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFAB18BC369F0064B22C /* MyOrderDetailViewController.m */; };
+		4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFAC18BC369F0064B22C /* MyOrderDetailViewController.xib */; };
+		4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFB018BC3E820064B22C /* MyAddressViewController.m */; };
+		4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFB118BC3E820064B22C /* MyAddressViewController.xib */; };
+		4EB5FFB618BC3FFB0064B22C /* AddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFB518BC3FFB0064B22C /* AddressCell.m */; };
+		4EB5FFB818BC40050064B22C /* AddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFB718BC40050064B22C /* AddressCell.xib */; };
+		4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFBC18BC6D060064B22C /* EditAddressViewController.m */; };
+		4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */; };
+		4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC118BC6F810064B22C /* EditAddressCell.m */; };
+		4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC318BC70600064B22C /* EditAddressCell.xib */; };
 		C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA2189666F900A26971 /* Foundation.framework */; };
 		C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA4189666F900A26971 /* CoreGraphics.framework */; };
 		C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA6189666F900A26971 /* UIKit.framework */; };
@@ -82,7 +92,7 @@
 		C33EEC53189667B200A26971 /* Login_Icon_User02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0B189667B200A26971 /* Login_Icon_User02@2x.png */; };
 		C33EEC54189667B200A26971 /* My Adress_Btn_Add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0C189667B200A26971 /* My Adress_Btn_Add@2x.png */; };
 		C33EEC55189667B200A26971 /* My Adress_Btn_Delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0D189667B200A26971 /* My Adress_Btn_Delete@2x.png */; };
-		C33EEC56189667B200A26971 /* My Adress_Btn_Edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0E189667B200A26971 /* My Adress_Btn_Edit@2x.png */; };
+		C33EEC56189667B200A26971 /* My_Adress_Btn_Edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0E189667B200A26971 /* My_Adress_Btn_Edit@2x.png */; };
 		C33EEC57189667B200A26971 /* My Car_Bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0F189667B200A26971 /* My Car_Bg@2x.png */; };
 		C33EEC58189667B200A26971 /* My Car_Bottom Bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC10189667B200A26971 /* My Car_Bottom Bar@2x.png */; };
 		C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC11189667B200A26971 /* My Car_Btn_Confirm@2x.png */; };
@@ -159,6 +169,21 @@
 		4EB1AE6618BB2B010033364F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB1AE6818BB33860033364F /* PersistentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentStore.h; sourceTree = "<group>"; };
 		4EB1AE6918BB33860033364F /* PersistentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentStore.m; sourceTree = "<group>"; };
+		4EB5FFAA18BC369F0064B22C /* MyOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderDetailViewController.h; sourceTree = "<group>"; };
+		4EB5FFAB18BC369F0064B22C /* MyOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderDetailViewController.m; sourceTree = "<group>"; };
+		4EB5FFAC18BC369F0064B22C /* MyOrderDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderDetailViewController.xib; sourceTree = "<group>"; };
+		4EB5FFAF18BC3E820064B22C /* MyAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAddressViewController.h; sourceTree = "<group>"; };
+		4EB5FFB018BC3E820064B22C /* MyAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAddressViewController.m; sourceTree = "<group>"; };
+		4EB5FFB118BC3E820064B22C /* MyAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyAddressViewController.xib; sourceTree = "<group>"; };
+		4EB5FFB418BC3FFB0064B22C /* AddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressCell.h; sourceTree = "<group>"; };
+		4EB5FFB518BC3FFB0064B22C /* AddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressCell.m; sourceTree = "<group>"; };
+		4EB5FFB718BC40050064B22C /* AddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressCell.xib; sourceTree = "<group>"; };
+		4EB5FFBB18BC6D060064B22C /* EditAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressViewController.h; sourceTree = "<group>"; };
+		4EB5FFBC18BC6D060064B22C /* EditAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressViewController.m; sourceTree = "<group>"; };
+		4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAddressViewController.xib; sourceTree = "<group>"; };
+		4EB5FFC018BC6F810064B22C /* EditAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressCell.h; sourceTree = "<group>"; };
+		4EB5FFC118BC6F810064B22C /* EditAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressCell.m; sourceTree = "<group>"; };
+		4EB5FFC318BC70600064B22C /* EditAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAddressCell.xib; sourceTree = "<group>"; };
 		6EB2CF5BACC142DEACBA756F /* libPods-EasyBuyBuy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyBuyBuy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEB9F189666F900A26971 /* EasyBuyBuy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuyBuy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEBA2189666F900A26971 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -232,7 +257,7 @@
 		C33EEC0B189667B200A26971 /* Login_Icon_User02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Icon_User02@2x.png"; sourceTree = "<group>"; };
 		C33EEC0C189667B200A26971 /* My Adress_Btn_Add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Adress_Btn_Add@2x.png"; sourceTree = "<group>"; };
 		C33EEC0D189667B200A26971 /* My Adress_Btn_Delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Adress_Btn_Delete@2x.png"; sourceTree = "<group>"; };
-		C33EEC0E189667B200A26971 /* My Adress_Btn_Edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Adress_Btn_Edit@2x.png"; sourceTree = "<group>"; };
+		C33EEC0E189667B200A26971 /* My_Adress_Btn_Edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My_Adress_Btn_Edit@2x.png"; sourceTree = "<group>"; };
 		C33EEC0F189667B200A26971 /* My Car_Bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Car_Bg@2x.png"; sourceTree = "<group>"; };
 		C33EEC10189667B200A26971 /* My Car_Bottom Bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Car_Bottom Bar@2x.png"; sourceTree = "<group>"; };
 		C33EEC11189667B200A26971 /* My Car_Btn_Confirm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Car_Btn_Confirm@2x.png"; sourceTree = "<group>"; };
@@ -318,6 +343,21 @@
 				4EAF48B318BB78D20038575F /* OrderCell.h */,
 				4EAF48B418BB78D20038575F /* OrderCell.m */,
 				4EAF48B618BB78DB0038575F /* OrderCell.xib */,
+				4EB5FFAA18BC369F0064B22C /* MyOrderDetailViewController.h */,
+				4EB5FFAB18BC369F0064B22C /* MyOrderDetailViewController.m */,
+				4EB5FFAC18BC369F0064B22C /* MyOrderDetailViewController.xib */,
+				4EB5FFAF18BC3E820064B22C /* MyAddressViewController.h */,
+				4EB5FFB018BC3E820064B22C /* MyAddressViewController.m */,
+				4EB5FFB118BC3E820064B22C /* MyAddressViewController.xib */,
+				4EB5FFB418BC3FFB0064B22C /* AddressCell.h */,
+				4EB5FFB518BC3FFB0064B22C /* AddressCell.m */,
+				4EB5FFB718BC40050064B22C /* AddressCell.xib */,
+				4EB5FFBB18BC6D060064B22C /* EditAddressViewController.h */,
+				4EB5FFBC18BC6D060064B22C /* EditAddressViewController.m */,
+				4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */,
+				4EB5FFC018BC6F810064B22C /* EditAddressCell.h */,
+				4EB5FFC118BC6F810064B22C /* EditAddressCell.m */,
+				4EB5FFC318BC70600064B22C /* EditAddressCell.xib */,
 			);
 			path = UserCenter;
 			sourceTree = "<group>";
@@ -535,7 +575,7 @@
 				C33EEC0B189667B200A26971 /* Login_Icon_User02@2x.png */,
 				C33EEC0C189667B200A26971 /* My Adress_Btn_Add@2x.png */,
 				C33EEC0D189667B200A26971 /* My Adress_Btn_Delete@2x.png */,
-				C33EEC0E189667B200A26971 /* My Adress_Btn_Edit@2x.png */,
+				C33EEC0E189667B200A26971 /* My_Adress_Btn_Edit@2x.png */,
 				C33EEC0F189667B200A26971 /* My Car_Bg@2x.png */,
 				C33EEC10189667B200A26971 /* My Car_Bottom Bar@2x.png */,
 				C33EEC11189667B200A26971 /* My Car_Btn_Confirm@2x.png */,
@@ -662,9 +702,11 @@
 				C33EEC62189667B200A26971 /* Red Apple_Point_R@2x.png in Resources */,
 				C33EEC69189667B200A26971 /* Shop_Frame@2x.png in Resources */,
 				C33EEC49189667B200A26971 /* Home_Region_Frame02@2x.png in Resources */,
+				4EB5FFB818BC40050064B22C /* AddressCell.xib in Resources */,
 				C33EEC3F189667B200A26971 /* Home_Icon_Factory@2x.png in Resources */,
 				C33EEC46189667B200A26971 /* Home_Point_G@2x.png in Resources */,
 				C33EEC73189667B200A26971 /* Verification_Line@2x.png in Resources */,
+				4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */,
 				C33EEC6F189667B200A26971 /* Verification_Btn_Click@2x.png in Resources */,
 				C33EEC54189667B200A26971 /* My Adress_Btn_Add@2x.png in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
@@ -677,6 +719,7 @@
 				C33EEC64189667B200A26971 /* Red Apple_ShoppingCar@2x.png in Resources */,
 				C33EEC6D189667B200A26971 /* Top Bar1_88@2x.png in Resources */,
 				C33EEC60189667B200A26971 /* Red Apple_Frame_Product@2x.png in Resources */,
+				4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */,
 				C33EEC70189667B200A26971 /* Verification_Btn_Code@2x.png in Resources */,
 				C33EEC5E189667B200A26971 /* Order Detail_Bg_User@2x.png in Resources */,
 				4EAF48B018BB77870038575F /* UserCenterViewController.xib in Resources */,
@@ -691,7 +734,7 @@
 				C33EEC3B189667B200A26971 /* Home_Bg_1136@2x.png in Resources */,
 				C33EEC63189667B200A26971 /* Red Apple_Point_ShoppingCar@2x.png in Resources */,
 				C33EEC66189667B200A26971 /* Sale Promotion_Btn_Bidding@2x.png in Resources */,
-				C33EEC56189667B200A26971 /* My Adress_Btn_Edit@2x.png in Resources */,
+				C33EEC56189667B200A26971 /* My_Adress_Btn_Edit@2x.png in Resources */,
 				4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
 				C33EEC6C189667B200A26971 /* Top Bar1_128@2x.png in Resources */,
@@ -699,6 +742,7 @@
 				C33EEC4C189667B200A26971 /* Icon.psd in Resources */,
 				C33EEC44189667B200A26971 /* Home_Icon_UnChoose@2x.png in Resources */,
 				C33EEC48189667B200A26971 /* Home_Region_Frame01@2x.png in Resources */,
+				4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */,
 				C33EEC4F189667B200A26971 /* Login_Btn_Register@2x.png in Resources */,
 				C33EEC68189667B200A26971 /* Sale Promotion_Frame_User@2x.png in Resources */,
 				C33EEC4A189667B200A26971 /* Home_Search Bar@2x.png in Resources */,
@@ -717,6 +761,7 @@
 				C33EEC4B189667B200A26971 /* Home_Search Icon@2x.png in Resources */,
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
+				4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */,
 				4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -771,8 +816,10 @@
 			files = (
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
+				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
 				C33EEC34189667B200A26971 /* UIImage+Util.m in Sources */,
 				4EB1AE6718BB2B010033364F /* User.m in Sources */,
+				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
@@ -786,13 +833,16 @@
 				4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */,
 				C33EEC2C189667B200A26971 /* CommonViewController.m in Sources */,
 				4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */,
+				4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				C33EEC33189667B200A26971 /* UIColor+Utils.m in Sources */,
+				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,
 				C33EEC36189667B200A26971 /* VersionManager.m in Sources */,
 				C33EEC2F189667B200A26971 /* NSDate+Utils.m in Sources */,
 				C33EEC2D189667B200A26971 /* HWConnect.m in Sources */,
 				C33EEC30189667B200A26971 /* NSString+MD5_32.m in Sources */,
 				4EB1AE5B18BB2A880033364F /* ShopMainViewController.m in Sources */,
+				4EB5FFB618BC3FFB0064B22C /* AddressCell.m in Sources */,
 				C33EEC31189667B200A26971 /* NSString+Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

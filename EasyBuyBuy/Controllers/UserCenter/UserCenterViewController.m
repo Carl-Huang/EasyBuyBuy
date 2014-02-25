@@ -9,6 +9,7 @@
 #define BottomTableTag 1002
 #import "UserCenterViewController.h"
 #import "MyOrderViewController.h"
+#import "MyAddressViewController.h"
 
 @interface UserCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -192,9 +193,18 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView.tag == UpperTableTag) {
-        if (indexPath.row == 0) {
-            [self gotoMyOrderViewController];
+        
+        switch (indexPath.row) {
+            case 0:
+                [self gotoMyOrderViewController];
+                break;
+            case 1:
+                [self gotoMyAddressViewController];
+                break;
+            default:
+                break;
         }
+    
     }else
     {
       
@@ -206,6 +216,14 @@
 -(void)gotoMyOrderViewController
 {
     MyOrderViewController * viewController = [[MyOrderViewController alloc]initWithNibName:@"MyOrderViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+
+-(void)gotoMyAddressViewController
+{
+    MyAddressViewController * viewController = [[MyAddressViewController alloc]initWithNibName:@"MyAddressViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
 }
