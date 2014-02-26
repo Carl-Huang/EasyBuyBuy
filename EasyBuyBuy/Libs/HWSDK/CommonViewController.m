@@ -8,6 +8,7 @@
 
 #import "CommonViewController.h"
 #import "HWSDK_Constants.h"
+#import "OneWayAlertView.h"
 @interface CommonViewController ()
 
 @end
@@ -68,6 +69,18 @@
         [alertView show];
         alertView = nil;
     });
+}
+
+-(void)showCustomiseAlertViewWithMessage:(NSString *)message
+{
+    OneWayAlertView * alertView = [[[NSBundle mainBundle]loadNibNamed:@"OneWayAlertView" owner:self options:nil]objectAtIndex:0];
+    alertView.contentTextView.text = message;
+    alertView.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        alertView.alpha = 1.0;
+        [self.view addSubview:alertView];
+    }];
+    alertView = nil;
 }
 
 @end

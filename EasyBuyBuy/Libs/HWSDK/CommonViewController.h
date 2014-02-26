@@ -10,4 +10,5 @@
 
 @interface CommonViewController : UIViewController
 - (void)showAlertViewWithMessage:(NSString *)message;
+-(void)showCustomiseAlertViewWithMessage:(NSString *)message;
 @end

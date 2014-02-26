@@ -10,6 +10,8 @@
 #import "UserCenterViewController.h"
 #import "MyOrderViewController.h"
 #import "MyAddressViewController.h"
+#import "SecurityViewController.h"
+#import "MyNotificationViewController.h"
 
 @interface UserCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -201,6 +203,12 @@
             case 1:
                 [self gotoMyAddressViewController];
                 break;
+            case 2:
+                [self gotoSecurityViewController];
+                break;
+            case 3:
+                [self gotoMyNotificationViewController];
+                break;
             default:
                 break;
         }
@@ -224,6 +232,20 @@
 -(void)gotoMyAddressViewController
 {
     MyAddressViewController * viewController = [[MyAddressViewController alloc]initWithNibName:@"MyAddressViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoSecurityViewController
+{
+    SecurityViewController * viewController = [[SecurityViewController alloc]initWithNibName:@"SecurityViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoMyNotificationViewController
+{
+    MyNotificationViewController * viewController = [[MyNotificationViewController alloc]initWithNibName:@"MyNotificationViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
 }

@@ -38,6 +38,14 @@
 		4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */; };
 		4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC118BC6F810064B22C /* EditAddressCell.m */; };
 		4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC318BC70600064B22C /* EditAddressCell.xib */; };
+		5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238718BD99A900100CBF /* SecurityViewController.m */; };
+		5F00238A18BD99A900100CBF /* SecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00238818BD99A900100CBF /* SecurityViewController.xib */; };
+		5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238C18BD9BF400100CBF /* SecurityCell.m */; };
+		5F00238F18BD9BF400100CBF /* SecurityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00238D18BD9BF400100CBF /* SecurityCell.xib */; };
+		5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00239118BDA0AF00100CBF /* MyNotificationViewController.m */; };
+		5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */; };
+		5F00239718BDB03500100CBF /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00239618BDB03500100CBF /* NotificationCell.m */; };
+		5F00239918BDB04200100CBF /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00239818BDB04200100CBF /* NotificationCell.xib */; };
 		C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA2189666F900A26971 /* Foundation.framework */; };
 		C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA4189666F900A26971 /* CoreGraphics.framework */; };
 		C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA6189666F900A26971 /* UIKit.framework */; };
@@ -184,6 +192,18 @@
 		4EB5FFC018BC6F810064B22C /* EditAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressCell.h; sourceTree = "<group>"; };
 		4EB5FFC118BC6F810064B22C /* EditAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressCell.m; sourceTree = "<group>"; };
 		4EB5FFC318BC70600064B22C /* EditAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAddressCell.xib; sourceTree = "<group>"; };
+		5F00238618BD99A900100CBF /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
+		5F00238718BD99A900100CBF /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
+		5F00238818BD99A900100CBF /* SecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityViewController.xib; sourceTree = "<group>"; };
+		5F00238B18BD9BF400100CBF /* SecurityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityCell.h; sourceTree = "<group>"; };
+		5F00238C18BD9BF400100CBF /* SecurityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityCell.m; sourceTree = "<group>"; };
+		5F00238D18BD9BF400100CBF /* SecurityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityCell.xib; sourceTree = "<group>"; };
+		5F00239018BDA0AF00100CBF /* MyNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNotificationViewController.h; sourceTree = "<group>"; };
+		5F00239118BDA0AF00100CBF /* MyNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNotificationViewController.m; sourceTree = "<group>"; };
+		5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyNotificationViewController.xib; sourceTree = "<group>"; };
+		5F00239518BDB03500100CBF /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCell.h; sourceTree = "<group>"; };
+		5F00239618BDB03500100CBF /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCell.m; sourceTree = "<group>"; };
+		5F00239818BDB04200100CBF /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		6EB2CF5BACC142DEACBA756F /* libPods-EasyBuyBuy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyBuyBuy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEB9F189666F900A26971 /* EasyBuyBuy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuyBuy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEBA2189666F900A26971 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -358,6 +378,18 @@
 				4EB5FFC018BC6F810064B22C /* EditAddressCell.h */,
 				4EB5FFC118BC6F810064B22C /* EditAddressCell.m */,
 				4EB5FFC318BC70600064B22C /* EditAddressCell.xib */,
+				5F00238618BD99A900100CBF /* SecurityViewController.h */,
+				5F00238718BD99A900100CBF /* SecurityViewController.m */,
+				5F00238818BD99A900100CBF /* SecurityViewController.xib */,
+				5F00238B18BD9BF400100CBF /* SecurityCell.h */,
+				5F00238C18BD9BF400100CBF /* SecurityCell.m */,
+				5F00238D18BD9BF400100CBF /* SecurityCell.xib */,
+				5F00239018BDA0AF00100CBF /* MyNotificationViewController.h */,
+				5F00239118BDA0AF00100CBF /* MyNotificationViewController.m */,
+				5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */,
+				5F00239518BDB03500100CBF /* NotificationCell.h */,
+				5F00239618BDB03500100CBF /* NotificationCell.m */,
+				5F00239818BDB04200100CBF /* NotificationCell.xib */,
 			);
 			path = UserCenter;
 			sourceTree = "<group>";
@@ -702,14 +734,17 @@
 				C33EEC62189667B200A26971 /* Red Apple_Point_R@2x.png in Resources */,
 				C33EEC69189667B200A26971 /* Shop_Frame@2x.png in Resources */,
 				C33EEC49189667B200A26971 /* Home_Region_Frame02@2x.png in Resources */,
+				5F00238A18BD99A900100CBF /* SecurityViewController.xib in Resources */,
 				4EB5FFB818BC40050064B22C /* AddressCell.xib in Resources */,
 				C33EEC3F189667B200A26971 /* Home_Icon_Factory@2x.png in Resources */,
 				C33EEC46189667B200A26971 /* Home_Point_G@2x.png in Resources */,
+				5F00238F18BD9BF400100CBF /* SecurityCell.xib in Resources */,
 				C33EEC73189667B200A26971 /* Verification_Line@2x.png in Resources */,
 				4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */,
 				C33EEC6F189667B200A26971 /* Verification_Btn_Click@2x.png in Resources */,
 				C33EEC54189667B200A26971 /* My Adress_Btn_Add@2x.png in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
+				5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */,
 				C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */,
 				C33EEC67189667B200A26971 /* Sale Promotion_Btn_Confirm@2x.png in Resources */,
 				4EB1AE5C18BB2A880033364F /* ShopMainViewController.xib in Resources */,
@@ -739,6 +774,7 @@
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
 				C33EEC6C189667B200A26971 /* Top Bar1_128@2x.png in Resources */,
 				C33EEC6B189667B200A26971 /* Shop_Icon_Like_R@2x.png in Resources */,
+				5F00239918BDB04200100CBF /* NotificationCell.xib in Resources */,
 				C33EEC4C189667B200A26971 /* Icon.psd in Resources */,
 				C33EEC44189667B200A26971 /* Home_Icon_UnChoose@2x.png in Resources */,
 				C33EEC48189667B200A26971 /* Home_Region_Frame01@2x.png in Resources */,
@@ -815,9 +851,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
+				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
 				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
 				C33EEC34189667B200A26971 /* UIImage+Util.m in Sources */,
+				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
+				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB1AE6718BB2B010033364F /* User.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
@@ -838,6 +877,7 @@
 				C33EEC33189667B200A26971 /* UIColor+Utils.m in Sources */,
 				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,
 				C33EEC36189667B200A26971 /* VersionManager.m in Sources */,
+				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
 				C33EEC2F189667B200A26971 /* NSDate+Utils.m in Sources */,
 				C33EEC2D189667B200A26971 /* HWConnect.m in Sources */,
 				C33EEC30189667B200A26971 /* NSString+MD5_32.m in Sources */,

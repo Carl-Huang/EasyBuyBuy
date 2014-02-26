@@ -90,7 +90,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)enterIntoEditModel
 {
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(doneEditing)];
+    UIButton * barButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [barButton setFrame:CGRectMake(0, 0,60, 32)];
+    [barButton setTitle:@"Done" forState:UIControlStateNormal];
+    [barButton addTarget:self action:@selector(doneEditing) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:barButton];
+    self.navigationItem.leftBarButtonItem = item;
+    barButton = nil;
+
     [self setRightCustomBarItem:@"My Adress_Btn_Add.png" action:@selector(addNewAddress)];
 }
 

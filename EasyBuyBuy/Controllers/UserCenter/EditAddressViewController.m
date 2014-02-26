@@ -73,7 +73,7 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     [_contentTable setBackgroundView:nil];
-    
+    [_contentTable setScrollEnabled:NO];
     textFieldInfoDic = [NSMutableDictionary dictionary];
 }
 
