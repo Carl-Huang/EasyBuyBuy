@@ -10,4 +10,6 @@
 
 @interface EditAddressCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *cellTitle;
+@property (weak, nonatomic) IBOutlet UITextField *cellTitleContent;
 @end

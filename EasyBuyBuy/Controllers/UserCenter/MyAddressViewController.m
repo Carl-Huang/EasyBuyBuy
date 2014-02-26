@@ -8,6 +8,8 @@
 
 #import "MyAddressViewController.h"
 #import "AddressCell.h"
+#import "EditAddressViewController.h"
+
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyAddressViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -120,7 +122,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)addNewAddress
 {
-    
+    EditAddressViewController * viewController = [[EditAddressViewController alloc]initWithNibName:@"EditAddressViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
 }
 
 #pragma mark - UITableView
