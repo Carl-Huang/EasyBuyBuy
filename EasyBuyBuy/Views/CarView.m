@@ -53,15 +53,19 @@
 
 -(void)updateProductNumber:(NSInteger)number
 {
-    numberLabel.text = [NSString stringWithFormat:@"%d",number];
+    numberLabel.text = [NSString stringWithFormat:@"%ld",(long)number];
 }
 
 -(void)tapAction
 {
     if (self.block) {
         self.block ();
-        self.block = nil;
     }
+}
+
+-(void)dealloc
+{
+    self.block = nil;
 }
 
 /*

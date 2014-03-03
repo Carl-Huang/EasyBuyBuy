@@ -84,8 +84,17 @@
         _upperTableView.separatorInset  = UIEdgeInsetsZero;
         _bottomTableView.separatorInset = UIEdgeInsetsZero;
     }
-    
     [_contentScrollView setContentSize:CGSizeMake(320, 700)];
+    
+    
+    UIImage *minImage = [[UIImage imageNamed:@"Slider.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 4)];
+    UIImage *maxImage = [UIImage imageNamed:@"Slider.png"];
+    UIImage *thumbImage = [UIImage imageNamed:@"SliderBtton.png"];
+    [[UISlider appearance] setMaximumTrackImage:maxImage forState:UIControlStateNormal];
+    [[UISlider appearance] setMinimumTrackImage:minImage forState:UIControlStateNormal];
+    [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
+    [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateHighlighted];
+
 }
 
 #pragma mark - UITableView

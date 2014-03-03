@@ -36,6 +36,10 @@
 		4EAC791318C4C3140022ECDD /* MyCarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791118C4C3140022ECDD /* MyCarViewController.xib */; };
 		4EAC791618C4CA410022ECDD /* MyCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC791518C4CA410022ECDD /* MyCarCell.m */; };
 		4EAC791818C4CA4C0022ECDD /* MyCarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791718C4CA4C0022ECDD /* MyCarCell.xib */; };
+		4EAC791B18C4D0AE0022ECDD /* GlobalMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC791A18C4D0AE0022ECDD /* GlobalMethod.m */; };
+		4EAC791F18C4D2080022ECDD /* BackGroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */; };
+		4EAC792018C4D2080022ECDD /* Slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791D18C4D2080022ECDD /* Slider@2x.png */; };
+		4EAC792118C4D2080022ECDD /* SliderBtton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */; };
 		4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF488F18BB5D690038575F /* OneWayAlertView.m */; };
 		4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489118BB5D720038575F /* OneWayAlertView.xib */; };
 		4EAF48A918BB77870038575F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489B18BB77870038575F /* LoginViewController.m */; };
@@ -218,6 +222,11 @@
 		4EAC791418C4CA410022ECDD /* MyCarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarCell.h; sourceTree = "<group>"; };
 		4EAC791518C4CA410022ECDD /* MyCarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarCell.m; sourceTree = "<group>"; };
 		4EAC791718C4CA4C0022ECDD /* MyCarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCarCell.xib; sourceTree = "<group>"; };
+		4EAC791918C4D0AE0022ECDD /* GlobalMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalMethod.h; sourceTree = "<group>"; };
+		4EAC791A18C4D0AE0022ECDD /* GlobalMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalMethod.m; sourceTree = "<group>"; };
+		4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackGroud@2x.png"; sourceTree = "<group>"; };
+		4EAC791D18C4D2080022ECDD /* Slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slider@2x.png"; sourceTree = "<group>"; };
+		4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SliderBtton@2x.png"; sourceTree = "<group>"; };
 		4EAF488E18BB5D690038575F /* OneWayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneWayAlertView.h; sourceTree = "<group>"; };
 		4EAF488F18BB5D690038575F /* OneWayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneWayAlertView.m; sourceTree = "<group>"; };
 		4EAF489118BB5D720038575F /* OneWayAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneWayAlertView.xib; sourceTree = "<group>"; };
@@ -527,6 +536,8 @@
 				4EB1AE6818BB33860033364F /* PersistentStore.h */,
 				4EB1AE6918BB33860033364F /* PersistentStore.m */,
 				4EB1AE4F18BB28250033364F /* Macro.h */,
+				4EAC791918C4D0AE0022ECDD /* GlobalMethod.h */,
+				4EAC791A18C4D0AE0022ECDD /* GlobalMethod.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -696,6 +707,9 @@
 		C33EEBEE189667B200A26971 /* 2x */ = {
 			isa = PBXGroup;
 			children = (
+				4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */,
+				4EAC791D18C4D2080022ECDD /* Slider@2x.png */,
+				4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */,
 				4EAC790818C4B87D0022ECDD /* Top Bar_88@2x.png */,
 				4EAC790918C4B87D0022ECDD /* Top Bar_128@2x.png */,
 				4E632CD818C45C0E006DD458 /* tempTest.png */,
@@ -886,6 +900,7 @@
 				C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */,
 				C33EEC67189667B200A26971 /* Sale Promotion_Btn_Confirm@2x.png in Resources */,
 				C33EEC41189667B200A26971 /* Home_Icon_Region@2x.png in Resources */,
+				4EAC791F18C4D2080022ECDD /* BackGroud@2x.png in Resources */,
 				4EAF48B718BB78DC0038575F /* OrderCell.xib in Resources */,
 				C33EEC4D189667B200A26971 /* Login_Bar_User@2x.png in Resources */,
 				C33EEC64189667B200A26971 /* Red Apple_ShoppingCar@2x.png in Resources */,
@@ -904,6 +919,7 @@
 				4E632CE818C4665C006DD458 /* ProductBroswerViewController.xib in Resources */,
 				C33EEC45189667B200A26971 /* Home_Icon_User@2x.png in Resources */,
 				C33EEC61189667B200A26971 /* Red Apple_Point_G@2x.png in Resources */,
+				4EAC792018C4D2080022ECDD /* Slider@2x.png in Resources */,
 				C33EEC47189667B200A26971 /* Home_Point_W@2x.png in Resources */,
 				C33EEC3A189667B200A26971 /* Home_Bg@2x.png in Resources */,
 				C33EEC3C189667B200A26971 /* Home_Icon_Back@2x.png in Resources */,
@@ -934,6 +950,7 @@
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
 				C33EEC58189667B200A26971 /* My Car_Bottom Bar@2x.png in Resources */,
 				4EAC790B18C4B87D0022ECDD /* Top Bar_128@2x.png in Resources */,
+				4EAC792118C4D2080022ECDD /* SliderBtton@2x.png in Resources */,
 				4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */,
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
 				C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */,
@@ -1004,6 +1021,7 @@
 				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
 				C33EEC34189667B200A26971 /* UIImage+Util.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
+				4EAC791B18C4D0AE0022ECDD /* GlobalMethod.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EAC791218C4C3140022ECDD /* MyCarViewController.m in Sources */,
 				4EB1AE6718BB2B010033364F /* User.m in Sources */,

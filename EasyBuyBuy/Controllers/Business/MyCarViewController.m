@@ -73,6 +73,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [_contentTable setBackgroundView:nil];
+    [_contentTable setBackgroundColor:[UIColor clearColor]];
+    
     UINib * cellNib = [UINib nibWithNibName:@"MyCarCell" bundle:[NSBundle bundleForClass:[MyCarCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
 }
