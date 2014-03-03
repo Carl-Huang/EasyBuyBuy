@@ -7,6 +7,8 @@
 //
 
 #import "ProductView.h"
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
 
 @implementation ProductView
 @synthesize imageView;
@@ -15,30 +17,29 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+//        Shop_Frame@2x
         CGRect rect = self.frame;
         rect.origin.x = 0;
         rect.origin.y = 0;
+    
+        _bgImageView = [[UIImageView alloc]initWithFrame:rect];
+        _bgImageView.frame = rect;
+        _bgImageView.image = [UIImage imageNamed:@"Shop_Frame.png"];
+        
+        rect.origin.x +=5;
+        rect.origin.y +=5;
+        rect.size.height -= 10;
+        rect.size.width  -= 10;
         imageView = [[UIImageView alloc]initWithFrame:rect];
-        imageView.frame = rect;
-        [imageView.layer setCornerRadius:0.5];
-        
-        UIView * maskView = [[UIView alloc]initWithFrame:CGRectMake(0, rect.size.height/5 * 3, rect.size.width, rect.size.height/4)];
-        [maskView setBackgroundColor:[UIColor blackColor]];
-        maskView.alpha = 0.6;
+        [self addSubview:_bgImageView];
         [self addSubview:imageView];
-        [self addSubview:maskView];
-        
+
+        _bgImageView = nil;
         [self setBackgroundColor:[UIColor clearColor]];
         // Initialization code
     }
     return self;
 }
-
--(void)layoutSubviews
-{
-    
-}
-
 
 -(void)configureContentImage:(NSURL *)imageURL
 {
@@ -50,21 +51,24 @@
     [self addSubview: activityIndicator];
     [activityIndicator startAnimating];
     
-    __weak ProductView * weakSelf = self;
-    [imageView setImageWithURL:imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (!error) {
-                weakSelf.imageView.image = image;
-                [activityIndicator stopAnimating];
-                activityIndicator = nil;
-            }else
-            {
-                UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"下载图片出错" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alertView show];
-                alertView = nil;
-            }
-        });
-    }];
+    if (imageURL == nil) {
+        [activityIndicator stopAnimating];
+        activityIndicator = nil;
+        imageView.image = [UIImage imageNamed:@"tempTest.png"];
+    }else
+    {
+        __weak ProductView * weakSelf = self;
+        [imageView setImageWithURL:imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!error) {
+                    weakSelf.imageView.image = image;
+                    [activityIndicator stopAnimating];
+                    activityIndicator = nil;
+                }
+            });
+        }];
+
+    }
     
     
 }

@@ -12,4 +12,5 @@
 -(void)configureContentImage:(NSURL *)imageURL;
 
 @property (strong ,nonatomic) UIImageView * imageView;
+@property (strong ,nonatomic) UIImageView * bgImageView;
 @end

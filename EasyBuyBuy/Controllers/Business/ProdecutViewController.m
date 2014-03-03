@@ -8,6 +8,8 @@
 
 #import "ProdecutViewController.h"
 #import "ProductCell.h"
+#import "ProductBroswerViewController.h"
+
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -62,7 +64,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
 }
 
-
+-(void)gotoProductBroswerViewController
+{
+    ProductBroswerViewController * viewController = [[ProductBroswerViewController alloc]initWithNibName:@"ProductBroswerViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
 
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -88,6 +95,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    [self gotoProductBroswerViewController];
 }
 @end

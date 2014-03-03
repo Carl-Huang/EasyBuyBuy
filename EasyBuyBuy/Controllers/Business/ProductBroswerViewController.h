@@ -10,4 +10,5 @@
 
 @interface ProductBroswerViewController : CommonViewController
 
+@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @end
