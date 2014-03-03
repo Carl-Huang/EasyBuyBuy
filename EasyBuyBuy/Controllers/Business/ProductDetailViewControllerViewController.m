@@ -23,6 +23,7 @@ typedef enum _ANCHOR
 #import "CycleScrollView.h"
 #import "AppDelegate.h"
 #import "CarView.h"
+#import "MyCarViewController.h"
 
 @interface ProductDetailViewControllerViewController ()
 {
@@ -61,7 +62,13 @@ typedef enum _ANCHOR
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [shoppingCar removeFromSuperview];
+    [shoppingCar setHidden:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [shoppingCar setHidden:NO];
 }
 
 #pragma mark - Private
@@ -99,11 +106,13 @@ typedef enum _ANCHOR
     };
     [_productImageScrollView addSubview:autoScrollView];
 
-    
+    __weak ProductDetailViewControllerViewController * weakSelf = self;
     shoppingCar = [[CarView alloc]initWithFrame:CGRectMake(0,0, 40, 40)];
     [shoppingCar setBlock:^()
      {
-         
+         MyCarViewController * viewController = [[MyCarViewController alloc]initWithNibName:@"MyCarViewController" bundle:nil];
+         [weakSelf push:viewController];
+         viewController = nil;
      }];
     [self anchor:shoppingCar to:BOTTOM withOffset:CGPointMake(120, 10)];
     

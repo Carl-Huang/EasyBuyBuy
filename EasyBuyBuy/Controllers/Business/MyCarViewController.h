@@ -10,4 +10,9 @@
 
 @interface MyCarViewController : CommonViewController
 
+@property (weak, nonatomic) IBOutlet UITableView *contentTable;
+@property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
+@property (weak, nonatomic) IBOutlet UILabel *costLabel;
+@property (weak, nonatomic) IBOutlet UILabel *costDesc;
+- (IBAction)confirmBtnAction:(id)sender;
 @end

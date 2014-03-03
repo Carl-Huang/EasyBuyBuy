@@ -34,6 +34,8 @@
 		4EAC790E18C4BB870022ECDD /* CarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790D18C4BB870022ECDD /* CarView.m */; };
 		4EAC791218C4C3140022ECDD /* MyCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC791018C4C3140022ECDD /* MyCarViewController.m */; };
 		4EAC791318C4C3140022ECDD /* MyCarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791118C4C3140022ECDD /* MyCarViewController.xib */; };
+		4EAC791618C4CA410022ECDD /* MyCarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC791518C4CA410022ECDD /* MyCarCell.m */; };
+		4EAC791818C4CA4C0022ECDD /* MyCarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791718C4CA4C0022ECDD /* MyCarCell.xib */; };
 		4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF488F18BB5D690038575F /* OneWayAlertView.m */; };
 		4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489118BB5D720038575F /* OneWayAlertView.xib */; };
 		4EAF48A918BB77870038575F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489B18BB77870038575F /* LoginViewController.m */; };
@@ -213,6 +215,9 @@
 		4EAC790F18C4C3140022ECDD /* MyCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarViewController.h; sourceTree = "<group>"; };
 		4EAC791018C4C3140022ECDD /* MyCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarViewController.m; sourceTree = "<group>"; };
 		4EAC791118C4C3140022ECDD /* MyCarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCarViewController.xib; sourceTree = "<group>"; };
+		4EAC791418C4CA410022ECDD /* MyCarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarCell.h; sourceTree = "<group>"; };
+		4EAC791518C4CA410022ECDD /* MyCarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarCell.m; sourceTree = "<group>"; };
+		4EAC791718C4CA4C0022ECDD /* MyCarCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCarCell.xib; sourceTree = "<group>"; };
 		4EAF488E18BB5D690038575F /* OneWayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneWayAlertView.h; sourceTree = "<group>"; };
 		4EAF488F18BB5D690038575F /* OneWayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneWayAlertView.m; sourceTree = "<group>"; };
 		4EAF489118BB5D720038575F /* OneWayAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneWayAlertView.xib; sourceTree = "<group>"; };
@@ -440,6 +445,9 @@
 				4EAC790F18C4C3140022ECDD /* MyCarViewController.h */,
 				4EAC791018C4C3140022ECDD /* MyCarViewController.m */,
 				4EAC791118C4C3140022ECDD /* MyCarViewController.xib */,
+				4EAC791418C4CA410022ECDD /* MyCarCell.h */,
+				4EAC791518C4CA410022ECDD /* MyCarCell.m */,
+				4EAC791718C4CA4C0022ECDD /* MyCarCell.xib */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -849,6 +857,7 @@
 				C33EEC5F189667B200A26971 /* Red Apple_Bg@2x.png in Resources */,
 				C33EEC71189667B200A26971 /* Verification_Btn_Confirm@2x.png in Resources */,
 				C33EEC37189667B200A26971 /* Arrow_G@2x.png in Resources */,
+				4EAC791818C4CA4C0022ECDD /* MyCarCell.xib in Resources */,
 				C33EEC5C189667B200A26971 /* My Notification_Btn02@2x.png in Resources */,
 				C33EEC5B189667B200A26971 /* My Notification_Btn01@2x.png in Resources */,
 				C33EEC42189667B200A26971 /* Home_Icon_Shop@2x.png in Resources */,
@@ -988,6 +997,7 @@
 			files = (
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
+				4EAC791618C4CA410022ECDD /* MyCarCell.m in Sources */,
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,
 				4EAC790718C4B23C0022ECDD /* NSTimer+Addition.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
