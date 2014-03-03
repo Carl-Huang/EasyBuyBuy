@@ -2,7 +2,7 @@
 //  CycleScrollView
 //  EasyBuyBuy
 //
-//  Created by vedon on 5/11/13.
+//  Created by vedon on 3/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  CycleScrollView
 //  EasyBuyBuy
 //
-//  Created by vedon on 5/11/13.
+//  Created by vedon on 3/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -67,6 +67,8 @@
         
         
         _pageController = [[UIPageControl alloc]initWithFrame:CGRectMake(self.bounds.size.width/2 - 50, self.bounds.size.height/4*3, 100, 30)];
+        _pageController.currentPageIndicatorTintColor = [UIColor redColor];
+        _pageController.pageIndicatorTintColor        = [UIColor darkGrayColor];
         [self addSubview:_pageController];
         _pageController.currentPage = 0;
         
@@ -95,9 +97,6 @@
     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];
 }
 
-/**
- *  设置scrollView的content数据源，即contentViews
- */
 - (void)setScrollViewContentDataSource
 {
     NSInteger previousPageIndex = [self getValidNextPageIndexWithPageIndex:self.currentPageIndex - 1];

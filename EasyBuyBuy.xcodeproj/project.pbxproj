@@ -29,6 +29,11 @@
 		4E632CF018C46F4B006DD458 /* ProductDetailViewControllerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CEE18C46F4B006DD458 /* ProductDetailViewControllerViewController.xib */; };
 		4EAC790418C4B1A10022ECDD /* CycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790318C4B1A10022ECDD /* CycleScrollView.m */; };
 		4EAC790718C4B23C0022ECDD /* NSTimer+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790618C4B23C0022ECDD /* NSTimer+Addition.m */; };
+		4EAC790A18C4B87D0022ECDD /* Top Bar_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC790818C4B87D0022ECDD /* Top Bar_88@2x.png */; };
+		4EAC790B18C4B87D0022ECDD /* Top Bar_128@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC790918C4B87D0022ECDD /* Top Bar_128@2x.png */; };
+		4EAC790E18C4BB870022ECDD /* CarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790D18C4BB870022ECDD /* CarView.m */; };
+		4EAC791218C4C3140022ECDD /* MyCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC791018C4C3140022ECDD /* MyCarViewController.m */; };
+		4EAC791318C4C3140022ECDD /* MyCarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791118C4C3140022ECDD /* MyCarViewController.xib */; };
 		4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF488F18BB5D690038575F /* OneWayAlertView.m */; };
 		4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489118BB5D720038575F /* OneWayAlertView.xib */; };
 		4EAF48A918BB77870038575F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489B18BB77870038575F /* LoginViewController.m */; };
@@ -50,8 +55,6 @@
 		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
 		4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674118C44656006B680A /* BottomCell@2x.png */; };
 		4EB5674718C44657006B680A /* MiddleCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674218C44656006B680A /* MiddleCell@2x.png */; };
-		4EB5674818C44657006B680A /* Top Bar_88@2x in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674318C44657006B680A /* Top Bar_88@2x */; };
-		4EB5674918C44657006B680A /* Top Bar_128@2x in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674418C44657006B680A /* Top Bar_128@2x */; };
 		4EB5674A18C44657006B680A /* UpperCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674518C44657006B680A /* UpperCell@2x.png */; };
 		4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFAB18BC369F0064B22C /* MyOrderDetailViewController.m */; };
 		4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFAC18BC369F0064B22C /* MyOrderDetailViewController.xib */; };
@@ -203,6 +206,13 @@
 		4EAC790318C4B1A10022ECDD /* CycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CycleScrollView.m; sourceTree = "<group>"; };
 		4EAC790518C4B23C0022ECDD /* NSTimer+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Addition.h"; sourceTree = "<group>"; };
 		4EAC790618C4B23C0022ECDD /* NSTimer+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Addition.m"; sourceTree = "<group>"; };
+		4EAC790818C4B87D0022ECDD /* Top Bar_88@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Top Bar_88@2x.png"; sourceTree = "<group>"; };
+		4EAC790918C4B87D0022ECDD /* Top Bar_128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Top Bar_128@2x.png"; sourceTree = "<group>"; };
+		4EAC790C18C4BB870022ECDD /* CarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarView.h; sourceTree = "<group>"; };
+		4EAC790D18C4BB870022ECDD /* CarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarView.m; sourceTree = "<group>"; };
+		4EAC790F18C4C3140022ECDD /* MyCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCarViewController.h; sourceTree = "<group>"; };
+		4EAC791018C4C3140022ECDD /* MyCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCarViewController.m; sourceTree = "<group>"; };
+		4EAC791118C4C3140022ECDD /* MyCarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCarViewController.xib; sourceTree = "<group>"; };
 		4EAF488E18BB5D690038575F /* OneWayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneWayAlertView.h; sourceTree = "<group>"; };
 		4EAF488F18BB5D690038575F /* OneWayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneWayAlertView.m; sourceTree = "<group>"; };
 		4EAF489118BB5D720038575F /* OneWayAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneWayAlertView.xib; sourceTree = "<group>"; };
@@ -235,8 +245,6 @@
 		4EB1AE6918BB33860033364F /* PersistentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentStore.m; sourceTree = "<group>"; };
 		4EB5674118C44656006B680A /* BottomCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomCell@2x.png"; sourceTree = "<group>"; };
 		4EB5674218C44656006B680A /* MiddleCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MiddleCell@2x.png"; sourceTree = "<group>"; };
-		4EB5674318C44657006B680A /* Top Bar_88@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Top Bar_88@2x"; sourceTree = "<group>"; };
-		4EB5674418C44657006B680A /* Top Bar_128@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Top Bar_128@2x"; sourceTree = "<group>"; };
 		4EB5674518C44657006B680A /* UpperCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpperCell@2x.png"; sourceTree = "<group>"; };
 		4EB5FFAA18BC369F0064B22C /* MyOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderDetailViewController.h; sourceTree = "<group>"; };
 		4EB5FFAB18BC369F0064B22C /* MyOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderDetailViewController.m; sourceTree = "<group>"; };
@@ -429,6 +437,9 @@
 				4E632CEC18C46F4B006DD458 /* ProductDetailViewControllerViewController.h */,
 				4E632CED18C46F4B006DD458 /* ProductDetailViewControllerViewController.m */,
 				4E632CEE18C46F4B006DD458 /* ProductDetailViewControllerViewController.xib */,
+				4EAC790F18C4C3140022ECDD /* MyCarViewController.h */,
+				4EAC791018C4C3140022ECDD /* MyCarViewController.m */,
+				4EAC791118C4C3140022ECDD /* MyCarViewController.xib */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -531,6 +542,8 @@
 				4EAF488E18BB5D690038575F /* OneWayAlertView.h */,
 				4EAF488F18BB5D690038575F /* OneWayAlertView.m */,
 				4EAF489118BB5D720038575F /* OneWayAlertView.xib */,
+				4EAC790C18C4BB870022ECDD /* CarView.h */,
+				4EAC790D18C4BB870022ECDD /* CarView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -675,11 +688,11 @@
 		C33EEBEE189667B200A26971 /* 2x */ = {
 			isa = PBXGroup;
 			children = (
+				4EAC790818C4B87D0022ECDD /* Top Bar_88@2x.png */,
+				4EAC790918C4B87D0022ECDD /* Top Bar_128@2x.png */,
 				4E632CD818C45C0E006DD458 /* tempTest.png */,
 				4EB5674118C44656006B680A /* BottomCell@2x.png */,
 				4EB5674218C44656006B680A /* MiddleCell@2x.png */,
-				4EB5674318C44657006B680A /* Top Bar_88@2x */,
-				4EB5674418C44657006B680A /* Top Bar_128@2x */,
 				4EB5674518C44657006B680A /* UpperCell@2x.png */,
 				C33EEBEF189667B200A26971 /* Arrow_G@2x.png */,
 				C33EEBF0189667B200A26971 /* Arrow_R@2x.png */,
@@ -829,6 +842,7 @@
 				4EB5674718C44657006B680A /* MiddleCell@2x.png in Resources */,
 				4E632CCC18C4580D006DD458 /* ShopMainViewController.xib in Resources */,
 				4EB5674A18C44657006B680A /* UpperCell@2x.png in Resources */,
+				4EAC791318C4C3140022ECDD /* MyCarViewController.xib in Resources */,
 				C33EEC51189667B200A26971 /* Login_Icon_Lock02@2x.png in Resources */,
 				C33EEBAD189666F900A26971 /* InfoPlist.strings in Resources */,
 				4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */,
@@ -859,7 +873,6 @@
 				4E632CE318C45FE2006DD458 /* ProductCell.xib in Resources */,
 				C33EEC54189667B200A26971 /* My Adress_Btn_Add@2x.png in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
-				4EB5674918C44657006B680A /* Top Bar_128@2x in Resources */,
 				5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */,
 				C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */,
 				C33EEC67189667B200A26971 /* Sale Promotion_Btn_Confirm@2x.png in Resources */,
@@ -896,6 +909,7 @@
 				5F00239918BDB04200100CBF /* NotificationCell.xib in Resources */,
 				C33EEC4C189667B200A26971 /* Icon.psd in Resources */,
 				C33EEC44189667B200A26971 /* Home_Icon_UnChoose@2x.png in Resources */,
+				4EAC790A18C4B87D0022ECDD /* Top Bar_88@2x.png in Resources */,
 				C33EEC48189667B200A26971 /* Home_Region_Frame01@2x.png in Resources */,
 				4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */,
 				C33EEC4F189667B200A26971 /* Login_Btn_Register@2x.png in Resources */,
@@ -910,6 +924,7 @@
 				C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */,
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
 				C33EEC58189667B200A26971 /* My Car_Bottom Bar@2x.png in Resources */,
+				4EAC790B18C4B87D0022ECDD /* Top Bar_128@2x.png in Resources */,
 				4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */,
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
 				C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */,
@@ -918,7 +933,6 @@
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
 				4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */,
-				4EB5674818C44657006B680A /* Top Bar_88@2x in Resources */,
 				4E632CC618C44E2A006DD458 /* LanguageViewController.xib in Resources */,
 				4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */,
 			);
@@ -981,6 +995,7 @@
 				C33EEC34189667B200A26971 /* UIImage+Util.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
+				4EAC791218C4C3140022ECDD /* MyCarViewController.m in Sources */,
 				4EB1AE6718BB2B010033364F /* User.m in Sources */,
 				4E632CD518C459DE006DD458 /* ProductClassifyCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
@@ -1009,6 +1024,7 @@
 				C33EEC33189667B200A26971 /* UIColor+Utils.m in Sources */,
 				4E632CEB18C466A6006DD458 /* ProductView.m in Sources */,
 				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,
+				4EAC790E18C4BB870022ECDD /* CarView.m in Sources */,
 				C33EEC36189667B200A26971 /* VersionManager.m in Sources */,
 				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
 				C33EEC2F189667B200A26971 /* NSDate+Utils.m in Sources */,
