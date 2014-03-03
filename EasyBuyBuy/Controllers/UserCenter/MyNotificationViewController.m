@@ -156,17 +156,31 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 {
 
     NSArray * productDeletedItems = [productNotiTable indexPathsForSelectedRows];
-    for (NSIndexPath * index in productDeletedItems) {
-        [productNotiDataSource removeObjectAtIndex:index.row];
+    if ([productDeletedItems count]) {
+        for (NSIndexPath * index in productDeletedItems) {
+            NSInteger deletedItemIndex = index.row;
+            if ([productNotiDataSource count] == 1) {
+                deletedItemIndex = 0;
+            }
+            [productNotiDataSource removeObjectAtIndex:deletedItemIndex];
+        }
+        [productNotiTable deleteRowsAtIndexPaths:productDeletedItems withRowAnimation:UITableViewRowAnimationFade];
     }
-    [productNotiTable deleteRowsAtIndexPaths:productDeletedItems withRowAnimation:UITableViewRowAnimationFade];
+    
 
     
     NSArray * systemDeletedItems = [systemNotiTable indexPathsForSelectedRows];
-    for (NSIndexPath * index in systemDeletedItems) {
-        [systemNotiDataSource removeObjectAtIndex:index.row];
+    if ([systemDeletedItems count]) {
+        for (NSIndexPath * index in systemDeletedItems) {
+            NSInteger deletedItemIndex = index.row;
+            if ([systemNotiDataSource count] == 1) {
+                deletedItemIndex = 0;
+            }
+            [systemNotiDataSource removeObjectAtIndex:deletedItemIndex];
+        }
+        [systemNotiTable deleteRowsAtIndexPaths:systemDeletedItems withRowAnimation:UITableViewRowAnimationFade];
     }
-    [systemNotiTable deleteRowsAtIndexPaths:systemDeletedItems withRowAnimation:UITableViewRowAnimationFade];
+   
     
 }
 

@@ -12,6 +12,8 @@
 #import "MyAddressViewController.h"
 #import "SecurityViewController.h"
 #import "MyNotificationViewController.h"
+#import "UpgradeViewController.h"
+#import "LanguageViewController.h"
 
 @interface UserCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -209,13 +211,24 @@
             case 3:
                 [self gotoMyNotificationViewController];
                 break;
+                
             default:
                 break;
         }
     
     }else
     {
-      
+        switch (indexPath.row) {
+        case 0:
+            [self gotoUpgradeViewController];
+            break;
+        case 1:
+            [self gotoLanguageViewController];
+            break;
+        default:
+            break;
+
+        }
     }
 
 }
@@ -249,4 +262,19 @@
     [self push:viewController];
     viewController = nil;
 }
+
+-(void)gotoUpgradeViewController
+{
+    UpgradeViewController * viewController = [[UpgradeViewController alloc]initWithNibName:@"UpgradeViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoLanguageViewController
+{
+    LanguageViewController * viewController = [[LanguageViewController alloc]initWithNibName:@"LanguageViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
 @end

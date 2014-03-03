@@ -10,5 +10,5 @@
 #define EasyBuyBuy_Macro_h
 
 #define CurrentRegion       @"CurrentRegion"
-
+#define CurrentLanguage     @"CurrentLanguage"
 #endif

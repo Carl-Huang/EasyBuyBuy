@@ -14,6 +14,7 @@
 #import "PersistentStore.h"
 #import "UserCenterViewController.h"
 
+#import "ShopViewController.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate>
 {
     UIPageControl * page;
@@ -62,6 +63,13 @@
     
     for (int i =0; i < 5; i++) {
         UIImageView * imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Shop.png"]];
+        imageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
+        [imageView addGestureRecognizer:tapGesture];
+        tapGesture = nil;
+        
+        
         imageView.tag = i;
         [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, 100, MainIconWidth, MainIconHeight)];
         [self.contentScrollView addSubview:imageView];
@@ -73,6 +81,45 @@
     
     [self.contentView addSubview:page];
 }
+
+
+-(void)tapAction:(UITapGestureRecognizer *)tap
+{
+    UIView * tapView = tap.view;
+    NSLog(@"You select %ld",(long)tapView.tag);
+    [self configureTapAction:tapView.tag];
+}
+
+-(void)configureTapAction:(NSInteger)tapNumber
+{
+    switch (tapNumber) {
+        case 0:
+            [self gotoShopViewController];
+            break;
+        case 1:
+            ;
+            break;
+        case 2:
+            ;
+            break;
+        case 3:
+            ;
+            break;
+        case 4:
+            ;
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)gotoShopViewController
+{
+    ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
 
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
