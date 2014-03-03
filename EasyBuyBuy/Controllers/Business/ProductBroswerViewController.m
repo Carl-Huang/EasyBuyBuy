@@ -8,10 +8,12 @@
 
 #import "ProductBroswerViewController.h"
 #import "ProductView.h"
-
+#import "ProductDetailViewControllerViewController.h"
 
 @interface ProductBroswerViewController ()
-
+{
+    NSMutableArray * productImages;
+}
 @end
 
 @implementation ProductBroswerViewController
@@ -31,12 +33,22 @@
     self.title = @"Apple";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
+    
+    productImages = [NSMutableArray array];
     NSUInteger width = 130;
     NSUInteger height = 130;
     NSUInteger gap    = 20;
     for (int i =0 ;i<6;i++) {
         ProductView * view = [[ProductView alloc]initWithFrame:CGRectMake(gap+(width+gap)*(i%2), gap+(height+gap)*(i/2), width, height)];
-        [view configureContentImage:nil];
+        [view configureContentImage:nil completedBlock:^(UIImage *image, NSError *error)
+        {
+            if (!error || error.code == 100) {
+                [productImages addObject:image];
+            }else
+            {
+                NSLog(@"%@",[error description]);
+            }
+        }];
         view.tag = i;
         //点击动作事件
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoProductDetailViewController:)];
@@ -58,6 +70,12 @@
 
 -(void)gotoProductDetailViewController:(UITapGestureRecognizer *)tap
 {
+    ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    if ([productImages count]) {
+        [viewController setProductImages:productImages];
+    }
     
+    [self push:viewController];
+    viewController = nil;
 }
 @end

@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ProductView : UIView
--(void)configureContentImage:(NSURL *)imageURL;
+-(void)configureContentImage:(NSURL *)imageURL completedBlock:(void (^)(UIImage * image,NSError * error))block;
 
 @property (strong ,nonatomic) UIImageView * imageView;
-@property (strong ,nonatomic) UIImageView * bgImageView;
 @end

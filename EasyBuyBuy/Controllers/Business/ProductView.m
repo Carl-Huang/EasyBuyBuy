@@ -10,6 +10,13 @@
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
 
+@interface ProductView()
+{
+    
+}
+@property (strong ,nonatomic) UIImageView * bgImageView;
+@end
+
 @implementation ProductView
 @synthesize imageView;
 
@@ -41,7 +48,7 @@
     return self;
 }
 
--(void)configureContentImage:(NSURL *)imageURL
+-(void)configureContentImage:(NSURL *)imageURL completedBlock:(void (^)(UIImage * image,NSError * error))block
 {
     __block UIActivityIndicatorView *activityIndicator;
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -55,6 +62,9 @@
         [activityIndicator stopAnimating];
         activityIndicator = nil;
         imageView.image = [UIImage imageNamed:@"tempTest.png"];
+        if (block) {
+            block(imageView.image,[NSError errorWithDomain:@"URLIsEmpty" code:100 userInfo:nil]);
+        }
     }else
     {
         __weak ProductView * weakSelf = self;
@@ -64,6 +74,12 @@
                     weakSelf.imageView.image = image;
                     [activityIndicator stopAnimating];
                     activityIndicator = nil;
+                    if (block) {
+                        block(image,nil);
+                    }
+                }else
+                {
+                    block(image,error);
                 }
             });
         }];
