@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SalePromotionItemViewController">
             <connections>
                 <outlet property="contentTable" destination="NgQ-jg-z9U" id="eKw-XZ-ZfB"/>
+                <outlet property="productBorswerContanier" destination="Rc5-zh-wef" id="LqO-PP-eec"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -33,8 +34,12 @@
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="he5-jA-MzE">
                     <rect key="frame" x="0.0" y="165" width="320" height="250"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackGroud.png" id="Eek-02-IYC">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="NgQ-jg-z9U">
                             <rect key="frame" x="15" y="1" width="290" height="249"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -54,6 +59,7 @@
         </view>
     </objects>
     <resources>
+        <image name="BackGroud.png" width="320" height="568"/>
         <image name="Red Apple_Bg.png" width="320" height="199"/>
     </resources>
 </document>

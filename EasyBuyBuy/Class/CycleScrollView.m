@@ -28,6 +28,7 @@
     _pageController.numberOfPages = totalPagesCount();
     NSInteger width = 10*_pageController.numberOfPages;
     _pageController.frame = CGRectMake((self.bounds.size.width - width)/2, self.bounds.size.height/4*3, width, 30);
+    
     _totalPageCount = totalPagesCount();
     if (_totalPageCount > 0) {
         [self configContentViews];
@@ -76,6 +77,13 @@
     return self;
 }
 
+-(void)dealloc
+{
+    if ([self.animationTimer isValid]) {
+        [self.animationTimer invalidate];
+        self.animationTimer = nil;
+    }
+}
 #pragma mark - Private
 
 - (void)configContentViews
@@ -84,7 +92,8 @@
     [self setScrollViewContentDataSource];
     
     NSInteger counter = 0;
-    for (UIView *contentView in self.contentViews) {
+    for (UIImageView *contentView in self.contentViews) {
+        
         contentView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTapAction:)];
         [contentView addGestureRecognizer:tapGesture];
@@ -93,8 +102,21 @@
         
         contentView.frame = rightRect;
         [self.scrollView addSubview:contentView];
+        if (_totalPageCount == 1) {
+            break;
+        }
     }
-    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];
+    if (_totalPageCount != 1) {
+        [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];
+        _scrollView.scrollEnabled = YES;
+    }else
+    {
+        [_scrollView setContentOffset:CGPointMake(0, 0)];
+        _scrollView.scrollEnabled = NO;
+    }
+    
+
+    
 }
 
 - (void)setScrollViewContentDataSource
@@ -156,13 +178,19 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [scrollView setContentOffset:CGPointMake(CGRectGetWidth(scrollView.frame), 0) animated:YES];
+    if (_totalPageCount != 1) {
+        [scrollView setContentOffset:CGPointMake(CGRectGetWidth(scrollView.frame), 0) animated:YES];
+    }
+
 }
 
 - (void)animationTimerDidFired:(NSTimer *)timer
 {
-    CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
-    [self.scrollView setContentOffset:newOffset animated:YES];
+    if (_totalPageCount != 1) {
+        CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
+        [self.scrollView setContentOffset:newOffset animated:YES];
+    }
+
 }
 
 - (void)contentViewTapAction:(UITapGestureRecognizer *)tap
@@ -171,6 +199,7 @@
         self.TapActionBlock(self.currentPageIndex);
     }
 }
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

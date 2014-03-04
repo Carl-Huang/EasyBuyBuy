@@ -18,6 +18,10 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackGroud.png" id="aMS-do-ikv">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
                 <view contentMode="scaleToFill" id="MX5-29-vRD">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="361"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,6 +82,7 @@
         </view>
     </objects>
     <resources>
+        <image name="BackGroud.png" width="320" height="568"/>
         <image name="My Car_Bottom Bar.png" width="320" height="60"/>
         <image name="My Car_Btn_Confirm.png" width="110" height="37"/>
     </resources>

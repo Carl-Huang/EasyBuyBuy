@@ -53,12 +53,13 @@
 {
     [super viewWillDisappear:YES];
     [shoppingCar setHidden:YES];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    if (!_isShouldShowShoppingCar) {
+    if (_isShouldShowShoppingCar) {
         [shoppingCar setHidden:NO];
     }
     
@@ -96,7 +97,9 @@
         NSLog(@"点击了第%ld个",pageIndex);
     };
     [_productImageScrollView addSubview:autoScrollView];
-
+    autoScrollView = nil;
+    
+    
     __weak ProductDetailViewControllerViewController * weakSelf = self;
     shoppingCar = [[CarView alloc]initWithFrame:CGRectMake(0,0, 40, 40)];
     [shoppingCar setBlock:^()

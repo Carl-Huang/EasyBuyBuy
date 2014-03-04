@@ -7,6 +7,7 @@
 //
 #import "ProductDetailViewControllerViewController.h"
 #import "SalePromotionItemViewController.h"
+#import "CycleScrollView.h"
 #import "GlobalMethod.h"
 #import "BiddingCell.h"
 
@@ -19,6 +20,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     
     NSArray * firstSectionDataSource;
     NSArray * secondSectionDataSource;
+    CycleScrollView * autoScrollView;
 }
 @end
 
@@ -73,11 +75,60 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     firstSectionDataSource = @[@"Product Name:",@"Product Description"];
     secondSectionDataSource = @[@"1",@"2"];
     
+    CGRect rect = _productBorswerContanier.bounds;
+    autoScrollView = [[CycleScrollView alloc] initWithFrame:rect animationDuration:2];
+    autoScrollView.backgroundColor = [UIColor clearColor];
+
+    
+    //Use the place holder image
+    if ([_productImages count] == 0) {
+        _productImages = @[[UIImage imageNamed:@"tempTest.png"]];
+    }
+    NSMutableArray * images = [NSMutableArray array];
+    //UIImageView covert the image
+    for (UIImage * image in _productImages) {
+        UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
+        [tempImageView setFrame:rect];
+        [images addObject:tempImageView];
+        tempImageView = nil;
+    }
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return images[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [images count];
+    };
+    autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
+        NSLog(@"点击了第%ld个",pageIndex);
+    };
+    
+    [_productBorswerContanier addSubview:autoScrollView];
 }
 
 -(void)configureClickActionOnFirstSection:(NSIndexPath *)index
 {
+    
     if (index.row == 1) {
+        
+        //autoScrollView change the content dynamic
+//        CGRect rect = _productBorswerContanier.bounds;
+//            _productImages = @[[UIImage imageNamed:@"tempTest.png"],[UIImage imageNamed:@"tempTest.png"]];
+//        
+//        NSMutableArray * images = [NSMutableArray array];
+//        //UIImageView covert the image
+//        for (UIImage * image in _productImages) {
+//            UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
+//            [tempImageView setFrame:rect];
+//            [images addObject:tempImageView];
+//            tempImageView = nil;
+//        }
+//        autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+//            return images[pageIndex];
+//        };
+//        autoScrollView.totalPagesCount = ^NSInteger(void){
+//            return [images count];
+//        };
+        
         [self gotoProductDetailViewControllerViewController];
     }
 }
