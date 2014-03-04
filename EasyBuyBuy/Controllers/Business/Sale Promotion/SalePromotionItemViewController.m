@@ -195,7 +195,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         [cell.textLabel setFont:[UIFont systemFontOfSize:15]];
         [cell.textLabel setTextColor:[UIColor darkGrayColor]];
         cell.textLabel.text = [firstSectionDataSource objectAtIndex:indexPath.row];
-        
+        [cell setBackgroundColor:[UIColor clearColor]];
         cell.selectionStyle = UITableViewCellSeparatorStyleNone;
         return cell;
     }else
