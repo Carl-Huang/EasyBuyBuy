@@ -58,7 +58,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [shoppingCar setHidden:NO];
+    if (!_isShouldShowShoppingCar) {
+        [shoppingCar setHidden:NO];
+    }
+    
 }
 
 #pragma mark - Private
@@ -71,8 +74,6 @@
 {
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
-    
-    
     CGRect rect = _productImageScrollView.bounds;
 
     autoScrollView = [[CycleScrollView alloc] initWithFrame:rect animationDuration:2];
@@ -92,7 +93,7 @@
         return [images count];
     };
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%d个",pageIndex);
+        NSLog(@"点击了第%ld个",pageIndex);
     };
     [_productImageScrollView addSubview:autoScrollView];
 
@@ -105,9 +106,11 @@
          viewController = nil;
      }];
     [GlobalMethod anchor:shoppingCar to:BOTTOM withOffset:CGPointMake(120, 10)];
-    
     AppDelegate * myDelegate =(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:shoppingCar];
+    if (!_isShouldShowShoppingCar) {
+        [shoppingCar setHidden:!_isShouldShowShoppingCar];
+    }
     
 }
 

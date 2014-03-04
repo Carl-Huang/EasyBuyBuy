@@ -15,6 +15,7 @@
 #import "UserCenterViewController.h"
 
 #import "ShopViewController.h"
+#import "SalePromotionViewController.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate>
 {
     UIPageControl * page;
@@ -100,10 +101,10 @@
             ;
             break;
         case 2:
-            ;
+            [self gotoSalePromotionViewController];
             break;
         case 3:
-            ;
+            
             break;
         case 4:
             ;
@@ -120,7 +121,12 @@
     viewController = nil;
 }
 
-
+-(void)gotoSalePromotionViewController
+{
+    SalePromotionViewController * viewController = [[SalePromotionViewController alloc]initWithNibName:@"SalePromotionViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

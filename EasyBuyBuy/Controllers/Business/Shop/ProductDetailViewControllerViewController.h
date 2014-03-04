@@ -11,7 +11,8 @@
 @interface ProductDetailViewControllerViewController : CommonViewController
 
 @property (strong ,nonatomic) NSArray * productImages;
-
+@property (assign ,nonatomic) BOOL      isShouldShowShoppingCar;
 @property (weak, nonatomic) IBOutlet UIScrollView *productImageScrollView;
+
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "LanguageViewController.h"
+#import "GlobalMethod.h"
 #import "Macro.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
@@ -116,10 +117,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         cell.accessoryView = nil;
     }
     
-    
-    
-    UIImageView * bgImageView = [self configureBgViewWithCell:cell index:indexPath.row];
-    [bgImageView setFrame:CGRectMake(0, 0, tableView.frame.size.width, cell.frame.size.height)];
+    UIImageView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, cell.frame.size.height) lastItemNumber:[dataSource count]];
     [cell setBackgroundView:bgImageView];
     cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
     return  cell;

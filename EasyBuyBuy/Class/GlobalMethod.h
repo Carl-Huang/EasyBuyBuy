@@ -22,4 +22,9 @@ typedef enum _ANCHOR
 @interface GlobalMethod : NSObject
 
 +(void)anchor:(UIView*)obj to:(ANCHOR)anchor withOffset:(CGPoint)offset;
+
++(UIImageView *)newBgViewWithCell:(UITableViewCell *)cellPointer
+                            index:(NSInteger)cellIndex
+                        withFrame:(CGRect)rect
+                   lastItemNumber:(NSInteger)lastItemNum;
 @end

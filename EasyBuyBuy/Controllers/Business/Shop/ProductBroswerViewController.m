@@ -71,6 +71,7 @@
 -(void)gotoProductDetailViewController:(UITapGestureRecognizer *)tap
 {
     ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    [viewController setIsShouldShowShoppingCar:YES];
     if ([productImages count]) {
         [viewController setProductImages:productImages];
     }

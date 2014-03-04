@@ -60,4 +60,35 @@
     
     obj.frame = frm;
 }
+
++(UIImageView *)newBgViewWithCell:(UITableViewCell *)cellPointer
+                            index:(NSInteger)cellIndex
+                        withFrame:(CGRect)rect
+                   lastItemNumber:(NSInteger)lastItemNum
+{
+    //UpperCell@2x , BottomCell@2x , MiddleCell@2x
+    NSString * imageName = nil;
+    NSInteger lastItem = lastItemNum - 1;
+    UIEdgeInsets inset = UIEdgeInsetsZero;
+    
+    if (cellIndex == 0) {
+        imageName = @"UpperCell.png";
+        inset = UIEdgeInsetsMake(20, 200, 20, 200);
+    }else if (cellIndex == lastItem)
+    {
+        imageName = @"BottomCell.png";
+        inset = UIEdgeInsetsMake(20, 200, 20, 200);
+    }else
+    {
+        imageName = @"MiddleCell.png";
+        inset = UIEdgeInsetsMake(30, 200, 10, 200);
+    }
+    UIImage * stretchImage = [UIImage imageNamed:imageName];
+    UIImage * stretchedImage = [stretchImage resizableImageWithCapInsets:inset];
+    
+    UIImageView * cellBg = [[UIImageView alloc]initWithImage:stretchedImage];
+    [cellBg setFrame:rect];
+    
+    return cellBg;
+}
 @end
