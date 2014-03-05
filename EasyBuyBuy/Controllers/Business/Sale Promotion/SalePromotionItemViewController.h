@@ -10,8 +10,12 @@
 
 @interface SalePromotionItemViewController : CommonViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *biddingBtn;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @property (weak, nonatomic) IBOutlet UIView *productBorswerContanier;
 
 @property (strong ,nonatomic) NSArray * productImages;
+
+
+- (IBAction)biddingBtnAction:(id)sender;
 @end

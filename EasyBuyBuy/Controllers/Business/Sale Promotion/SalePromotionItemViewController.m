@@ -7,9 +7,12 @@
 //
 #import "ProductDetailViewControllerViewController.h"
 #import "SalePromotionItemViewController.h"
+#import "BiddingPopupView.h"
 #import "CycleScrollView.h"
 #import "GlobalMethod.h"
+#import "AppDelegate.h"
 #import "BiddingCell.h"
+
 
 
 static NSString * firstSectionCellIdentifier  = @"firstSectionCell";
@@ -18,9 +21,12 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 {
     NSString * viewControllTitle;
     
+    
     NSArray * firstSectionDataSource;
     NSArray * secondSectionDataSource;
-    CycleScrollView * autoScrollView;
+    CycleScrollView  * autoScrollView;
+    BiddingPopupView * biddingView;
+    AppDelegate      * myDelegate;
 }
 @end
 
@@ -75,11 +81,12 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     firstSectionDataSource = @[@"Product Name:",@"Product Description"];
     secondSectionDataSource = @[@"1",@"2"];
     
+    
+    
+    //autoScrollview configuration
     CGRect rect = _productBorswerContanier.bounds;
     autoScrollView = [[CycleScrollView alloc] initWithFrame:rect animationDuration:2];
     autoScrollView.backgroundColor = [UIColor clearColor];
-
-    
     //Use the place holder image
     if ([_productImages count] == 0) {
         _productImages = @[[UIImage imageNamed:@"tempTest.png"]];
@@ -99,10 +106,12 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         return [images count];
     };
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%ld个",pageIndex);
+        NSLog(@"点击了第%ld个",(long)pageIndex);
     };
-    
     [_productBorswerContanier addSubview:autoScrollView];
+    
+    
+    biddingView = nil;
 }
 
 -(void)configureClickActionOnFirstSection:(NSIndexPath *)index
@@ -218,5 +227,39 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         default:
             break;
     }
+}
+- (IBAction)biddingBtnAction:(id)sender {
+    if (biddingView == nil) {
+        myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        biddingView = [[[NSBundle mainBundle]loadNibNamed:@"BiddingPopupView" owner:self options:nil]objectAtIndex:0];
+        
+        //Adjust to the screen size
+        [GlobalMethod anchor:biddingView.contentView to:CENTER withOffset:CGPointMake(0, 0)];
+        [biddingView setOriginalContentRect:biddingView.contentView.frame];
+        //Configure biddingView block
+        __weak BiddingPopupView * weakSelf = biddingView;
+        [biddingView setBeginEdittingBlock:^(CGRect rect)
+         {
+             [UIView animateWithDuration:0.3 animations:^{
+                 weakSelf.contentView.frame = CGRectOffset(rect, 0, -70);
+             }];
+         }];
+        [biddingView setEndEditBlock:^(CGRect rect)
+         {
+             [UIView animateWithDuration:0.3 animations:^{
+                 weakSelf.contentView.frame = CGRectOffset(rect, 0, 70);
+             }];
+         }];
+        [biddingView setConfirmBtnBlock:^(NSDictionary * info)
+        {
+            NSLog(@"%@",info);
+        }];
+        
+    }
+    [myDelegate.window addSubview:biddingView];
+    biddingView.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        biddingView.alpha = 1.0;
+    }];
 }
 @end

@@ -23,7 +23,7 @@ typedef enum _ANCHOR
 
 +(void)anchor:(UIView*)obj to:(ANCHOR)anchor withOffset:(CGPoint)offset;
 
-+(UIImageView *)newBgViewWithCell:(UITableViewCell *)cellPointer
++(UIView *)newBgViewWithCell:(UITableViewCell *)cellPointer
                             index:(NSInteger)cellIndex
                         withFrame:(CGRect)rect
                    lastItemNumber:(NSInteger)lastItemNum;

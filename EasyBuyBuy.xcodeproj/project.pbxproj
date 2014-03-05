@@ -23,6 +23,8 @@
 		4EAC791F18C4D2080022ECDD /* BackGroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */; };
 		4EAC792018C4D2080022ECDD /* Slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791D18C4D2080022ECDD /* Slider@2x.png */; };
 		4EAC792118C4D2080022ECDD /* SliderBtton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */; };
+		4EAE460B18C6CA5D0089B843 /* BiddingPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE460A18C6CA5D0089B843 /* BiddingPopupView.m */; };
+		4EAE460D18C6CA810089B843 /* BiddingPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE460C18C6CA810089B843 /* BiddingPopupView.xib */; };
 		4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF488F18BB5D690038575F /* OneWayAlertView.m */; };
 		4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489118BB5D720038575F /* OneWayAlertView.xib */; };
 		4EAF48A918BB77870038575F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489B18BB77870038575F /* LoginViewController.m */; };
@@ -207,6 +209,9 @@
 		4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackGroud@2x.png"; sourceTree = "<group>"; };
 		4EAC791D18C4D2080022ECDD /* Slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slider@2x.png"; sourceTree = "<group>"; };
 		4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SliderBtton@2x.png"; sourceTree = "<group>"; };
+		4EAE460918C6CA5D0089B843 /* BiddingPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiddingPopupView.h; sourceTree = "<group>"; };
+		4EAE460A18C6CA5D0089B843 /* BiddingPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiddingPopupView.m; sourceTree = "<group>"; };
+		4EAE460C18C6CA810089B843 /* BiddingPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BiddingPopupView.xib; sourceTree = "<group>"; };
 		4EAF488E18BB5D690038575F /* OneWayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneWayAlertView.h; sourceTree = "<group>"; };
 		4EAF488F18BB5D690038575F /* OneWayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneWayAlertView.m; sourceTree = "<group>"; };
 		4EAF489118BB5D720038575F /* OneWayAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneWayAlertView.xib; sourceTree = "<group>"; };
@@ -572,6 +577,9 @@
 				4EC207B618C57E88003708D6 /* BiddingCell.h */,
 				4EC207B718C57E88003708D6 /* BiddingCell.m */,
 				4EC207B918C57E94003708D6 /* BiddingCell.xib */,
+				4EAE460918C6CA5D0089B843 /* BiddingPopupView.h */,
+				4EAE460A18C6CA5D0089B843 /* BiddingPopupView.m */,
+				4EAE460C18C6CA810089B843 /* BiddingPopupView.xib */,
 			);
 			name = "Sale Promotion";
 			path = "Business/Sale Promotion";
@@ -980,6 +988,7 @@
 				C33EEC53189667B200A26971 /* Login_Icon_User02@2x.png in Resources */,
 				C33EEC65189667B200A26971 /* Sale Promotion_BottomBar@2x.png in Resources */,
 				C33EEC6E189667B200A26971 /* Verification_Bg@2x.png in Resources */,
+				4EAE460D18C6CA810089B843 /* BiddingPopupView.xib in Resources */,
 				4EC2078518C574CB003708D6 /* ShopViewController.xib in Resources */,
 				C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */,
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
@@ -1081,6 +1090,7 @@
 				4EAF48AF18BB77870038575F /* UserCenterViewController.m in Sources */,
 				4EAF48B118BB77870038575F /* VerificationViewController.m in Sources */,
 				4EC207B518C57754003708D6 /* VersionManager.m in Sources */,
+				4EAE460B18C6CA5D0089B843 /* BiddingPopupView.m in Sources */,
 				4EC207AD18C57754003708D6 /* IO.m in Sources */,
 				4EC2077718C574CB003708D6 /* MyCarViewController.m in Sources */,
 				4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */,

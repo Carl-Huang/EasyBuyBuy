@@ -94,7 +94,7 @@
         return [images count];
     };
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%ld个",pageIndex);
+        NSLog(@"点击了第%ld个",(long)pageIndex);
     };
     [_productImageScrollView addSubview:autoScrollView];
     autoScrollView = nil;
