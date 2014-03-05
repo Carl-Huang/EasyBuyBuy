@@ -112,10 +112,21 @@ static NSString * cellIdentifier  = @"cellIdentifier";
 
 -(BOOL)isBlankArea:(NSInteger)index
 {
+    int offset = 0;
     for (NSString * str in blankAreaNumber) {
-        if (str.integerValue == index+1 && str.integerValue == index+2) {
-            return YES;
+        if (str.integerValue + offset >= index) {
+            if (str.integerValue + offset == index+1) {
+                return YES;
+            }else
+            {
+                return NO;
+            }
+            break;
+        }else
+        {
+            ++ offset;
         }
+        
     }
     return NO;
 }
