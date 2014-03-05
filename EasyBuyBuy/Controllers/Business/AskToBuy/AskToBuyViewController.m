@@ -112,6 +112,11 @@ static NSString * cellIdentifier  = @"cellIdentifier";
 
 -(BOOL)isBlankArea:(NSInteger)index
 {
+    for (NSString * str in blankAreaNumber) {
+        if (str.integerValue == index+1 && str.integerValue == index+2) {
+            return YES;
+        }
+    }
     return NO;
 }
 
@@ -136,6 +141,7 @@ static NSString * cellIdentifier  = @"cellIdentifier";
 }
 -(void)configureTextFieldContent:(UITextField *)textField
 {
+    textField.text = @"";
     for (UITextField * tempTextField in textFieldVector) {
         if (tempTextField.tag == textField.tag) {
             textField.text  = tempTextField.text;
@@ -200,25 +206,20 @@ static NSString * cellIdentifier  = @"cellIdentifier";
         //The index ,minus one here, because it use for identify the previvous index
         UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:(indexPath.row-1)  withFrame:CGRectMake(10, 0, _contentTable.frame.size.width - 20, 50)];
         blankCellTextField.delegate = self;
-        blankCellTextField.text = @"";
         [self configureTextFieldContent:blankCellTextField];
         
         cell.textLabel.text = @"";
         if ([self isShouldAddTextField:blankCellTextField]) {
              [textFieldVector addObject:blankCellTextField];
         }
-       
         blankCellTextField = nil;
 
     }else
     {
         //the previous row is not the owner of the blankarea,we do something
-        
-        
         if (![self isBlankArea:indexPath.row]) {
             UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(150, 0, _contentTable.frame.size.width - 150, 50)];
             blankCellTextField.delegate = self;
-            blankCellTextField.text = @"";
             [self configureTextFieldContent:blankCellTextField];
 
             if ([self isShouldAddTextField:blankCellTextField]) {
