@@ -32,4 +32,8 @@ typedef enum _ANCHOR
                      index:(NSInteger)cellIndex
                  withFrame:(CGRect)rect
             lastItemNumber:(NSInteger)lastItemNum;
+
++(UITextField *)newTextFieldToCellContentView:(UITableViewCell *)cell
+                                        index:(NSInteger)index
+                                    withFrame:(CGRect)rect;
 @end

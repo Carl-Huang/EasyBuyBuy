@@ -136,4 +136,17 @@
     return containerView;
 
 }
+
++(UITextField *)newTextFieldToCellContentView:(UITableViewCell *)cell
+                                        index:(NSInteger)index
+                                    withFrame:(CGRect)rect;
+{
+    UITextField * textField = [[UITextField alloc]initWithFrame:rect];
+    textField.tag = index;
+    textField.font = [UIFont systemFontOfSize:14];
+    textField.textColor = [UIColor darkGrayColor];
+    [textField setBorderStyle:UITextBorderStyleNone];
+    [cell.contentView addSubview:textField];
+    return textField;
+}
 @end
