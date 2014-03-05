@@ -75,18 +75,22 @@
 {
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    
+    //CycleScrollView configuration
     CGRect rect = _productImageScrollView.bounds;
-
     autoScrollView = [[CycleScrollView alloc] initWithFrame:rect animationDuration:2];
     autoScrollView.backgroundColor = [UIColor clearColor];
     NSMutableArray * images = [NSMutableArray array];
+    //Placehoder Image
+    if ([_productImages count] == 0) {
+        _productImages = @[[UIImage imageNamed:@"tempTest.png"]];
+    }
     for (UIImage * image in _productImages) {
         UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
         [tempImageView setFrame:rect];
         [images addObject:tempImageView];
         tempImageView = nil;
     }
-    
     autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
         return images[pageIndex];
     };
@@ -99,7 +103,7 @@
     [_productImageScrollView addSubview:autoScrollView];
     autoScrollView = nil;
     
-    
+    //ShoppingCar configuration
     __weak ProductDetailViewControllerViewController * weakSelf = self;
     shoppingCar = [[CarView alloc]initWithFrame:CGRectMake(0,0, 40, 40)];
     [shoppingCar setBlock:^()
@@ -117,5 +121,14 @@
     
 }
 
+-(void)updateAutoScrollViewItem:(NSArray *)images
+{
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return images[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [images count];
+    };
+}
 
 @end

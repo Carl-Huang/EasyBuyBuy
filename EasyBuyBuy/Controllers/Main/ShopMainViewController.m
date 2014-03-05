@@ -16,6 +16,7 @@
 
 #import "ShopViewController.h"
 #import "SalePromotionViewController.h"
+#import "AskToBuyViewController.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate>
 {
     UIPageControl * page;
@@ -113,7 +114,7 @@
             [self gotoSalePromotionViewController];
             break;
         case 3:
-            
+            [self gotoAskToBuyViewController];
             break;
         case 4:
             ;
@@ -133,6 +134,13 @@
 -(void)gotoSalePromotionViewController
 {
     SalePromotionViewController * viewController = [[SalePromotionViewController alloc]initWithNibName:@"SalePromotionViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoAskToBuyViewController
+{
+    AskToBuyViewController * viewController = [[AskToBuyViewController alloc]initWithNibName:@"AskToBuyViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
 }

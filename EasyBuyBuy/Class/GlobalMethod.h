@@ -27,4 +27,9 @@ typedef enum _ANCHOR
                             index:(NSInteger)cellIndex
                         withFrame:(CGRect)rect
                    lastItemNumber:(NSInteger)lastItemNum;
+
++(UIView *)newSeparateLine:(UITableViewCell *)cellPointer
+                     index:(NSInteger)cellIndex
+                 withFrame:(CGRect)rect
+            lastItemNumber:(NSInteger)lastItemNum;
 @end

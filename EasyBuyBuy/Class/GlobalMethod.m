@@ -109,4 +109,31 @@
     
     return containerView;
 }
+
++(UIView *)newSeparateLine:(UITableViewCell *)cellPointer
+                       index:(NSInteger)cellIndex
+                   withFrame:(CGRect)rect
+              lastItemNumber:(NSInteger)lastItemNum
+{
+    NSInteger lastItem = lastItemNum - 1;
+    
+    //Add the separate line to content imageView
+    UIEdgeInsets lineInset = UIEdgeInsetsMake(0.5, 50, 0.5, 50);
+    UIImage * stretchSeparateLineImage = [UIImage imageNamed:@"My Notification_Line.png"];
+    UIImage * separateLineImage = [stretchSeparateLineImage resizableImageWithCapInsets:lineInset];
+    UIImageView * separateLineImageView = [[UIImageView alloc]initWithImage:separateLineImage];
+    [separateLineImageView setFrame:CGRectMake(10, rect.size.height - 1, rect.size.width - 20, 1)];
+    
+    
+    //ContainerView
+    UIView * containerView = [[UIView alloc]initWithFrame:rect];
+    [containerView setBackgroundColor:[UIColor clearColor]];
+    if (cellIndex != lastItem) {
+        [containerView addSubview:separateLineImageView];
+    }
+    
+    
+    return containerView;
+
+}
 @end

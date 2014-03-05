@@ -79,7 +79,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     [_contentTable setBackgroundView:nil];
 
     firstSectionDataSource = @[@"Product Name:",@"Product Description"];
-    secondSectionDataSource = @[@"1",@"2"];
+    secondSectionDataSource = @[@"1",@"2",@"2"];
     
     
     
@@ -119,24 +119,6 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     
     if (index.row == 1) {
         
-        //autoScrollView change the content dynamic
-//        CGRect rect = _productBorswerContanier.bounds;
-//            _productImages = @[[UIImage imageNamed:@"tempTest.png"],[UIImage imageNamed:@"tempTest.png"]];
-//        
-//        NSMutableArray * images = [NSMutableArray array];
-//        //UIImageView covert the image
-//        for (UIImage * image in _productImages) {
-//            UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
-//            [tempImageView setFrame:rect];
-//            [images addObject:tempImageView];
-//            tempImageView = nil;
-//        }
-//        autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-//            return images[pageIndex];
-//        };
-//        autoScrollView.totalPagesCount = ^NSInteger(void){
-//            return [images count];
-//        };
         
         [self gotoProductDetailViewControllerViewController];
     }
@@ -150,7 +132,28 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     viewController = nil;
 }
 
+-(void)updateAutoScrollViewItem:(NSArray *)images
+{
+    //autoScrollView change the content dynamic
+//    CGRect rect = _productBorswerContanier.bounds;
+//    _productImages = @[[UIImage imageNamed:@"tempTest.png"],[UIImage imageNamed:@"tempTest.png"]];
+//    
+//    NSMutableArray * images = [NSMutableArray array];
+//    //UIImageView covert the image
+//    for (UIImage * image in _productImages) {
+//        UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
+//        [tempImageView setFrame:rect];
+//        [images addObject:tempImageView];
+//        tempImageView = nil;
+//    }
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return images[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [images count];
+    };
 
+}
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -194,11 +197,11 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:firstSectionCellIdentifier];
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:firstSectionCellIdentifier];
+            //Background
+            UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, 50) lastItemNumber:[firstSectionDataSource count]];
+            [cell setBackgroundView:bgImageView];
+            bgImageView = nil;
         }
-        
-        //Background
-        UIImageView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, 50) lastItemNumber:[firstSectionDataSource count]];
-        [cell setBackgroundView:bgImageView];
         
         //Font attributed
         [cell.textLabel setFont:[UIFont systemFontOfSize:15]];
@@ -209,8 +212,15 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         return cell;
     }else
     {
+        //New Cell
         BiddingCell * cell = [tableView dequeueReusableCellWithIdentifier:secondSectionCellIdentifier];
+        
+        //Configure background view ,In the case of this,add a separate line to the bottom of cell
+        UIView * bgView = [GlobalMethod newSeparateLine:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, 71) lastItemNumber:[secondSectionDataSource count]];
+        [cell setBackgroundView:bgView];
+        bgView = nil;
         [cell setBackgroundColor:[UIColor clearColor]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 }
@@ -222,12 +232,14 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
             [self configureClickActionOnFirstSection:indexPath];
             break;
         case 1:
-            ;
+            //Do something you want
             break;
         default:
             break;
     }
 }
+
+#pragma mark - Outlet Action
 - (IBAction)biddingBtnAction:(id)sender {
     if (biddingView == nil) {
         myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
