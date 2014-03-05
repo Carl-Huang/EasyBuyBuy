@@ -14,6 +14,8 @@
 		4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CC918C4580D006DD458 /* ShopMainViewController.m */; };
 		4E632CCC18C4580D006DD458 /* ShopMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */; };
 		4E632CD918C45C0E006DD458 /* tempTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CD818C45C0E006DD458 /* tempTest.png */; };
+		4EAA4F7418C743800037D8C5 /* CustomiseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */; };
+		4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA4F7618C749000037D8C5 /* TouchLocationView.m */; };
 		4EAC790418C4B1A10022ECDD /* CycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790318C4B1A10022ECDD /* CycleScrollView.m */; };
 		4EAC790718C4B23C0022ECDD /* NSTimer+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790618C4B23C0022ECDD /* NSTimer+Addition.m */; };
 		4EAC790A18C4B87D0022ECDD /* Top Bar_88@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC790818C4B87D0022ECDD /* Top Bar_88@2x.png */; };
@@ -198,6 +200,11 @@
 		4E632CC918C4580D006DD458 /* ShopMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopMainViewController.m; sourceTree = "<group>"; };
 		4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopMainViewController.xib; sourceTree = "<group>"; };
 		4E632CD818C45C0E006DD458 /* tempTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempTest.png; sourceTree = "<group>"; };
+		4EAA4F7218C743800037D8C5 /* CustomiseTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseTextField.h; sourceTree = "<group>"; };
+		4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseTextField.m; sourceTree = "<group>"; };
+		4EAA4F7518C749000037D8C5 /* TouchLocationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchLocationView.h; sourceTree = "<group>"; };
+		4EAA4F7618C749000037D8C5 /* TouchLocationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchLocationView.m; sourceTree = "<group>"; };
+		4EAA4F7818C74AAB0037D8C5 /* Macro_Noti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro_Noti.h; sourceTree = "<group>"; };
 		4EAC790218C4B1A10022ECDD /* CycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CycleScrollView.h; sourceTree = "<group>"; };
 		4EAC790318C4B1A10022ECDD /* CycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CycleScrollView.m; sourceTree = "<group>"; };
 		4EAC790518C4B23C0022ECDD /* NSTimer+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Addition.h"; sourceTree = "<group>"; };
@@ -599,9 +606,10 @@
 				4EAC790318C4B1A10022ECDD /* CycleScrollView.m */,
 				4EB1AE6818BB33860033364F /* PersistentStore.h */,
 				4EB1AE6918BB33860033364F /* PersistentStore.m */,
-				4EB1AE4F18BB28250033364F /* Macro.h */,
 				4EAC791918C4D0AE0022ECDD /* GlobalMethod.h */,
 				4EAC791A18C4D0AE0022ECDD /* GlobalMethod.m */,
+				4EB1AE4F18BB28250033364F /* Macro.h */,
+				4EAA4F7818C74AAB0037D8C5 /* Macro_Noti.h */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -627,6 +635,10 @@
 				4EAF489118BB5D720038575F /* OneWayAlertView.xib */,
 				4EAC790C18C4BB870022ECDD /* CarView.h */,
 				4EAC790D18C4BB870022ECDD /* CarView.m */,
+				4EAA4F7218C743800037D8C5 /* CustomiseTextField.h */,
+				4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */,
+				4EAA4F7518C749000037D8C5 /* TouchLocationView.h */,
+				4EAA4F7618C749000037D8C5 /* TouchLocationView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1102,6 +1114,7 @@
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,
 				4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */,
+				4EAA4F7418C743800037D8C5 /* CustomiseTextField.m in Sources */,
 				4EAE464F18C6EE520089B843 /* ProductView.m in Sources */,
 				4EC207B118C57754003708D6 /* OSHelper.m in Sources */,
 				4EC207B418C57754003708D6 /* UIViewController+BarItem.m in Sources */,
@@ -1117,6 +1130,7 @@
 				4EAE463918C6EE520089B843 /* BiddingCell.m in Sources */,
 				4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */,
 				4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */,
+				4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */,
 				4EAC790418C4B1A10022ECDD /* CycleScrollView.m in Sources */,
 				4EAE464518C6EE520089B843 /* ProdecutViewController.m in Sources */,
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,

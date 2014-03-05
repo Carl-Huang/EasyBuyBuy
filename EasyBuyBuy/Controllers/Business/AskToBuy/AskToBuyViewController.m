@@ -7,7 +7,9 @@
 //
 
 #import "AskToBuyViewController.h"
+#import "TouchLocationView.h"
 #import "GlobalMethod.h"
+#import "Macro_Noti.h"
 
 static NSString * cellIdentifier  = @"cellIdentifier";
 @interface AskToBuyViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
@@ -19,6 +21,8 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     NSArray * blankAreaNumber;
     NSMutableArray * textFieldVector;  //very obviouse ,it is the vector for textfield
     
+    TouchLocationView *locationHelperView;
+    CGPoint currentTouchLocation;
 }
 @end
 
@@ -38,6 +42,8 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateContentPositon:) name:TouchInViewLocation object:nil];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -78,14 +84,13 @@ static NSString * cellIdentifier  = @"cellIdentifier";
                    @"Detail Of The Product:",
                    @"Type Of Packaging:"];
     maximunTextFieldTag = [dataSource count];
-    
     [self addBlankAreaToDataSource];
     
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
+    CGRect rect = _contentTable.frame;
     if ([OSHelper iPhone5]) {
-        CGRect rect = _contentTable.frame;
         rect.size.height += 88;
         _contentTable.frame = rect;
     }
@@ -95,6 +100,12 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     
     textFieldVector  = [NSMutableArray array];
     
+    locationHelperView = [[TouchLocationView alloc]initWithFrame:CGRectMake(0, 0, 320, 504)];
+    [locationHelperView setBackgroundColor:[UIColor clearColor]];
+    locationHelperView.userInteractionEnabled = NO;
+    locationHelperView.hitTestView = _contentTable;
+    [_containerView addSubview:locationHelperView];
+
 }
 
 -(void)addBlankAreaToDataSource
@@ -169,6 +180,16 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     }
 }
 
+#pragma mark - Notification
+-(void)updateContentPositon:(NSNotification *)noti
+{
+    NSValue * locationValue = noti.object;
+    CGPoint location = locationValue.CGPointValue;
+    currentTouchLocation = location;
+    
+}
+
+
 #pragma mark - Outlet Action
 - (IBAction)publicBtnAction:(id)sender {
 }
@@ -211,7 +232,6 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     
     NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
     cell.textLabel.text = contentTitle;
-    
     if ([contentTitle isEqualToString:@"blank"]) {
         
         //The index ,minus one here, because it use for identify the previvous index
@@ -244,11 +264,19 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
 #pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    NSLog(@"%s",__func__);
-    NSLog(@"%d",[textFieldVector count]);
+    [UIView animateWithDuration:0.3 animations:^{
+        [GlobalMethod updateContentView:_containerView withPosition:currentTouchLocation criticalValueToResize:250 postion:TOP offset:CGPointMake(0, -160)];
+    }];
+    
+    
     NSInteger textFieldTag = textField.tag;
     [UIView animateWithDuration:0.3 animations:^{
         ;
@@ -263,6 +291,14 @@ static NSString * cellIdentifier  = @"cellIdentifier";
 {
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect rect = _containerView.frame;
+            rect.origin.x = 0;
+            rect.origin.y = 0 ;
+            _containerView.frame = rect;
+        }];
+       
         return NO;
     }
     return YES;

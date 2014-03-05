@@ -9,10 +9,11 @@
 
 
 #import "GlobalMethod.h"
+#import "CustomiseTextField.h"
 
 @implementation GlobalMethod
 +(void)anchor:(UIView*)obj to:(ANCHOR)anchor withOffset:(CGPoint)offset
-{ // 动态锚定到屏幕的八星或者天元（基于一个假设：父容器大小与屏幕一致，否则会错位）
+{
     NSInteger statusHeight = 20;
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     CGRect frm = obj.frame;
@@ -148,5 +149,22 @@
     [textField setBorderStyle:UITextBorderStyleNone];
     [cell.contentView addSubview:textField];
     return textField;
+}
+
++(void)updateContentView:(UIView *)view
+            withPosition:(CGPoint)point
+   criticalValueToResize:(NSInteger)criticalValue
+                 postion:(ANCHOR)type
+                  offset:(CGPoint)offset
+{
+    if (point.y > criticalValue) {
+        //We need to resize the view here. i want the view to remain in the top of the
+        //screen ,because ,the method is mainly use to help the uitextfield issue
+        [GlobalMethod anchor:view to:type withOffset:offset];
+        
+    }else
+    {
+        //do something you want to do
+    }
 }
 @end

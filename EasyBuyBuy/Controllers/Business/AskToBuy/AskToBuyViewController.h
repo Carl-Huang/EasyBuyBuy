@@ -7,12 +7,12 @@
 //
 
 #import "CommonViewController.h"
-
 @interface AskToBuyViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @property (weak, nonatomic) IBOutlet UIButton *publicBtn;
 
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 - (IBAction)publicBtnAction:(id)sender;
 
 @end

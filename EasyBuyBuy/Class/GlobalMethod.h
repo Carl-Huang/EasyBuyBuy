@@ -18,6 +18,7 @@ typedef enum _ANCHOR
     BOTTOM_RIGHT
 } ANCHOR;
 #import <Foundation/Foundation.h>
+@class CustomiseTextField;
 
 @interface GlobalMethod : NSObject
 
@@ -36,4 +37,10 @@ typedef enum _ANCHOR
 +(UITextField *)newTextFieldToCellContentView:(UITableViewCell *)cell
                                         index:(NSInteger)index
                                     withFrame:(CGRect)rect;
+
++(void)updateContentView:(UIView *)view
+            withPosition:(CGPoint)point
+   criticalValueToResize:(NSInteger)criticalValue
+                 postion:(ANCHOR)type
+                  offset:(CGPoint)offset;
 @end
