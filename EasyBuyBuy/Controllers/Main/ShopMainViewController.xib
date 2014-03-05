@@ -29,8 +29,8 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2jN-7C-IRn">
-                                    <rect key="frame" x="0.0" y="-8" width="320" height="431"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="408"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 </scrollView>
                             </subviews>
                             <color key="backgroundColor" red="0.041250838560000003" green="0.50815634580000002" blue="0.80925143489999996" alpha="1" colorSpace="calibratedRGB"/>

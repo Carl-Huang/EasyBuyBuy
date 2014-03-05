@@ -55,9 +55,16 @@
 #pragma mark - Private Method
 -(void)initializationInterface
 {
-    CGRect rect = self.view.frame;
+    NSInteger contentIconOffsetY = 60;
+    CGSize size = CGSizeMake(320 * 5,400);
+    if ([OSHelper iPhone5]) {
+        size.height = 488;
+        contentIconOffsetY = 100;
+    }
+    
+
     currentPage = 0 ;
-    page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, rect.size.height - 80, 120, 30)];
+    page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, contentIconOffsetY + MainIconHeight + 50, 120, 30)];
     page.numberOfPages = 5;
     page.currentPage = currentPage;
     
@@ -72,14 +79,16 @@
         
         
         imageView.tag = i;
-        [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, 100, MainIconWidth, MainIconHeight)];
+        [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, contentIconOffsetY, MainIconWidth, MainIconHeight)];
         [self.contentScrollView addSubview:imageView];
         imageView = nil;
     }
-    [_contentScrollView setContentSize:CGSizeMake(320 * 5,self.view.frame.size.height)];
+    
+    [_contentScrollView setContentSize:size];
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.delegate = self;
-    
+    _contentScrollView.showsHorizontalScrollIndicator = NO;
+    _contentScrollView.showsVerticalScrollIndicator = NO;
     [self.contentView addSubview:page];
 }
 

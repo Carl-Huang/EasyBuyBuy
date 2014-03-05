@@ -35,10 +35,11 @@
     
     
     productImages = [NSMutableArray array];
+    NSInteger contentImageCount = 6;
     NSUInteger width = 130;
     NSUInteger height = 130;
     NSUInteger gap    = 20;
-    for (int i =0 ;i<6;i++) {
+    for (int i =0 ;i<contentImageCount;i++) {
         ProductView * view = [[ProductView alloc]initWithFrame:CGRectMake(gap+(width+gap)*(i%2), gap+(height+gap)*(i/2), width, height)];
         [view configureContentImage:nil completedBlock:^(UIImage *image, NSError *error)
         {
@@ -57,7 +58,15 @@
         [self.contentScrollView addSubview:view];
         view = nil;
     }
-    [self.contentScrollView setContentSize:CGSizeMake(320, 350)];
+   
+    CGSize size = CGSizeMake(320, self.view.frame.size.height);
+    if (contentImageCount * height > self.view.frame.size.height) {
+        size.height = contentImageCount/2 * (height + gap) + 50;
+    }
+    _contentScrollView.showsHorizontalScrollIndicator = NO;
+    _contentScrollView.showsVerticalScrollIndicator = NO;
+
+    [self.contentScrollView setContentSize:size];
     // Do any additional setup after loading the view from its nib.
 }
 
