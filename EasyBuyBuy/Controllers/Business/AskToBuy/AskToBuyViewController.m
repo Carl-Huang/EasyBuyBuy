@@ -5,25 +5,36 @@
 //  Created by vedon on 5/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
+#define CellHeigth 40
+#define MinerCellHeigth 25
+#define PhotoAreaHeight 80
 
 #import "AskToBuyViewController.h"
+#import "CustomiseActionSheet.h"
+#import "ImageTableViewCell.h"
 #import "TouchLocationView.h"
+#import "PhotoManager.h"
 #import "GlobalMethod.h"
 #import "Macro_Noti.h"
 
+
 static NSString * cellIdentifier  = @"cellIdentifier";
+static NSString * imageCellIdentifier = @"imageCell";
+
 @interface AskToBuyViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
     NSString * viewControllTitle;
     
     NSInteger maximunTextFieldTag;
     NSArray * dataSource;
-    NSArray * blankAreaNumber;
+    NSArray * eliminateTheTextfieldItems;
+    
     NSMutableArray * textFieldVector;  //very obviouse ,it is the vector for textfield
     
     TouchLocationView *locationHelperView;
     CGPoint currentTouchLocation;
 }
+@property (strong ,nonatomic) NSMutableArray * photos;
 @end
 
 @implementation AskToBuyViewController
@@ -65,27 +76,33 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
-    //Item With number 7,9,10,11,12,13,14,15,16 will have another blank area under the item.
-    blankAreaNumber = @[@"7",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16"];
-    dataSource = @[@"First Name:",
-                   @"Last Name:",
-                   @"Tel Number:",
-                   @"Mobile Number",
-                   @"Email:",
+    eliminateTheTextfieldItems = @[@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"];
+    dataSource = @[@"*Sale or Purchase:",
+                   @"*First Name:",
+                   @"*Last Name:",
+                   @"*Country Name:",
                    @"Company Name:",
-                   @"Name Of Goods:",
-                   @"Country Name:",
+                   @"*Container",
+                   @"*Tel Number:",
+                   @"*Mobile Number",
+                   @"*Email:",
+                   @"{PRODUCT DATA}",   //9
+                   @"*Photo of product",//10
+                   @"Photo",            //To specify the photo area
+                   @"*Name Of Goods:",
+                   @"Size",             //13
+                   @"LENGTH:",
+                   @"WIDTH:",
+                   @"HEIGTH:",
+                   @"THICKNESS:",
+                   @"COLOR:",
+                   @"Used in:",
+                   @"*QUANTITY AVAILABLE:",
+                   @"NAME OF MATERIAL:",
                    @"Weight/KG/G:",
-                   @"Quantity/Contaner/Carton",
-                   @"Length/Width/Heigth/Thinckness/Color",
-                   @"Raw Material Of Product:",
-                   @"Time For Loading:",
-                   @"Photo For Product(4 photos)",
-                   @"Detail Of The Product:",
-                   @"Type Of Packaging:"];
+                  @"Note"];
     maximunTextFieldTag = [dataSource count];
-    [self addBlankAreaToDataSource];
-    
+
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
@@ -106,50 +123,11 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     locationHelperView.hitTestView = _contentTable;
     [_containerView addSubview:locationHelperView];
 
-}
-
--(void)addBlankAreaToDataSource
-{
-    NSMutableArray * tempDataSource = [NSMutableArray array];
-    for (int i = 0; i< [dataSource count]; i ++) {
-        [tempDataSource addObject:[dataSource objectAtIndex:i]];
-        if ([self isShouldAddBlankArea:i]) {
-            [tempDataSource addObject:@"blank"];
-        }
-        
-    }
-    dataSource = [tempDataSource copy];
-}
-
--(BOOL)isBlankArea:(NSInteger)index
-{
-    int offset = 0;
-    for (NSString * str in blankAreaNumber) {
-        if (str.integerValue + offset >= index) {
-            if (str.integerValue + offset == index+1) {
-                return YES;
-            }else
-            {
-                return NO;
-            }
-            break;
-        }else
-        {
-            ++ offset;
-        }
-        
-    }
-    return NO;
-}
-
--(BOOL)isShouldAddBlankArea:(NSInteger)index
-{
-    for (NSString * str in blankAreaNumber) {
-        if (str.integerValue == index+1) {
-            return YES;
-        }
-    }
-    return NO;
+    
+    UINib * imageCellNib = [UINib nibWithNibName:@"ImageTableViewCell" bundle:nil];
+    [_contentTable registerNib:imageCellNib forCellReuseIdentifier:imageCellIdentifier];
+    
+    _photos = [NSMutableArray array];
 }
 
 -(BOOL)isShouldAddTextField:(UITextField *)textField
@@ -161,15 +139,6 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     }
     return YES;
 }
--(void)configureTextFieldContent:(UITextField *)textField
-{
-    textField.text = @"";
-    for (UITextField * tempTextField in textFieldVector) {
-        if (tempTextField.tag == textField.tag) {
-            textField.text  = tempTextField.text;
-        }
-    }
-}
 
 -(void)updateTextFieldVectorContent:(UITextField *)textField
 {
@@ -180,6 +149,52 @@ static NSString * cellIdentifier  = @"cellIdentifier";
     }
 }
 
+-(void)configureTextFieldContent:(UITextField *)textField
+{
+    textField.text = @"";
+    for (UITextField * tempTextField in textFieldVector) {
+        if (tempTextField.tag == textField.tag) {
+            textField.text  = tempTextField.text;
+        }
+    }
+}
+
+-(void)showPicActionSheet:(id)sender
+{
+    //show the action sheet
+    __weak AskToBuyViewController * weakSelf = self;
+    [[PhotoManager shareManager]setConfigureBlock:^(UIImage * image)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf.photos addObject:image];
+             [weakSelf.contentTable reloadData];
+         });
+         
+     }];
+    
+    CustomiseActionSheet * synActionSheet = [[CustomiseActionSheet alloc] init];
+    synActionSheet.titles = [NSArray arrayWithObjects:@"拍照", @"从相册选择",@"取消", nil];
+    synActionSheet.destructiveButtonIndex = -1;
+    synActionSheet.cancelButtonIndex = 2;
+    NSUInteger result = [synActionSheet showInView:self.view];
+    if (result==0) {
+        //拍照
+        NSLog(@"From Camera");
+        [self presentViewController:[PhotoManager shareManager].camera animated:YES completion:nil];
+        
+    }else if(result ==1)
+    {
+        //从相册选择
+        NSLog(@"From Album");
+        [self presentViewController:[PhotoManager shareManager].pickingImageView animated:YES completion:nil];
+        
+    }else
+    {
+        NSLog(@"Cancel");
+    }
+
+    
+}
 #pragma mark - Notification
 -(void)updateContentPositon:(NSNotification *)noti
 {
@@ -203,63 +218,134 @@ static NSString * cellIdentifier  = @"cellIdentifier";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50.0f;
+    if (indexPath.row < 13 || indexPath.row >17) {
+        if (indexPath.row == 11) {
+            return PhotoAreaHeight;
+        }
+        return CellHeigth;
+    }else
+    {
+        return MinerCellHeigth;
+    }
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
+    
+    //Add the image area
+    if (indexPath.row == 11) {
+        ImageTableViewCell * imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIdentifier];
+       UIView * bgImageView = [GlobalMethod configureMiddleCellBgWithCell:imageCell withFrame:CGRectMake(0, 0, 300, PhotoAreaHeight)];
+        [imageCell setBackgroundView:bgImageView];
+        
+        for (int i = 0 ; i< [_photos count]; ++i) {
+            UIImage * image  = [_photos objectAtIndex:0];
+            switch (i) {
+                case 0:
+                    imageCell.imageOne.image = image;
+                    break;
+                case 1:
+                    imageCell.imageTwo.image = image;
+                    break;
+                case 2:
+                    imageCell.imageThree.image = image;
+                    break;
+                case 3:
+                    imageCell.imageFour.image = image;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        return imageCell;
+    }
+    
+    
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.textLabel.font = [UIFont systemFontOfSize:14];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    cell.textLabel.font = [UIFont systemFontOfSize:12];
     
     NSArray * subViews = cell.contentView.subviews;
     for (UIView * view in subViews) {
-        if ([view isKindOfClass:[UITextField class]]) {
+        if ([view isKindOfClass:[UITextField class]]||[view isKindOfClass:[UIButton class]]) {
             [view removeFromSuperview];
         }
     }
    
     
-    //Background
-    UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, 300, 50) lastItemNumber:[dataSource count]];
-    [cell setBackgroundView:bgImageView];
-    bgImageView = nil;
-
-    
-    
-    NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
     cell.textLabel.text = contentTitle;
-    if ([contentTitle isEqualToString:@"blank"]) {
+    
+    if (indexPath.row < 13 || indexPath.row >17) {
+        //Background
+        UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, 300, CellHeigth) lastItemNumber:[dataSource count]];
+        [cell setBackgroundView:bgImageView];
+        bgImageView = nil;
         
-        //The index ,minus one here, because it use for identify the previvous index
-        UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:(indexPath.row-1)  withFrame:CGRectMake(10, 0, _contentTable.frame.size.width - 20, 50)];
-        blankCellTextField.delegate = self;
-        [self configureTextFieldContent:blankCellTextField];
-        
-        cell.textLabel.text = @"";
-        if ([self isShouldAddTextField:blankCellTextField]) {
-             [textFieldVector addObject:blankCellTextField];
+        BOOL isCanAddTextField = YES;
+        for (NSString * str in eliminateTheTextfieldItems) {
+            if (str == contentTitle) {
+                isCanAddTextField = NO;
+            }
         }
-        blankCellTextField = nil;
-
-    }else
-    {
-        //the previous row is not the owner of the blankarea,we do something
-        if (![self isBlankArea:indexPath.row]) {
-            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(150, 0, _contentTable.frame.size.width - 150, 50)];
+        if (isCanAddTextField) {
+            //New TextField
+            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(150, 0, _contentTable.frame.size.width - 150, CellHeigth)];
             blankCellTextField.delegate = self;
             [self configureTextFieldContent:blankCellTextField];
-
             if ([self isShouldAddTextField:blankCellTextField]) {
                 [textFieldVector addObject:blankCellTextField];
             }
+            
             blankCellTextField = nil;
         }
-
+        
+        //Add the button taken pic
+        if (indexPath.row == 10) {
+            UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btn setFrame:CGRectMake(300 - CellHeigth, CellHeigth/4, CellHeigth/2, CellHeigth/2)];
+            [btn setBackgroundImage:[UIImage imageNamed:@"My_Adress_Btn_Add_black.png"] forState:UIControlStateNormal];
+            
+            [btn addTarget:self action:@selector(showPicActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:btn];
+            btn = nil;
+        }
+        
+    }else
+    {
+        //Background
+        UIView * bgImageView = [GlobalMethod configureMinerBgViewWithCell:cell index:indexPath.row-13 withFrame:CGRectMake(0, 0, 300, MinerCellHeigth) lastItemNumber:5];
+        [cell setBackgroundView:bgImageView];
+        bgImageView = nil;
+        
+        
+        BOOL isCanAddTextField = YES;
+        for (NSString * str in eliminateTheTextfieldItems) {
+            if (str == contentTitle) {
+                isCanAddTextField = NO;
+            }
+        }
+        if (isCanAddTextField) {
+            //New TextField
+            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(150, 0, _contentTable.frame.size.width - 150, MinerCellHeigth)];
+            blankCellTextField.delegate = self;
+            [self configureTextFieldContent:blankCellTextField];
+            if ([self isShouldAddTextField:blankCellTextField]) {
+                [textFieldVector addObject:blankCellTextField];
+            }
+            
+            blankCellTextField = nil;
+        }
     }
+    
+
+    
     
     return cell;
 }

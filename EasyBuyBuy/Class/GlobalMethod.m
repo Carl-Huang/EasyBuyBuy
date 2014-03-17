@@ -111,6 +111,67 @@
     return containerView;
 }
 
+
++(UIView *)configureMinerBgViewWithCell:(UITableViewCell *)cellPointer
+                                  index:(NSInteger)cellIndex
+                              withFrame:(CGRect)rect
+                         lastItemNumber:(NSInteger)lastItemNum
+{
+    NSString * imageName = nil;
+    UIEdgeInsets inset = UIEdgeInsetsZero;
+    NSInteger lastItem = lastItemNum - 1;
+    imageName = @"MiddleCell.png";
+    inset = UIEdgeInsetsMake(30, 200, 10, 200);
+    //Strecth the image and paste it to the imageView with suitable size
+    UIImage * stretchImage = [UIImage imageNamed:imageName];
+    UIImage * stretchedImage = [stretchImage resizableImageWithCapInsets:inset];
+    UIImageView * cellBg = [[UIImageView alloc]initWithImage:stretchedImage];
+    [cellBg setFrame:rect];
+    
+
+    
+    //ContainerView
+    UIView * containerView = [[UIView alloc]initWithFrame:rect];
+    [containerView setBackgroundColor:[UIColor clearColor]];
+    [containerView addSubview:cellBg];
+    
+    if (cellIndex == lastItem) {
+        //Add the separate line to content imageView
+        UIEdgeInsets lineInset = UIEdgeInsetsMake(0.5, 50, 0.5, 50);
+        UIImage * stretchSeparateLineImage = [UIImage imageNamed:@"My Notification_Line.png"];
+        UIImage * separateLineImage = [stretchSeparateLineImage resizableImageWithCapInsets:lineInset];
+        UIImageView * separateLineImageView = [[UIImageView alloc]initWithImage:separateLineImage];
+        [separateLineImageView setFrame:CGRectMake(10, rect.size.height - 1, rect.size.width - 20, 1)];
+        
+        [containerView addSubview:separateLineImageView];
+    }
+    
+    return containerView;
+}
+
++(UIView *)configureMiddleCellBgWithCell:(UITableViewCell *)cellPointer
+                               withFrame:(CGRect)rect
+{
+    NSString * imageName = nil;
+    UIEdgeInsets inset = UIEdgeInsetsZero;
+    imageName = @"MiddleCell.png";
+    inset = UIEdgeInsetsMake(30, 200, 10, 200);
+    //Strecth the image and paste it to the imageView with suitable size
+    UIImage * stretchImage = [UIImage imageNamed:imageName];
+    UIImage * stretchedImage = [stretchImage resizableImageWithCapInsets:inset];
+    UIImageView * cellBg = [[UIImageView alloc]initWithImage:stretchedImage];
+    [cellBg setFrame:rect];
+    
+    
+    //ContainerView
+    UIView * containerView = [[UIView alloc]initWithFrame:rect];
+    [containerView setBackgroundColor:[UIColor clearColor]];
+    [containerView addSubview:cellBg];
+    
+    return containerView;
+}
+
+
 +(UIView *)newSeparateLine:(UITableViewCell *)cellPointer
                        index:(NSInteger)cellIndex
                    withFrame:(CGRect)rect

@@ -98,7 +98,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     self.navigationItem.leftBarButtonItem = item;
     barButton = nil;
 
-    [self setRightCustomBarItem:@"My Adress_Btn_Add.png" action:@selector(addNewAddress)];
+    [self setRightCustomBarItem:@"My_Adress_Btn_Add.png" action:@selector(addNewAddress)];
 }
 
 -(void)enterIntoNormalModel

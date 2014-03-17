@@ -71,6 +71,13 @@
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
 		4EB1AE6718BB2B010033364F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6618BB2B010033364F /* User.m */; };
 		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
+		4EB335B718D744090012EA06 /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335B618D744090012EA06 /* ImageTableViewCell.xib */; };
+		4EB335BA18D7444F0012EA06 /* ImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB335B918D7444F0012EA06 /* ImageTableViewCell.m */; };
+		4EB335BF18D74AF70012EA06 /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB335BC18D74AF70012EA06 /* PhotoManager.m */; };
+		4EB335C018D74AF70012EA06 /* CustomiseActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB335BE18D74AF70012EA06 /* CustomiseActionSheet.m */; };
+		4EB335C218D74B090012EA06 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C118D74B090012EA06 /* CoreMedia.framework */; };
+		4EB335C418D74B220012EA06 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C318D74B220012EA06 /* AssetsLibrary.framework */; };
+		4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */; };
 		4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674118C44656006B680A /* BottomCell@2x.png */; };
 		4EB5674718C44657006B680A /* MiddleCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674218C44656006B680A /* MiddleCell@2x.png */; };
 		4EB5674A18C44657006B680A /* UpperCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674518C44657006B680A /* UpperCell@2x.png */; };
@@ -144,7 +151,7 @@
 		C33EEC51189667B200A26971 /* Login_Icon_Lock02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC09189667B200A26971 /* Login_Icon_Lock02@2x.png */; };
 		C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0A189667B200A26971 /* Login_Icon_User01@2x.png */; };
 		C33EEC53189667B200A26971 /* Login_Icon_User02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0B189667B200A26971 /* Login_Icon_User02@2x.png */; };
-		C33EEC54189667B200A26971 /* My Adress_Btn_Add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0C189667B200A26971 /* My Adress_Btn_Add@2x.png */; };
+		C33EEC54189667B200A26971 /* My_Adress_Btn_Add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0C189667B200A26971 /* My_Adress_Btn_Add@2x.png */; };
 		C33EEC55189667B200A26971 /* My Adress_Btn_Delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0D189667B200A26971 /* My Adress_Btn_Delete@2x.png */; };
 		C33EEC56189667B200A26971 /* My_Adress_Btn_Edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0E189667B200A26971 /* My_Adress_Btn_Edit@2x.png */; };
 		C33EEC57189667B200A26971 /* My Car_Bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEC0F189667B200A26971 /* My Car_Bg@2x.png */; };
@@ -289,6 +296,16 @@
 		4EB1AE6618BB2B010033364F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB1AE6818BB33860033364F /* PersistentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentStore.h; sourceTree = "<group>"; };
 		4EB1AE6918BB33860033364F /* PersistentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentStore.m; sourceTree = "<group>"; };
+		4EB335B618D744090012EA06 /* ImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
+		4EB335B818D7444F0012EA06 /* ImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTableViewCell.h; sourceTree = "<group>"; };
+		4EB335B918D7444F0012EA06 /* ImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTableViewCell.m; sourceTree = "<group>"; };
+		4EB335BB18D74AF70012EA06 /* PhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoManager.h; sourceTree = "<group>"; };
+		4EB335BC18D74AF70012EA06 /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
+		4EB335BD18D74AF70012EA06 /* CustomiseActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseActionSheet.h; sourceTree = "<group>"; };
+		4EB335BE18D74AF70012EA06 /* CustomiseActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseActionSheet.m; sourceTree = "<group>"; };
+		4EB335C118D74B090012EA06 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		4EB335C318D74B220012EA06 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = My_Adress_Btn_Add_black.png; sourceTree = "<group>"; };
 		4EB5674118C44656006B680A /* BottomCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomCell@2x.png"; sourceTree = "<group>"; };
 		4EB5674218C44656006B680A /* MiddleCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MiddleCell@2x.png"; sourceTree = "<group>"; };
 		4EB5674518C44657006B680A /* UpperCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpperCell@2x.png"; sourceTree = "<group>"; };
@@ -390,7 +407,7 @@
 		C33EEC09189667B200A26971 /* Login_Icon_Lock02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Icon_Lock02@2x.png"; sourceTree = "<group>"; };
 		C33EEC0A189667B200A26971 /* Login_Icon_User01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Icon_User01@2x.png"; sourceTree = "<group>"; };
 		C33EEC0B189667B200A26971 /* Login_Icon_User02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Icon_User02@2x.png"; sourceTree = "<group>"; };
-		C33EEC0C189667B200A26971 /* My Adress_Btn_Add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Adress_Btn_Add@2x.png"; sourceTree = "<group>"; };
+		C33EEC0C189667B200A26971 /* My_Adress_Btn_Add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My_Adress_Btn_Add@2x.png"; sourceTree = "<group>"; };
 		C33EEC0D189667B200A26971 /* My Adress_Btn_Delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Adress_Btn_Delete@2x.png"; sourceTree = "<group>"; };
 		C33EEC0E189667B200A26971 /* My_Adress_Btn_Edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My_Adress_Btn_Edit@2x.png"; sourceTree = "<group>"; };
 		C33EEC0F189667B200A26971 /* My Car_Bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "My Car_Bg@2x.png"; sourceTree = "<group>"; };
@@ -430,6 +447,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EB335C418D74B220012EA06 /* AssetsLibrary.framework in Frameworks */,
+				4EB335C218D74B090012EA06 /* CoreMedia.framework in Frameworks */,
 				C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */,
 				C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */,
 				C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */,
@@ -476,6 +495,9 @@
 				4EAE465218C6EE970089B843 /* AskToBuyViewController.h */,
 				4EAE465318C6EE970089B843 /* AskToBuyViewController.m */,
 				4EAE465418C6EE970089B843 /* AskToBuyViewController.xib */,
+				4EB335B818D7444F0012EA06 /* ImageTableViewCell.h */,
+				4EB335B918D7444F0012EA06 /* ImageTableViewCell.m */,
+				4EB335B618D744090012EA06 /* ImageTableViewCell.xib */,
 			);
 			path = AskToBuy;
 			sourceTree = "<group>";
@@ -600,6 +622,10 @@
 		4EB1AE4718BB1AFC0033364F /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				4EB335BB18D74AF70012EA06 /* PhotoManager.h */,
+				4EB335BC18D74AF70012EA06 /* PhotoManager.m */,
+				4EB335BD18D74AF70012EA06 /* CustomiseActionSheet.h */,
+				4EB335BE18D74AF70012EA06 /* CustomiseActionSheet.m */,
 				4EAC790518C4B23C0022ECDD /* NSTimer+Addition.h */,
 				4EAC790618C4B23C0022ECDD /* NSTimer+Addition.m */,
 				4EAC790218C4B1A10022ECDD /* CycleScrollView.h */,
@@ -716,6 +742,8 @@
 		C33EEBA1189666F900A26971 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EB335C318D74B220012EA06 /* AssetsLibrary.framework */,
+				4EB335C118D74B090012EA06 /* CoreMedia.framework */,
 				C33EEBA2189666F900A26971 /* Foundation.framework */,
 				C33EEBA4189666F900A26971 /* CoreGraphics.framework */,
 				C33EEBA6189666F900A26971 /* UIKit.framework */,
@@ -783,6 +811,7 @@
 		C33EEBEE189667B200A26971 /* 2x */ = {
 			isa = PBXGroup;
 			children = (
+				4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */,
 				4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */,
 				4EAC791D18C4D2080022ECDD /* Slider@2x.png */,
 				4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */,
@@ -821,7 +850,7 @@
 				C33EEC09189667B200A26971 /* Login_Icon_Lock02@2x.png */,
 				C33EEC0A189667B200A26971 /* Login_Icon_User01@2x.png */,
 				C33EEC0B189667B200A26971 /* Login_Icon_User02@2x.png */,
-				C33EEC0C189667B200A26971 /* My Adress_Btn_Add@2x.png */,
+				C33EEC0C189667B200A26971 /* My_Adress_Btn_Add@2x.png */,
 				C33EEC0D189667B200A26971 /* My Adress_Btn_Delete@2x.png */,
 				C33EEC0E189667B200A26971 /* My_Adress_Btn_Edit@2x.png */,
 				C33EEC0F189667B200A26971 /* My Car_Bg@2x.png */,
@@ -942,6 +971,7 @@
 				4EB5674A18C44657006B680A /* UpperCell@2x.png in Resources */,
 				C33EEC51189667B200A26971 /* Login_Icon_Lock02@2x.png in Resources */,
 				C33EEBAD189666F900A26971 /* InfoPlist.strings in Resources */,
+				4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */,
 				4EAE463E18C6EE520089B843 /* SalePromotionItemViewController.xib in Resources */,
 				4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */,
 				C33EEC5F189667B200A26971 /* Red Apple_Bg@2x.png in Resources */,
@@ -969,7 +999,7 @@
 				4EAE464018C6EE520089B843 /* SalePromotionViewController.xib in Resources */,
 				4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */,
 				C33EEC6F189667B200A26971 /* Verification_Btn_Click@2x.png in Resources */,
-				C33EEC54189667B200A26971 /* My Adress_Btn_Add@2x.png in Resources */,
+				C33EEC54189667B200A26971 /* My_Adress_Btn_Add@2x.png in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
 				5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */,
 				C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */,
@@ -1026,6 +1056,7 @@
 				C33EEC53189667B200A26971 /* Login_Icon_User02@2x.png in Resources */,
 				C33EEC65189667B200A26971 /* Sale Promotion_BottomBar@2x.png in Resources */,
 				4EAE463A18C6EE520089B843 /* BiddingCell.xib in Resources */,
+				4EB335B718D744090012EA06 /* ImageTableViewCell.xib in Resources */,
 				C33EEC6E189667B200A26971 /* Verification_Bg@2x.png in Resources */,
 				C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */,
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
@@ -1114,6 +1145,7 @@
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,
 				4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */,
+				4EB335C018D74AF70012EA06 /* CustomiseActionSheet.m in Sources */,
 				4EAA4F7418C743800037D8C5 /* CustomiseTextField.m in Sources */,
 				4EAE464F18C6EE520089B843 /* ProductView.m in Sources */,
 				4EC207B118C57754003708D6 /* OSHelper.m in Sources */,
@@ -1145,6 +1177,8 @@
 				4EAC790E18C4BB870022ECDD /* CarView.m in Sources */,
 				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
 				4EB5FFB618BC3FFB0064B22C /* AddressCell.m in Sources */,
+				4EB335BF18D74AF70012EA06 /* PhotoManager.m in Sources */,
+				4EB335BA18D7444F0012EA06 /* ImageTableViewCell.m in Sources */,
 				4E632CC518C44E2A006DD458 /* LanguageViewController.m in Sources */,
 				4EAE464B18C6EE520089B843 /* ProductClassifyCell.m in Sources */,
 				4EAE464918C6EE520089B843 /* ProductCell.m in Sources */,

@@ -34,6 +34,15 @@ typedef enum _ANCHOR
                  withFrame:(CGRect)rect
             lastItemNumber:(NSInteger)lastItemNum;
 
++(UIView *)configureMinerBgViewWithCell:(UITableViewCell *)cellPointer
+                                  index:(NSInteger)cellIndex
+                              withFrame:(CGRect)rect
+                         lastItemNumber:(NSInteger)lastItemNum;
+
++(UIView *)configureMiddleCellBgWithCell:(UITableViewCell *)cellPointer
+                               withFrame:(CGRect)rect;
+
+
 +(UITextField *)newTextFieldToCellContentView:(UITableViewCell *)cell
                                         index:(NSInteger)index
                                     withFrame:(CGRect)rect;

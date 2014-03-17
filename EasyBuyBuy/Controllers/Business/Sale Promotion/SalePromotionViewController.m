@@ -47,7 +47,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shop";
+    viewControllTitle = @"Sale Promotion";
 }
 
 -(void)initializationInterface

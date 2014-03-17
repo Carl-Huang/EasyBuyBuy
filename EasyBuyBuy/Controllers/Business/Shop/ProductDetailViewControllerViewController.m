@@ -101,7 +101,7 @@
         NSLog(@"点击了第%ld个",(long)pageIndex);
     };
     [_productImageScrollView addSubview:autoScrollView];
-    autoScrollView = nil;
+
     
     //ShoppingCar configuration
     __weak ProductDetailViewControllerViewController * weakSelf = self;
