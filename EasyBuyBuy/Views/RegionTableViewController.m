@@ -5,6 +5,8 @@
 //  Created by vedon on 24/2/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
+#define CellHeight 35.0f
+#define CellOffsetY 12
 
 #import "RegionTableViewController.h"
 static NSString * cellIdentifier = @"cellIdentifier";
@@ -13,10 +15,20 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSArray * dataSource;
     NSMutableDictionary * itemStatus;
     NSInteger currentSelectedItem;
+    NSString * userDefaultKey;
 }
 @end
 
 @implementation RegionTableViewController
+
+-(void)tableTitle:(NSString *)tableTitle
+       dataSource:(NSArray *)contentData
+   userDefaultKey:(NSString *)key
+{
+    _tableTitle.text = tableTitle;
+    dataSource = contentData;
+    userDefaultKey = key;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,9 +49,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self.contentTable setBackgroundView:nil];
     [self.contentTable setBackgroundColor:[UIColor clearColor]];
     
-    dataSource = @[@"Egypt",@"UK",@"China",@"US",@"Japan",@"Korea"];
-    
-    currentSelectedItem = [[[NSUserDefaults standardUserDefaults]objectForKey:CurrentRegion] integerValue];
+    if (userDefaultKey) {
+        currentSelectedItem = [[[NSUserDefaults standardUserDefaults]objectForKey:userDefaultKey] integerValue];
+    }else
+    {
+        currentSelectedItem = -1;
+    }
     itemStatus = [NSMutableDictionary dictionary];
     for (int i =0; i < [dataSource count]; ++i) {
         if (currentSelectedItem != i) {
@@ -53,20 +68,35 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iPhone5]) {
         [self.maskView setFrame:CGRectMake(0, 0, 320, 568)];
     }
-    
-    
-    
-    
-//    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(removeRegionTable:)];
-//    [self.contentView addGestureRecognizer:tapGesture];
-//    tapGesture = nil;
-    // Do any additional setup after loading the view from its nib.
+
+    [self resizeContent];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)resizeContent
+{
+    NSInteger number = [dataSource count];
+    if (number < 5 ) {
+        NSInteger height = CellHeight * (5-number)+CellOffsetY;
+        CGRect rect = _contentTable.frame;
+        rect.size.height -= height;
+        _contentTable.frame = rect;
+        
+        CGRect tableViewBgImageRect = _tableViewBgImage.frame;
+        tableViewBgImageRect.size.height -=height;
+        _tableViewBgImage.frame = tableViewBgImageRect;
+        
+        
+        CGRect bgImageRect = _bgImage.frame;
+        bgImageRect.size.height -=height;
+        _bgImage.frame = bgImageRect;
+        
+    }
 }
 
 #pragma mark - Private 
@@ -88,7 +118,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 35.0f;
+    return CellHeight;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,6 +146,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+    NSString * value = [dataSource objectAtIndex:indexPath.row];
+    if (_selectedBlock) {
+        _selectedBlock(value);
+        _selectedBlock = nil;
+    }
     for (int i =0; i < [dataSource count]; ++i) {
         if (i != indexPath.row) {
              [itemStatus setValue:[NSNumber numberWithInt:0] forKey:[NSString stringWithFormat:@"%d",i]];
@@ -129,9 +164,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     [tableView reloadData];
     
+    if (userDefaultKey) {
+        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInteger:indexPath.row] forKey:userDefaultKey];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
     
-    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInteger:indexPath.row] forKey:CurrentRegion];
-    [[NSUserDefaults standardUserDefaults]synchronize];
     
     [self performSelector:@selector(removeRegionTable) withObject:nil afterDelay:0.3];
 }

@@ -91,6 +91,9 @@
 		4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */; };
 		4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC118BC6F810064B22C /* EditAddressCell.m */; };
 		4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC318BC70600064B22C /* EditAddressCell.xib */; };
+		4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964418D7F5E5001EA448 /* ShippingViewController.m */; };
+		4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */; };
+		4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */; };
 		4EC207AB18C57754003708D6 /* CommonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079318C57754003708D6 /* CommonViewController.m */; };
 		4EC207AC18C57754003708D6 /* HWConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079518C57754003708D6 /* HWConnect.m */; };
 		4EC207AD18C57754003708D6 /* IO.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079A18C57754003708D6 /* IO.m */; };
@@ -324,6 +327,11 @@
 		4EB5FFC018BC6F810064B22C /* EditAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressCell.h; sourceTree = "<group>"; };
 		4EB5FFC118BC6F810064B22C /* EditAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressCell.m; sourceTree = "<group>"; };
 		4EB5FFC318BC70600064B22C /* EditAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAddressCell.xib; sourceTree = "<group>"; };
+		4EB9964318D7F5E5001EA448 /* ShippingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingViewController.h; sourceTree = "<group>"; };
+		4EB9964418D7F5E5001EA448 /* ShippingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingViewController.m; sourceTree = "<group>"; };
+		4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingViewController.xib; sourceTree = "<group>"; };
+		4EB9964818D80B79001EA448 /* CustomiseInformationTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseInformationTable.h; sourceTree = "<group>"; };
+		4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseInformationTable.m; sourceTree = "<group>"; };
 		4EC2079218C57754003708D6 /* CommonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonViewController.h; sourceTree = "<group>"; };
 		4EC2079318C57754003708D6 /* CommonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonViewController.m; sourceTree = "<group>"; };
 		4EC2079418C57754003708D6 /* HWConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWConnect.h; sourceTree = "<group>"; };
@@ -485,6 +493,7 @@
 				4EAE461E18C6EE510089B843 /* Shop */,
 				4EAE461118C6EE510089B843 /* Sale Promotion */,
 				4EAE461018C6EE510089B843 /* AskToBuy */,
+				4EB9964218D7F5D3001EA448 /* Shipping */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -665,6 +674,8 @@
 				4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */,
 				4EAA4F7518C749000037D8C5 /* TouchLocationView.h */,
 				4EAA4F7618C749000037D8C5 /* TouchLocationView.m */,
+				4EB9964818D80B79001EA448 /* CustomiseInformationTable.h */,
+				4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -677,6 +688,16 @@
 				4EAE460F18C6EE510089B843 /* Business */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		4EB9964218D7F5D3001EA448 /* Shipping */ = {
+			isa = PBXGroup;
+			children = (
+				4EB9964318D7F5E5001EA448 /* ShippingViewController.h */,
+				4EB9964418D7F5E5001EA448 /* ShippingViewController.m */,
+				4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */,
+			);
+			path = Shipping;
 			sourceTree = "<group>";
 		};
 		4EC2079018C57754003708D6 /* Vendor */ = {
@@ -1038,6 +1059,7 @@
 				4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
 				C33EEC6C189667B200A26971 /* Top Bar1_128@2x.png in Resources */,
+				4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */,
 				4EAE465618C6EE970089B843 /* AskToBuyViewController.xib in Resources */,
 				C33EEC6B189667B200A26971 /* Shop_Icon_Like_R@2x.png in Resources */,
 				5F00239918BDB04200100CBF /* NotificationCell.xib in Resources */,
@@ -1142,6 +1164,7 @@
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
 				4EC207B218C57754003708D6 /* UIColor+Utils.m in Sources */,
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
+				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,
 				4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */,
@@ -1168,6 +1191,7 @@
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,
 				4EAE464318C6EE520089B843 /* MyCarViewController.m in Sources */,
 				4EAE465518C6EE970089B843 /* AskToBuyViewController.m in Sources */,
+				4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */,
 				4EC207B018C57754003708D6 /* NSString+Utils.m in Sources */,
 				4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */,
 				4EAE463D18C6EE520089B843 /* SalePromotionItemViewController.m in Sources */,

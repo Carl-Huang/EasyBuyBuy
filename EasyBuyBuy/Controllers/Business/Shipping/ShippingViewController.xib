@@ -4,44 +4,26 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AskToBuyViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShippingViewController">
             <connections>
-                <outlet property="containerView" destination="mWD-5P-16h" id="abJ-hy-nsH"/>
-                <outlet property="contentTable" destination="bCr-PP-ZO6" id="xhq-aL-Ga4"/>
-                <outlet property="publicBtn" destination="Kux-PI-BR0" id="n3B-4w-ln9"/>
-                <outlet property="view" destination="1" id="3"/>
+                <outlet property="containerView" destination="VlD-Tq-TQi" id="eo5-t3-IMp"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="1">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="mWD-5P-16h">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="366"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bCr-PP-ZO6">
-                            <rect key="frame" x="10" y="5" width="300" height="359"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="izl-yp-OEx"/>
-                                <outlet property="delegate" destination="-1" id="1Pc-wF-edr"/>
-                            </connections>
-                        </tableView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <view contentMode="scaleToFill" id="lMC-1y-EEE">
+                <view contentMode="scaleToFill" id="Ciu-Xg-HJP">
                     <rect key="frame" x="0.0" y="364" width="320" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="My Car_Bottom Bar.png" id="hfn-Tw-MlZ">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="My Car_Bottom Bar.png" id="7Aw-ec-Qec">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Kux-PI-BR0">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="isa-3f-KF8">
                             <rect key="frame" x="55" y="12" width="210" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -49,12 +31,14 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                            <connections>
-                                <action selector="publicBtnAction:" destination="-1" eventType="touchUpInside" id="Kxm-pa-bcy"/>
-                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="VlD-Tq-TQi">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="366"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegionTableViewController">
             <connections>
+                <outlet property="bgImage" destination="aDy-wF-ur4" id="Sra-cz-z1i"/>
+                <outlet property="containerView" destination="lrc-Z2-sYu" id="Qce-VK-Oaa"/>
                 <outlet property="contentTable" destination="bLH-Va-bIC" id="odi-T4-Naq"/>
                 <outlet property="contentView" destination="ez7-G2-4k4" id="oo4-md-yXL"/>
                 <outlet property="maskView" destination="nG5-uX-M2t" id="kAo-tk-6Pi"/>
+                <outlet property="tableTitle" destination="dQZ-8G-7YE" id="RWs-dd-edB"/>
+                <outlet property="tableViewBgImage" destination="MSk-jo-mmM" id="U2H-3m-sX4"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -26,30 +30,37 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home_Region_Frame01.png" id="aDy-wF-ur4">
-                            <rect key="frame" x="45" y="80" width="230" height="244"/>
+                        <view contentMode="scaleToFill" id="lrc-Z2-sYu">
+                            <rect key="frame" x="39" y="79" width="243" height="257"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dQZ-8G-7YE">
-                            <rect key="frame" x="130" y="93" width="56" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home_Region_Frame02.png" id="MSk-jo-mmM">
-                            <rect key="frame" x="58" y="119" width="204" height="195"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bLH-Va-bIC">
-                            <rect key="frame" x="66" y="124" width="188" height="181"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="BdA-uh-fwg"/>
-                                <outlet property="delegate" destination="-1" id="sCm-kl-TbQ"/>
-                            </connections>
-                        </tableView>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home_Region_Frame01.png" id="aDy-wF-ur4">
+                                    <rect key="frame" x="6" y="7" width="230" height="244"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dQZ-8G-7YE">
+                                    <rect key="frame" x="91" y="20" width="56" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home_Region_Frame02.png" id="MSk-jo-mmM">
+                                    <rect key="frame" x="19" y="46" width="204" height="195"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bLH-Va-bIC">
+                                    <rect key="frame" x="27" y="51" width="188" height="181"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-1" id="BdA-uh-fwg"/>
+                                        <outlet property="delegate" destination="-1" id="sCm-kl-TbQ"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

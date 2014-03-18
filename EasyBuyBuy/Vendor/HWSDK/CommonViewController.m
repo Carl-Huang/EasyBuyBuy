@@ -9,6 +9,7 @@
 #import "CommonViewController.h"
 #import "HWSDK_Constants.h"
 #import "OneWayAlertView.h"
+#import <objc/runtime.h>
 @interface CommonViewController ()
 
 @end
@@ -22,6 +23,39 @@
         // Custom initialization
     }
     return self;
+}
+
++(void)load
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        SEL originalSelector = @selector(setFont:);
+        SEL replaceSelector = @selector(setCustomiseFont:);
+        
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method replacedMethod = class_getInstanceMethod(class, replaceSelector);
+        
+        BOOL didAddMethod =
+        class_addMethod(class,
+                        originalSelector,
+                        method_getImplementation(replacedMethod),
+                        method_getTypeEncoding(replacedMethod));
+        
+        if (didAddMethod) {
+            class_replaceMethod(class,
+                                replaceSelector,
+                                method_getImplementation(originalMethod),
+                                method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, replacedMethod);
+        }
+    });
+}
+
+-(void)setCustomiseFont:(UIFont *)font
+{
+    [self setCustomiseFont:font];
 }
 
 - (void)viewDidLoad

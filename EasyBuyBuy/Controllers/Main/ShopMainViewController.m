@@ -17,6 +17,7 @@
 #import "ShopViewController.h"
 #import "SalePromotionViewController.h"
 #import "AskToBuyViewController.h"
+#import "ShippingViewController.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate>
 {
     UIPageControl * page;
@@ -117,7 +118,7 @@
             [self gotoAskToBuyViewController];
             break;
         case 4:
-            ;
+            [self gotoShippingViewController];
             break;
         default:
             break;
@@ -144,6 +145,13 @@
     [self push:viewController];
     viewController = nil;
 }
+
+-(void)gotoShippingViewController
+{
+    ShippingViewController * viewController = [[ShippingViewController alloc]initWithNibName:@"ShippingViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -164,14 +172,14 @@
 }
 - (IBAction)showRegionTable:(id)sender {
     RegionTableViewController * regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    [regionTable tableTitle:@"Region" dataSource:@[@"Egypt",@"UK",@"China",@"US",@"Japan",@"Korea"] userDefaultKey:CurrentRegion];
+    
     regionTable.view.alpha = 0.0;
     [UIView animateWithDuration:0.3 animations:^{
         regionTable.view.alpha = 1.0;
     } completion:^(BOOL finished) {
         [self.view addSubview:regionTable.view];
         [self addChildViewController:regionTable];
-        
-
     }];
     regionTable = nil;
     

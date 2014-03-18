@@ -11,4 +11,6 @@
 
 #define CurrentRegion       @"CurrentRegion"
 #define CurrentLanguage     @"CurrentLanguage"
+
+#define AskToBuyType       @"AskToBuyType"
 #endif
