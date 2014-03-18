@@ -50,7 +50,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private 
 -(void)initializationLocalString
 {
-    viewControllTitle = @"My Notification";
+    viewControllTitle = @"Language";
 }
 
 -(void)initializationInterface
@@ -73,6 +73,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
+    _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    if ([OSHelper iPhone5]) {
+        CGRect rect = _contentTable.frame;
+        rect.size.height +=88;
+        _contentTable.frame = rect;
+    }
+    
 }
 
 -(UIImageView *)configureBgViewWithCell:(UITableViewCell *)cellPointer index:(NSInteger)cellIndex
