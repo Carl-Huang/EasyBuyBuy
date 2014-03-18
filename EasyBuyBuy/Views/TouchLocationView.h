@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface TouchLocationView : UIView
-@property (strong ,nonatomic) UIView * hitTestView;
+
 @end

@@ -9,6 +9,7 @@
 #import "SalePromotionViewController.h"
 #import "ProductClassifyCell.h"
 #import "SalePromotionItemViewController.h"
+#import "GlobalMethod.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface SalePromotionViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -16,6 +17,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * viewControllTitle;
     
     NSArray * dataSource;
+    CGFloat fontSize;
 }
 @end
 
@@ -62,6 +64,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     UINib * cellNib = [UINib nibWithNibName:@"ProductClassifyCell" bundle:[NSBundle bundleForClass:[ProductClassifyCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    
+    ProductClassifyCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductClassifyCell" owner:self options:nil]objectAtIndex:0];
+    fontSize = cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
 }
 
 -(void)gotoSalePromotionItemViewController
@@ -87,6 +92,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     cell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
     cell.classifyName.text   = [dataSource objectAtIndex:indexPath.row];
+    
+    
+    cell.classifyName.font = [UIFont systemFontOfSize:[GlobalMethod getDefaultFontSize]* fontSize];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
 }

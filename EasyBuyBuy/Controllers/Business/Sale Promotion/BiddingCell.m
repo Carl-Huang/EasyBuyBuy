@@ -26,4 +26,14 @@
     // Configure the view for the selected state
 }
 
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+    CGFloat priceFontSize = self.biddingPrice.font.pointSize;
+    CGFloat desFontSize = self.biddingDesc.font.pointSize;
+    
+    self.biddingDesc.font = [UIFont systemFontOfSize:desFontSize * [GlobalMethod getDefaultFontSize]];
+    self.biddingPrice.font = [UIFont systemFontOfSize:priceFontSize * [GlobalMethod getDefaultFontSize]];
+}
+
 @end

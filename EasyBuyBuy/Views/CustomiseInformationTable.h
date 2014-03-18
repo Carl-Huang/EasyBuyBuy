@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TableContentDataDelegate <NSObject>
+-(void)tableContent:(NSDictionary *)info;
+
+@end
+
 @interface CustomiseInformationTable : UITableView
 
-@property (strong ,nonatomic) UIView * containerView;
--(void)setTableDataSource:(NSArray *)data eliminateTextFieldItems:(NSArray *)items container:(UIView *)view ;
+@property (weak ,nonatomic) id<TableContentDataDelegate>tableContentdelegate;
+@property (weak ,nonatomic) UIView * containerView;
+-(void)setTableDataSource:(NSArray *)data eliminateTextFieldItems:(NSArray *)items container:(UIView *)view willShowPopTableIndex:(NSInteger)index;
 @end

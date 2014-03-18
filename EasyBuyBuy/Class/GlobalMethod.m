@@ -228,4 +228,31 @@
         //do something you want to do
     }
 }
+
++(void)setDefaultFontSize:(CGFloat)fontSize
+{
+    NSString * value = [NSString stringWithFormat:@"%f",fontSize];
+    [self setUserDefaultValue:value key:AppFontSize];
+}
+
++(CGFloat)getDefaultFontSize
+{
+    NSString * value = [self getUserDefaultWithKey:AppFontSize];
+    if (value == nil) {
+        return -1;
+    }
+    return value.floatValue;
+}
+
++(void)setUserDefaultValue:(NSString *)value key:(NSString *)key
+{
+    [[NSUserDefaults standardUserDefaults]setObject:value forKey:key];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
++(NSString *)getUserDefaultWithKey:(NSString *)key
+{
+    return  [[NSUserDefaults standardUserDefaults]valueForKey:key];
+    
+}
 @end

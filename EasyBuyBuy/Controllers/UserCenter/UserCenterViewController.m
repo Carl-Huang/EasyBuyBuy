@@ -14,6 +14,7 @@
 #import "MyNotificationViewController.h"
 #import "UpgradeViewController.h"
 #import "LanguageViewController.h"
+#import "GlobalMethod.h"
 
 @interface UserCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -97,6 +98,14 @@
 
 }
 
+
+-(void)changeFontSize:(id)sender
+{
+    UISlider * slider = (UISlider *)sender;
+    
+    [GlobalMethod setDefaultFontSize:slider.value];
+    NSLog(@"%f",slider.value);
+}
 #pragma mark - UITableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -165,6 +174,10 @@
         titleLabel = nil;
         
         UISlider * fontSlider = [[UISlider alloc]initWithFrame:CGRectMake(10,25, _bottomTableView.frame.size.width-20, 30)];
+        [fontSlider addTarget:self action:@selector(changeFontSize:) forControlEvents:UIControlEventTouchUpInside];
+        fontSlider.maximumValue = 1.5;
+        fontSlider.minimumValue = 0.5;
+        fontSlider.value = [GlobalMethod getDefaultFontSize];
         [bottomTableFooterView addSubview:fontSlider];
         fontSlider = nil;
         

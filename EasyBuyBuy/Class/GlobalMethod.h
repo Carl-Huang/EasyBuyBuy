@@ -52,4 +52,7 @@ typedef enum _ANCHOR
    criticalValueToResize:(NSInteger)criticalValue
                  postion:(ANCHOR)type
                   offset:(CGPoint)offset;
+
++(void)setDefaultFontSize:(CGFloat)fontSize;
++(CGFloat)getDefaultFontSize;
 @end

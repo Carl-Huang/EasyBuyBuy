@@ -26,23 +26,27 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 @interface CustomiseInformationTable ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
-    NSArray * dataSource;
-    NSArray * eliminateTheTextfieldItems;
+    NSMutableArray * dataSource;
+    NSMutableArray * eliminateTheTextfieldItems;
     
-    NSMutableArray * textFieldVector;  //very obviouse ,it is the vector for textfield
     
     TouchLocationView *locationHelperView;
-    CGPoint currentTouchLocation;
-    NSString * buinessType;
+    NSMutableDictionary * tableContentInfo;
     
+    CGPoint currentTouchLocation;
+    NSInteger popupItemIndex;
     AppDelegate * myDelegate;
+    CGFloat fontSize;
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
+@property (strong ,nonatomic) NSString * buinessType;
+@property (strong ,nonatomic) NSMutableArray * textFieldVector;  //very obviouse ,it is the vector for textfield
 @end
 
 
 
 @implementation CustomiseInformationTable
+@synthesize buinessType,textFieldVector;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -56,23 +60,46 @@ static NSString * imageCellIdentifier = @"imageCell";
         
         _photos = [NSMutableArray array];
         textFieldVector = [NSMutableArray array];
+        tableContentInfo = [NSMutableDictionary dictionary];
         
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateContentPositon:) name:TouchInViewLocation object:nil];
         
         self.showsVerticalScrollIndicator = NO;
         self.separatorStyle = UITableViewCellSelectionStyleNone;
-        // Initialization code
+        
+        fontSize = [GlobalMethod getDefaultFontSize] * 12;
+        if (fontSize < 0) {
+            fontSize = 12;
+        }
     }
     return self;
 }
 
--(void)setTableDataSource:(NSArray *)data eliminateTextFieldItems:(NSArray *)items container:(UIView *)view
+-(void)setTableDataSource:(NSArray *)data eliminateTextFieldItems:(NSArray *)items container:(UIView *)view willShowPopTableIndex:(NSInteger)index
 {
-    dataSource = data;
-    eliminateTheTextfieldItems = items;
+    dataSource = [data mutableCopy];
+    eliminateTheTextfieldItems = [items mutableCopy];
     _containerView = view;
+    popupItemIndex = index;
+    
+    
+    [_containerView addSubview:self];
+    
+    locationHelperView = [[TouchLocationView alloc]initWithFrame:CGRectMake(0, 0, 320, 504)];
+    [locationHelperView setBackgroundColor:[UIColor clearColor]];
+    locationHelperView.userInteractionEnabled = NO;
+    [_containerView addSubview:locationHelperView];
+    locationHelperView = nil;
+    
 }
 
+
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+
+}
 #pragma mark - Notification
 -(void)updateContentPositon:(NSNotification *)noti
 {
@@ -99,6 +126,10 @@ static NSString * imageCellIdentifier = @"imageCell";
             tempTextField.text = textField.text;
         }
     }
+    if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
+        [tableContentInfo setObject:[self fetchTextFieldContent] forKey:@"TextFieldContent"];
+        [_tableContentdelegate tableContent:tableContentInfo];
+    }
 }
 
 -(void)updateTextFieldVectorWithTag:(NSInteger)tag content:(NSString *)content
@@ -108,6 +139,24 @@ static NSString * imageCellIdentifier = @"imageCell";
             tempTextField.text = content;
         }
     }
+    if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
+        
+        [tableContentInfo setObject:[self fetchTextFieldContent] forKey:@"TextFieldContent"];
+        [_tableContentdelegate tableContent:tableContentInfo];
+    }
+}
+
+-(NSArray *)fetchTextFieldContent
+{
+    NSMutableArray * tempArray = [NSMutableArray array];
+    for (UITextField * textField in textFieldVector) {
+        NSInteger tag = textField.tag;
+        NSString * content = textField.text;
+        NSDictionary * dic = @{[NSString stringWithFormat:@"%ld",(long)tag]:content};
+        [tempArray addObject:dic];
+        dic = nil;
+    }
+    return tempArray;
 }
 
 -(void)configureTextFieldContent:(UITextField *)textField
@@ -128,6 +177,10 @@ static NSString * imageCellIdentifier = @"imageCell";
      {
          dispatch_async(dispatch_get_main_queue(), ^{
              [weakSelf.photos addObject:image];
+             if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
+                 [tableContentInfo setObject:weakSelf.photos forKey:@"Photos"];
+                 [_tableContentdelegate tableContent:tableContentInfo];
+             }
              [weakSelf reloadData];
          });
          
@@ -180,10 +233,13 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
-    if (indexPath.row == 0 && buinessType) {
-        contentTitle = buinessType;
-    }
     
+    CGSize size = [contentTitle sizeWithFont:[UIFont systemFontOfSize:fontSize]];
+     NSInteger textFieldOriginalOffsetX = 120;
+    if (size.width >= 120) {
+        textFieldOriginalOffsetX = size.width + 20;
+    }
+   
     
     //Add the image area
     if (indexPath.row == 11) {
@@ -218,10 +274,10 @@ static NSString * imageCellIdentifier = @"imageCell";
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        cell.textLabel.font = [UIFont systemFontOfSize:14];
+        cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    cell.textLabel.font = [UIFont systemFontOfSize:12];
+
     
     NSArray * subViews = cell.contentView.subviews;
     for (UIView * view in subViews) {
@@ -247,7 +303,8 @@ static NSString * imageCellIdentifier = @"imageCell";
         }
         if (isCanAddTextField) {
             //New TextField
-            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(150, 0, self.frame.size.width - 150, CellHeigth)];
+            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(textFieldOriginalOffsetX, 0, self.frame.size.width - 150, CellHeigth)];
+            blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
             blankCellTextField.delegate = self;
             [self configureTextFieldContent:blankCellTextField];
             if ([self isShouldAddTextField:blankCellTextField]) {
@@ -284,7 +341,8 @@ static NSString * imageCellIdentifier = @"imageCell";
         }
         if (isCanAddTextField) {
             //New TextField
-            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(150, 0, self.frame.size.width - 150, MinerCellHeigth)];
+            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(textFieldOriginalOffsetX, 0, self.frame.size.width - 150, MinerCellHeigth)];
+            blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
             blankCellTextField.delegate = self;
             [self configureTextFieldContent:blankCellTextField];
             if ([self isShouldAddTextField:blankCellTextField]) {
@@ -300,15 +358,24 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        //
+    if (popupItemIndex !=-1 && indexPath.row == 0) {
         __weak CustomiseInformationTable * weakSelf = self;
         RegionTableViewController * regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
         [regionTable tableTitle:@"Region" dataSource:@[@"Sale",@"Purchase"] userDefaultKey:nil];
         [regionTable setSelectedBlock:^(id object)
          {
              NSLog(@"%@",object);
-             buinessType = object;
+
+             [dataSource replaceObjectAtIndex:popupItemIndex withObject:object];
+             [eliminateTheTextfieldItems replaceObjectAtIndex:popupItemIndex withObject:object];
+             [weakSelf setValue:object forKey:@"buinessType"];
+             
+             if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
+                 [tableContentInfo setObject:object forKey:@"BuinessType"];
+                 [_tableContentdelegate tableContent:tableContentInfo];
+             }
+             
+             
              [weakSelf reloadData];
          }];
         
@@ -326,6 +393,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         }];
         regionTable = nil;
     }
+
 }
 
 #pragma mark - TextField
@@ -345,6 +413,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 {
     [self updateTextFieldVectorContent:textField];
 }
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if ([string isEqualToString:@"\n"]) {

@@ -27,6 +27,9 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     CycleScrollView  * autoScrollView;
     BiddingPopupView * biddingView;
     AppDelegate      * myDelegate;
+    
+    CGFloat priceFontSize;
+    CGFloat desFontSize;
 }
 @end
 
@@ -110,8 +113,13 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     };
     [_productBorswerContanier addSubview:autoScrollView];
     
-    
     biddingView = nil;
+    
+    BiddingCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"BiddingCell" owner:self options:nil]objectAtIndex:0];
+    
+    priceFontSize = cell.biddingPrice.font.pointSize * [GlobalMethod getDefaultFontSize];
+    desFontSize = cell.biddingDesc.font.pointSize * [GlobalMethod getDefaultFontSize];
+
 }
 
 -(void)configureClickActionOnFirstSection:(NSIndexPath *)index
@@ -134,18 +142,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 
 -(void)updateAutoScrollViewItem:(NSArray *)images
 {
-    //autoScrollView change the content dynamic
-//    CGRect rect = _productBorswerContanier.bounds;
-//    _productImages = @[[UIImage imageNamed:@"tempTest.png"],[UIImage imageNamed:@"tempTest.png"]];
-//    
-//    NSMutableArray * images = [NSMutableArray array];
-//    //UIImageView covert the image
-//    for (UIImage * image in _productImages) {
-//        UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
-//        [tempImageView setFrame:rect];
-//        [images addObject:tempImageView];
-//        tempImageView = nil;
-//    }
+
     autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
         return images[pageIndex];
     };
@@ -204,7 +201,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         }
         
         //Font attributed
-        [cell.textLabel setFont:[UIFont systemFontOfSize:15]];
+        [cell.textLabel setFont:[UIFont systemFontOfSize:13 * [GlobalMethod getDefaultFontSize]]];
         [cell.textLabel setTextColor:[UIColor darkGrayColor]];
         cell.textLabel.text = [firstSectionDataSource objectAtIndex:indexPath.row];
         [cell setBackgroundColor:[UIColor clearColor]];
@@ -214,6 +211,9 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     {
         //New Cell
         BiddingCell * cell = [tableView dequeueReusableCellWithIdentifier:secondSectionCellIdentifier];
+        
+        cell.biddingDesc.font = [UIFont systemFontOfSize:desFontSize * [GlobalMethod getDefaultFontSize]];
+        cell.biddingPrice.font = [UIFont systemFontOfSize:priceFontSize * [GlobalMethod getDefaultFontSize]];
         
         //Configure background view ,In the case of this,add a separate line to the bottom of cell
         UIView * bgView = [GlobalMethod newSeparateLine:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, 71) lastItemNumber:[secondSectionDataSource count]];

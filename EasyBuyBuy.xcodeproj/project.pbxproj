@@ -533,15 +533,18 @@
 		4EAE461E18C6EE510089B843 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
+				4EAE463618C6EE520089B843 /* ShopViewController.h */,
+				4EAE463718C6EE520089B843 /* ShopViewController.m */,
+				4EAE463818C6EE520089B843 /* ShopViewController.xib */,
+				4EAE462518C6EE510089B843 /* ProdecutViewController.h */,
+				4EAE462618C6EE510089B843 /* ProdecutViewController.m */,
+				4EAE462718C6EE510089B843 /* ProdecutViewController.xib */,
 				4EAE461F18C6EE510089B843 /* MyCarCell.h */,
 				4EAE462018C6EE510089B843 /* MyCarCell.m */,
 				4EAE462118C6EE510089B843 /* MyCarCell.xib */,
 				4EAE462218C6EE510089B843 /* MyCarViewController.h */,
 				4EAE462318C6EE510089B843 /* MyCarViewController.m */,
 				4EAE462418C6EE510089B843 /* MyCarViewController.xib */,
-				4EAE462518C6EE510089B843 /* ProdecutViewController.h */,
-				4EAE462618C6EE510089B843 /* ProdecutViewController.m */,
-				4EAE462718C6EE510089B843 /* ProdecutViewController.xib */,
 				4EAE462818C6EE510089B843 /* ProductBroswerViewController.h */,
 				4EAE462918C6EE510089B843 /* ProductBroswerViewController.m */,
 				4EAE462A18C6EE510089B843 /* ProductBroswerViewController.xib */,
@@ -556,9 +559,6 @@
 				4EAE463318C6EE510089B843 /* ProductDetailViewControllerViewController.xib */,
 				4EAE463418C6EE510089B843 /* ProductView.h */,
 				4EAE463518C6EE510089B843 /* ProductView.m */,
-				4EAE463618C6EE520089B843 /* ShopViewController.h */,
-				4EAE463718C6EE520089B843 /* ShopViewController.m */,
-				4EAE463818C6EE520089B843 /* ShopViewController.xib */,
 			);
 			path = Shop;
 			sourceTree = "<group>";

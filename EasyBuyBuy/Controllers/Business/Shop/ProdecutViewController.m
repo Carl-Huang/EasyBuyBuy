@@ -16,6 +16,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * viewControllTitle;
     
     NSArray * dataSource;
+    CGFloat fontSize;
 }
 @end
 
@@ -62,6 +63,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     UINib * cellNib = [UINib nibWithNibName:@"ProductCell" bundle:[NSBundle bundleForClass:[ProductCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    
+    ProductCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductCell" owner:self options:nil]objectAtIndex:0];
+    fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
 }
 
 -(void)gotoProductBroswerViewController
@@ -85,6 +89,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    
+    
+    cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
     cell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
     cell.classifyName.text   = [dataSource objectAtIndex:indexPath.row];
     [cell.likeBtn setSelected:YES];

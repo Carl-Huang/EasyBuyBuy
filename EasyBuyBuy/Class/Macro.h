@@ -11,6 +11,6 @@
 
 #define CurrentRegion       @"CurrentRegion"
 #define CurrentLanguage     @"CurrentLanguage"
-
-#define AskToBuyType       @"AskToBuyType"
+#define AppFontSize         @"AppFontSize"
+#define AskToBuyType        @"AskToBuyType"
 #endif

@@ -9,7 +9,7 @@
 #import "ShippingViewController.h"
 #import "CustomiseInformationTable.h"
 #import "TouchLocationView.h"
-@interface ShippingViewController ()
+@interface ShippingViewController ()<TableContentDataDelegate>
 {
     NSString * viewControllTitle;
     NSArray * dataSource;
@@ -88,16 +88,13 @@
     }
     
     CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
-    [table setTableDataSource:dataSource eliminateTextFieldItems:eliminateTheTextfieldItems container:_containerView];
-    [_containerView addSubview:table];
-    
-    
-    locationHelperView = [[TouchLocationView alloc]initWithFrame:CGRectMake(0, 0, 320, 504)];
-    [locationHelperView setBackgroundColor:[UIColor clearColor]];
-    locationHelperView.userInteractionEnabled = NO;
-    locationHelperView.hitTestView = _contentTable;
-    [_containerView addSubview:locationHelperView];
+    [table setTableDataSource:dataSource eliminateTextFieldItems:eliminateTheTextfieldItems container:_containerView willShowPopTableIndex:0];
+    table.tableContentdelegate = self;
 
-    
+}
+
+-(void)tableContent:(NSDictionary *)info
+{
+    NSLog(@"%@",info);
 }
 @end

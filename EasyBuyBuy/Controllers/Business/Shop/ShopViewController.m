@@ -15,6 +15,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * viewControllTitle;
     
     NSArray * dataSource;
+    CGFloat fontSize;
 }
 @end
 
@@ -61,6 +62,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     UINib * cellNib = [UINib nibWithNibName:@"ProductClassifyCell" bundle:[NSBundle bundleForClass:[ProductClassifyCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    
+    ProductClassifyCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductClassifyCell" owner:self options:nil]objectAtIndex:0];
+    fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
+ 
 }
 
 
@@ -79,8 +84,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    
     cell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
     cell.classifyName.text   = [dataSource objectAtIndex:indexPath.row];
+    cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
 }

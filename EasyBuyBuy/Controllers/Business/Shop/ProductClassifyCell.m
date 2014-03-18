@@ -26,4 +26,10 @@
     // Configure the view for the selected state
 }
 
+//-(void)awakeFromNib
+//{
+//    [super awakeFromNib];
+//    CGFloat fontSize = self.classifyName.font.pointSize;
+//    self.classifyName.font = [UIFont systemFontOfSize:[GlobalMethod getDefaultFontSize]* fontSize];
+//}
 @end
