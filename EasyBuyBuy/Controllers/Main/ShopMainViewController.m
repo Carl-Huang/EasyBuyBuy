@@ -106,7 +106,8 @@
 {
     switch (tapNumber) {
         case 0:
-            [self gotoShopViewController];
+//            [self gotoShopViewController];
+            [self gotoAskToBuyViewController];
             break;
         case 1:
             ;
@@ -155,7 +156,7 @@
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"%f",scrollView.contentOffset.x);
+//    NSLog(@"%f",scrollView.contentOffset.x);
 //    NSArray * imageViews = scrollView.subviews;
 //    for (int i =0; i < [imageViews count]; ++ i) {
 //        UIImageView * tempImageView = [imageViews objectAtIndex:i];

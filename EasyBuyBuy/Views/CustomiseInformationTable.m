@@ -40,7 +40,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
 @property (strong ,nonatomic) NSString * buinessType;
-@property (strong ,nonatomic) NSMutableArray * textFieldVector;  //very obviouse ,it is the vector for textfield
+@property (strong ,nonatomic) NSMutableDictionary * textFieldVector;  //very obviouse ,it is the vector for textfield
 @end
 
 
@@ -59,7 +59,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         self.dataSource = self;
         
         _photos = [NSMutableArray array];
-        textFieldVector = [NSMutableArray array];
+        textFieldVector = [NSMutableDictionary dictionary];
         tableContentInfo = [NSMutableDictionary dictionary];
         
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updateContentPositon:) name:TouchInViewLocation object:nil];
@@ -82,6 +82,34 @@ static NSString * imageCellIdentifier = @"imageCell";
     _containerView = view;
     popupItemIndex = index;
     
+    for (int i = 0 ;i< [dataSource count]; ++i) {
+        NSString * contentTitle  = [dataSource objectAtIndex:i];
+        CGSize size = [contentTitle sizeWithFont:[UIFont systemFontOfSize:fontSize]];
+        NSInteger textFieldOriginalOffsetX = 135;
+        if (size.width >= textFieldOriginalOffsetX) {
+            textFieldOriginalOffsetX = size.width + 20;
+        }
+        BOOL isCanAddTextField = YES;
+        for (NSString * str in eliminateTheTextfieldItems) {
+            if (str == contentTitle) {
+                isCanAddTextField = NO;
+            }
+        }
+        if (isCanAddTextField) {
+            //New TextField
+            UITextField * blankCellTextField = [GlobalMethod addTextFieldForCellAtIndex:i withFrame:CGRectMake(textFieldOriginalOffsetX, 0, self.frame.size.width - 150, CellHeigth)];
+            
+            blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
+            blankCellTextField.delegate = self;
+            [self configureTextFieldContent:blankCellTextField];
+            [textFieldVector setObject:blankCellTextField forKey:[NSString stringWithFormat:@"%d",i]];
+            
+            blankCellTextField = nil;
+        }
+    }
+    [tableContentInfo setObject:[self fetchTextFieldContent] forKey:@"TextFieldContent"];
+    [tableContentInfo setObject:@"" forKey:@"BuinessType"];
+    [tableContentInfo setObject:@"" forKey:@"Photos"];
     
     [_containerView addSubview:self];
     
@@ -89,8 +117,8 @@ static NSString * imageCellIdentifier = @"imageCell";
     [locationHelperView setBackgroundColor:[UIColor clearColor]];
     locationHelperView.userInteractionEnabled = NO;
     [_containerView addSubview:locationHelperView];
-    locationHelperView = nil;
-    
+    [_containerView bringSubviewToFront:locationHelperView];
+    _containerView = nil;
 }
 
 
@@ -111,20 +139,19 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(BOOL)isShouldAddTextField:(UITextField *)textField
 {
-    for (UITextField * tempTextField in textFieldVector) {
-        if (tempTextField.tag == textField.tag) {
-            return NO;
-        }
-    }
-    return YES;
+    
+    if (![textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)textField.tag]])
+    {
+        return YES;
+    }else
+        return NO;
 }
 
 -(void)updateTextFieldVectorContent:(UITextField *)textField
 {
-    for (UITextField * tempTextField in textFieldVector) {
-        if (tempTextField.tag == textField.tag) {
-            tempTextField.text = textField.text;
-        }
+    UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)textField.tag]];
+    if (tempTextField) {
+        tempTextField.text = textField.text;
     }
     if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
         [tableContentInfo setObject:[self fetchTextFieldContent] forKey:@"TextFieldContent"];
@@ -134,10 +161,9 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(void)updateTextFieldVectorWithTag:(NSInteger)tag content:(NSString *)content
 {
-    for (UITextField * tempTextField in textFieldVector) {
-        if (tempTextField.tag == tag) {
-            tempTextField.text = content;
-        }
+    UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)tag]];
+    if (tempTextField) {
+        tempTextField.text = content;
     }
     if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
         
@@ -148,24 +174,51 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(NSArray *)fetchTextFieldContent
 {
+//    NSMutableArray * tempArray = [NSMutableArray array];
+//    for (UITextField * textField in textFieldVector) {
+//        NSInteger tag = textField.tag;
+//        NSString * content = textField.text;
+//        NSDictionary * dic = @{[NSString stringWithFormat:@"%ld",(long)tag]:content};
+//        [tempArray addObject:dic];
+//        dic = nil;
+//    }
+//    return tempArray;
+    
     NSMutableArray * tempArray = [NSMutableArray array];
-    for (UITextField * textField in textFieldVector) {
-        NSInteger tag = textField.tag;
-        NSString * content = textField.text;
-        NSDictionary * dic = @{[NSString stringWithFormat:@"%ld",(long)tag]:content};
+    for (int i =0 ;i < [[textFieldVector allKeys]count]; ++i) {
+        NSString * key  = [[textFieldVector allKeys]objectAtIndex:i];
+        UITextField * tempTextField = [textFieldVector valueForKey:key];
+        NSDictionary * dic = @{key:tempTextField.text};
         [tempArray addObject:dic];
         dic = nil;
     }
-    return tempArray;
+    
+    NSArray *sortedArray;
+    sortedArray = [tempArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSDictionary *first = a;
+        NSDictionary *second = b;
+        
+        NSString * firstKey = [[first allKeys]objectAtIndex:0];
+        NSString * secondKey = [[second allKeys]objectAtIndex:0];
+        
+        if (firstKey.integerValue < secondKey.integerValue) {
+            return NSOrderedAscending;
+        }else
+        {
+            return NSOrderedDescending;
+        }
+
+    }];
+    
+    return sortedArray;
 }
 
 -(void)configureTextFieldContent:(UITextField *)textField
 {
     textField.text = @"";
-    for (UITextField * tempTextField in textFieldVector) {
-        if (tempTextField.tag == textField.tag) {
-            textField.text  = tempTextField.text;
-        }
+    UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)textField.tag]];
+    if (tempTextField) {
+        textField.text = tempTextField.text ;
     }
 }
 
@@ -208,7 +261,56 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
 }
 
-#pragma TableView
+-(UITableViewCell *)addImageCell:(NSIndexPath *)path withTable:(UITableView *)tableView
+{
+    //Add the image area
+
+    ImageTableViewCell * imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIdentifier];
+    UIView * bgImageView = [GlobalMethod configureMiddleCellBgWithCell:imageCell withFrame:CGRectMake(0, 0, self.frame.size.width, PhotoAreaHeight)];
+    [imageCell setBackgroundView:bgImageView];
+    
+    for (int i = 0 ; i< [_photos count]; ++i) {
+        UIImage * image  = [_photos objectAtIndex:i];
+        switch (i) {
+            case 0:
+                imageCell.imageOne.image = image;
+                break;
+            case 1:
+                imageCell.imageTwo.image = image;
+                break;
+            case 2:
+                imageCell.imageThree.image = image;
+                break;
+            case 3:
+                imageCell.imageFour.image = image;
+                break;
+            default:
+                break;
+        }
+    }
+    return imageCell;
+
+}
+
+-(UITableViewCell *)defaultCell:(NSIndexPath *)path forTable:(UITableView *)tableView
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+    NSArray * subViews = cell.contentView.subviews;
+    for (UIView * view in subViews) {
+        if ([view isKindOfClass:[UITextField class]]||[view isKindOfClass:[UIButton class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    return cell;
+}
+
+#pragma  mark - TableView
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -233,7 +335,6 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
-    
     CGSize size = [contentTitle sizeWithFont:[UIFont systemFontOfSize:fontSize]];
      NSInteger textFieldOriginalOffsetX = 120;
     if (size.width >= 120) {
@@ -241,53 +342,14 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
    
     
-    //Add the image area
+    //ImageCell
     if (indexPath.row == 11) {
-        ImageTableViewCell * imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIdentifier];
-        UIView * bgImageView = [GlobalMethod configureMiddleCellBgWithCell:imageCell withFrame:CGRectMake(0, 0, self.frame.size.width, PhotoAreaHeight)];
-        [imageCell setBackgroundView:bgImageView];
-        
-        for (int i = 0 ; i< [_photos count]; ++i) {
-            UIImage * image  = [_photos objectAtIndex:i];
-            switch (i) {
-                case 0:
-                    imageCell.imageOne.image = image;
-                    break;
-                case 1:
-                    imageCell.imageTwo.image = image;
-                    break;
-                case 2:
-                    imageCell.imageThree.image = image;
-                    break;
-                case 3:
-                    imageCell.imageFour.image = image;
-                    break;
-                default:
-                    break;
-            }
-        }
-        
-        return imageCell;
+        return [self addImageCell:indexPath withTable:tableView];
     }
     
-    
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-
-    
-    NSArray * subViews = cell.contentView.subviews;
-    for (UIView * view in subViews) {
-        if ([view isKindOfClass:[UITextField class]]||[view isKindOfClass:[UIButton class]]) {
-            [view removeFromSuperview];
-        }
-    }
-    
-    
+    UITableViewCell * cell = [self defaultCell:indexPath forTable:tableView];
     cell.textLabel.text = contentTitle;
+    
     
     if (indexPath.row < 13 || indexPath.row >17) {
         //Background
@@ -302,16 +364,10 @@ static NSString * imageCellIdentifier = @"imageCell";
             }
         }
         if (isCanAddTextField) {
-            //New TextField
-            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(textFieldOriginalOffsetX, 0, self.frame.size.width - 150, CellHeigth)];
-            blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
-            blankCellTextField.delegate = self;
-            [self configureTextFieldContent:blankCellTextField];
-            if ([self isShouldAddTextField:blankCellTextField]) {
-                [textFieldVector addObject:blankCellTextField];
+            UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+            if (tempTextField) {
+                [cell.contentView addSubview:tempTextField];
             }
-            
-            blankCellTextField = nil;
         }
         
         //Add the button taken pic
@@ -340,17 +396,13 @@ static NSString * imageCellIdentifier = @"imageCell";
             }
         }
         if (isCanAddTextField) {
-            //New TextField
-            UITextField * blankCellTextField = [GlobalMethod newTextFieldToCellContentView:cell index:indexPath.row withFrame:CGRectMake(textFieldOriginalOffsetX, 0, self.frame.size.width - 150, MinerCellHeigth)];
-            blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
-            blankCellTextField.delegate = self;
-            [self configureTextFieldContent:blankCellTextField];
-            if ([self isShouldAddTextField:blankCellTextField]) {
-                [textFieldVector addObject:blankCellTextField];
+           UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+            if (tempTextField) {
+                [cell.contentView addSubview:tempTextField];
             }
-            
-            blankCellTextField = nil;
         }
+        
+
     }
     
     return cell;

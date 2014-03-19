@@ -124,7 +124,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         cell.accessoryView = nil;
     }
     
-    UIImageView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, cell.frame.size.height) lastItemNumber:[dataSource count]];
+    UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, cell.frame.size.height) lastItemNumber:[dataSource count]];
     [cell setBackgroundView:bgImageView];
     cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
     return  cell;

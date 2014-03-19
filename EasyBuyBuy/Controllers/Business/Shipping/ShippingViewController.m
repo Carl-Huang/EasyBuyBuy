@@ -55,32 +55,30 @@
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
-    
-    eliminateTheTextfieldItems = @[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"];
-    dataSource = @[@"*Sale or Purchase:",
+    dataSource = @[
                    @"*First Name:",
                    @"*Last Name:",
-                   @"*Country Name:",
-                   @"Company Name:",
-                   @"*Container",
                    @"*Tel Number:",
                    @"*Mobile Number",
                    @"*Email:",
-                   @"{PRODUCT DATA}",   //9
-                   @"*Photo of product",//10
-                   @"Photo",            //To specify the photo area
+                   @"*Company Name:",
+                   @"*Country Name:",
                    @"*Name Of Goods:",
-                   @"Size",             //13
-                   @"LENGTH:",
-                   @"WIDTH:",
-                   @"HEIGTH:",
-                   @"THICKNESS:",
-                   @"COLOR:",
-                   @"Used in:",
-                   @"*QUANTITY AVAILABLE:",
-                   @"NAME OF MATERIAL:",
-                   @"Weight/KG/G:",
-                   @"Note"];
+                   @"*Shipping Type Sea/Air",
+                   @"Container:",
+                   @"*QUANTITY /CBM:",
+                   @"*PORT OF THE SHIPPING",
+                   @"*PORT OF DESTINATION",
+                   @"NAME PREFERRED SHIPPING LINE",             //13
+                   @"TIME FOR LOADING:",
+                   
+                   @"WEIGHT/KG / TONS:",
+                   @"REMARK:",
+                   @"TYPE OF THE DOCUMENT:"];
+    
+    
+    
+    
     if ([OSHelper iPhone5]) {
         CGRect rect = _containerView.frame;
         rect.size.height +=88;
@@ -88,7 +86,7 @@
     }
     
     CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
-    [table setTableDataSource:dataSource eliminateTextFieldItems:eliminateTheTextfieldItems container:_containerView willShowPopTableIndex:0];
+    [table setTableDataSource:dataSource eliminateTextFieldItems:nil container:_containerView willShowPopTableIndex:-1];
     table.tableContentdelegate = self;
 
 }

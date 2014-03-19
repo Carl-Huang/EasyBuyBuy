@@ -27,8 +27,11 @@ static NSString * imageCellIdentifier = @"imageCell";
 {
     NSString * viewControllTitle;
     TouchLocationView *locationHelperView;
+    
     NSArray * dataSource;
     NSArray * eliminateTheTextfieldItems;
+    NSMutableArray * mustFillItems;
+    NSDictionary * filledContentInfo;
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
 @end
@@ -74,14 +77,15 @@ static NSString * imageCellIdentifier = @"imageCell";
     [self.navigationController.navigationBar setHidden:NO];
     
     eliminateTheTextfieldItems = @[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"];
+    
     dataSource = @[@"*Sale or Purchase:",
                    @"*First Name:",
                    @"*Last Name:",
                    @"*Country Name:",
                    @"Company Name:",
-                   @"*Container",
+                   @"*Container:",
                    @"*Tel Number:",
-                   @"*Mobile Number",
+                   @"*Mobile Number:",
                    @"*Email:",
                    @"{PRODUCT DATA}",   //9
                    @"*Photo of product",//10
@@ -97,8 +101,18 @@ static NSString * imageCellIdentifier = @"imageCell";
                    @"*QUANTITY AVAILABLE:",
                    @"NAME OF MATERIAL:",
                    @"Weight/KG/G:",
-                  @"Note"];
-
+                  @"Note:"];
+    mustFillItems = [NSMutableArray array];
+    for (int i = 1; i < [dataSource count] ; ++i) {
+        if (i !=11) {
+            NSString * str  = [dataSource objectAtIndex:i];
+            if ([str rangeOfString:@"*"].location!= NSNotFound) {
+                [mustFillItems addObject:[NSString stringWithFormat:@"%d",i]];
+            }
+        }
+       
+    }
+    
     if ([OSHelper iPhone5]) {
         CGRect rect = _containerView.frame;
         rect.size.height +=88;
@@ -108,17 +122,56 @@ static NSString * imageCellIdentifier = @"imageCell";
     CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
     [table setTableDataSource:dataSource eliminateTextFieldItems:eliminateTheTextfieldItems container:_containerView willShowPopTableIndex:0];
     table.tableContentdelegate = self;
-    [_containerView addSubview:table];
     
     
  
 }
 #pragma mark - Outlet Action
 - (IBAction)publicBtnAction:(id)sender {
+    //Check the must filled content is fill or not
+    
+    if ([filledContentInfo valueForKey:@"BuinessType"]==nil) {
+        NSMutableString * alertText = [[NSMutableString alloc]initWithString:[dataSource objectAtIndex:0]];
+
+        NSString * description = @" can not be empty";
+        NSRange range = NSMakeRange(0, alertText.length);
+        [alertText replaceOccurrencesOfString:@":" withString:description options:NSBackwardsSearch range:range];
+        [self showAlertViewWithMessage:alertText];
+        return;
+    }
+    
+    NSArray * textFieldContent = [filledContentInfo valueForKey:@"TextFieldContent"];
+    for (NSString * key in mustFillItems) {
+        BOOL isShouldHintUser = YES;
+        for (int j =0 ;j < [textFieldContent count]; ++j) {
+            NSDictionary * item  = [textFieldContent objectAtIndex:j];
+            
+            if (j > key.integerValue) {
+                break;
+            }
+            if ([[item valueForKey:key]length]!= 0) {
+                isShouldHintUser = NO;
+                break;
+            }
+        }
+        if (isShouldHintUser) {
+            NSMutableString * alertText = [[NSMutableString alloc]initWithString:[dataSource objectAtIndex:key.integerValue]];
+            NSString * description = @" can not be empty";
+            NSRange range = NSMakeRange(0, alertText.length);
+            [alertText replaceOccurrencesOfString:@":" withString:description options:NSBackwardsSearch range:range];
+            [self showAlertViewWithMessage:alertText];
+            return;
+        }
+    }
 }
 
+
+#pragma mark - CustomiseInformationTable Delegate
 -(void)tableContent:(NSDictionary *)info
 {
-    NSLog(@"%@",info);
+    if (filledContentInfo) {
+        filledContentInfo = nil;
+    }
+    filledContentInfo = [info copy];
 }
 @end

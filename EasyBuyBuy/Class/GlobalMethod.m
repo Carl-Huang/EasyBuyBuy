@@ -212,6 +212,17 @@
     return textField;
 }
 
++(UITextField *)addTextFieldForCellAtIndex:(NSInteger)index
+                                    withFrame:(CGRect)rect
+{
+    UITextField * textField = [[UITextField alloc]initWithFrame:rect];
+    textField.tag = index;
+    textField.font = [UIFont systemFontOfSize:14];
+    textField.textColor = [UIColor darkGrayColor];
+    [textField setBorderStyle:UITextBorderStyleNone];
+    return textField;
+}
+
 +(void)updateContentView:(UIView *)view
             withPosition:(CGPoint)point
    criticalValueToResize:(NSInteger)criticalValue

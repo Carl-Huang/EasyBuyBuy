@@ -47,6 +47,9 @@ typedef enum _ANCHOR
                                         index:(NSInteger)index
                                     withFrame:(CGRect)rect;
 
++(UITextField *)addTextFieldForCellAtIndex:(NSInteger)index
+                                 withFrame:(CGRect)rect;
+
 +(void)updateContentView:(UIView *)view
             withPosition:(CGPoint)point
    criticalValueToResize:(NSInteger)criticalValue

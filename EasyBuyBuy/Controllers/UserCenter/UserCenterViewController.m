@@ -175,8 +175,8 @@
         
         UISlider * fontSlider = [[UISlider alloc]initWithFrame:CGRectMake(10,25, _bottomTableView.frame.size.width-20, 30)];
         [fontSlider addTarget:self action:@selector(changeFontSize:) forControlEvents:UIControlEventTouchUpInside];
-        fontSlider.maximumValue = 1.5;
-        fontSlider.minimumValue = 0.5;
+        fontSlider.maximumValue = 1.3;
+        fontSlider.minimumValue = 0.8;
         fontSlider.value = [GlobalMethod getDefaultFontSize];
         [bottomTableFooterView addSubview:fontSlider];
         fontSlider = nil;
