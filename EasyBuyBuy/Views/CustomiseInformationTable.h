@@ -17,5 +17,10 @@
 
 @property (weak ,nonatomic) id<TableContentDataDelegate>tableContentdelegate;
 @property (weak ,nonatomic) UIView * containerView;
--(void)setTableDataSource:(NSArray *)data eliminateTextFieldItems:(NSArray *)items container:(UIView *)view willShowPopTableIndex:(NSInteger)index;
+@property (assign ,nonatomic)NSInteger takeBtnIndex;
+-(void)setTableDataSource:(NSArray *)data
+  eliminateTextFieldItems:(NSArray *)items
+                container:(UIView *)view
+    willShowPopTableIndex:(NSInteger)index
+         noSeperatorRange:(NSRange)range;
 @end

@@ -74,7 +74,7 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     CGRect rect = CGRectMake(0, 0, 320, 371);
     if ([OSHelper iPhone5]) {
-        rect.size.height += 80;
+        rect.size.height += 88;
     }
     
     productNotiTable = [[UITableView alloc]initWithFrame:rect];

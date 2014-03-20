@@ -11,4 +11,6 @@
 @interface ShippingViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIButton *publicBtn;
+- (IBAction)publicBtnAction:(id)sender;
 @end

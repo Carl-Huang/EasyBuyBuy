@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *publicBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
+
 - (IBAction)publicBtnAction:(id)sender;
 
 @end

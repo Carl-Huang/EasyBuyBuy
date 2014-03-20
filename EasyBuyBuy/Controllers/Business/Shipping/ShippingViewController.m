@@ -17,6 +17,8 @@
     
     CustomiseInformationTable * _contentTable;
     TouchLocationView * locationHelperView;
+    NSMutableArray * mustFillItems;
+    NSDictionary * filledContentInfo;
 }
 @end
 
@@ -71,14 +73,17 @@
                    @"*PORT OF DESTINATION",
                    @"NAME PREFERRED SHIPPING LINE",             //13
                    @"TIME FOR LOADING:",
-                   
                    @"WEIGHT/KG / TONS:",
                    @"REMARK:",
                    @"TYPE OF THE DOCUMENT:"];
-    
-    
-    
-    
+    mustFillItems = [NSMutableArray array];
+    for (int i = 0; i < [dataSource count] ; ++i) {
+        NSString * str  = [dataSource objectAtIndex:i];
+        if ([str rangeOfString:@"*"].location!= NSNotFound) {
+            [mustFillItems addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+    }
+
     if ([OSHelper iPhone5]) {
         CGRect rect = _containerView.frame;
         rect.size.height +=88;
@@ -86,7 +91,11 @@
     }
     
     CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
-    [table setTableDataSource:dataSource eliminateTextFieldItems:nil container:_containerView willShowPopTableIndex:-1];
+    [table setTableDataSource:dataSource
+      eliminateTextFieldItems:nil
+                    container:_containerView
+        willShowPopTableIndex:-1
+             noSeperatorRange:NSMakeRange(~0, 0)];
     table.tableContentdelegate = self;
 
 }
@@ -94,5 +103,34 @@
 -(void)tableContent:(NSDictionary *)info
 {
     NSLog(@"%@",info);
+    if (filledContentInfo) {
+        filledContentInfo = nil;
+    }
+    filledContentInfo = [info copy];
+}
+- (IBAction)publicBtnAction:(id)sender {
+    NSArray * textFieldContent = [filledContentInfo valueForKey:@"TextFieldContent"];
+    for (NSString * key in mustFillItems) {
+        BOOL isShouldHintUser = YES;
+        for (int j =0 ;j < [textFieldContent count]; ++j) {
+            NSDictionary * item  = [textFieldContent objectAtIndex:j];
+            
+            if (j > key.integerValue) {
+                break;
+            }
+            if ([[item valueForKey:key]length]!= 0) {
+                isShouldHintUser = NO;
+                break;
+            }
+        }
+        if (isShouldHintUser) {
+            NSMutableString * alertText = [[NSMutableString alloc]initWithString:[dataSource objectAtIndex:key.integerValue]];
+            NSString * description = @" can not be empty";
+            NSRange range = NSMakeRange(0, alertText.length);
+            [alertText replaceOccurrencesOfString:@":" withString:description options:NSBackwardsSearch range:range];
+            [self showAlertViewWithMessage:alertText];
+            return;
+        }
+    }
 }
 @end

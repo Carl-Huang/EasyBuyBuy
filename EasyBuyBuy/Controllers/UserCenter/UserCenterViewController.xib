@@ -41,13 +41,9 @@
                             <rect key="frame" x="11" y="300" width="298" height="170"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home_Region_Frame02.png" id="qm4-Fr-fJm">
-                                    <rect key="frame" x="0.0" y="0.0" width="298" height="170"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yL4-Wq-R5P">
-                                    <rect key="frame" x="7" y="5" width="285" height="153"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <rect key="frame" x="7" y="5" width="285" height="180"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="dataSource" destination="-1" id="kY7-BL-rHb"/>
@@ -61,10 +57,6 @@
                             <rect key="frame" x="11" y="104" width="298" height="182"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Home_Region_Frame02.png" id="x1p-Nb-ViH">
-                                    <rect key="frame" x="0.0" y="0.0" width="298" height="182"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                </imageView>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5EI-pC-aJ3">
                                     <rect key="frame" x="7" y="4" width="285" height="163"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,7 +79,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Home_Region_Frame02.png" width="262" height="250"/>
         <image name="Shop_Icon_Like_R.png" width="25" height="25"/>
     </resources>
 </document>

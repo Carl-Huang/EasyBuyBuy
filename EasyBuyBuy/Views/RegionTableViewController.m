@@ -140,6 +140,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     
     cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

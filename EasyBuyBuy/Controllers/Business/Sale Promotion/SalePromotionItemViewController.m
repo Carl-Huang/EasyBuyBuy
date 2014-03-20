@@ -198,6 +198,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
             UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, 50) lastItemNumber:[firstSectionDataSource count]];
             [cell setBackgroundView:bgImageView];
             bgImageView = nil;
+            bgImageView = nil;
         }
         
         //Font attributed

@@ -7,6 +7,8 @@
 //
 #define UpperTableTag 1001
 #define BottomTableTag 1002
+#define CellHeigth    40
+
 #import "UserCenterViewController.h"
 #import "MyOrderViewController.h"
 #import "MyAddressViewController.h"
@@ -15,6 +17,10 @@
 #import "UpgradeViewController.h"
 #import "LanguageViewController.h"
 #import "GlobalMethod.h"
+#import "FontSizeTableViewCell.h"
+
+static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
+
 
 @interface UserCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -23,6 +29,8 @@
     
     NSArray * upperDataSource;
     NSArray * bottomDataSource;
+    
+    UIView * bottomTableFooterView;
 }
 @end
 
@@ -75,11 +83,13 @@
     [_upperTableView setBackgroundView:nil];
     [_upperTableView setBackgroundColor:[UIColor clearColor]];
     _upperTableView.scrollEnabled = NO;
+    _upperTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     _bottomTableView.tag = BottomTableTag;
     [_bottomTableView setBackgroundView:nil];
     [_bottomTableView setBackgroundColor:[UIColor clearColor]];
     _bottomTableView.scrollEnabled = NO;
+    _bottomTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if ([OSHelper iOS7]) {
         _upperTableView.separatorInset  = UIEdgeInsetsZero;
@@ -96,6 +106,9 @@
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateNormal];
     [[UISlider appearance] setThumbImage:thumbImage forState:UIControlStateHighlighted];
 
+    
+    UINib * cellNib = [UINib nibWithNibName:@"FontSizeTableViewCell" bundle:[NSBundle bundleForClass:[FontSizeTableViewCell class]]];
+    [_bottomTableView registerNib:cellNib forCellReuseIdentifier:fontSizeCellIdentifier];
 }
 
 
@@ -107,6 +120,17 @@
     NSLog(@"%f",slider.value);
 }
 #pragma mark - UITableView
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.tag != UpperTableTag) {
+        if (indexPath.row == [bottomDataSource count]-1) {
+            return 85;
+        }
+    }
+    return CellHeigth;
+}
+
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView.tag == UpperTableTag) {
@@ -129,6 +153,9 @@
             cell.accessoryView = acView;
             acView = nil;
         }
+        UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _upperTableView.frame.size.width, CellHeigth) lastItemNumber:upperDataSource.count];
+        [cell setBackgroundView:bgView];
+        bgView = nil;
         cell.textLabel.text = [upperDataSource objectAtIndex:indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:17];
         cell.textLabel.textColor = [UIColor darkGrayColor];
@@ -137,84 +164,103 @@
         return cell;
     }else
     {
-        static NSString * bottomTableCell = @"bottomTableCell";
-        UITableViewCell * cell = [_bottomTableView dequeueReusableCellWithIdentifier:bottomTableCell];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:bottomTableCell];
-        }
-        if (indexPath.row == [bottomDataSource count]-1) {
-            cell.accessoryView = nil;
+        if (indexPath.row == [bottomDataSource count]-1)
+        {
+            FontSizeTableViewCell * fontCell = [_bottomTableView dequeueReusableCellWithIdentifier:fontSizeCellIdentifier];
+            [fontCell.fontSizeSlider addTarget:self action:@selector(changeFontSize:) forControlEvents:UIControlEventTouchUpInside];
+            fontCell.fontSizeSlider.maximumValue = 1.3;
+            fontCell.fontSizeSlider.minimumValue = 0.8;
+            fontCell.fontSizeSlider.value = [GlobalMethod getDefaultFontSize];
+            UIView * bgView = [GlobalMethod newBgViewWithCell:fontCell index:indexPath.row withFrame:CGRectMake(0, 0, _bottomTableView.frame.size.width, 85) lastItemNumber:bottomDataSource.count];
+            [fontCell setBackgroundView:bgView];
+            bgView = nil;
+            fontCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return fontCell;
         }else
         {
+            static NSString * bottomTableCell = @"bottomTableCell";
+            UITableViewCell * cell = [_bottomTableView dequeueReusableCellWithIdentifier:bottomTableCell];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:bottomTableCell];
+            }
+            
             UIImageView * acView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Arrow_G.png"]];
             cell.accessoryView = acView;
             acView = nil;
+            
+            UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _bottomTableView.frame.size.width, CellHeigth) lastItemNumber:bottomDataSource.count];
+            [cell setBackgroundView:bgView];
+            bgView = nil;
+            
+            cell.textLabel.text = [bottomDataSource objectAtIndex:indexPath.row];
+            cell.textLabel.font = [UIFont systemFontOfSize:17];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
+            return cell;
         }
-        cell.textLabel.text = [bottomDataSource objectAtIndex:indexPath.row];
-        cell.textLabel.font = [UIFont systemFontOfSize:17];
-        cell.textLabel.textColor = [UIColor darkGrayColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
-        return cell;
+        
+        
+       
     }
     
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if (tableView.tag == BottomTableTag) {
-        UIView * bottomTableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _bottomTableView.frame.size.width, 70)];
-        [bottomTableFooterView setBackgroundColor:[UIColor clearColor]];
-        
-        UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, 60, 20)];
-        titleLabel.text = @"Font";
-        titleLabel.textColor = [UIColor darkGrayColor];
-        titleLabel.font = [UIFont systemFontOfSize:17];
-        [bottomTableFooterView addSubview:titleLabel];
-        titleLabel = nil;
-        
-        UISlider * fontSlider = [[UISlider alloc]initWithFrame:CGRectMake(10,25, _bottomTableView.frame.size.width-20, 30)];
-        [fontSlider addTarget:self action:@selector(changeFontSize:) forControlEvents:UIControlEventTouchUpInside];
-        fontSlider.maximumValue = 1.3;
-        fontSlider.minimumValue = 0.8;
-        fontSlider.value = [GlobalMethod getDefaultFontSize];
-        [bottomTableFooterView addSubview:fontSlider];
-        fontSlider = nil;
-        
-        for (int i = 0; i < 3; ++ i) {
-            UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20+(_bottomTableView.frame.size.width / 3)*i, 55, 50, 15)];
-            if (i == 0) {
-                titleLabel.text = @"Small";
-            }else if (i == 1)
-            {
-                titleLabel.text = @"Middle";
-            }else
-            {
-                titleLabel.text = @"Bigger";
-            }
-            titleLabel.textAlignment = NSTextAlignmentCenter;
-            titleLabel.textColor = [UIColor darkGrayColor];
-            titleLabel.font = [UIFont systemFontOfSize:14];
-            [bottomTableFooterView addSubview:titleLabel];
-        }
-        
-        return bottomTableFooterView;
-    }else
-    {
-        return nil;
-    }
-    
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (tableView.tag == BottomTableTag) {
-        return 70.0f;
-    }else
-    {
-        return 0.0f;
-    }
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//    if (tableView.tag == BottomTableTag) {
+//        UIView * bottomTableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _bottomTableView.frame.size.width, 70)];
+//        [bottomTableFooterView setBackgroundColor:[UIColor clearColor]];
+//        
+//        UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 60, 20)];
+//        titleLabel.text = @"Font";
+//        titleLabel.textColor = [UIColor darkGrayColor];
+//        titleLabel.font = [UIFont systemFontOfSize:17];
+//        [bottomTableFooterView addSubview:titleLabel];
+//        titleLabel = nil;
+//        
+//        UISlider * fontSlider = [[UISlider alloc]initWithFrame:CGRectMake(10,25, _bottomTableView.frame.size.width-20, 30)];
+//        [fontSlider addTarget:self action:@selector(changeFontSize:) forControlEvents:UIControlEventTouchUpInside];
+//        fontSlider.maximumValue = 1.3;
+//        fontSlider.minimumValue = 0.8;
+//        fontSlider.value = [GlobalMethod getDefaultFontSize];
+//        [bottomTableFooterView addSubview:fontSlider];
+//        fontSlider = nil;
+//        
+//        for (int i = 0; i < 3; ++ i) {
+//            UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(20+(_bottomTableView.frame.size.width / 3)*i, 55, 50, 15)];
+//            if (i == 0) {
+//                titleLabel.text = @"Small";
+//            }else if (i == 1)
+//            {
+//                titleLabel.text = @"Middle";
+//            }else
+//            {
+//                titleLabel.text = @"Bigger";
+//            }
+//            titleLabel.textAlignment = NSTextAlignmentCenter;
+//            titleLabel.textColor = [UIColor darkGrayColor];
+//            titleLabel.font = [UIFont systemFontOfSize:14];
+//            [bottomTableFooterView addSubview:titleLabel];
+//        }
+//        
+//        return bottomTableFooterView;
+//    }else
+//    {
+//        return nil;
+//    }
+//    
+//}
+//
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    if (tableView.tag == BottomTableTag) {
+//        return 70.0f;
+//    }else
+//    {
+//        return 0.0f;
+//    }
+//}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

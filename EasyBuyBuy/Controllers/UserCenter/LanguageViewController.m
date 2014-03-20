@@ -58,7 +58,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
-    dataSource = @[@"English",@"Chinese",@"Arabic",@"English",@"Chinese",@"Arabic",@"English",@"Chinese",@"Arabic"];
+    dataSource = @[@"English",@"Chinese",@"Arabic"];
     currentSelectedItem = [[[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage] integerValue];
     itemStatus = [NSMutableDictionary dictionary];
     for (int i =0; i < [dataSource count]; ++i) {
@@ -126,6 +126,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, tableView.frame.size.width, cell.frame.size.height) lastItemNumber:[dataSource count]];
     [cell setBackgroundView:bgImageView];
+    bgImageView = nil;
     cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
     return  cell;
 }

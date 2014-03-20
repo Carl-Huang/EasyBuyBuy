@@ -37,6 +37,10 @@ static NSString * imageCellIdentifier = @"imageCell";
     NSInteger popupItemIndex;
     AppDelegate * myDelegate;
     CGFloat fontSize;
+    
+    NSInteger start;
+    NSInteger end;
+    
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
 @property (strong ,nonatomic) NSString * buinessType;
@@ -75,7 +79,11 @@ static NSString * imageCellIdentifier = @"imageCell";
     return self;
 }
 
--(void)setTableDataSource:(NSArray *)data eliminateTextFieldItems:(NSArray *)items container:(UIView *)view willShowPopTableIndex:(NSInteger)index
+-(void)setTableDataSource:(NSArray *)data
+  eliminateTextFieldItems:(NSArray *)items
+                container:(UIView *)view
+    willShowPopTableIndex:(NSInteger)index
+         noSeperatorRange:(NSRange)range
 {
     dataSource = [data mutableCopy];
     eliminateTheTextfieldItems = [items mutableCopy];
@@ -119,6 +127,12 @@ static NSString * imageCellIdentifier = @"imageCell";
     [_containerView addSubview:locationHelperView];
     [_containerView bringSubviewToFront:locationHelperView];
     _containerView = nil;
+    
+    
+    start = range.location;
+    end = range.location + range.length;
+    
+    _takeBtnIndex = -1;
 }
 
 
@@ -146,6 +160,18 @@ static NSString * imageCellIdentifier = @"imageCell";
     }else
         return NO;
 }
+
+-(BOOL)isShouldAddTakePicBtnWithIndex:(NSInteger )index
+{
+    NSString * str  = [dataSource objectAtIndex:index];
+
+    if ([str isEqualToString:@"Photo"]) {
+        return YES;
+    }else
+
+    return NO;
+}
+
 
 -(void)updateTextFieldVectorContent:(UITextField *)textField
 {
@@ -320,14 +346,18 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < 13 || indexPath.row >17) {
-        if (indexPath.row == 11) {
-            return PhotoAreaHeight;
+    @autoreleasepool {
+        NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
+        if (indexPath.row < start || indexPath.row >end) {
+            if (_takeBtnIndex != -1 && _takeBtnIndex == indexPath.row -2) {
+                return PhotoAreaHeight;
+            }
+            return CellHeigth;
+        }else
+        {
+            return MinerCellHeigth;
         }
-        return CellHeigth;
-    }else
-    {
-        return MinerCellHeigth;
+
     }
     
 }
@@ -343,7 +373,7 @@ static NSString * imageCellIdentifier = @"imageCell";
    
     
     //ImageCell
-    if (indexPath.row == 11) {
+    if (_takeBtnIndex != -1 &&_takeBtnIndex == indexPath.row -2) {
         return [self addImageCell:indexPath withTable:tableView];
     }
     
@@ -351,7 +381,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     cell.textLabel.text = contentTitle;
     
     
-    if (indexPath.row < 13 || indexPath.row >17) {
+    if (indexPath.row < start || indexPath.row >end) {
         //Background
         UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, self.frame.size.width, CellHeigth) lastItemNumber:[dataSource count]];
         [cell setBackgroundView:bgImageView];
@@ -371,7 +401,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         }
         
         //Add the button taken pic
-        if (indexPath.row == 10) {
+        if (_takeBtnIndex != -1 && _takeBtnIndex ==indexPath.row) {
             UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setFrame:CGRectMake(self.frame.size.width - CellHeigth, CellHeigth/4, CellHeigth/2, CellHeigth/2)];
             [btn setBackgroundImage:[UIImage imageNamed:@"My_Adress_Btn_Add_black.png"] forState:UIControlStateNormal];

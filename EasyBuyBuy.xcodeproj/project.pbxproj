@@ -14,6 +14,8 @@
 		4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CC918C4580D006DD458 /* ShopMainViewController.m */; };
 		4E632CCC18C4580D006DD458 /* ShopMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */; };
 		4E632CD918C45C0E006DD458 /* tempTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CD818C45C0E006DD458 /* tempTest.png */; };
+		4E870DCA18DA8B3E00596D7E /* FontSizeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E870DC818DA8B3E00596D7E /* FontSizeTableViewCell.m */; };
+		4E870DCB18DA8B3E00596D7E /* FontSizeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E870DC918DA8B3E00596D7E /* FontSizeTableViewCell.xib */; };
 		4EAA4F7418C743800037D8C5 /* CustomiseTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */; };
 		4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA4F7618C749000037D8C5 /* TouchLocationView.m */; };
 		4EAC790418C4B1A10022ECDD /* CycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAC790318C4B1A10022ECDD /* CycleScrollView.m */; };
@@ -137,7 +139,7 @@
 		C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBF8189667B200A26971 /* Home_Icon_Purchase@2x.png */; };
 		C33EEC41189667B200A26971 /* Home_Icon_Region@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBF9189667B200A26971 /* Home_Icon_Region@2x.png */; };
 		C33EEC42189667B200A26971 /* Home_Icon_Shop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBFA189667B200A26971 /* Home_Icon_Shop@2x.png */; };
-		C33EEC43189667B200A26971 /* Home_Icon_Transport2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBFB189667B200A26971 /* Home_Icon_Transport2x.png */; };
+		C33EEC43189667B200A26971 /* Home_Icon_Transport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBFB189667B200A26971 /* Home_Icon_Transport@2x.png */; };
 		C33EEC44189667B200A26971 /* Home_Icon_UnChoose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBFC189667B200A26971 /* Home_Icon_UnChoose@2x.png */; };
 		C33EEC45189667B200A26971 /* Home_Icon_User@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBFD189667B200A26971 /* Home_Icon_User@2x.png */; };
 		C33EEC46189667B200A26971 /* Home_Point_G@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C33EEBFE189667B200A26971 /* Home_Point_G@2x.png */; };
@@ -210,6 +212,9 @@
 		4E632CC918C4580D006DD458 /* ShopMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopMainViewController.m; sourceTree = "<group>"; };
 		4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopMainViewController.xib; sourceTree = "<group>"; };
 		4E632CD818C45C0E006DD458 /* tempTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tempTest.png; sourceTree = "<group>"; };
+		4E870DC718DA8B3E00596D7E /* FontSizeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontSizeTableViewCell.h; sourceTree = "<group>"; };
+		4E870DC818DA8B3E00596D7E /* FontSizeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontSizeTableViewCell.m; sourceTree = "<group>"; };
+		4E870DC918DA8B3E00596D7E /* FontSizeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontSizeTableViewCell.xib; sourceTree = "<group>"; };
 		4EAA4F7218C743800037D8C5 /* CustomiseTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseTextField.h; sourceTree = "<group>"; };
 		4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseTextField.m; sourceTree = "<group>"; };
 		4EAA4F7518C749000037D8C5 /* TouchLocationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchLocationView.h; sourceTree = "<group>"; };
@@ -398,7 +403,7 @@
 		C33EEBF8189667B200A26971 /* Home_Icon_Purchase@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_Purchase@2x.png"; sourceTree = "<group>"; };
 		C33EEBF9189667B200A26971 /* Home_Icon_Region@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_Region@2x.png"; sourceTree = "<group>"; };
 		C33EEBFA189667B200A26971 /* Home_Icon_Shop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_Shop@2x.png"; sourceTree = "<group>"; };
-		C33EEBFB189667B200A26971 /* Home_Icon_Transport2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home_Icon_Transport2x.png; sourceTree = "<group>"; };
+		C33EEBFB189667B200A26971 /* Home_Icon_Transport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_Transport@2x.png"; sourceTree = "<group>"; };
 		C33EEBFC189667B200A26971 /* Home_Icon_UnChoose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_UnChoose@2x.png"; sourceTree = "<group>"; };
 		C33EEBFD189667B200A26971 /* Home_Icon_User@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Icon_User@2x.png"; sourceTree = "<group>"; };
 		C33EEBFE189667B200A26971 /* Home_Point_G@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home_Point_G@2x.png"; sourceTree = "<group>"; };
@@ -624,6 +629,9 @@
 				4E632CC218C44E2A006DD458 /* LanguageViewController.h */,
 				4E632CC318C44E2A006DD458 /* LanguageViewController.m */,
 				4E632CC418C44E2A006DD458 /* LanguageViewController.xib */,
+				4E870DC718DA8B3E00596D7E /* FontSizeTableViewCell.h */,
+				4E870DC818DA8B3E00596D7E /* FontSizeTableViewCell.m */,
+				4E870DC918DA8B3E00596D7E /* FontSizeTableViewCell.xib */,
 			);
 			path = UserCenter;
 			sourceTree = "<group>";
@@ -854,7 +862,7 @@
 				C33EEBF8189667B200A26971 /* Home_Icon_Purchase@2x.png */,
 				C33EEBF9189667B200A26971 /* Home_Icon_Region@2x.png */,
 				C33EEBFA189667B200A26971 /* Home_Icon_Shop@2x.png */,
-				C33EEBFB189667B200A26971 /* Home_Icon_Transport2x.png */,
+				C33EEBFB189667B200A26971 /* Home_Icon_Transport@2x.png */,
 				C33EEBFC189667B200A26971 /* Home_Icon_UnChoose@2x.png */,
 				C33EEBFD189667B200A26971 /* Home_Icon_User@2x.png */,
 				C33EEBFE189667B200A26971 /* Home_Point_G@2x.png */,
@@ -1007,6 +1015,7 @@
 				C33EEC5A189667B200A26971 /* My Notification_Bg@2x.png in Resources */,
 				4EAF48AE18BB77870038575F /* RegisterViewController.xib in Resources */,
 				C33EEC50189667B200A26971 /* Login_Icon_Lock01@2x.png in Resources */,
+				4E870DCB18DA8B3E00596D7E /* FontSizeTableViewCell.xib in Resources */,
 				C33EEC62189667B200A26971 /* Red Apple_Point_R@2x.png in Resources */,
 				C33EEC69189667B200A26971 /* Shop_Frame@2x.png in Resources */,
 				C33EEC49189667B200A26971 /* Home_Region_Frame02@2x.png in Resources */,
@@ -1088,7 +1097,7 @@
 				4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */,
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
 				C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */,
-				C33EEC43189667B200A26971 /* Home_Icon_Transport2x.png in Resources */,
+				C33EEC43189667B200A26971 /* Home_Icon_Transport@2x.png in Resources */,
 				C33EEC4B189667B200A26971 /* Home_Search Icon@2x.png in Resources */,
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
@@ -1173,6 +1182,7 @@
 				4EAE464F18C6EE520089B843 /* ProductView.m in Sources */,
 				4EC207B118C57754003708D6 /* OSHelper.m in Sources */,
 				4EC207B418C57754003708D6 /* UIViewController+BarItem.m in Sources */,
+				4E870DCA18DA8B3E00596D7E /* FontSizeTableViewCell.m in Sources */,
 				4EAF48AB18BB77870038575F /* MyOrderViewController.m in Sources */,
 				4EC207B318C57754003708D6 /* UIImage+Util.m in Sources */,
 				4EAF48AF18BB77870038575F /* UserCenterViewController.m in Sources */,

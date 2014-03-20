@@ -106,6 +106,7 @@
     if (cellIndex != lastItem) {
         [containerView addSubview:separateLineImageView];
     }
+    separateLineImageView = nil;
     
     
     return containerView;

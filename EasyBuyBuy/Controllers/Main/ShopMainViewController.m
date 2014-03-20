@@ -13,12 +13,14 @@
 #import "User.h"
 #import "PersistentStore.h"
 #import "UserCenterViewController.h"
+#import "MBProgressHUD.h"
+
 
 #import "ShopViewController.h"
 #import "SalePromotionViewController.h"
 #import "AskToBuyViewController.h"
 #import "ShippingViewController.h"
-@interface ShopMainViewController ()<UIScrollViewDelegate>
+@interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
 {
     UIPageControl * page;
     NSInteger  currentPage;
@@ -63,16 +65,16 @@
         size.height = 488;
         contentIconOffsetY = 100;
     }
-    
 
     currentPage = 0 ;
     page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, contentIconOffsetY + MainIconHeight + 50, 120, 30)];
     page.numberOfPages = 5;
     page.currentPage = currentPage;
     
-    
+    NSArray * images = @[@"Home_Icon_Shop.png",@"Home_Icon_Factory.png",@"Home_Icon_Bidding.png",@"Home_Icon_Purchase.png",@"Home_Icon_Transport.png"];
     for (int i =0; i < 5; i++) {
-        UIImageView * imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Shop.png"]];
+        UIImage * image = [UIImage imageNamed:[images objectAtIndex:i]];
+        UIImageView * imageView = [[UIImageView alloc]initWithImage:image];
         imageView.userInteractionEnabled = YES;
         
         UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
@@ -92,8 +94,16 @@
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.showsVerticalScrollIndicator = NO;
     [self.contentView addSubview:page];
+    
+    
+    _searchTextField.delegate = self;
+    _searchTextField.returnKeyType = UIReturnKeySearch;
 }
 
+-(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)())finishBlock
+{
+    finishBlock();
+}
 
 -(void)tapAction:(UITapGestureRecognizer *)tap
 {
@@ -106,11 +116,10 @@
 {
     switch (tapNumber) {
         case 0:
-//            [self gotoShopViewController];
-            [self gotoAskToBuyViewController];
+            [self gotoShopViewController];
             break;
         case 1:
-            ;
+            [self gotoShopViewController];
             break;
         case 2:
             [self gotoSalePromotionViewController];
@@ -125,7 +134,6 @@
             break;
     }
 }
-
 -(void)gotoShopViewController
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
@@ -202,8 +210,25 @@
         loginViewController = nil;
     }
     
-    
-    
-   
 }
+
+#pragma mark - Search
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([string isEqualToString:@"\n"]) {
+        [textField resignFirstResponder];
+        
+        //Do the Searching
+        __weak ShopMainViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self searchingWithText:string completedHandler:^{
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+        
+        return NO;
+    }
+    return YES;
+}
+
+
 @end

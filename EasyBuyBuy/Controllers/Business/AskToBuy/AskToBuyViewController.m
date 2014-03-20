@@ -120,9 +120,14 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
     
     CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
-    [table setTableDataSource:dataSource eliminateTextFieldItems:eliminateTheTextfieldItems container:_containerView willShowPopTableIndex:0];
+    [table setTableDataSource:dataSource
+      eliminateTextFieldItems:eliminateTheTextfieldItems
+                    container:_containerView
+        willShowPopTableIndex:0
+             noSeperatorRange:NSMakeRange(13, 4)];
+
     table.tableContentdelegate = self;
-    
+    [table setTakeBtnIndex:9];
     
  
 }
