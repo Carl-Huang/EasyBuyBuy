@@ -93,6 +93,9 @@
 		4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */; };
 		4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC118BC6F810064B22C /* EditAddressCell.m */; };
 		4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC318BC70600064B22C /* EditAddressCell.xib */; };
+		4EB68AC518DB2434002ECB06 /* AsynCycleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC418DB2434002ECB06 /* AsynCycleView.m */; };
+		4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */; };
+		4EB68ACA18DB346B002ECB06 /* ProductDescriptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */; };
 		4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964418D7F5E5001EA448 /* ShippingViewController.m */; };
 		4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */; };
 		4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */; };
@@ -332,6 +335,11 @@
 		4EB5FFC018BC6F810064B22C /* EditAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressCell.h; sourceTree = "<group>"; };
 		4EB5FFC118BC6F810064B22C /* EditAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressCell.m; sourceTree = "<group>"; };
 		4EB5FFC318BC70600064B22C /* EditAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAddressCell.xib; sourceTree = "<group>"; };
+		4EB68AC318DB2434002ECB06 /* AsynCycleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsynCycleView.h; sourceTree = "<group>"; };
+		4EB68AC418DB2434002ECB06 /* AsynCycleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsynCycleView.m; sourceTree = "<group>"; };
+		4EB68AC618DB346B002ECB06 /* ProductDescriptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDescriptionTableViewCell.h; sourceTree = "<group>"; };
+		4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDescriptionTableViewCell.m; sourceTree = "<group>"; };
+		4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDescriptionTableViewCell.xib; sourceTree = "<group>"; };
 		4EB9964318D7F5E5001EA448 /* ShippingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingViewController.h; sourceTree = "<group>"; };
 		4EB9964418D7F5E5001EA448 /* ShippingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingViewController.m; sourceTree = "<group>"; };
 		4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingViewController.xib; sourceTree = "<group>"; };
@@ -564,6 +572,9 @@
 				4EAE463318C6EE510089B843 /* ProductDetailViewControllerViewController.xib */,
 				4EAE463418C6EE510089B843 /* ProductView.h */,
 				4EAE463518C6EE510089B843 /* ProductView.m */,
+				4EB68AC618DB346B002ECB06 /* ProductDescriptionTableViewCell.h */,
+				4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */,
+				4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -647,6 +658,8 @@
 				4EAC790618C4B23C0022ECDD /* NSTimer+Addition.m */,
 				4EAC790218C4B1A10022ECDD /* CycleScrollView.h */,
 				4EAC790318C4B1A10022ECDD /* CycleScrollView.m */,
+				4EB68AC318DB2434002ECB06 /* AsynCycleView.h */,
+				4EB68AC418DB2434002ECB06 /* AsynCycleView.m */,
 				4EB1AE6818BB33860033364F /* PersistentStore.h */,
 				4EB1AE6918BB33860033364F /* PersistentStore.m */,
 				4EAC791918C4D0AE0022ECDD /* GlobalMethod.h */,
@@ -1013,6 +1026,7 @@
 				C33EEC57189667B200A26971 /* My Car_Bg@2x.png in Resources */,
 				4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */,
 				C33EEC5A189667B200A26971 /* My Notification_Bg@2x.png in Resources */,
+				4EB68ACA18DB346B002ECB06 /* ProductDescriptionTableViewCell.xib in Resources */,
 				4EAF48AE18BB77870038575F /* RegisterViewController.xib in Resources */,
 				C33EEC50189667B200A26971 /* Login_Icon_Lock01@2x.png in Resources */,
 				4E870DCB18DA8B3E00596D7E /* FontSizeTableViewCell.xib in Resources */,
@@ -1199,8 +1213,10 @@
 				4EAC790418C4B1A10022ECDD /* CycleScrollView.m in Sources */,
 				4EAE464518C6EE520089B843 /* ProdecutViewController.m in Sources */,
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,
+				4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */,
 				4EAE464318C6EE520089B843 /* MyCarViewController.m in Sources */,
 				4EAE465518C6EE970089B843 /* AskToBuyViewController.m in Sources */,
+				4EB68AC518DB2434002ECB06 /* AsynCycleView.m in Sources */,
 				4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */,
 				4EC207B018C57754003708D6 /* NSString+Utils.m in Sources */,
 				4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */,

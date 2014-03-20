@@ -67,6 +67,7 @@
                         withFrame:(CGRect)rect
                    lastItemNumber:(NSInteger)lastItemNum
 {
+    [cellPointer setBackgroundColor:[UIColor clearColor]];
     //UpperCell@2x , BottomCell@2x , MiddleCell@2x
     NSString * imageName = nil;
     NSInteger lastItem = lastItemNum - 1;

@@ -5,22 +5,31 @@
 //  Created by vedon on 3/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-
+#define CellHeight  35
 
 #import "ProductDetailViewControllerViewController.h"
+#import "ProductDescriptionTableViewCell.h"
 #import "MyCarViewController.h"
 #import "CycleScrollView.h"
+#import "AsynCycleView.h"
 #import "GlobalMethod.h"
 #import "AppDelegate.h"
 #import "CarView.h"
 
+static NSString * cellIdentifier = @"cellIdentifier";
+static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 
-@interface ProductDetailViewControllerViewController ()
+@interface ProductDetailViewControllerViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
     
-    CycleScrollView * autoScrollView;
+    AsynCycleView   * autoScrollView;
     CarView         * shoppingCar;
+    UIImageView     * placeHolderImage;
+    UITableView     * productInfoTable;
+    NSArray         * dataSource;
+    
+    CGFloat         fontSize;
 }
 @end
 
@@ -78,30 +87,9 @@
     
     //CycleScrollView configuration
     CGRect rect = _productImageScrollView.bounds;
-    autoScrollView = [[CycleScrollView alloc] initWithFrame:rect animationDuration:2];
-    autoScrollView.backgroundColor = [UIColor clearColor];
-    NSMutableArray * images = [NSMutableArray array];
-    //Placehoder Image
-    if ([_productImages count] == 0) {
-        _productImages = @[[UIImage imageNamed:@"tempTest.png"]];
-    }
-    for (UIImage * image in _productImages) {
-        UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
-        [tempImageView setFrame:rect];
-        [images addObject:tempImageView];
-        tempImageView = nil;
-    }
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return images[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [images count];
-    };
-    autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%ld个",(long)pageIndex);
-    };
-    [_productImageScrollView addSubview:autoScrollView];
-
+    
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:3 addTo:_productImageScrollView];
+    [autoScrollView initializationInterface];
     
     //ShoppingCar configuration
     __weak ProductDetailViewControllerViewController * weakSelf = self;
@@ -119,16 +107,105 @@
         [shoppingCar setHidden:!_isShouldShowShoppingCar];
     }
     
+    //
+    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    if (fontSize < 0) {
+        fontSize = 12;
+    }
+    
+    
+    
+    CGRect resizeRect = CGRectMake(5, 0, _contentScrollView.frame.size.width-10, _contentScrollView.frame.size.height);
+    if ([OSHelper iPhone5]) {
+        resizeRect.size.height +=60;
+    }
+    CGRect contentScrollViewRect = _contentScrollView.frame;
+    contentScrollViewRect.size.height = resizeRect.size.height;
+    
+    productInfoTable = [[UITableView alloc]initWithFrame:resizeRect style:UITableViewStylePlain];
+    productInfoTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [productInfoTable setBackgroundView:nil];
+    [productInfoTable setBackgroundColor:[UIColor clearColor]];
+    [productInfoTable setShowsVerticalScrollIndicator:NO];
+    [productInfoTable setShowsHorizontalScrollIndicator:NO];
+    productInfoTable.scrollEnabled = NO;
+    productInfoTable.delegate = self;
+    productInfoTable.dataSource = self;
+    UINib * cellNib = [UINib nibWithNibName:@"ProductDescriptionTableViewCell" bundle:[NSBundle bundleForClass:[ProductDescriptionTableViewCell class]]];
+    [productInfoTable registerNib:cellNib forCellReuseIdentifier:descriptionCellIdentifier];
+    
+    
+    [_contentScrollView setShowsVerticalScrollIndicator:NO];
+    [_contentScrollView setFrame:contentScrollViewRect];
+    [_contentScrollView addSubview:productInfoTable];
+    
+    //Note:must be add a @"" to the dataSource ,cuz,for the content area
+    dataSource = @[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""];
+    
+    [self layoutProductTable];
+   
 }
 
--(void)updateAutoScrollViewItem:(NSArray *)images
+-(void)layoutProductTable
 {
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return images[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [images count];
-    };
+    NSInteger height = CellHeight * [dataSource count]-1 + 77;
+    if (productInfoTable.frame.size.height <= height) {
+        
+        CGRect resizeRect = productInfoTable.frame;
+        resizeRect.size.height = height;
+        productInfoTable.frame = resizeRect;
+        
+        [_contentScrollView setContentSize:CGSizeMake(_contentScrollView.frame.size.width, height+50)];
+    }
 }
 
+#pragma mark Table
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row != [dataSource count]-1) {
+        return CellHeight;
+    }else
+    {
+        return 77;
+    }
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [dataSource count];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row != [dataSource count]-1) {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        
+        UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, productInfoTable.frame.size.width, CellHeight) lastItemNumber:[dataSource count]];
+        [cell setBackgroundView:bgView];
+        bgView = nil;
+        
+        cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
+        cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+        
+    }else
+    {
+        ProductDescriptionTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:descriptionCellIdentifier];
+        UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, productInfoTable.frame.size.width, cell.frame.size.height) lastItemNumber:[dataSource count]];
+        [cell setBackgroundView:bgView];
+        bgView = nil;
+        cell.content.font = [UIFont systemFontOfSize:fontSize];
+        return cell;
+    }
+
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
 @end

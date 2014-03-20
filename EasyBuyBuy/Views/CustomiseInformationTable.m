@@ -119,14 +119,14 @@ static NSString * imageCellIdentifier = @"imageCell";
     [tableContentInfo setObject:@"" forKey:@"BuinessType"];
     [tableContentInfo setObject:@"" forKey:@"Photos"];
     
-    [_containerView addSubview:self];
     
+    [_containerView addSubview:self];
     locationHelperView = [[TouchLocationView alloc]initWithFrame:CGRectMake(0, 0, 320, 504)];
     [locationHelperView setBackgroundColor:[UIColor clearColor]];
     locationHelperView.userInteractionEnabled = NO;
     [_containerView addSubview:locationHelperView];
     [_containerView bringSubviewToFront:locationHelperView];
-    _containerView = nil;
+    locationHelperView = nil;
     
     
     start = range.location;

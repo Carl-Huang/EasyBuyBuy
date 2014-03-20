@@ -180,9 +180,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Outlet Action
 - (IBAction)deleteBtnAction:(id)sender {
     deletedItems = [_contentTable indexPathsForSelectedRows];
+    
+    NSMutableArray * tempDeletedItems = [NSMutableArray array];
     for (NSIndexPath * index in deletedItems) {
-        [dataSource removeObjectAtIndex:index.row];
+        id obj = [dataSource objectAtIndex:index.row];
+        [tempDeletedItems addObject:obj];
     }
+    
+    for (id object in tempDeletedItems) {
+        [dataSource removeObject:object];
+    }
+    tempDeletedItems = nil;
     
     [_contentTable deleteRowsAtIndexPaths:deletedItems withRowAnimation:UITableViewRowAnimationFade];
 }

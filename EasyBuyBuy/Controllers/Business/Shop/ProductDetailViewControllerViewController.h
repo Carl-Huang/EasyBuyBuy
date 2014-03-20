@@ -13,6 +13,7 @@
 @property (strong ,nonatomic) NSArray * productImages;
 @property (assign ,nonatomic) BOOL      isShouldShowShoppingCar;
 @property (weak, nonatomic) IBOutlet UIScrollView *productImageScrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
 
 @end

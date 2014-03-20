@@ -16,7 +16,6 @@
 @property (nonatomic , strong) NSMutableArray *contentViews;
 @property (nonatomic , strong) UIScrollView *scrollView;
 @property (nonatomic , strong) UIPageControl * pageController;
-@property (nonatomic , strong) NSTimer *animationTimer;
 @property (nonatomic , assign) NSTimeInterval animationDuration;
 
 @end
@@ -63,6 +62,8 @@
         self.scrollView.delegate = self;
         self.scrollView.contentOffset = CGPointMake(CGRectGetWidth(self.scrollView.frame), 0);
         self.scrollView.pagingEnabled = YES;
+        self.scrollView.showsHorizontalScrollIndicator = NO;
+        self.scrollView.showsVerticalScrollIndicator = NO;
         [self addSubview:self.scrollView];
         self.currentPageIndex = 0;
         
@@ -77,14 +78,18 @@
     return self;
 }
 
--(void)dealloc
+
+-(void)stopTimer
 {
-    if ([self.animationTimer isValid]) {
-        [self.animationTimer invalidate];
-        self.animationTimer = nil;
-    }
+    [self.animationTimer pauseTimer];
+}
+
+-(void)startTimer
+{
+    [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
 }
 #pragma mark - Private
+
 
 - (void)configContentViews
 {
@@ -93,7 +98,7 @@
     
     NSInteger counter = 0;
     for (UIImageView *contentView in self.contentViews) {
-        
+        contentView.frame = self.bounds;
         contentView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTapAction:)];
         [contentView addGestureRecognizer:tapGesture];
@@ -124,7 +129,7 @@
     NSInteger previousPageIndex = [self getValidNextPageIndexWithPageIndex:self.currentPageIndex - 1];
     NSInteger rearPageIndex = [self getValidNextPageIndexWithPageIndex:self.currentPageIndex + 1];
     if (self.contentViews == nil) {
-        self.contentViews = [@[] mutableCopy];
+        self.contentViews = [NSMutableArray array];
     }
     [self.contentViews removeAllObjects];
     
@@ -186,10 +191,12 @@
 
 - (void)animationTimerDidFired:(NSTimer *)timer
 {
-    if (_totalPageCount != 1) {
-        CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
-        [self.scrollView setContentOffset:newOffset animated:YES];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (_totalPageCount != 1) {
+            CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
+            [self.scrollView setContentOffset:newOffset animated:YES];
+        }
+    });
 
 }
 
@@ -200,7 +207,12 @@
     }
 }
 
-
+-(void)refreshContentAtIndex:(NSInteger)index withObject:(UIImageView *)imageView
+{
+    if ([self.contentViews count] > index) {
+        [self.contentViews replaceObjectAtIndex:index withObject:imageView];
+    }
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
