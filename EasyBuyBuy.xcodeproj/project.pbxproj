@@ -73,6 +73,8 @@
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
 		4EB1AE6718BB2B010033364F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6618BB2B010033364F /* User.m */; };
 		4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6918BB33860033364F /* PersistentStore.m */; };
+		4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB30D9D18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m */; };
+		4EB30DA018DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB30D9E18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib */; };
 		4EB335B718D744090012EA06 /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335B618D744090012EA06 /* ImageTableViewCell.xib */; };
 		4EB335BA18D7444F0012EA06 /* ImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB335B918D7444F0012EA06 /* ImageTableViewCell.m */; };
 		4EB335BF18D74AF70012EA06 /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB335BC18D74AF70012EA06 /* PhotoManager.m */; };
@@ -307,6 +309,9 @@
 		4EB1AE6618BB2B010033364F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB1AE6818BB33860033364F /* PersistentStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentStore.h; sourceTree = "<group>"; };
 		4EB1AE6918BB33860033364F /* PersistentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentStore.m; sourceTree = "<group>"; };
+		4EB30D9C18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderUserInfoTableViewCell.h; sourceTree = "<group>"; };
+		4EB30D9D18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderUserInfoTableViewCell.m; sourceTree = "<group>"; };
+		4EB30D9E18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderUserInfoTableViewCell.xib; sourceTree = "<group>"; };
 		4EB335B618D744090012EA06 /* ImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
 		4EB335B818D7444F0012EA06 /* ImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTableViewCell.h; sourceTree = "<group>"; };
 		4EB335B918D7444F0012EA06 /* ImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTableViewCell.m; sourceTree = "<group>"; };
@@ -643,6 +648,9 @@
 				4E870DC718DA8B3E00596D7E /* FontSizeTableViewCell.h */,
 				4E870DC818DA8B3E00596D7E /* FontSizeTableViewCell.m */,
 				4E870DC918DA8B3E00596D7E /* FontSizeTableViewCell.xib */,
+				4EB30D9C18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.h */,
+				4EB30D9D18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m */,
+				4EB30D9E18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib */,
 			);
 			path = UserCenter;
 			sourceTree = "<group>";
@@ -1054,6 +1062,7 @@
 				4EAE464418C6EE520089B843 /* MyCarViewController.xib in Resources */,
 				C33EEC4D189667B200A26971 /* Login_Bar_User@2x.png in Resources */,
 				C33EEC64189667B200A26971 /* Red Apple_ShoppingCar@2x.png in Resources */,
+				4EB30DA018DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib in Resources */,
 				C33EEC6D189667B200A26971 /* Top Bar1_88@2x.png in Resources */,
 				C33EEC60189667B200A26971 /* Red Apple_Frame_Product@2x.png in Resources */,
 				4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */,
@@ -1189,6 +1198,7 @@
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
 				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
+				4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,
 				4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */,
 				4EB335C018D74AF70012EA06 /* CustomiseActionSheet.m in Sources */,

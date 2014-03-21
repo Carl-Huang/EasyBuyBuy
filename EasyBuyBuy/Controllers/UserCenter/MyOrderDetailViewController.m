@@ -7,9 +7,11 @@
 //
 
 #import "MyOrderDetailViewController.h"
+#import "MyOrderUserInfoTableViewCell.h"
 #import "GlobalMethod.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
+static NSString * userInfoCellIdentifier = @"userInfoCellIdentifier";
 
 @interface MyOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -63,9 +65,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _contentTable.showsVerticalScrollIndicator = NO;
+    UINib * cellNib = [UINib nibWithNibName:@"MyOrderUserInfoTableViewCell" bundle:[NSBundle bundleForClass:[MyOrderUserInfoTableViewCell class]]];
+    [_contentTable registerNib:cellNib forCellReuseIdentifier:userInfoCellIdentifier];
+    
+    
     sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7"];
-    
-    
     NSDictionary * userInfo = @{@"name": @"jack",@"tel":@"150183095838",@"address":@"guangzhou,tianhe,futianlu"};
     dataSource = @[userInfo,@"Payment:",@"Deliver Method:",@"Remark:",@"please enter:",@"Price:",@"Deliver Cost:",@"Product list",@"Order Status:",@"Order Time:",@"Total Cost:"];
     sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
@@ -79,20 +84,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    switch (section) {
-//        case 3:
-//            return 2;
-//            break;
-//        case 4:
-//            return 2;
-//            break;
-//        case 6:
-//            return 3;
-//            break;
-//        default:
-//            return 1;
-//            break;
-//    }
     NSString * number = [sectionOffset objectAtIndex:section];
     return number.integerValue;
 }
@@ -101,7 +92,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     switch (indexPath.section) {
         case 0:
-            return 70;
+            return 77;
             break;
         default:
             return 40;
@@ -111,19 +102,24 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+    
     if (indexPath.row == 0 && indexPath.section == 0) {
+        MyOrderUserInfoTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
+        
         NSDictionary * userInfo = [dataSource objectAtIndex:0];
-        cell.textLabel.text = [userInfo valueForKey:@"name"];
-        UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 70)];
-        [cell setBackgroundView:bgView];
-        bgView = nil;
+        cell.userName.text = [userInfo valueForKey:@"name"];
+        cell.phoneNumber.text = [userInfo valueForKey:@"tel"];
+        cell.address.text = [userInfo valueForKey:@"address"];
+//        UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 70)];
+//        [cell setBackgroundView:bgView];
+//        bgView = nil;
         return  cell;
     }else
     {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
         NSString * rowsInSection = [sectionOffset objectAtIndex:indexPath.section];
         NSInteger offset = indexPath.row+1;
         for (int i = 1 ; i < indexPath.section; ++i) {
@@ -131,15 +127,28 @@ static NSString * cellIdentifier = @"cellIdentifier";
             offset +=str.integerValue;
         }
         
-        UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 40) lastItemNumber:rowsInSection.integerValue];
-        [cell setBackgroundView:bgView];
-        bgView = nil;
+        if (rowsInSection.integerValue == 1) {
+            UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 40)];
+            [cell setBackgroundView:bgView];
+            bgView = nil;
+        }else
+        {
+            UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 40) lastItemNumber:rowsInSection.integerValue];
+            [cell setBackgroundView:bgView];
+            bgView = nil;
+        }
+        
+        if (indexPath.section == 5) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
         
         cell.textLabel.text = [dataSource objectAtIndex:offset];
+        return cell;
     }
     
-   
-    return  cell;
 }
 
 @end
