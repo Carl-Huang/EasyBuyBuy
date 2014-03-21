@@ -203,7 +203,10 @@
                      withFrame:(CGRect)rect
 {
     [cellPointer setBackgroundColor:[UIColor clearColor]];
-
+    //ContainerView
+    UIView * containerView = [[UIView alloc]initWithFrame:rect];
+    [containerView setBackgroundColor:[UIColor clearColor]];
+    
     rect.size.height = rect.size.height / 2.0;
     //Strecth the image and paste it to the imageView with suitable size
     UIImage * stretchImage1 = [UIImage imageNamed:@"UpperCell.png"];
@@ -218,9 +221,6 @@
     [cellBg2 setFrame:rect];
     
     
-    //ContainerView
-    UIView * containerView = [[UIView alloc]initWithFrame:rect];
-    [containerView setBackgroundColor:[UIColor clearColor]];
     [containerView addSubview:cellBg1];
     [containerView addSubview:cellBg2];
     

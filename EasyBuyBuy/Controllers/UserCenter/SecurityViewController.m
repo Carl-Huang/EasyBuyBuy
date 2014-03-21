@@ -9,6 +9,7 @@
 #import "SecurityViewController.h"
 #import "SecurityCell.h"
 #import "OneWayAlertView.h"
+#import "GlobalMethod.h"
 
 static NSString * cellIdentifier        = @"cellIdentifier";
 @interface SecurityViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
@@ -17,7 +18,7 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     NSArray * dataSource;
     NSMutableDictionary * textFieldInfoDic;
-
+    CGFloat fontSize;
 }
 @end
 
@@ -66,7 +67,15 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     [_contentTable setBackgroundView:nil];
     [_contentTable setScrollEnabled:NO];
+    _contentTable.separatorStyle = UITableViewCellSelectionStyleNone;
+    _contentTable.scrollEnabled = NO;
+    
     textFieldInfoDic = [NSMutableDictionary dictionary];
+    
+    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    if (fontSize < 0) {
+        fontSize = 12;
+    }
 }
 
 
@@ -91,9 +100,17 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SecurityCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height) lastItemNumber:[dataSource count]];
+    [cell setBackgroundView:bgView];
+    bgView = nil;
+    
     cell.cellTitle.text = [dataSource objectAtIndex:indexPath.row];
     cell.cellTitleContent.tag = indexPath.row;
     cell.cellTitleContent.delegate = self;
+    
+    cell.cellTitle.font = [UIFont systemFontOfSize:fontSize];
+    cell.cellTitleContent.font = [UIFont systemFontOfSize:fontSize];
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
 }

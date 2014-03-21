@@ -31,6 +31,8 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     NSArray * bottomDataSource;
     
     UIView * bottomTableFooterView;
+    
+    CGFloat fontSize;
 }
 @end
 
@@ -109,6 +111,11 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     
     UINib * cellNib = [UINib nibWithNibName:@"FontSizeTableViewCell" bundle:[NSBundle bundleForClass:[FontSizeTableViewCell class]]];
     [_bottomTableView registerNib:cellNib forCellReuseIdentifier:fontSizeCellIdentifier];
+    
+    fontSize = [GlobalMethod getDefaultFontSize] * 14;
+    if (fontSize < 0) {
+        fontSize = 14;
+    }
 }
 
 
@@ -117,6 +124,12 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     UISlider * slider = (UISlider *)sender;
     
     [GlobalMethod setDefaultFontSize:slider.value];
+    fontSize = [GlobalMethod getDefaultFontSize] * 14;
+    if (fontSize < 0) {
+        fontSize = 14;
+    }
+    [self.upperTableView reloadData];
+    [self.bottomTableView reloadData];
     NSLog(@"%f",slider.value);
 }
 #pragma mark - UITableView
@@ -157,7 +170,7 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         [cell setBackgroundView:bgView];
         bgView = nil;
         cell.textLabel.text = [upperDataSource objectAtIndex:indexPath.row];
-        cell.textLabel.font = [UIFont systemFontOfSize:17];
+        cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
         cell.textLabel.textColor = [UIColor darkGrayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
@@ -175,6 +188,16 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
             [fontCell setBackgroundView:bgView];
             bgView = nil;
             fontCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            fontCell.cellTitle.text = @"Font";
+            fontCell.smallDes.text = @"Small";
+            fontCell.middleDes.text = @"Middle";
+            fontCell.bigDes.text = @"Big";
+            
+            fontCell.cellTitle.font = [UIFont systemFontOfSize:fontSize];
+            fontCell.smallDes.font = [UIFont systemFontOfSize:fontSize];
+            fontCell.middleDes.font = [UIFont systemFontOfSize:fontSize];
+            fontCell.bigDes.font = [UIFont systemFontOfSize:fontSize];
             return fontCell;
         }else
         {
@@ -193,14 +216,12 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
             bgView = nil;
             
             cell.textLabel.text = [bottomDataSource objectAtIndex:indexPath.row];
-            cell.textLabel.font = [UIFont systemFontOfSize:17];
+            cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
             cell.textLabel.textColor = [UIColor darkGrayColor];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.backgroundColor = [UIColor clearColor];
             return cell;
         }
-        
-        
        
     }
     

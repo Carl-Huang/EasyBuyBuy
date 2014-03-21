@@ -9,6 +9,7 @@
 #import "MyAddressViewController.h"
 #import "AddressCell.h"
 #import "EditAddressViewController.h"
+#import "GlobalMethod.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyAddressViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -17,6 +18,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     NSMutableArray * dataSource;
     NSArray        * deletedItems;
+    CGFloat          fontSize;
 }
 @end
 
@@ -67,8 +69,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     
-    
+
     [_buttonContainerView setHidden:YES];
+    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    if (fontSize < 0) {
+        fontSize = 12;
+    }
 }
 
 
@@ -153,6 +159,19 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AddressCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    cell.addressDes.text    = @"Guangzhou ,Tianhe,shangshe";
+    cell.phoneNO.text       = @"150193857240";
+    cell.userName.text      = @"Jack";
+    
+    cell.addressDes.font    = [UIFont systemFontOfSize:fontSize];
+    cell.phoneNO.font       = [UIFont systemFontOfSize:fontSize];
+    cell.userName.font      = [UIFont systemFontOfSize:fontSize];
+    
+    UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, cell.cellBgView.frame.size.width, cell.cellBgView.frame.size.height)];
+
+    [cell.cellBgView addSubview:bgView];
+    bgView = nil;
     
     return  cell;
 }

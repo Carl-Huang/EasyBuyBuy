@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AddressCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIView *cellBgView;
 
 @property (weak, nonatomic) IBOutlet UILabel *addressDes;
 @property (weak, nonatomic) IBOutlet UILabel *phoneNO;

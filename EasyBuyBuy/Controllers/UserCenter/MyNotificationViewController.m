@@ -28,6 +28,8 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     BOOL isScrollViewShouldScroll;
     NSInteger currentPage;
+    
+    CGFloat fontSize;
 }
 @property (strong ,nonatomic) UITableView * productNotiTable;
 @property (strong ,nonatomic) UITableView * systemNotiTable;
@@ -116,6 +118,13 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     [self updateUpperBtnStatus];
     
+    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    if (fontSize < 0) {
+        fontSize = 12;
+    }
+    
+    [_productNotiBtn.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [_systemNotiBtn.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
 }
 
 -(void)modifyNotiTable
