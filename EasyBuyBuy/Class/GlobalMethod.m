@@ -169,7 +169,7 @@
     UIView * containerView = [[UIView alloc]initWithFrame:rect];
     [containerView setBackgroundColor:[UIColor clearColor]];
     [containerView addSubview:cellBg];
-    
+    cellBg = nil;
     return containerView;
 }
 
@@ -196,10 +196,39 @@
         [containerView addSubview:separateLineImageView];
     }
     
-    
     return containerView;
-
 }
+
++(UIView *)configureSingleCell:(UITableViewCell *)cellPointer
+                     withFrame:(CGRect)rect
+{
+    [cellPointer setBackgroundColor:[UIColor clearColor]];
+
+    rect.size.height = rect.size.height / 2.0;
+    //Strecth the image and paste it to the imageView with suitable size
+    UIImage * stretchImage1 = [UIImage imageNamed:@"UpperCell.png"];
+    UIImage * stretchedImage1 = [stretchImage1 resizableImageWithCapInsets:UIEdgeInsetsMake(20, 200, 20, 200)];
+    UIImageView * cellBg1 = [[UIImageView alloc]initWithImage:stretchedImage1];
+    [cellBg1 setFrame:rect];
+    
+    rect.origin.y += rect.size.height;
+    UIImage * stretchImage2 = [UIImage imageNamed:@"BottomCell.png"];
+    UIImage * stretchedImage2 = [stretchImage2 resizableImageWithCapInsets:UIEdgeInsetsMake(20, 200, 20, 200)];
+    UIImageView * cellBg2 = [[UIImageView alloc]initWithImage:stretchedImage2];
+    [cellBg2 setFrame:rect];
+    
+    
+    //ContainerView
+    UIView * containerView = [[UIView alloc]initWithFrame:rect];
+    [containerView setBackgroundColor:[UIColor clearColor]];
+    [containerView addSubview:cellBg1];
+    [containerView addSubview:cellBg2];
+    
+    cellBg1 = nil;
+    cellBg2 = nil;
+    return containerView;
+}
+
 
 +(UITextField *)newTextFieldToCellContentView:(UITableViewCell *)cell
                                         index:(NSInteger)index

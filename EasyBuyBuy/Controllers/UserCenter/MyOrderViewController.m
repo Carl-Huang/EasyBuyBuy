@@ -7,6 +7,7 @@
 //
 
 #import "MyOrderViewController.h"
+#import "MyOrderDetailViewController.h"
 #import "OrderCell.h"
 @interface MyOrderViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -56,7 +57,7 @@ static NSString * cellIdentifier = @"cell";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
-    _contentTable.separatorStyle = UITableViewCellSelectionStyleNone;
+    _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     
     self.title = viewControllTitle;
@@ -81,4 +82,10 @@ static NSString * cellIdentifier = @"cell";
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
 @end

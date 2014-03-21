@@ -42,6 +42,8 @@ typedef enum _ANCHOR
 +(UIView *)configureMiddleCellBgWithCell:(UITableViewCell *)cellPointer
                                withFrame:(CGRect)rect;
 
++(UIView *)configureSingleCell:(UITableViewCell *)cellPointer
+                     withFrame:(CGRect)rect;
 
 +(UITextField *)newTextFieldToCellContentView:(UITableViewCell *)cell
                                         index:(NSInteger)index
