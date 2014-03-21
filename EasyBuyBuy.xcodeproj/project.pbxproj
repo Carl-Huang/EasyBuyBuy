@@ -95,6 +95,8 @@
 		4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFBD18BC6D060064B22C /* EditAddressViewController.xib */; };
 		4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC118BC6F810064B22C /* EditAddressCell.m */; };
 		4EB5FFC418BC70600064B22C /* EditAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5FFC318BC70600064B22C /* EditAddressCell.xib */; };
+		4EB6849C18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6849A18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m */; };
+		4EB6849D18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB6849B18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib */; };
 		4EB68AC518DB2434002ECB06 /* AsynCycleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC418DB2434002ECB06 /* AsynCycleView.m */; };
 		4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */; };
 		4EB68ACA18DB346B002ECB06 /* ProductDescriptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */; };
@@ -340,6 +342,9 @@
 		4EB5FFC018BC6F810064B22C /* EditAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAddressCell.h; sourceTree = "<group>"; };
 		4EB5FFC118BC6F810064B22C /* EditAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAddressCell.m; sourceTree = "<group>"; };
 		4EB5FFC318BC70600064B22C /* EditAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditAddressCell.xib; sourceTree = "<group>"; };
+		4EB6849918DC0001005AE976 /* DefaultDescriptionCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultDescriptionCellTableViewCell.h; sourceTree = "<group>"; };
+		4EB6849A18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultDescriptionCellTableViewCell.m; sourceTree = "<group>"; };
+		4EB6849B18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultDescriptionCellTableViewCell.xib; sourceTree = "<group>"; };
 		4EB68AC318DB2434002ECB06 /* AsynCycleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsynCycleView.h; sourceTree = "<group>"; };
 		4EB68AC418DB2434002ECB06 /* AsynCycleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsynCycleView.m; sourceTree = "<group>"; };
 		4EB68AC618DB346B002ECB06 /* ProductDescriptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDescriptionTableViewCell.h; sourceTree = "<group>"; };
@@ -705,6 +710,9 @@
 				4EAA4F7618C749000037D8C5 /* TouchLocationView.m */,
 				4EB9964818D80B79001EA448 /* CustomiseInformationTable.h */,
 				4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */,
+				4EB6849918DC0001005AE976 /* DefaultDescriptionCellTableViewCell.h */,
+				4EB6849A18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m */,
+				4EB6849B18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1052,6 +1060,7 @@
 				4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */,
 				C33EEC6F189667B200A26971 /* Verification_Btn_Click@2x.png in Resources */,
 				C33EEC54189667B200A26971 /* My_Adress_Btn_Add@2x.png in Resources */,
+				4EB6849D18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
 				5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */,
 				C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */,
@@ -1218,6 +1227,7 @@
 				4EC207AB18C57754003708D6 /* CommonViewController.m in Sources */,
 				4EAE463918C6EE520089B843 /* BiddingCell.m in Sources */,
 				4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */,
+				4EB6849C18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m in Sources */,
 				4EB1AE6A18BB33860033364F /* PersistentStore.m in Sources */,
 				4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */,
 				4EAC790418C4B1A10022ECDD /* CycleScrollView.m in Sources */,

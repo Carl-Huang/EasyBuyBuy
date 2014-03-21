@@ -8,6 +8,7 @@
 #define CellHeight  35
 
 #import "ProductDetailViewControllerViewController.h"
+#import "DefaultDescriptionCellTableViewCell.h"
 #import "ProductDescriptionTableViewCell.h"
 #import "MyCarViewController.h"
 #import "CycleScrollView.h"
@@ -115,7 +116,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     
     
     
-    CGRect resizeRect = CGRectMake(5, 0, _contentScrollView.frame.size.width-10, _contentScrollView.frame.size.height);
+    CGRect resizeRect = CGRectMake(0, 0, _contentScrollView.frame.size.width, _contentScrollView.frame.size.height);
     if ([OSHelper iPhone5]) {
         resizeRect.size.height +=60;
     }
@@ -131,8 +132,11 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     productInfoTable.scrollEnabled = NO;
     productInfoTable.delegate = self;
     productInfoTable.dataSource = self;
-    UINib * cellNib = [UINib nibWithNibName:@"ProductDescriptionTableViewCell" bundle:[NSBundle bundleForClass:[ProductDescriptionTableViewCell class]]];
-    [productInfoTable registerNib:cellNib forCellReuseIdentifier:descriptionCellIdentifier];
+    UINib * cellNib1 = [UINib nibWithNibName:@"ProductDescriptionTableViewCell" bundle:[NSBundle bundleForClass:[ProductDescriptionTableViewCell class]]];
+    [productInfoTable registerNib:cellNib1 forCellReuseIdentifier:descriptionCellIdentifier];
+    
+    UINib * cellNib2 = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
+    [productInfoTable registerNib:cellNib2 forCellReuseIdentifier:cellIdentifier];
     
     
     [_contentScrollView setShowsVerticalScrollIndicator:NO];
@@ -178,18 +182,18 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row != [dataSource count]-1) {
-        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        }
+        DefaultDescriptionCellTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
         UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, productInfoTable.frame.size.width, CellHeight) lastItemNumber:[dataSource count]];
         [cell setBackgroundView:bgView];
         bgView = nil;
         
-        cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
-        cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.contentTitle.text  = [dataSource objectAtIndex:indexPath.row];
+        cell.content.text       = @"Test";
+        cell.contentTitle.font  = [UIFont systemFontOfSize:fontSize];
+        cell.content.font       = [UIFont systemFontOfSize:fontSize];
+        cell.selectionStyle     = UITableViewCellSelectionStyleNone;
+
         return cell;
         
     }else
@@ -199,6 +203,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         [cell setBackgroundView:bgView];
         bgView = nil;
         cell.content.font = [UIFont systemFontOfSize:fontSize];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 
