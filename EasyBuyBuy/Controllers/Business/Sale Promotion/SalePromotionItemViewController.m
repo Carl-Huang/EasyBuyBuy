@@ -20,7 +20,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 @interface SalePromotionItemViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
-    
+    NSDictionary * biddingViewInfo;
     
     NSArray * firstSectionDataSource;
     NSArray * secondSectionDataSource;
@@ -64,10 +64,19 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 -(void)initializationLocalString
 {
     viewControllTitle = @"Shop";
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        firstSectionDataSource = localizedDic [@"firstSectionDataSource"];
+        [_biddingBtn setTitle:localizedDic [@"_biddingBtn"]forState:UIControlStateNormal];
+        biddingViewInfo = localizedDic[@"biddingView"];
+    }
 }
 
 -(void)initializationInterface
 {
+   
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
@@ -81,7 +90,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     [_contentTable setBackgroundView:nil];
 
-    firstSectionDataSource = @[@"Product Name:",@"Product Description"];
+    
     secondSectionDataSource = @[@"1",@"2",@"2"];
     
     
@@ -126,7 +135,6 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 {
     
     if (index.row == 1) {
-        
         
         [self gotoProductDetailViewControllerViewController];
     }
@@ -201,6 +209,14 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
             bgImageView = nil;
         }
         
+        if (indexPath.row == 1) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+        
         //Font attributed
         [cell.textLabel setFont:[UIFont systemFontOfSize:13 * [GlobalMethod getDefaultFontSize]]];
         [cell.textLabel setTextColor:[UIColor darkGrayColor]];
@@ -245,6 +261,11 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     if (biddingView == nil) {
         myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
         biddingView = [[[NSBundle mainBundle]loadNibNamed:@"BiddingPopupView" owner:self options:nil]objectAtIndex:0];
+        
+        [biddingView.cancelBtn setTitle:biddingViewInfo[@"Cancel"] forState:UIControlStateNormal];
+        [biddingView.confirmBtn setTitle:biddingViewInfo[@"Confirm"] forState:UIControlStateNormal];
+        biddingView.price.text = biddingViewInfo[@"Price"];
+        biddingView.des.text = biddingViewInfo[@"Description"];
         
         //Adjust to the screen size
         [GlobalMethod anchor:biddingView.contentView to:CENTER withOffset:CGPointMake(0, 0)];

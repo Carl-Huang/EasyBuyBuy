@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
@@ -114,7 +115,9 @@
                 <outlet property="cancelBtn" destination="asB-vk-xlK" id="dvO-GX-eYV"/>
                 <outlet property="confirmBtn" destination="zF7-uC-zZ3" id="Q09-Id-MFp"/>
                 <outlet property="contentView" destination="XH4-26-jEC" id="Upn-eE-7aZ"/>
+                <outlet property="des" destination="hjP-FQ-gC6" id="xfD-KL-64z"/>
                 <outlet property="desTextView" destination="5IG-ML-btU" id="zsh-kL-FcW"/>
+                <outlet property="price" destination="HdK-af-91H" id="c1l-bc-JZH"/>
                 <outlet property="priceTextField" destination="oe7-QP-MDP" id="fyT-v2-uBv"/>
             </connections>
         </view>

@@ -13,5 +13,5 @@
 +(id)shareLanguageMng;
 
 
--(NSDictionary *)getLocalizedStringWithObject:(id)invoke;
+-(NSDictionary *)getLocalizedStringWithObject:(id)invoke container:(NSArray *)container;
 @end

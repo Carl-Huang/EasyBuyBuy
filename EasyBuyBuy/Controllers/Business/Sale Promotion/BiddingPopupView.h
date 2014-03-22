@@ -17,6 +17,8 @@ typedef void (^ConfirmActionBlock)(NSDictionary * info);
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
 @property (weak, nonatomic) IBOutlet UITextView *desTextView;
 @property (weak, nonatomic) IBOutlet UITextField *priceTextField;
+@property (weak, nonatomic) IBOutlet UILabel *price;
+@property (weak, nonatomic) IBOutlet UILabel *des;
 
 //Block
 @property (strong ,nonatomic) BiddingViewBeginEditting beginEdittingBlock;

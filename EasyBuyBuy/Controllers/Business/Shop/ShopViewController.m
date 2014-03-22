@@ -48,11 +48,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
+
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
-    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self];
     
     if (localizedDic) {
-        viewControllTitle = localizedDic [@"Title"];
+        viewControllTitle = localizedDic [@"viewControllTitle"];
     }else
     {
         viewControllTitle = @"Shop";

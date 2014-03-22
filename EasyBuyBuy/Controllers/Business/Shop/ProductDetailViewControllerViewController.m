@@ -79,6 +79,16 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 -(void)initializationLocalString
 {
     viewControllTitle = @"Shop";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    //Note:must be add a @"" to the dataSource ,cuz,for the content area
+    if (localizedDic) {
+        dataSource = [localizedDic valueForKey:@"Content"];
+    }else
+    {
+        dataSource = @[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""];
+    }
+
 }
 
 -(void)initializationInterface
@@ -143,8 +153,6 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     [_contentScrollView setFrame:contentScrollViewRect];
     [_contentScrollView addSubview:productInfoTable];
     
-    //Note:must be add a @"" to the dataSource ,cuz,for the content area
-    dataSource = @[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""];
     
     [self layoutProductTable];
    
