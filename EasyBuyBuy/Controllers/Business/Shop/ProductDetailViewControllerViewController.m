@@ -63,6 +63,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 {
     [super viewWillDisappear:YES];
     [shoppingCar setHidden:YES];
+    [autoScrollView cleanAsynCycleView];
     
 }
 

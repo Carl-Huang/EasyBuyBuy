@@ -8,6 +8,7 @@
 
 #import "MyCarViewController.h"
 #import "MyCarCell.h"
+#import "MyOrderDetailViewController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyCarViewController ()
@@ -17,6 +18,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * costDescTitle;
 
     NSArray * dataSource;
+    NSMutableDictionary * itemSelectedStatus;
+    CGFloat fontSize;
 }
 @end
 
@@ -47,6 +50,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 #pragma mark - Outlet Action
 - (IBAction)confirmBtnAction:(id)sender {
+    
+    
+    MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
+    [viewController setIsNewOrder:YES];
+    [self push:viewController];
+    viewController = nil;
 }
 
 #pragma mark - Private
@@ -66,9 +75,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_confirmBtn setTitle:confirmBtnTitle forState:UIControlStateNormal];
     _costDesc.text = costDescTitle;
     
-    
-    dataSource = @[@"English",@"Chinese",@"Arabic"];
-    
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
@@ -78,8 +84,39 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     UINib * cellNib = [UINib nibWithNibName:@"MyCarCell" bundle:[NSBundle bundleForClass:[MyCarCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    
+    
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
+    if (fontSize < 0) {
+        fontSize = DefaultFontSize;
+    }
+    
+    itemSelectedStatus = [NSMutableDictionary dictionary];
+    dataSource = @[@"English",@"Chinese",@"Arabic"];
+    for (int i = 0; i < [dataSource count]; ++i) {
+        [itemSelectedStatus setObject:@"1" forKey:[NSString stringWithFormat:@"%d",i]];
+    }
+    
 }
 
+
+-(void)selectProductAction:(id)sender
+{
+    UIButton * btn = (UIButton *)sender;
+    [self updateStatusWithTag:btn.tag];
+}
+
+-(void)updateStatusWithTag:(NSInteger)tag
+{
+    NSString * key = [NSString stringWithFormat:@"%d",tag];
+    NSString * value = [itemSelectedStatus valueForKey:key];
+    if ([value isEqualToString:@"1"]) {
+        [itemSelectedStatus setObject:@"0" forKey:key];
+    }else
+        [itemSelectedStatus setObject:@"1" forKey:key];
+    
+    [_contentTable reloadData];
+}
 
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -95,9 +132,22 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MyCarCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
-    cell.productDes.text   = [dataSource objectAtIndex:indexPath.row];
-    [cell.productCheckBtn setSelected:YES];
+    cell.productDes.text    = [dataSource objectAtIndex:indexPath.row];
+    
+    NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    if ([value isEqualToString:@"1"]) {
+        [cell.productCheckBtn setSelected:YES];
+    }else
+        [cell.productCheckBtn setSelected:NO];
+    
+    [cell.productCheckBtn addTarget:self action:@selector(selectProductAction:) forControlEvents:UIControlEventTouchUpInside];
+    cell.productCheckBtn.tag = indexPath.row;
+
+    cell.productDes.font    = [UIFont systemFontOfSize:fontSize+3];
+    cell.productNumber.font = [UIFont systemFontOfSize:fontSize];
+    cell.productCost.font   = [UIFont systemFontOfSize:fontSize+1];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
@@ -105,6 +155,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self updateStatusWithTag:indexPath.row];
 }
 @end

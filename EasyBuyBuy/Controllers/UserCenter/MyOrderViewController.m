@@ -85,6 +85,7 @@ static NSString * cellIdentifier = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
+    [viewController setIsNewOrder:NO];
     [self push:viewController];
     viewController = nil;
 }

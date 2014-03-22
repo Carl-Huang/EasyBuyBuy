@@ -46,6 +46,22 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    if (_isNewOrder) {
+        [_postOrderView setHidden:NO];
+    }else
+    {
+        [_postOrderView setHidden:YES];
+        CGRect rect = _contentView.frame;
+        rect.size.height += _postOrderView.frame.size.height;
+        _contentView.frame = rect;
+    }
+    
+    
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -117,13 +133,13 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         MyOrderUserInfoTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
         
         NSDictionary * userInfo = [dataSource objectAtIndex:0];
-        cell.userName.text = [userInfo valueForKey:@"name"];
+        cell.userName.text      = [userInfo valueForKey:@"name"];
         cell.phoneNumber.text = [userInfo valueForKey:@"tel"];
-        cell.address.text = [userInfo valueForKey:@"address"];
+        cell.address.text       = [userInfo valueForKey:@"address"];
         
-        cell.userName.font = [UIFont systemFontOfSize:fontSize];
-        cell.phoneNumber.font = [UIFont systemFontOfSize:fontSize];
-        cell.address.font = [UIFont systemFontOfSize:fontSize];
+        cell.userName.font      = [UIFont systemFontOfSize:fontSize];
+        cell.phoneNumber.font   = [UIFont systemFontOfSize:fontSize];
+        cell.address.font       = [UIFont systemFontOfSize:fontSize];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return  cell;
@@ -149,11 +165,11 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
             bgView = nil;
         }
         
-        cell.contentTitle.text = [dataSource objectAtIndex:offset];
+        cell.contentTitle.text  = [dataSource objectAtIndex:offset];
+        cell.content.text = @"test";
         
-        
-        cell.contentTitle.font =[UIFont systemFontOfSize:fontSize];
-        cell.content.font = [UIFont systemFontOfSize:fontSize];
+        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
+        cell.content.font       = [UIFont systemFontOfSize:fontSize];
         
         if (indexPath.section == 5) {
             cell.content.text = @"";
