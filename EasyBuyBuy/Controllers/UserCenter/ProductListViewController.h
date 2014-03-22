@@ -11,5 +11,5 @@
 @interface ProductListViewController : CommonViewController
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 
-@property (strong ,nonatomic) NSArray * dataSource;
+@property (strong ,nonatomic) NSArray * products;
 @end

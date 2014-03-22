@@ -63,7 +63,6 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 {
     [super viewWillDisappear:YES];
     [shoppingCar setHidden:YES];
-    [autoScrollView cleanAsynCycleView];
     
 }
 
@@ -112,6 +111,8 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
          [weakSelf push:viewController];
          viewController = nil;
      }];
+    [shoppingCar updateProductNumber:3];
+    
     [GlobalMethod anchor:shoppingCar to:BOTTOM withOffset:CGPointMake(120, 10)];
     AppDelegate * myDelegate =(AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:shoppingCar];

@@ -61,6 +61,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%@",self);
 #ifdef iOS7_SDK
     if([OSHelper iOS7])
     {

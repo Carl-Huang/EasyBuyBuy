@@ -71,8 +71,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     
-    if ([_dataSource count] == 0) {
-        _dataSource = @[@"1",@"2",@"3"];
+    if ([_products count] == 0) {
+        _products = @[@"1",@"2",@"3"];
     }
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
@@ -83,7 +83,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma  mark - UITable
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_dataSource count];
+    return [_products count];
     
 }
 
@@ -95,8 +95,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductListTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UIView * bgView = nil;
+    if ([_products count]==1) {
+        bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width,CellHeight)];
+    }else
+    {
+      bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width,CellHeight) lastItemNumber:[_products count]];
+    }
     
-    UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width,CellHeight) lastItemNumber:[_dataSource count]];
     [cell setBackgroundView:bgView];
     bgView = nil;
     

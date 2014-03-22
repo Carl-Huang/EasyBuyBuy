@@ -146,4 +146,122 @@
                  };
     }
 }
+
+#pragma  mark - UserCenterViewController
+-(NSDictionary *)UserCenterViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"UserCenter"
+                 ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My notification"]
+                 ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@""]
+                 ,@"localizedFooterView":@[@"Font",@"Small",@"Middle",@"Big"]};
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"用户中心"
+                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的通知"]
+                 ,@"bottomDataSource":@[@"账号升级",@"语言",@""]
+                 ,@"localizedFooterView":@[@"字体",@"小",@"中",@"大"]};
+    }else
+    {
+        return @{@"viewControllTitle": @"مركز المستعمل"
+                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的通知"]
+                 ,@"bottomDataSource":@[@"账号升级",@"语言",@""]
+                 ,@"localizedFooterView":@[@"محرف",@"صغير",@"في",@"كبير"]};
+    }
+}
+
+#pragma mark - SecurityViewController
+-(NSDictionary *)SecurityViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Security"
+                 ,@"dataSource":@[@"Old Password:",@"New Password:",@"Comfirm Password:"]
+                 ,@"confirmBtn":@"Confirm"};
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"账号安全"
+                 ,@"dataSource":@[@"旧密码:",@"新密码:",@"新密码确认:"]
+                 ,@"confirmBtn":@"确定"};
+    }else
+    {
+        return @{@"viewControllTitle": @"أمن"
+                 ,@"dataSource":@[@"旧密码:",@"新密码:",@"新密码确认:"]
+                 ,@"confirmBtn":@"确定"};
+    }
+}
+
+#pragma mark - MyAddressViewController
+-(NSDictionary *)MyAddressViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"My Address"
+                 ,@"deleteBtn":@"Delete"
+                 ,@"doneBtnTitle":@"Done"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"我的地址"
+                 ,@"deleteBtn":@"删除"
+                 ,@"doneBtnTitle":@"完成"
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"我的地址"
+                 ,@"deleteBtn":@"删除"
+                 ,@"doneBtnTitle":@"完成"
+                 };
+    }
+}
+
+#pragma mark - EditAddressViewController
+-(NSDictionary *)EditAddressViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"New Address"
+                 ,@"confirmBtn":@"Confirm"
+                 ,@"dataSource":@[@"Name:",@"Tel:",@"Moble:",@"Address:"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"我的地址"
+                 ,@"confirmBtn":@"确定"
+                 ,@"dataSource":@[@"名字:",@"手机:",@"电话:",@"地址:"]
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"我的地址"
+                 ,@"confirmBtn":@"确定"
+                 ,@"dataSource":@[@"名字:",@"手机:",@"电话:",@"地址:"]
+                 };
+    }
+}
+
+#pragma  mark - LanguageViewController
+-(NSDictionary *)LanguageViewControllerLanguage
+{
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Language"
+                 ,@"dataSource":@[@"English",@"Chinese",@"Arabic"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"语言"
+                 ,@"dataSource":@[@"英文",@"中文",@"阿拉伯文"]
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"لغة"
+                 ,@"dataSource":@[@"الإنجليزية:",@"الصينية:",@"العربية:"]
+                 };
+    }
+}
 @end

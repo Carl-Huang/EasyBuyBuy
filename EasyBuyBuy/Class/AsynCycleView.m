@@ -37,7 +37,7 @@
 {
     self = [super init];
     if (self) {
-        _placeHoderImage = image;
+        _placeHoderImage = [[UIImage alloc]initWithData:UIImagePNGRepresentation(image)];
         nPlaceholderImages = numOfPlaceHoderImages;
         cycleViewParentView = parentView;
         cycleViewFrame = rect;
@@ -169,6 +169,7 @@
         [autoScrollView stopTimer];
         autoScrollView = nil;
     }
+    _placeHoderImage = nil;
 }
 
 -(void)cleanAsynCycleView
@@ -176,4 +177,5 @@
     [autoScrollView stopTimer];
     autoScrollView = nil;
 }
+
 @end

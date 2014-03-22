@@ -22,6 +22,7 @@
     //Language
      NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     if (!language) {
+        //The default language 
         [[NSUserDefaults standardUserDefaults]setObject:@"English" forKey:CurrentLanguage];
         [[NSUserDefaults standardUserDefaults]synchronize];
     }

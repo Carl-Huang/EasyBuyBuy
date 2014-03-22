@@ -51,11 +51,21 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Outlet Action
 - (IBAction)confirmBtnAction:(id)sender {
     
+    //Fetch the products user selected
+    NSMutableArray * selectedProducts = [NSMutableArray array];
+    for (int i =0; i < [[itemSelectedStatus allKeys]count]; ++ i) {
+        NSString * key = [NSString stringWithFormat:@"%d",i];
+        NSString * value = [itemSelectedStatus valueForKey:key];
+        if ([value isEqualToString:@"1"]) {
+            [selectedProducts addObject:[dataSource objectAtIndex:i]];
+        }
+    }
     
     MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [viewController setIsNewOrder:YES];
+    [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES];
     [self push:viewController];
     viewController = nil;
+    
 }
 
 #pragma mark - Private
@@ -92,7 +102,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     
     itemSelectedStatus = [NSMutableDictionary dictionary];
+    //TODO :Fetch the data from local
     dataSource = @[@"English",@"Chinese",@"Arabic"];
+    
+    
     for (int i = 0; i < [dataSource count]; ++i) {
         [itemSelectedStatus setObject:@"1" forKey:[NSString stringWithFormat:@"%d",i]];
     }

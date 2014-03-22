@@ -282,9 +282,12 @@
 {
     NSString * value = [self getUserDefaultWithKey:AppFontSize];
     if (value == nil) {
-        return -1;
+        return 1.0;
+    }else
+    {
+        return value.floatValue;
     }
-    return value.floatValue;
+    
 }
 
 +(void)setUserDefaultValue:(NSString *)value key:(NSString *)key

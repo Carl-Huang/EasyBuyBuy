@@ -15,6 +15,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyAddressViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
+    NSString * doneBtnTitle;
     
     NSMutableArray * dataSource;
     NSArray        * deletedItems;
@@ -50,7 +51,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma  mark - Private Method
 -(void)initializationLocalString
 {
-    viewControllTitle = @"My Address";
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        doneBtnTitle      = localizedDic [@"doneBtnTitle"];
+        
+        [_deleteBtn setTitle:localizedDic[@"deleteBtn"] forState:UIControlStateNormal];
+        
+    }
+
 }
 
 -(void)initializationInterface
@@ -98,7 +109,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     UIButton * barButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [barButton setFrame:CGRectMake(0, 0,60, 32)];
-    [barButton setTitle:@"Done" forState:UIControlStateNormal];
+    [barButton setTitle:doneBtnTitle forState:UIControlStateNormal];
     [barButton addTarget:self action:@selector(doneEditing) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.leftBarButtonItem = item;

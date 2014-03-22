@@ -16,5 +16,6 @@
                           addTo:(UIView *)parentView;
 -(void)initializationInterface;
 -(void)updateNetworkImagesLink:(NSArray *)links;
+
 -(void)cleanAsynCycleView;
 @end

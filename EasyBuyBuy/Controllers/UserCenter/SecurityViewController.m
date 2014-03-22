@@ -49,7 +49,16 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Security";
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        dataSource        = localizedDic [@"dataSource"];
+        
+        [_confirmBtn setTitle:localizedDic [@"confirmBtn"] forState:UIControlStateNormal];
+    }
+    
 }
 
 -(void)initializationInterface
@@ -58,7 +67,7 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     self.title = viewControllTitle;
     
-    dataSource = @[@"Old Password:",@"New Password:",@"Comfirm Password:"];
+    
     UINib * cellNib = [UINib nibWithNibName:@"SecurityCell" bundle:[NSBundle bundleForClass:[SecurityCell class]]];
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;

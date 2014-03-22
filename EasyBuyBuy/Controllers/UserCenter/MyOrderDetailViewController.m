@@ -23,6 +23,8 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     NSArray * dataSource;
     NSArray * sectionOffset;
     
+    NSArray * products;
+    
     CGFloat   fontSize;
 }
 @end
@@ -102,6 +104,17 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     }
 }
 
+
+#pragma  mark - Public
+-(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew
+{
+    _isNewOrder = isNew;
+    products = array;
+    
+    
+    [_contentTable reloadData];
+}
+
 #pragma mark - UITableView
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -134,7 +147,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         
         NSDictionary * userInfo = [dataSource objectAtIndex:0];
         cell.userName.text      = [userInfo valueForKey:@"name"];
-        cell.phoneNumber.text = [userInfo valueForKey:@"tel"];
+        cell.phoneNumber.text   = [userInfo valueForKey:@"tel"];
         cell.address.text       = [userInfo valueForKey:@"address"];
         
         cell.userName.font      = [UIFont systemFontOfSize:fontSize];
@@ -191,6 +204,8 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     if (indexPath.section == 5) {
         //
         ProductListViewController * viewController = [[ProductListViewController alloc]initWithNibName:@"ProductListViewController" bundle:nil];
+        [viewController setProducts:products];
+        
         [self push:viewController];
         viewController = nil;
     }

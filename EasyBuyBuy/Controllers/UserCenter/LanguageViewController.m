@@ -17,6 +17,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * viewControllTitle;
     
     NSArray * dataSource;
+    NSArray * constDataSource;
     NSMutableDictionary * itemStatus;
     NSString * defaultLanguage;
     
@@ -38,8 +39,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initializationLocalString];
-    [self initializationInterface];
+    constDataSource = @[@"English",@"Chinese",@"Arabic"];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -49,23 +49,28 @@ static NSString * cellIdentifier = @"cellIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self initializationLocalString];
+    [self initializationInterface];
+}
+
 #pragma mark - Private 
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Language";
+    [self refreshContent];
 }
 
 -(void)initializationInterface
 {
-    self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
-    dataSource = @[@"English",@"Chinese",@"Arabic"];
     defaultLanguage = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     itemStatus = [NSMutableDictionary dictionary];
-    for (int i =0; i < [dataSource count]; ++i) {
+    for (int i =0; i < [constDataSource count]; ++i) {
         
-        NSString * language = [dataSource objectAtIndex:i];
+        NSString * language = [constDataSource objectAtIndex:i];
         if (![defaultLanguage isEqualToString:language]) {
             [itemStatus setValue:[NSNumber numberWithInt:0] forKey:[NSString stringWithFormat:@"%d",i]];
         }else
@@ -88,6 +93,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
+}
+
+-(void)refreshContent
+{
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        self.title        = localizedDic [@"viewControllTitle"];
+        dataSource        = localizedDic [@"dataSource"];
+    }
+    [_contentTable reloadData];
 }
 
 -(UIImageView *)configureBgViewWithCell:(UITableViewCell *)cellPointer index:(NSInteger)cellIndex
@@ -150,15 +166,26 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     }
     if ([[itemStatus valueForKey:key] integerValue] == 1) {
-//        [itemStatus setValue:[NSNumber numberWithInteger:0] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+        //do nothing
     }else
     {
         [itemStatus setValue:[NSNumber numberWithInteger:1] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     }
     [tableView reloadData];
     
-    
-    [[NSUserDefaults standardUserDefaults]setObject:[dataSource objectAtIndex:indexPath.row] forKey:CurrentLanguage];
+    NSString * language = nil;
+    if (indexPath.row == 0) {
+        language = @"English";
+    }else if(indexPath.row == 1)
+    {
+        language = @"Chinese";
+    }else
+    {
+        language = @"Arabic";
+    }
+    [[NSUserDefaults standardUserDefaults]setObject:language forKey:CurrentLanguage];
     [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    [self refreshContent];
 }
 @end

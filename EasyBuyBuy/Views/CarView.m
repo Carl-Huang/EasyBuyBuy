@@ -41,7 +41,7 @@
         numberLabel = [[UILabel alloc]initWithFrame:CGRectMake(redDotBgView.frame.origin.x , redDotBgView.frame.origin.y , redDotBgView.frame.size.width, redDotBgView.frame.size.height)];
         [numberLabel setBackgroundColor:[UIColor clearColor]];
         numberLabel.textAlignment = NSTextAlignmentCenter;
-        numberLabel.font = [UIFont systemFontOfSize:8];
+        numberLabel.font = [UIFont systemFontOfSize:9];
         numberLabel.textColor = [UIColor whiteColor];
         numberLabel.text = @"10";
         [self addSubview:numberLabel];

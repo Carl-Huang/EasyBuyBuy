@@ -31,7 +31,7 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     NSArray * bottomDataSource;
     
     UIView * bottomTableFooterView;
-    
+    NSArray * localizedFooterView;
     CGFloat fontSize;
 }
 @end
@@ -50,6 +50,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setHidden:NO];
+    [self initializationLocalString];
+    [self initializationInterface];
+
 }
 
 - (void)viewDidLoad
@@ -57,7 +60,6 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
-    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -69,18 +71,23 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 #pragma  mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle   = @"Login";
-    userName            = @"Jack";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        upperDataSource   = localizedDic [@"upperDataSource"];
+        bottomDataSource  = localizedDic [@"bottomDataSource"];
+        localizedFooterView = localizedDic [@"localizedFooterView"];
+    }
+    userName  = @"Jack";
 }
 
 -(void)initializationInterface
 {
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     self.title          = viewControllTitle;
-    _nameLabel.text     = userName;
+   
     
-    upperDataSource = @[@"My order",@"My Address",@"Account Security",@"My notification"];
-    bottomDataSource = @[@"Upgrade My Account",@"Language",@""];
     _upperTableView.tag = UpperTableTag;
     [_upperTableView setBackgroundView:nil];
     [_upperTableView setBackgroundColor:[UIColor clearColor]];
@@ -92,6 +99,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     [_bottomTableView setBackgroundColor:[UIColor clearColor]];
     _bottomTableView.scrollEnabled = NO;
     _bottomTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [_upperTableView reloadData];
+    [_bottomTableView reloadData];
     
     if ([OSHelper iOS7]) {
         _upperTableView.separatorInset  = UIEdgeInsetsZero;
@@ -116,6 +126,8 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     if (fontSize < 0) {
         fontSize = 14;
     }
+    _nameLabel.text     = userName;
+    _nameLabel.font     = [UIFont systemFontOfSize:fontSize + 4];
 }
 
 
@@ -189,10 +201,10 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
             bgView = nil;
             fontCell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            fontCell.cellTitle.text = @"Font";
-            fontCell.smallDes.text = @"Small";
-            fontCell.middleDes.text = @"Middle";
-            fontCell.bigDes.text = @"Big";
+            fontCell.cellTitle.text = [localizedFooterView objectAtIndex:0];
+            fontCell.smallDes.text  = [localizedFooterView objectAtIndex:1];
+            fontCell.middleDes.text = [localizedFooterView objectAtIndex:2];
+            fontCell.bigDes.text    = [localizedFooterView objectAtIndex:3];
             
             fontCell.cellTitle.font = [UIFont systemFontOfSize:fontSize];
             fontCell.smallDes.font = [UIFont systemFontOfSize:fontSize];

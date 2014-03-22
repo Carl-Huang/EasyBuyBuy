@@ -51,7 +51,10 @@ static NSString * cellIdentifier = @"cell";
 -(void)initializationInterface
 {
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    
+    //TODO:Fetch the data from internet
     dataSource = @[@"1",@"2"];
+    
     UINib * cellNib = [UINib nibWithNibName:@"OrderCell" bundle:[NSBundle bundleForClass:[OrderCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     if ([OSHelper iOS7]) {
@@ -84,9 +87,11 @@ static NSString * cellIdentifier = @"cell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [viewController setIsNewOrder:NO];
+    [viewController orderDetailWithProduct:dataSource isNewOrder:NO];
     [self push:viewController];
     viewController = nil;
+    
 }
 @end

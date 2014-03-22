@@ -50,6 +50,14 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
 -(void)initializationLocalString
 {
     viewControllTitle = @"New Address";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle   = localizedDic [@"viewControllTitle"];
+        dataSource          = localizedDic [@"dataSource"];
+        
+        [_confirmBtn setTitle:localizedDic[@"confirmBtn"] forState:UIControlStateNormal];
+    }
 }
 
 -(void)initializationInterface
@@ -58,14 +66,14 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
     
     self.title = viewControllTitle;
     
-    lastCellTextFieldRef = [[UITextField alloc]initWithFrame:CGRectMake(10,10,250,40)];
-    lastCellTextFieldRef.textColor = [UIColor blackColor];
-    lastCellTextFieldRef.backgroundColor = [UIColor clearColor];
-    lastCellTextFieldRef.font      = [UIFont systemFontOfSize:15];
-    lastCellTextFieldRef.delegate  = self;
-    lastCellTextFieldRef.tag       = 5;
+//    lastCellTextFieldRef = [[UITextField alloc]initWithFrame:CGRectMake(10,10,250,40)];
+//    lastCellTextFieldRef.textColor = [UIColor blackColor];
+//    lastCellTextFieldRef.backgroundColor = [UIColor clearColor];
+//    lastCellTextFieldRef.font      = [UIFont systemFontOfSize:15];
+//    lastCellTextFieldRef.delegate  = self;
+//    lastCellTextFieldRef.tag       = 5;
     
-    dataSource = @[@"Name:",@"Tel:",@"Moble:",@"Address:",@""];
+    
     UINib * cellNib = [UINib nibWithNibName:@"EditAddressCell" bundle:[NSBundle bundleForClass:[EditAddressCell class]]];
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
@@ -74,6 +82,7 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     [_contentTable setBackgroundView:nil];
     [_contentTable setScrollEnabled:NO];
+    _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     textFieldInfoDic = [NSMutableDictionary dictionary];
 }
 
@@ -89,33 +98,42 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
     return [dataSource count];
 }
 
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40.0f;
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row != [dataSource count]-1) {
-        EditAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        cell.cellTitle.text = [dataSource objectAtIndex:indexPath.row];
-        cell.cellTitleContent.tag = indexPath.row;
-        cell.cellTitleContent.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return  cell;
-    }else
-    {
-        UITableViewCell * normalCell = [tableView dequeueReusableCellWithIdentifier:normalCellIdentifier];
-        if (!normalCell) {
-            
-            normalCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalCellIdentifier];
-            
-        }
-        if ([lastCellTextFieldRef.text length]==0) {
-            lastCellTextFieldRef.placeholder = @"Please Enter the Address";
-        }
-        [normalCell.contentView addSubview:lastCellTextFieldRef];
-        normalCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [normalCell setBackgroundColor:[UIColor clearColor]];
-        return normalCell;
-    }
+//    if (indexPath.row != [dataSource count]-1) {
+    EditAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+
+    UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width,40) lastItemNumber:[dataSource count]];
+    [cell setBackgroundView:bgView];
+    bgView = nil;
     
+    cell.cellTitle.text = [dataSource objectAtIndex:indexPath.row];
+    cell.cellTitleContent.tag = indexPath.row;
+    cell.cellTitleContent.delegate = self;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return  cell;
+//    }
+//    else
+//    {
+//        UITableViewCell * normalCell = [tableView dequeueReusableCellWithIdentifier:normalCellIdentifier];
+//        if (!normalCell) {
+//            
+//            normalCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:normalCellIdentifier];
+//            
+//        }
+//        if ([lastCellTextFieldRef.text length]==0) {
+//            lastCellTextFieldRef.placeholder = @"Please Enter the Address";
+//        }
+//        [normalCell.contentView addSubview:lastCellTextFieldRef];
+//        normalCell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        [normalCell setBackgroundColor:[UIColor clearColor]];
+//        return normalCell;
+//    }
+
 }
 
 
