@@ -112,8 +112,7 @@ static char kAFDownloadProgressAnimated;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if (totalBytesExpectedToWrite > 0) {
-                __strong __typeof(weakSelf)strongSelf = weakSelf;
-                [strongSelf setProgress:(totalBytesWritten / (totalBytesExpectedToWrite * 1.0f)) animated:animated];
+                [weakSelf setProgress:(totalBytesWritten / (totalBytesExpectedToWrite * 1.0f)) animated:animated];
             }
         });
     }];
@@ -131,8 +130,7 @@ static char kAFDownloadProgressAnimated;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             if (totalBytesExpectedToRead > 0) {
-                __strong __typeof(weakSelf)strongSelf = weakSelf;
-                [strongSelf setProgress:(totalBytesRead / (totalBytesExpectedToRead  * 1.0f)) animated:animated];
+                [weakSelf setProgress:(totalBytesRead / (totalBytesExpectedToRead  * 1.0f)) animated:animated];
             }
         });
     }];

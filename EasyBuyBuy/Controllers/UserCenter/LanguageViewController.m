@@ -18,7 +18,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     NSArray * dataSource;
     NSMutableDictionary * itemStatus;
-    NSInteger currentSelectedItem;
+    NSString * defaultLanguage;
+    
+    CGFloat fontSize;
 }
 @end
 
@@ -59,10 +61,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
     dataSource = @[@"English",@"Chinese",@"Arabic"];
-    currentSelectedItem = [[[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage] integerValue];
+    defaultLanguage = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     itemStatus = [NSMutableDictionary dictionary];
     for (int i =0; i < [dataSource count]; ++i) {
-        if (currentSelectedItem != i) {
+        
+        NSString * language = [dataSource objectAtIndex:i];
+        if (![defaultLanguage isEqualToString:language]) {
             [itemStatus setValue:[NSNumber numberWithInt:0] forKey:[NSString stringWithFormat:@"%d",i]];
         }else
         {
@@ -80,6 +84,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
         _contentTable.frame = rect;
     }
     
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
+    if (fontSize < 0) {
+        fontSize = DefaultFontSize;
+    }
 }
 
 -(UIImageView *)configureBgViewWithCell:(UITableViewCell *)cellPointer index:(NSInteger)cellIndex
@@ -128,6 +136,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [cell setBackgroundView:bgImageView];
     bgImageView = nil;
     cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize:fontSize];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
 }
 
@@ -140,7 +150,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     }
     if ([[itemStatus valueForKey:key] integerValue] == 1) {
-        [itemStatus setValue:[NSNumber numberWithInteger:0] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+//        [itemStatus setValue:[NSNumber numberWithInteger:0] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     }else
     {
         [itemStatus setValue:[NSNumber numberWithInteger:1] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
@@ -148,7 +158,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [tableView reloadData];
     
     
-    [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInteger:indexPath.row] forKey:CurrentLanguage];
+    [[NSUserDefaults standardUserDefaults]setObject:[dataSource objectAtIndex:indexPath.row] forKey:CurrentLanguage];
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 @end

@@ -109,9 +109,9 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     }
     
     //
-    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
-        fontSize = 12;
+        fontSize = DefaultFontSize;
     }
     
     

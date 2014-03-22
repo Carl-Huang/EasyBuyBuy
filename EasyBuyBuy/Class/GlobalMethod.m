@@ -68,6 +68,7 @@
                    lastItemNumber:(NSInteger)lastItemNum
 {
     [cellPointer setBackgroundColor:[UIColor clearColor]];
+    [cellPointer setBackgroundView:nil];
     //UpperCell@2x , BottomCell@2x , MiddleCell@2x
     NSString * imageName = nil;
     NSInteger lastItem = lastItemNum - 1;

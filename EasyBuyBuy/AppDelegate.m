@@ -19,6 +19,12 @@
     //Nav bar
     [self custonNavigationBar];
 
+    //Language
+     NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
+    if (!language) {
+        [[NSUserDefaults standardUserDefaults]setObject:@"English" forKey:CurrentLanguage];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -68,12 +74,12 @@
     if([OSHelper iOS7])
     {
 //        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar1_128.png"] forBarMetrics:UIBarMetricsDefault];
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar_128@2x.png"] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar_128.png"] forBarMetrics:UIBarMetricsDefault];
     }
     else
     {
 //        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar1_88.png"] forBarMetrics:UIBarMetricsDefault];
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar_88@2x.png"] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar_88.png"] forBarMetrics:UIBarMetricsDefault];
         
     }
     

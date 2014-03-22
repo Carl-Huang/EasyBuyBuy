@@ -71,9 +71,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
 
     [_buttonContainerView setHidden:YES];
-    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
-        fontSize = 12;
+        fontSize = DefaultFontSize;
     }
 }
 
@@ -173,15 +173,27 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [cell.cellBgView addSubview:bgView];
     bgView = nil;
     
+    
+    UIImageView * imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Choose"]];
+    UIView * selectedBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+    [selectedBgView setBackgroundColor:[UIColor clearColor]];
+    [imageView setFrame:CGRectMake(10, 32, 30, 30)];
+    [selectedBgView addSubview:imageView];
+    imageView = nil;
+    
+
+    cell.selectedBackgroundView = selectedBgView;
     return  cell;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+//    
     BOOL someCondition = YES;
     return (someCondition) ?
     UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
+    
+   
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;

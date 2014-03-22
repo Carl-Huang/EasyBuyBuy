@@ -9,6 +9,8 @@
 #define CellOffsetY 12
 
 #import "RegionTableViewController.h"
+#import "GlobalMethod.h"
+
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface RegionTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -16,6 +18,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSMutableDictionary * itemStatus;
     NSInteger currentSelectedItem;
     NSString * userDefaultKey;
+    
+    CGFloat fontSize;
 }
 @end
 
@@ -48,6 +52,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     [self.contentTable setBackgroundView:nil];
     [self.contentTable setBackgroundColor:[UIColor clearColor]];
+    _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if (userDefaultKey) {
         currentSelectedItem = [[[NSUserDefaults standardUserDefaults]objectForKey:userDefaultKey] integerValue];
@@ -69,7 +74,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [self.maskView setFrame:CGRectMake(0, 0, 320, 568)];
     }
 
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
+    if (fontSize < 0) {
+        fontSize = DefaultFontSize;
+    }
     [self resizeContent];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,11 +139,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
        
     }
+    
+    UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeight) lastItemNumber:[dataSource count]];
+    [cell setBackgroundView:bgView];
+    bgView = nil;
+    
     NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     if ([[itemStatus valueForKey:key] integerValue] == 1) {
         UIImageView * accesorryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Choose.png"]];
         cell.accessoryView = accesorryView;
-        cell.backgroundColor = [UIColor clearColor];
         accesorryView = nil;
     }else
     {
@@ -140,6 +155,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     
     cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
+    cell.textLabel.font = [UIFont systemFontOfSize: fontSize];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -158,7 +174,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     }
     if ([[itemStatus valueForKey:key] integerValue] == 1) {
-       [itemStatus setValue:[NSNumber numberWithInteger:0] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+//       [itemStatus setValue:[NSNumber numberWithInteger:0] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     }else
     {
         [itemStatus setValue:[NSNumber numberWithInteger:1] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];

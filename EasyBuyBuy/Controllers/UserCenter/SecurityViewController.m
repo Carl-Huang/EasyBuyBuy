@@ -72,9 +72,9 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     textFieldInfoDic = [NSMutableDictionary dictionary];
     
-    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
-        fontSize = 12;
+        fontSize = DefaultFontSize;
     }
 }
 
@@ -110,7 +110,8 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     cell.cellTitle.font = [UIFont systemFontOfSize:fontSize];
     cell.cellTitleContent.font = [UIFont systemFontOfSize:fontSize];
-
+   
+    cell.cellTitleContent.secureTextEntry = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
 }

@@ -9,6 +9,7 @@
 #import "MyOrderDetailViewController.h"
 #import "MyOrderUserInfoTableViewCell.h"
 #import "DefaultDescriptionCellTableViewCell.h"
+#import "ProductListViewController.h"
 #import "GlobalMethod.h"
 
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
@@ -79,9 +80,9 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     dataSource = @[userInfo,@"Payment:",@"Deliver Method:",@"Remark:",@"please enter:",@"Price:",@"Deliver Cost:",@"Product list",@"Order Status:",@"Order Time:",@"Total Cost:"];
     sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
     
-    fontSize = [GlobalMethod getDefaultFontSize] * 12;
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
-        fontSize = 12;
+        fontSize = DefaultFontSize;
     }
 }
 
@@ -124,6 +125,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         cell.phoneNumber.font = [UIFont systemFontOfSize:fontSize];
         cell.address.font = [UIFont systemFontOfSize:fontSize];
         
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return  cell;
     }else
     {
@@ -147,21 +149,34 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
             bgView = nil;
         }
         
+        cell.contentTitle.text = [dataSource objectAtIndex:offset];
+        
+        
+        cell.contentTitle.font =[UIFont systemFontOfSize:fontSize];
+        cell.content.font = [UIFont systemFontOfSize:fontSize];
+        
         if (indexPath.section == 5) {
+            cell.content.text = @"";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }else
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-        cell.contentTitle.text = [dataSource objectAtIndex:offset];
-        cell.content.text = @"Test";
         
-        cell.contentTitle.font =[UIFont systemFontOfSize:fontSize];
-        cell.content.font = [UIFont systemFontOfSize:fontSize];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
-    
 }
 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 5) {
+        //
+        ProductListViewController * viewController = [[ProductListViewController alloc]initWithNibName:@"ProductListViewController" bundle:nil];
+        [self push:viewController];
+        viewController = nil;
+    }
+}
 @end

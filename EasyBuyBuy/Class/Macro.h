@@ -13,4 +13,7 @@
 #define CurrentLanguage     @"CurrentLanguage"
 #define AppFontSize         @"AppFontSize"
 #define AskToBuyType        @"AskToBuyType"
+
+#define DefaultFontSize     14
+
 #endif

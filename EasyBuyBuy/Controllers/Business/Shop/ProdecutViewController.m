@@ -17,6 +17,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     NSArray * dataSource;
     CGFloat fontSize;
+    
+    NSMutableDictionary * itemsSelectedStatus;
 }
 @end
 
@@ -48,7 +50,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shop";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"Title"];
+    }else
+    {
+        viewControllTitle = @"Shop";
+    }
 }
 
 -(void)initializationInterface
@@ -66,6 +75,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     ProductCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
+    
+    
+    //Use for test
+    itemsSelectedStatus = [NSMutableDictionary dictionary];
+    for (int i = 0; i < [dataSource count]; ++ i) {
+        [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",i]];
+    }
 }
 
 -(void)gotoProductBroswerViewController
@@ -75,6 +91,20 @@ static NSString * cellIdentifier = @"cellIdentifier";
     viewController = nil;
 }
 
+-(void)likeAction:(id)sender
+{
+    UIButton * btn = (UIButton *)sender;
+    NSString * key = [NSString stringWithFormat:@"%d",btn.tag];
+    NSString * value = [itemsSelectedStatus valueForKey:key];
+    if ([value isEqualToString:@"1"]) {
+        [itemsSelectedStatus setObject:@"0" forKey:key];
+    }else
+    {
+        [itemsSelectedStatus setObject:@"1" forKey:key];
+    }
+    [_contentTable reloadData];
+    NSLog(@"%d",btn.tag);
+}
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -91,11 +121,22 @@ static NSString * cellIdentifier = @"cellIdentifier";
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     
-    
     cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
     cell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
     cell.classifyName.text   = [dataSource objectAtIndex:indexPath.row];
-    [cell.likeBtn setSelected:YES];
+    
+    NSString * value = [itemsSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    if ([value isEqualToString:@"1"]) {
+        [cell.likeBtn setSelected:YES];
+    }else
+    {
+        [cell.likeBtn setSelected:NO];
+    }
+    
+    cell.likeBtn.tag = indexPath.row;
+    [cell.likeBtn addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;

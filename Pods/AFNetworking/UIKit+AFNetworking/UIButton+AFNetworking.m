@@ -108,6 +108,8 @@ static char kAFBackgroundImageRequestOperationKey;
             } else if (responseObject) {
                 [strongSelf setImage:responseObject forState:state];
             }
+        } else {
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([[urlRequest URL] isEqual:[operation.response URL]]) {
@@ -159,6 +161,8 @@ static char kAFBackgroundImageRequestOperationKey;
             } else if (responseObject) {
                 [strongSelf setBackgroundImage:responseObject forState:state];
             }
+        } else {
+
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if ([[urlRequest URL] isEqual:[operation.response URL]]) {

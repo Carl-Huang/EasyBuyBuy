@@ -71,9 +71,9 @@ static NSString * imageCellIdentifier = @"imageCell";
         self.showsVerticalScrollIndicator = NO;
         self.separatorStyle = UITableViewCellSelectionStyleNone;
         
-        fontSize = [GlobalMethod getDefaultFontSize] * 12;
+        fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
         if (fontSize < 0) {
-            fontSize = 12;
+            fontSize = DefaultFontSize;
         }
     }
     return self;

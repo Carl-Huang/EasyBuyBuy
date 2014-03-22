@@ -35,6 +35,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -47,7 +48,16 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shop";
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"Title"];
+    }else
+    {
+        viewControllTitle = @"Shop";
+    }
+    
 }
 
 -(void)initializationInterface
