@@ -48,34 +48,23 @@
 }
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shipping Agency";
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle   = localizedDic [@"viewControllTitle"];
+        dataSource          = localizedDic [@"dataSource"];
+    }
+    [_contentTable reloadData];
 }
 
 -(void)initializationInterface
 {
+
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
-    
-    dataSource = @[
-                   @"*First Name:",
-                   @"*Last Name:",
-                   @"*Tel Number:",
-                   @"*Mobile Number",
-                   @"*Email:",
-                   @"*Company Name:",
-                   @"*Country Name:",
-                   @"*Name Of Goods:",
-                   @"*Shipping Type Sea/Air",
-                   @"Container:",
-                   @"*QUANTITY /CBM:",
-                   @"*PORT OF THE SHIPPING",
-                   @"*PORT OF DESTINATION",
-                   @"NAME PREFERRED SHIPPING LINE",             //13
-                   @"TIME FOR LOADING:",
-                   @"WEIGHT/KG / TONS:",
-                   @"REMARK:",
-                   @"TYPE OF THE DOCUMENT:"];
+
     mustFillItems = [NSMutableArray array];
     for (int i = 0; i < [dataSource count] ; ++i) {
         NSString * str  = [dataSource objectAtIndex:i];

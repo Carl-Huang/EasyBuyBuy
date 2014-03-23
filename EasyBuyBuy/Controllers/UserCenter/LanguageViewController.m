@@ -89,6 +89,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         _contentTable.frame = rect;
     }
     
+    
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;

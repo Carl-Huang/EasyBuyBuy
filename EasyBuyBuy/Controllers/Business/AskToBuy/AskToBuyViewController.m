@@ -67,7 +67,17 @@ static NSString * imageCellIdentifier = @"imageCell";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Ask To Buy";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle   = localizedDic [@"viewControllTitle"];
+        dataSource          = localizedDic [@"dataSource"];
+        eliminateTheTextfieldItems = localizedDic [@"eliminateTheTextfieldItems"];
+    }
+    [_contentTable reloadData];
+    
+    
+    
 }
 
 -(void)initializationInterface
@@ -76,32 +86,9 @@ static NSString * imageCellIdentifier = @"imageCell";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
-    eliminateTheTextfieldItems = @[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"];
     
-    dataSource = @[@"*Sale or Purchase:",
-                   @"*First Name:",
-                   @"*Last Name:",
-                   @"*Country Name:",
-                   @"Company Name:",
-                   @"*Container:",
-                   @"*Tel Number:",
-                   @"*Mobile Number:",
-                   @"*Email:",
-                   @"{PRODUCT DATA}",   //9
-                   @"*Photo of product",//10
-                   @"Photo",            //To specify the photo area
-                   @"*Name Of Goods:",
-                   @"Size",             //13
-                   @"LENGTH:",
-                   @"WIDTH:",
-                   @"HEIGTH:",
-                   @"THICKNESS:",
-                   @"COLOR:",
-                   @"Used in:",
-                   @"*QUANTITY AVAILABLE:",
-                   @"NAME OF MATERIAL:",
-                   @"Weight/KG/G:",
-                  @"Note:"];
+    
+    
     mustFillItems = [NSMutableArray array];
     for (int i = 1; i < [dataSource count] ; ++i) {
         if (i !=11) {
@@ -135,7 +122,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 - (IBAction)publicBtnAction:(id)sender {
     //Check the must filled content is fill or not
     
-    if ([filledContentInfo valueForKey:@"BuinessType"]==nil) {
+    if ([filledContentInfo valueForKey:@"BuinessType"]==nil || [[filledContentInfo valueForKey:@"BuinessType"]length] == 0 ) {
         NSMutableString * alertText = [[NSMutableString alloc]initWithString:[dataSource objectAtIndex:0]];
 
         NSString * description = @" can not be empty";

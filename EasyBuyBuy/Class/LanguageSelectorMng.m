@@ -96,10 +96,13 @@
         return @{@"Content": @[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""]};
     }else if ([language isEqualToString:@"Chinese"])
     {
-        return @{@"Content": @[@"名字",@"货号",@"价格",@"尺寸",@"重量",@"质量",@"颜色",@"所在地区",@"付款方式",@"库存",@"描述",@""]};
+        return @{@"Content": @[@"名字:",@"货号:",@"价格:",@"尺寸:",@"重量:",@"数量:",@"颜色:",@"所在地区:",@"付款方式:",@"库存:",@"描述:",@""]};
     }else
     {
-        return @{@"Content": @[@"名字",@"货号",@"价格",@"尺寸",@"重量",@"质量",@"颜色",@"所在地区",@"付款方式",@"库存",@"描述",@""]};
+//        return @{@"Content": @[@"الاسم :",@"البند :",@"السعر :",@"الحجم:",@"الوزن :",@"جودة :",@"اللون :",@"المكان:",@"الدفع :",@": رصيد موجود ",@"الوصف:",@""]};
+//        return @{@"Content": @[@"الاسم :",@"البند:",@"السعر:",@"الحجم:",@"الوزن:",@"جودة:",@"اللون:",@"المكان:",@"الدفع :",@" رصيد موجود:",@"الوصف:",@""]};
+        
+        return @{@"Content": @[@"السعر ",@"البند",@"السعر",@"الحجم",@"الوزن",@"جودة ",@"اللون",@"المكان",@"الدفع",@"رصيد موجود ",@"الوصف",@""]};
     }
 }
 
@@ -166,9 +169,9 @@
     }else
     {
         return @{@"viewControllTitle": @"مركز المستعمل"
-                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的通知"]
-                 ,@"bottomDataSource":@[@"账号升级",@"语言",@""]
-                 ,@"localizedFooterView":@[@"محرف",@"صغير",@"في",@"كبير"]};
+                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات"]
+                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@""]
+                 ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"]};
     }
 }
 
@@ -189,8 +192,8 @@
     }else
     {
         return @{@"viewControllTitle": @"أمن"
-                 ,@"dataSource":@[@"旧密码:",@"新密码:",@"新密码确认:"]
-                 ,@"confirmBtn":@"确定"};
+                 ,@"dataSource":@[@"كلمة المرور القديمة",@"كلمة المرور الجديدة",@"تأكيد كلمة المرور"]
+                 ,@"confirmBtn":@"أكد"};
     }
 }
 
@@ -212,9 +215,9 @@
                  };
     }else
     {
-        return @{@"viewControllTitle": @"我的地址"
-                 ,@"deleteBtn":@"删除"
-                 ,@"doneBtnTitle":@"完成"
+        return @{@"viewControllTitle": @"عنوان بريدي"
+                 ,@"deleteBtn":@"حذف"
+                 ,@"doneBtnTitle":@"كامل"
                  };
     }
 }
@@ -233,13 +236,13 @@
     {
         return @{@"viewControllTitle": @"我的地址"
                  ,@"confirmBtn":@"确定"
-                 ,@"dataSource":@[@"名字:",@"手机:",@"电话:",@"地址:"]
+                 ,@"dataSource":@[@"名字:",@"手机号码:",@"电话:",@"地址:"]
                  };
     }else
     {
-        return @{@"viewControllTitle": @"我的地址"
-                 ,@"confirmBtn":@"确定"
-                 ,@"dataSource":@[@"名字:",@"手机:",@"电话:",@"地址:"]
+        return @{@"viewControllTitle": @"عنوان بريدي"
+                 ,@"confirmBtn":@"أكد"
+                 ,@"dataSource":@[@"اسم",@"رقم الجوال",@"هاتف",@"عنوان"]
                  };
     }
 }
@@ -259,8 +262,204 @@
                  };
     }else
     {
+
         return @{@"viewControllTitle": @"لغة"
-                 ,@"dataSource":@[@"الإنجليزية:",@"الصينية:",@"العربية:"]
+                 ,@"dataSource":@[@"العربية",@"الصينية",@"الإنجليزية"]
+                 };
+    }
+}
+
+#pragma  mark - ShippingViewController
+-(NSDictionary *)ShippingViewControllerLanguage
+{
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Shipping Agency"
+                 ,@"dataSource":@[
+                         @"*First Name:",
+                         @"*Last Name:",
+                         @"*Tel Number:",
+                         @"*Mobile Number",
+                         @"*Email:",
+                         @"*Company Name:",
+                         @"*Country Name:",
+                         @"*Name Of Goods:",
+                         @"*Shipping Type Sea/Air",
+                         @"20GP/40GP/40HQ/45HQ CONTAINER:",
+                         @"*QUANTITY /CBM:",
+                         @"*PORT OF THE SHIPPING",
+                         @"*PORT OF DESTINATION",
+                         @"NAME PREFERRED SHIPPING LINE",             //13
+                         @"TIME FOR LOADING:",
+                         @"WEIGHT/KG / TONS:",
+                         @"REMARK:",
+                         @"TYPE OF THE DOCUMENT:"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"代运服务"
+                 ,@"dataSource":@[
+                         @"*姓:",
+                         @"*名字:",
+                         @"*手机号码:",
+                         @"*电话",
+                         @"*邮箱:",
+                         @"*公司名字:",
+                         @"*国家名字:",
+                         @"*货品名字:",
+                         @"*运输类型/海运/空运:",
+                         @"20GP/40GP/40HQ/45HQ集装箱:",
+                         @"*数量/立方米:",
+                         @"*装船港:",
+                         @"*目的港:",
+                         @"希望采用的运输线路:",             //13
+                         @"到达时间:",
+                         @"重量/公斤/吨:",
+                         @"备注:",
+                         @"文件类型:"]
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"Shipping Agency"
+                 ,@"dataSource":@[
+                         @"*الاسم الأخير",
+                         @"*الاسم الأول",
+                         @"*رقم هاتف",
+                         @"*رقم الموبايل",
+                         @"*البريد الإلكتروني",
+                         @"*اسم الشركة",
+                         @"*اسم البلد",
+                         @"*اسم المنتج",
+                         @"*نوع الشحن / البحري / الجوي",
+                         @"20GP/40GP/40HQ/45HQ حاويات",
+                         @"*الكمية / CBM",
+                         @"*ميناء الشحن من",
+                         @"* آلي ميناء المقصد",
+                         @"الاسم المفضل شحن خط",
+                         @" الوقت التحميل",
+                         @"الوزن / كيلو / طن",
+                         @"ملاحظة",
+                         @"نوع المستندات المطلوبة"]
+                 };
+    }
+}
+
+
+#pragma  mark - AskToBuyViewController
+-(NSDictionary *)AskToBuyViewControllerLanguage
+{
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Easy sale & Buy "
+                 ,@"dataSource":@[@"*Sale or Purchase:",
+                                  @"*First Name:",
+                                  @"*Last Name:",
+                                  @"*Country Name:",
+                                  @"Company Name:",
+                                  @"*Container:",
+                                  @"*Tel Number:",
+                                  @"*Mobile Number:",
+                                  @"*Email:",
+                                  @"{PRODUCT DATA}",   //9
+                                  @"*Photo of product",//10
+                                  @"Photo",            //To specify the photo area
+                                  @"*Name Of Goods:",
+                                  @"Size",             //13
+                                  @"LENGTH:",
+                                  @"WIDTH:",
+                                  @"HEIGTH:",
+                                  @"THICKNESS:",
+                                  @"COLOR:",
+                                  @"Used in:",
+                                  @"*QUANTITY AVAILABLE:",
+                                  @"NAME OF MATERIAL:",
+                                  @"Weight/KG/G:",
+                                  @"Note:"]
+                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"买或卖"
+                 ,@"dataSource":@[@"*出售或购买:",
+                                  @"*名字:",
+                                  @"*姓:",
+                                  @"*国家名字:",
+                                  @"公司名字:",
+                                  @"*集装箱:",
+                                  @"*电话号码:",
+                                  @"*手机号码:",
+                                  @"*邮件:",
+                                  @"{货物信息}",   //9
+                                  @"*产品图片",//10
+                                  @"Photo",            //To specify the photo area
+                                  @"*商品名称:",
+                                  @"尺寸",             //13
+                                  @"长度:",
+                                  @"宽度:",
+                                  @"高度:",
+                                  @"厚度:",
+                                  @"颜色:",
+                                  @"用途:",
+                                  @"*现有数量:",
+                                  @"材料名称:",
+                                  @"重量/公斤/克:",
+                                  @"备注:"]
+                 ,@"eliminateTheTextfieldItems":@[@"*出售或购买:",@"{货物信息}",@"*产品图片",@"尺寸",@"Photo"]
+                 };
+    }else
+    {
+        
+        return @{@"viewControllTitle": @"代运 "
+                 ,@"dataSource":@[@"*Sale or Purchase:",
+                                  @"*First Name:",
+                                  @"*Last Name:",
+                                  @"*Country Name:",
+                                  @"Company Name:",
+                                  @"*Container:",
+                                  @"*Tel Number:",
+                                  @"*Mobile Number:",
+                                  @"*Email:",
+                                  @"{PRODUCT DATA}",   //9
+                                  @"*Photo of product",//10
+                                  @"Photo",            //To specify the photo area
+                                  @"*Name Of Goods:",
+                                  @"Size",             //13
+                                  @"LENGTH:",
+                                  @"WIDTH:",
+                                  @"HEIGTH:",
+                                  @"THICKNESS:",
+                                  @"COLOR:",
+                                  @"Used in:",
+                                  @"*QUANTITY AVAILABLE:",
+                                  @"NAME OF MATERIAL:",
+                                  @"Weight/KG/G:",
+                                  @"Note:"]
+                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"]
+                 };
+    }
+}
+
+#pragma mark - RegionTableViewController
+-(NSDictionary *)RegionTableViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Sale or Purchase ",
+                 @"dataSource":@[@"Sale",@"Purchase"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"买或卖 ",
+                 @"dataSource":@[@"卖",@"买"]
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"بيع أو شراء ",
+                 @"dataSource":@[@"بيع ",@"أو شراء"]
                  };
     }
 }

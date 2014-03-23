@@ -431,8 +431,6 @@ static NSString * imageCellIdentifier = @"imageCell";
                 [cell.contentView addSubview:tempTextField];
             }
         }
-        
-
     }
     
     return cell;
@@ -443,7 +441,9 @@ static NSString * imageCellIdentifier = @"imageCell";
     if (popupItemIndex !=-1 && indexPath.row == 0) {
         __weak CustomiseInformationTable * weakSelf = self;
         RegionTableViewController * regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
-        [regionTable tableTitle:@"Region" dataSource:@[@"Sale",@"Purchase"] userDefaultKey:nil];
+        NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+        
+        [regionTable tableTitle:localizedDic[@"viewControllTitle"] dataSource:localizedDic[@"dataSource"] userDefaultKey:nil];
         [regionTable setSelectedBlock:^(id object)
          {
              NSLog(@"%@",object);

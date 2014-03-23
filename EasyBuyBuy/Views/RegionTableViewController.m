@@ -20,6 +20,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * userDefaultKey;
     
     CGFloat fontSize;
+    NSString * titleStr;
 }
 @end
 
@@ -29,7 +30,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
        dataSource:(NSArray *)contentData
    userDefaultKey:(NSString *)key
 {
-    _tableTitle.text = tableTitle;
+    titleStr = tableTitle;
     dataSource = contentData;
     userDefaultKey = key;
 }
@@ -79,7 +80,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         fontSize = DefaultFontSize;
     }
     [self resizeContent];
-    
+    _tableTitle.text = titleStr;
     
 }
 
