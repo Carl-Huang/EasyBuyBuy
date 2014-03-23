@@ -54,6 +54,7 @@
     if (localizedDic) {
         viewControllTitle   = localizedDic [@"viewControllTitle"];
         dataSource          = localizedDic [@"dataSource"];
+        [_publicBtn setTitle:localizedDic[@"publicBtn"] forState:UIControlStateNormal];
     }
     [_contentTable reloadData];
 }

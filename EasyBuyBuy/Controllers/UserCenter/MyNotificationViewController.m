@@ -64,9 +64,14 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"My Notification";
-    [_productNotiBtn setTitle:@"Product Notification" forState:UIControlStateNormal];
-    [_systemNotiBtn setTitle:@"System Notification" forState:UIControlStateNormal];
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle   = localizedDic [@"viewControllTitle"];
+        [_productNotiBtn setTitle:localizedDic [@"productNotiBtn"] forState:UIControlStateNormal];
+        [_systemNotiBtn setTitle:localizedDic [@"systemNotiBtn"] forState:UIControlStateNormal];
+    }
 }
 
 -(void)initializationInterface

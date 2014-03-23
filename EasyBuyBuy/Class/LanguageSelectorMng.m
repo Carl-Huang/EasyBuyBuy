@@ -275,6 +275,7 @@
     if ([language isEqualToString:@"English"])
     {
         return @{@"viewControllTitle": @"Shipping Agency"
+                 ,@"publicBtn":@"Publish"
                  ,@"dataSource":@[
                          @"*First Name:",
                          @"*Last Name:",
@@ -298,6 +299,7 @@
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{@"viewControllTitle": @"代运服务"
+                 ,@"publicBtn":@"提交"
                  ,@"dataSource":@[
                          @"*姓:",
                          @"*名字:",
@@ -321,6 +323,7 @@
     }else
     {
         return @{@"viewControllTitle": @"Shipping Agency"
+                 ,@"publicBtn":@"提交"
                  ,@"dataSource":@[
                          @"*الاسم الأخير",
                          @"*الاسم الأول",
@@ -351,6 +354,7 @@
     if ([language isEqualToString:@"English"])
     {
         return @{@"viewControllTitle": @"Easy sale & Buy "
+                 ,@"publicBtn":@"Publish"
                  ,@"dataSource":@[@"*Sale or Purchase:",
                                   @"*First Name:",
                                   @"*Last Name:",
@@ -380,6 +384,7 @@
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{@"viewControllTitle": @"买或卖"
+                 ,@"publicBtn":@"提交"
                  ,@"dataSource":@[@"*出售或购买:",
                                   @"*名字:",
                                   @"*姓:",
@@ -410,6 +415,7 @@
     {
         
         return @{@"viewControllTitle": @"代运 "
+                 ,@"publicBtn":@"提交"
                  ,@"dataSource":@[@"*Sale or Purchase:",
                                   @"*First Name:",
                                   @"*Last Name:",
@@ -460,6 +466,34 @@
         return @{
                  @"viewControllTitle": @"بيع أو شراء ",
                  @"dataSource":@[@"بيع ",@"أو شراء"]
+                 };
+    }
+}
+
+#pragma mark - MyNotificationViewController
+-(NSDictionary *)MyNotificationViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"My Notifications",
+                 @"productNotiBtn":@"Notifications",
+                @"systemNotiBtn":@"System notifications",
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"我的通知",
+                 @"productNotiBtn":@"商品通知",
+                 @"systemNotiBtn":@"系统通知",
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle":@"الإخطارات",
+                 @"productNotiBtn":@"الإخطارات",
+                 @"systemNotiBtn":@"الإخطارات النظام",
                  };
     }
 }

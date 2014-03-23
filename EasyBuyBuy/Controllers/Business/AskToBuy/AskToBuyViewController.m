@@ -73,6 +73,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         viewControllTitle   = localizedDic [@"viewControllTitle"];
         dataSource          = localizedDic [@"dataSource"];
         eliminateTheTextfieldItems = localizedDic [@"eliminateTheTextfieldItems"];
+        [_publicBtn setTitle:localizedDic[@"publicBtn"] forState:UIControlStateNormal];
     }
     [_contentTable reloadData];
     
