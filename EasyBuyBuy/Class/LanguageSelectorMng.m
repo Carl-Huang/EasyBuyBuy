@@ -7,7 +7,6 @@
 //
 
 #import "LanguageSelectorMng.h"
-#import <objc/runtime.h>
 @interface LanguageSelectorMng()
 {
     NSString * language;
@@ -494,6 +493,34 @@
                  @"viewControllTitle":@"الإخطارات",
                  @"productNotiBtn":@"الإخطارات",
                  @"systemNotiBtn":@"الإخطارات النظام",
+                 };
+    }
+}
+
+#pragma mark - MyCarViewController
+-(NSDictionary *)MyCarViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Shopping Car",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"购物车",
+                 @"confirmBtn":@"确定",
+                 @"costDesc":@"总价:",
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"Shopping Car",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
                  };
     }
 }

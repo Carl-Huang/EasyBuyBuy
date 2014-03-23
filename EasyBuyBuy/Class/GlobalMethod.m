@@ -10,6 +10,7 @@
 
 #import "GlobalMethod.h"
 #import "CustomiseTextField.h"
+#import "parseCSV.h"
 
 @implementation GlobalMethod
 +(void)anchor:(UIView*)obj to:(ANCHOR)anchor withOffset:(CGPoint)offset
@@ -301,4 +302,92 @@
     return  [[NSUserDefaults standardUserDefaults]valueForKey:key];
     
 }
+
++(void)convertCVSTOPlist:(NSString *)filePath
+{
+    CSVParser *parser = [CSVParser new];
+    [parser openFile:filePath];
+    NSMutableArray *csvContent = [parser parseFile];
+    [parser closeFile];
+    
+    NSArray *dirs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
+    NSString *documentsDirectoryPath = [dirs objectAtIndex:0];
+    NSString *exportPath = [documentsDirectoryPath stringByAppendingPathComponent:@"RegionTable.plist"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:exportPath]) {
+        
+        NSString * pathAsString = exportPath;
+        if (pathAsString != nil)
+        {
+            
+            NSArray *keyArray = [csvContent objectAtIndex:0];
+            
+            NSMutableArray *plistOutputArray = [NSMutableArray array];
+            
+            NSInteger i = 0;
+            
+            for (NSArray *array in csvContent)
+            {
+                
+                NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+                
+                NSInteger keyNumber = 0;
+                
+                for (NSString *string in array)
+                {
+                    
+                    [dictionary setObject:string forKey:[keyArray objectAtIndex:keyNumber]];
+                    
+                    keyNumber++;
+                    
+                }
+                
+                if (i > 0)
+                {
+                    [plistOutputArray addObject:dictionary];
+                }
+                
+                i++;
+                
+            }
+            
+            //		NSLog(@"Plist output array %@", plistOutputArray);
+            
+            NSMutableString *mutableString = [NSMutableString stringWithString:pathAsString];
+            NSURL *url = [NSURL fileURLWithPath:mutableString];
+            
+            //		NSLog(@"Write to URL %@",url);
+            
+            [plistOutputArray writeToURL:url atomically:YES];
+            
+        }
+
+    }
+
+    
+}
+
++(id)getRegionTableData
+{
+    NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
+    
+    NSArray *dirs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
+    NSString *documentsDirectoryPath = [dirs objectAtIndex:0];
+    NSString *exportPath = [documentsDirectoryPath stringByAppendingPathComponent:@"RegionTable.plist"];
+     if ([[NSFileManager defaultManager] fileExistsAtPath:exportPath])
+     {
+        
+         NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
+        NSMutableArray * array = [NSMutableArray array];
+         for (NSDictionary * dic in regionData) {
+             NSLog(@"%@",dic);
+             [array addObject:dic[language]];
+         }
+         return array;
+     }else
+     {
+         return [NSMutableArray array];
+     }
+}
 @end
+

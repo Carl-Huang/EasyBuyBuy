@@ -60,4 +60,8 @@ typedef enum _ANCHOR
 
 +(void)setDefaultFontSize:(CGFloat)fontSize;
 +(CGFloat)getDefaultFontSize;
+
+
++(void)convertCVSTOPlist:(NSString *)filePath;
++(id)getRegionTableData;
 @end

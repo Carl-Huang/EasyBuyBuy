@@ -33,6 +33,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     titleStr = tableTitle;
     dataSource = contentData;
     userDefaultKey = key;
+    [_contentTable reloadData];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

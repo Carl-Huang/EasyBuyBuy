@@ -71,9 +71,16 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shopping Car";
-    confirmBtnTitle   = @"Confirm Order";
-    costDescTitle     = @"Total Cost:";
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        [_confirmBtn setTitle:localizedDic [@"confirmBtn"] forState:UIControlStateNormal];
+        _costDesc.text = localizedDic [@"costDesc"];
+    }
+
 }
 
 -(void)initializationInterface
@@ -82,8 +89,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
-    [_confirmBtn setTitle:confirmBtnTitle forState:UIControlStateNormal];
-    _costDesc.text = costDescTitle;
+    
+    
     
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;

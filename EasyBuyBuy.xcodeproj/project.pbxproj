@@ -108,6 +108,9 @@
 		4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */; };
 		4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */; };
 		4EBA0D9218DD3D4C00D3740C /* LanguageSelectorMng.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBA0D9118DD3D4C00D3740C /* LanguageSelectorMng.m */; };
+		4EBCD93718DED44F001EF22C /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBCD93618DED44F001EF22C /* parseCSV.m */; };
+		4EBCD93A18DED858001EF22C /* 国家地区.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4EBCD93918DED858001EF22C /* 国家地区.csv */; };
+		4EBCD93C18DED8F9001EF22C /* ObjC code.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4EBCD93B18DED8F9001EF22C /* ObjC code.csv */; };
 		4EC207AB18C57754003708D6 /* CommonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079318C57754003708D6 /* CommonViewController.m */; };
 		4EC207AC18C57754003708D6 /* HWConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079518C57754003708D6 /* HWConnect.m */; };
 		4EC207AD18C57754003708D6 /* IO.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079A18C57754003708D6 /* IO.m */; };
@@ -119,6 +122,7 @@
 		4EC207B318C57754003708D6 /* UIImage+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC207A618C57754003708D6 /* UIImage+Util.m */; };
 		4EC207B418C57754003708D6 /* UIViewController+BarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC207A818C57754003708D6 /* UIViewController+BarItem.m */; };
 		4EC207B518C57754003708D6 /* VersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC207AA18C57754003708D6 /* VersionManager.m */; };
+		4EE309B718DF2478007D6CF1 /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4EE309B618DF2478007D6CF1 /* Property List.plist */; };
 		5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238718BD99A900100CBF /* SecurityViewController.m */; };
 		5F00238A18BD99A900100CBF /* SecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00238818BD99A900100CBF /* SecurityViewController.xib */; };
 		5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238C18BD9BF400100CBF /* SecurityCell.m */; };
@@ -367,6 +371,11 @@
 		4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseInformationTable.m; sourceTree = "<group>"; };
 		4EBA0D9018DD3D4C00D3740C /* LanguageSelectorMng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageSelectorMng.h; sourceTree = "<group>"; };
 		4EBA0D9118DD3D4C00D3740C /* LanguageSelectorMng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageSelectorMng.m; sourceTree = "<group>"; };
+		4EBCD93518DED44F001EF22C /* parseCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parseCSV.h; sourceTree = "<group>"; };
+		4EBCD93618DED44F001EF22C /* parseCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = parseCSV.m; sourceTree = "<group>"; };
+		4EBCD93818DED472001EF22C /* JXArcCompatibilityMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXArcCompatibilityMacros.h; sourceTree = "<group>"; };
+		4EBCD93918DED858001EF22C /* 国家地区.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = "国家地区.csv"; sourceTree = "<group>"; };
+		4EBCD93B18DED8F9001EF22C /* ObjC code.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ObjC code.csv"; sourceTree = "<group>"; };
 		4EC2079218C57754003708D6 /* CommonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonViewController.h; sourceTree = "<group>"; };
 		4EC2079318C57754003708D6 /* CommonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonViewController.m; sourceTree = "<group>"; };
 		4EC2079418C57754003708D6 /* HWConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWConnect.h; sourceTree = "<group>"; };
@@ -392,6 +401,7 @@
 		4EC207A818C57754003708D6 /* UIViewController+BarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BarItem.m"; sourceTree = "<group>"; };
 		4EC207A918C57754003708D6 /* VersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionManager.h; sourceTree = "<group>"; };
 		4EC207AA18C57754003708D6 /* VersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionManager.m; sourceTree = "<group>"; };
+		4EE309B618DF2478007D6CF1 /* Property List.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		5F00238618BD99A900100CBF /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		5F00238718BD99A900100CBF /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		5F00238818BD99A900100CBF /* SecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityViewController.xib; sourceTree = "<group>"; };
@@ -603,6 +613,8 @@
 		4EAF489318BB6EE10038575F /* Language */ = {
 			isa = PBXGroup;
 			children = (
+				4EBCD93B18DED8F9001EF22C /* ObjC code.csv */,
+				4EBCD93918DED858001EF22C /* 国家地区.csv */,
 			);
 			path = Language;
 			sourceTree = "<group>";
@@ -680,6 +692,9 @@
 		4EB1AE4718BB1AFC0033364F /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				4EBCD93818DED472001EF22C /* JXArcCompatibilityMacros.h */,
+				4EBCD93518DED44F001EF22C /* parseCSV.h */,
+				4EBCD93618DED44F001EF22C /* parseCSV.m */,
 				4EB335BB18D74AF70012EA06 /* PhotoManager.h */,
 				4EB335BC18D74AF70012EA06 /* PhotoManager.m */,
 				4EB335BD18D74AF70012EA06 /* CustomiseActionSheet.h */,
@@ -799,6 +814,7 @@
 		C33EEB96189666F900A26971 = {
 			isa = PBXGroup;
 			children = (
+				4EE309B618DF2478007D6CF1 /* Property List.plist */,
 				C33EEBA8189666F900A26971 /* EasyBuyBuy */,
 				C33EEBC1189666F900A26971 /* EasyBuyBuyTests */,
 				C33EEBA1189666F900A26971 /* Frameworks */,
@@ -1107,6 +1123,7 @@
 				4EAE465118C6EE520089B843 /* ShopViewController.xib in Resources */,
 				4EAE463C18C6EE520089B843 /* BiddingPopupView.xib in Resources */,
 				4EAC792018C4D2080022ECDD /* Slider@2x.png in Resources */,
+				4EBCD93C18DED8F9001EF22C /* ObjC code.csv in Resources */,
 				C33EEC47189667B200A26971 /* Home_Point_W@2x.png in Resources */,
 				4EAE464818C6EE520089B843 /* ProductBroswerViewController.xib in Resources */,
 				C33EEC3A189667B200A26971 /* Home_Bg@2x.png in Resources */,
@@ -1131,6 +1148,7 @@
 				4EAE464A18C6EE520089B843 /* ProductCell.xib in Resources */,
 				C33EEC68189667B200A26971 /* Sale Promotion_Frame_User@2x.png in Resources */,
 				4EB684A218DC1715005AE976 /* ProductListViewController.xib in Resources */,
+				4EE309B718DF2478007D6CF1 /* Property List.plist in Resources */,
 				4EAE464618C6EE520089B843 /* ProdecutViewController.xib in Resources */,
 				C33EEC4A189667B200A26971 /* Home_Search Bar@2x.png in Resources */,
 				C33EEC55189667B200A26971 /* My Adress_Btn_Delete@2x.png in Resources */,
@@ -1149,6 +1167,7 @@
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
 				C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */,
 				C33EEC43189667B200A26971 /* Home_Icon_Transport@2x.png in Resources */,
+				4EBCD93A18DED858001EF22C /* 国家地区.csv in Resources */,
 				C33EEC4B189667B200A26971 /* Home_Search Icon@2x.png in Resources */,
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
@@ -1226,6 +1245,7 @@
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
 				4EC207B218C57754003708D6 /* UIColor+Utils.m in Sources */,
+				4EBCD93718DED44F001EF22C /* parseCSV.m in Sources */,
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
 				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,

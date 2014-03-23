@@ -24,6 +24,8 @@
 {
     UIPageControl * page;
     NSInteger  currentPage;
+    
+    RegionTableViewController * regionTable;
 }
 @end
 
@@ -42,6 +44,13 @@
 {
     [super viewDidLoad];
     [self initializationInterface];
+    
+    //Convert CSV to Plist
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *filePath = [mainBundle pathForResource:@"国家地区"
+                                              ofType:@"csv"];
+    [GlobalMethod convertCVSTOPlist:filePath];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -180,8 +189,14 @@
     page.currentPage = pageNumber;
 }
 - (IBAction)showRegionTable:(id)sender {
-    RegionTableViewController * regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
-    [regionTable tableTitle:@"Region" dataSource:@[@"Egypt",@"UK",@"China",@"US",@"Japan",@"Korea"] userDefaultKey:CurrentRegion];
+    
+    if (!regionTable) {
+        regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    }
+    NSArray * regionData = [GlobalMethod getRegionTableData];
+    
+    [regionTable tableTitle:@"Region" dataSource:regionData
+             userDefaultKey:CurrentRegion];
     
     regionTable.view.alpha = 0.0;
     [UIView animateWithDuration:0.3 animations:^{
@@ -190,8 +205,6 @@
         [self.view addSubview:regionTable.view];
         [self addChildViewController:regionTable];
     }];
-    regionTable = nil;
-    
 }
 
 - (IBAction)showUserCenter:(id)sender {
