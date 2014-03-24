@@ -380,7 +380,7 @@
          NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
         NSMutableArray * array = [NSMutableArray array];
          for (NSDictionary * dic in regionData) {
-             NSLog(@"%@",dic);
+//             NSLog(@"%@",dic);
              [array addObject:dic[language]];
          }
          return array;
