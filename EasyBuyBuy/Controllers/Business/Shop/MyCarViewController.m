@@ -110,8 +110,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     itemSelectedStatus = [NSMutableDictionary dictionary];
     //TODO :Fetch the data from local
-    dataSource = @[@"English",@"Chinese",@"Arabic"];
-    
+    dataSource = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"},@{@"Title":@"Pear",@"Number":@"10",@"Price":@"2.5"},@{@"Title":@"Banana",@"Number":@"10",@"Price":@"3.5"}];
     
     for (int i = 0; i < [dataSource count]; ++i) {
         [itemSelectedStatus setObject:@"1" forKey:[NSString stringWithFormat:@"%d",i]];
@@ -154,7 +153,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     MyCarCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
-    cell.productDes.text    = [dataSource objectAtIndex:indexPath.row];
+    cell.productDes.text    = [[dataSource objectAtIndex:indexPath.row]valueForKey:@"Title"];
+    cell.productCost.text   = @"15";
+    
     
     NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     if ([value isEqualToString:@"1"]) {

@@ -352,7 +352,7 @@
 {
     if ([language isEqualToString:@"English"])
     {
-        return @{@"viewControllTitle": @"Easy sale & Buy "
+        return @{@"viewControllTitle": @"Easy to buy or sell "
                  ,@"publicBtn":@"Publish"
                  ,@"dataSource":@[@"*Sale or Purchase:",
                                   @"*First Name:",
@@ -377,12 +377,12 @@
                                   @"*QUANTITY AVAILABLE:",
                                   @"NAME OF MATERIAL:",
                                   @"Weight/KG/G:",
-                                  @"Note:"]
+                                  @"Remark:"]
                  ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"]
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
-        return @{@"viewControllTitle": @"买或卖"
+        return @{@"viewControllTitle": @"易买/易卖"
                  ,@"publicBtn":@"提交"
                  ,@"dataSource":@[@"*出售或购买:",
                                   @"*名字:",
@@ -413,33 +413,33 @@
     }else
     {
         
-        return @{@"viewControllTitle": @"代运 "
-                 ,@"publicBtn":@"提交"
-                 ,@"dataSource":@[@"*Sale or Purchase:",
-                                  @"*First Name:",
-                                  @"*Last Name:",
-                                  @"*Country Name:",
-                                  @"Company Name:",
-                                  @"*Container:",
-                                  @"*Tel Number:",
-                                  @"*Mobile Number:",
-                                  @"*Email:",
-                                  @"{PRODUCT DATA}",   //9
-                                  @"*Photo of product",//10
+        return @{@"viewControllTitle": @"*السهل شراء أو بيع"
+                 ,@"publicBtn":@"نشر"
+                 ,@"dataSource":@[@"*السهل شراء أو بيع",
+                                  @"*الاسم الأول",
+                                  @"*الاسم الأخير",
+                                  @"*اسم البلد",
+                                  @"اسم الشركة",
+                                  @"*حاوية",
+                                  @"*رقم  الهاتف",
+                                  @"*رقم الجوال",
+                                  @"*البريد الإلكتروني",
+                                  @"{PRODUCT DATA}",
+                                  @"*صورة المنتج",
                                   @"Photo",            //To specify the photo area
-                                  @"*Name Of Goods:",
-                                  @"Size",             //13
-                                  @"LENGTH:",
-                                  @"WIDTH:",
+                                  @"*اسم المنتج",
+                                  @"حجم",
+                                  @"طول",
+                                  @"عرض",
                                   @"HEIGTH:",
-                                  @"THICKNESS:",
-                                  @"COLOR:",
-                                  @"Used in:",
-                                  @"*QUANTITY AVAILABLE:",
-                                  @"NAME OF MATERIAL:",
-                                  @"Weight/KG/G:",
-                                  @"Note:"]
-                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"]
+                                  @"سمك",
+                                  @"لون",
+                                  @"المستخدمة في",
+                                  @"*الكمية  المتاحة",
+                                  @"اسم المادة",
+                                  @"الوزن : (كيلو / طن)",
+                                  @"ملاحظة"]
+                 ,@"eliminateTheTextfieldItems":@[@"*السهل شراء أو بيع",@"{PRODUCT DATA}",@"*صورة المنتج",@"حجم",@"Photo"]
                  };
     }
 }
@@ -521,6 +521,37 @@
                  @"viewControllTitle": @"Shopping Car",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
+                 };
+    }
+}
+
+#pragma  mark - MyOrderDetailViewController
+-(NSDictionary *)MyOrderDetailViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Order details",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"",@"Price:",@"Freight:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"订单详情",
+                 @"confirmBtn":@"确定",
+                 @"costDesc":@"总价:",
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"",@"价钱:",@"运费:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"]
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تفاصيل الطلب",
+                 @"confirmBtn":@"أكد الطلب",
+                 @"costDesc":@"السعر الإجمالي",
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"",@"سعر",@"شحن",@"قائمة المنتجات",@"حالة الطلب",@"وقت الطلب",@"السعر الإجمالي"]
                  };
     }
 }

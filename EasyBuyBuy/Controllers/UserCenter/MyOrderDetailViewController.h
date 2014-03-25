@@ -13,9 +13,11 @@
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @property (weak, nonatomic) IBOutlet UIView *postOrderView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
+@property (weak, nonatomic) IBOutlet UILabel *costDesc;
 
 @property (assign ,nonatomic)BOOL isNewOrder;
-@property (strong ,nonatomic)NSArray * products;
 
 -(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew;
+- (IBAction)submitOrderAction:(id)sender;
 @end

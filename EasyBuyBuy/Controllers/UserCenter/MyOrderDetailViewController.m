@@ -11,6 +11,7 @@
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "ProductListViewController.h"
 #import "GlobalMethod.h"
+#import "PaymentMng.h"
 
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
@@ -20,11 +21,10 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     NSString * viewControllTitle;
     
     NSArray * sectionArray;
-    NSArray * dataSource;
+    NSMutableArray * dataSource;
     NSArray * sectionOffset;
     
     NSArray * products;
-    
     CGFloat   fontSize;
 }
 @end
@@ -60,8 +60,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         _contentView.frame = rect;
     }
     
-    
-    
+    [[PaymentMng sharePaymentMng]preConnectToIntenet];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,7 +72,18 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 #pragma  mark - Private Method
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Order detail";
+   
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        dataSource = [NSMutableArray arrayWithArray:[localizedDic valueForKey:@"dataSource"]];
+        [_confirmBtn setTitle:localizedDic [@"confirmBtn"] forState:UIControlStateNormal];
+        _costDesc.text = localizedDic[@"costDesc"];
+        
+    }
+
 }
 
 -(void)initializationInterface
@@ -95,7 +105,9 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7"];
     NSDictionary * userInfo = @{@"name": @"jack",@"tel":@"150183095838",@"address":@"guangzhou,tianhe,futianlu"};
-    dataSource = @[userInfo,@"Payment:",@"Deliver Method:",@"Remark:",@"please enter:",@"Price:",@"Deliver Cost:",@"Product list",@"Order Status:",@"Order Time:",@"Total Cost:"];
+    
+    
+    [dataSource insertObject:userInfo atIndex:0];
     sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
     
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
@@ -113,6 +125,18 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     
     [_contentTable reloadData];
+}
+
+
+#pragma mark - Outlet Action
+- (IBAction)submitOrderAction:(id)sender {
+    
+    //Paypal settting
+    [[PaymentMng sharePaymentMng]configurePaymentSetting];
+    
+//    NSArray * orderProducts = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"}];
+    [[PaymentMng sharePaymentMng]paymentWithProduct:products withDescription:@"Apple"];
+    
 }
 
 #pragma mark - UITableView

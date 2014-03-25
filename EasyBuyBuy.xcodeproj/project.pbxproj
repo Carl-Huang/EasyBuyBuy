@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4E13AEF818E11D000058FB93 /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E13AEF618E11D000058FB93 /* PaymentViewController.m */; };
-		4E13AEF918E11D000058FB93 /* PaymentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E13AEF718E11D000058FB93 /* PaymentViewController.xib */; };
 		4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */; };
 		4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */; };
 		4E632CC518C44E2A006DD458 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CC318C44E2A006DD458 /* LanguageViewController.m */; };
@@ -106,6 +104,7 @@
 		4EB68AC518DB2434002ECB06 /* AsynCycleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC418DB2434002ECB06 /* AsynCycleView.m */; };
 		4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */; };
 		4EB68ACA18DB346B002ECB06 /* ProductDescriptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */; };
+		4EB6D9FF18E1B3D300985F0B /* PaymentMng.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */; };
 		4EB9705618E085EE001F52D8 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705218E085EE001F52D8 /* libPayPalMobile.a */; };
 		4EB9705818E086BA001F52D8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705718E086BA001F52D8 /* MessageUI.framework */; };
 		4EB9705A18E086C4001F52D8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705918E086C4001F52D8 /* CoreLocation.framework */; };
@@ -223,9 +222,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4E13AEF518E11D000058FB93 /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
-		4E13AEF618E11D000058FB93 /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
-		4E13AEF718E11D000058FB93 /* PaymentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentViewController.xib; sourceTree = "<group>"; };
 		4E632CBD18C44E1A006DD458 /* UpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpgradeViewController.h; sourceTree = "<group>"; };
 		4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpgradeViewController.m; sourceTree = "<group>"; };
 		4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeViewController.xib; sourceTree = "<group>"; };
@@ -373,6 +369,8 @@
 		4EB68AC618DB346B002ECB06 /* ProductDescriptionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDescriptionTableViewCell.h; sourceTree = "<group>"; };
 		4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDescriptionTableViewCell.m; sourceTree = "<group>"; };
 		4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDescriptionTableViewCell.xib; sourceTree = "<group>"; };
+		4EB6D9FD18E1B3D300985F0B /* PaymentMng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentMng.h; path = ../Controllers/Business/PaymentMng.h; sourceTree = "<group>"; };
+		4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentMng.m; path = ../Controllers/Business/PaymentMng.m; sourceTree = "<group>"; };
 		4EB9705218E085EE001F52D8 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPayPalMobile.a; sourceTree = "<group>"; };
 		4EB9705318E085EE001F52D8 /* PayPalMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalMobile.h; sourceTree = "<group>"; };
 		4EB9705418E085EE001F52D8 /* PayPalPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPayment.h; sourceTree = "<group>"; };
@@ -559,9 +557,6 @@
 				4EAE461118C6EE510089B843 /* Sale Promotion */,
 				4EAE461018C6EE510089B843 /* AskToBuy */,
 				4EB9964218D7F5D3001EA448 /* Shipping */,
-				4E13AEF518E11D000058FB93 /* PaymentViewController.h */,
-				4E13AEF618E11D000058FB93 /* PaymentViewController.m */,
-				4E13AEF718E11D000058FB93 /* PaymentViewController.xib */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -736,6 +731,8 @@
 				4EAA4F7818C74AAB0037D8C5 /* Macro_Noti.h */,
 				4EBA0D9018DD3D4C00D3740C /* LanguageSelectorMng.h */,
 				4EBA0D9118DD3D4C00D3740C /* LanguageSelectorMng.m */,
+				4EB6D9FD18E1B3D300985F0B /* PaymentMng.h */,
+				4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -1192,7 +1189,6 @@
 				C33EEC55189667B200A26971 /* My Adress_Btn_Delete@2x.png in Resources */,
 				C33EEC4E189667B200A26971 /* Login_Btn_Login@2x.png in Resources */,
 				C33EEC53189667B200A26971 /* Login_Icon_User02@2x.png in Resources */,
-				4E13AEF918E11D000058FB93 /* PaymentViewController.xib in Resources */,
 				C33EEC65189667B200A26971 /* Sale Promotion_BottomBar@2x.png in Resources */,
 				4EAE463A18C6EE520089B843 /* BiddingCell.xib in Resources */,
 				4EB335B718D744090012EA06 /* ImageTableViewCell.xib in Resources */,
@@ -1271,6 +1267,7 @@
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,
 				4EAC790718C4B23C0022ECDD /* NSTimer+Addition.m in Sources */,
+				4EB6D9FF18E1B3D300985F0B /* PaymentMng.m in Sources */,
 				4EC207AE18C57754003708D6 /* NSDate+Utils.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
 				4EBA0D9218DD3D4C00D3740C /* LanguageSelectorMng.m in Sources */,
@@ -1321,7 +1318,6 @@
 				4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */,
 				4EC207B018C57754003708D6 /* NSString+Utils.m in Sources */,
 				4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */,
-				4E13AEF818E11D000058FB93 /* PaymentViewController.m in Sources */,
 				4EAE463D18C6EE520089B843 /* SalePromotionItemViewController.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				4EAE464D18C6EE520089B843 /* ProductDetailViewControllerViewController.m in Sources */,

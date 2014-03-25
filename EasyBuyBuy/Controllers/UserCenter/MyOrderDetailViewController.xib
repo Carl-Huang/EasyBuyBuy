@@ -7,8 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyOrderDetailViewController">
             <connections>
+                <outlet property="confirmBtn" destination="dvs-Yy-4jm" id="CeS-zs-mDT"/>
                 <outlet property="contentTable" destination="zPw-q3-Fbz" id="tt1-Xo-Xdv"/>
                 <outlet property="contentView" destination="Aut-gO-4gE" id="mAV-xI-jrW"/>
+                <outlet property="costDesc" destination="LDP-u5-oqe" id="g2l-3D-276"/>
                 <outlet property="postOrderView" destination="XMJ-Im-BzI" id="qdK-V0-sSF"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -67,6 +69,9 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="submitOrderAction:" destination="-1" eventType="touchUpInside" id="ir0-3J-TNP"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
