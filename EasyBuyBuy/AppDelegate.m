@@ -8,8 +8,10 @@
 
 #import "AppDelegate.h"
 #import "ShopMainViewController.h"
+#import "PayPalMobile.h"
 
 @implementation AppDelegate
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -26,6 +28,11 @@
         [[NSUserDefaults standardUserDefaults]setObject:@"English" forKey:CurrentLanguage];
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
+    
+    //Paypal
+    [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW",
+                                                           PayPalEnvironmentSandbox : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW"}];
+    
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
