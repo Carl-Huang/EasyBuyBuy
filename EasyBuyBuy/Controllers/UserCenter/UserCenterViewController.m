@@ -18,7 +18,8 @@
 #import "LanguageViewController.h"
 #import "GlobalMethod.h"
 #import "FontSizeTableViewCell.h"
-
+#import "ShopMainViewController.h"
+#import "User.h"
 static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 
 
@@ -84,9 +85,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 
 -(void)initializationInterface
 {
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoShopMainController)];
     self.title          = viewControllTitle;
-   
+    
     
     _upperTableView.tag = UpperTableTag;
     [_upperTableView setBackgroundView:nil];
@@ -130,6 +131,10 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     _nameLabel.font     = [UIFont systemFontOfSize:fontSize + 4];
 }
 
+-(void)gotoShopMainController
+{
+    [self popToMyViewController:[ShopMainViewController class]];
+}
 
 -(void)changeFontSize:(id)sender
 {
@@ -378,4 +383,10 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     viewController = nil;
 }
 
+- (IBAction)logoutAction:(id)sender {
+    
+    User * user = [PersistentStore getLastObjectWithType:[User class]];
+    [PersistentStore deleteObje:user];
+    [self popVIewController];
+}
 @end

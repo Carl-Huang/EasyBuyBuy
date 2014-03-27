@@ -10,6 +10,8 @@
 
 @interface UIViewController (BarItem)
 #pragma mark - Instance Methods
+
+-(void)popToMyViewController:(Class)type;
 /*
   *  @desc 设置导航栏的左边按钮
   *  @param NSString imageName 图标名称
@@ -63,4 +65,5 @@
  @return void
  */
 - (void)push:(UIViewController *)viewController;
+
 @end

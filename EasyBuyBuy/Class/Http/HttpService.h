@@ -7,7 +7,7 @@
 //
 
 #import "AFHttp.h"
-#define URL_PREFIX @"http://carl888.w84.mc-test.com/api"
+#define URL_PREFIX @"http://carl888.w84.mc-test.com/api/"
 
 #define login                       @"login"
 #define registerEa                  @"register"
@@ -49,7 +49,7 @@
  * @param  account  用户的账号
  * @param  email    用户的邮箱
  */
--(void)resendVerificationCodeWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)resendVerificationCodeWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure;
 /*!
  * 更新用户状态
  *
@@ -63,10 +63,10 @@
  * @param  user_id  用户的ID
  * @param  name     收货人名称
  * @param  phone    收货人电话
- * @param  name     收货人地区码
+ * @param  zip     收货人地区码
  * @param  address  收货人地址
  */
--(void)addAddressWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure;
 
 /*!
  * 删除地址

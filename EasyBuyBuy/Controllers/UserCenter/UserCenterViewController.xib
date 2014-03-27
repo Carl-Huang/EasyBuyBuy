@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
@@ -8,6 +9,7 @@
             <connections>
                 <outlet property="bottomTableView" destination="yL4-Wq-R5P" id="7X4-eJ-JMo"/>
                 <outlet property="contentScrollView" destination="r99-PQ-EGP" id="7dV-Q4-o54"/>
+                <outlet property="logoutBtn" destination="hJz-K2-0sw" id="pX7-gS-yZv"/>
                 <outlet property="nameLabel" destination="Bxo-qB-Xm9" id="i91-7a-bau"/>
                 <outlet property="upperTableView" destination="5EI-pC-aJ3" id="Nfx-56-uFM"/>
                 <outlet property="userImage" destination="F9O-a3-hTN" id="nyJ-e8-0Dl"/>
@@ -69,6 +71,16 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hJz-K2-0sw">
+                            <rect key="frame" x="50" y="520" width="220" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Logout">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="logoutAction:" destination="-1" eventType="touchUpInside" id="V5O-KK-nf4"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </scrollView>
             </subviews>

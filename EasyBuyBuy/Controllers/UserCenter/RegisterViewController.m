@@ -49,14 +49,17 @@
 #pragma mark - Private
 
 -(void)initializationLocalString
-{
-    viewControllTitle   = @"Register";
-    usernameTitle       = @"Username";
-    passwordTitle       = @"Password";
-    confirmPasswordTitle= @"Confirm Password";
-    emailTitle          = @"Email";
-    registerTitle       = @"Register";
+{    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        usernameTitle       = localizedDic [@"usernameTitle"];
+        passwordTitle       = localizedDic [@"passwordTitle"];
+        confirmPasswordTitle= localizedDic [@"confirmPasswordTitle"];
+        emailTitle    = localizedDic [@"emailTitle"];
+        registerTitle = localizedDic [@"registerTitle"];
+    }
 }
 -(void)initializationInterface
 {
@@ -64,6 +67,11 @@
     _userNameLabel.text = usernameTitle;
     _passwordLabel.text = passwordTitle;
     [_registerBtn setTitle:registerTitle forState:UIControlStateNormal];
+    _confirmPasswordLabel.text = confirmPasswordTitle;
+    _emailLabel.text = emailTitle;
+    
+    
+    
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
 }
 
@@ -81,13 +89,22 @@
             if ([_email.text length]) {
                 __weak RegisterViewController * weakSelf =self;
                 [MBProgressHUD showHUDAddedTo: self.view animated:YES];
+                [[HttpService sharedInstance]registerWithParams:@{@"account":_userName.text,@"password":_password.text,@"email":_email.text} completionBlock:^(id object) {
+                    
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                    
+                    if (object) {
+                        //成功注册
+                        //4) 验证
+                        [weakSelf gotoVerificationViewControllerWithObj:object];
+                    }
+                    
+                } failureBlock:^(NSError *error, NSString *responseString) {
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
                 
-                //4) 验证
-                VerificationViewController * viewController = [[VerificationViewController alloc]initWithNibName:@"VerificationViewController" bundle:nil];
-                [self push:viewController];
-                viewController = nil;
+                    [self showAlertViewWithMessage:responseString];
+                }];
                 
-                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             }else
             {
                 //邮箱有误
@@ -105,7 +122,13 @@
         //用户名或密码不能为空
         
     }
-    
-    
+}
+
+-(void)gotoVerificationViewControllerWithObj:object
+{
+    VerificationViewController * viewController = [[VerificationViewController alloc]initWithNibName:@"VerificationViewController" bundle:nil];
+    [viewController setRegisterObj:object];
+    [self push:viewController];
+    viewController = nil;
 }
 @end

@@ -5,10 +5,11 @@
 //  Created by vedon on 24/2/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-
-#import "LoginViewController.h"
+#import "UserCenterViewController.h"
 #import "RegisterViewController.h"
-
+#import "LoginViewController.h"
+#import "User.h"
+#import "Login.h"
 
 @interface LoginViewController ()
 {
@@ -60,11 +61,17 @@
 #pragma  mark - Private 
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Login";
-    usernameTitle       = @"Username";
-    passwordTitle       = @"Password";
-    loginBtnTitle       = @"Login";
-    registerBtnTitle    = @"Register Here";
+
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        usernameTitle       = localizedDic [@"usernameTitle"];
+        passwordTitle       = localizedDic [@"passwordTitle"];
+        loginBtnTitle       = localizedDic [@"loginBtnTitle"];
+        registerBtnTitle    = localizedDic [@"registerBtnTitle"];
+    }
+    
 }
 
 -(void)initializationInterface
@@ -80,20 +87,46 @@
 #pragma  mark - Outlet Action
 - (IBAction)loginAction:(id)sender {
     
-    if ([_userName.text length] && [_password.text length]) {
+    if ([_userName.text length]==0 && [_password.text length]==0) {
         //用户名或密码不能为空
         [self showAlertViewWithMessage:@"用户名或密码不能为空"];
     }
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak LoginViewController * weakSelf = self;
+    [[HttpService sharedInstance]loginWithParams:@{@"account":_userName.text,@"password":_password.text} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        if (object ) {
+            Login * loginObj  = object;
+            User * user = [User MR_createEntity];
+            user.account    = loginObj.account;
+            user.password   = loginObj.password;
+            user.user_id    = loginObj.ID;
+            user.sex        = loginObj.sex;
+            user.phone      = loginObj.phone;
+            [PersistentStore save];
+            [weakSelf gotoUserCenterViewController];
+            
+        }
+        
+        
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
     
     
-    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 }
 
 - (IBAction)registerBtnAction:(id)sender {
     RegisterViewController * viewController = [[RegisterViewController alloc]initWithNibName:@"RegisterViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoUserCenterViewController
+{
+    UserCenterViewController * viewController = [[UserCenterViewController alloc]initWithNibName:@"UserCenterViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
 }

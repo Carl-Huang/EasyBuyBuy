@@ -8,6 +8,7 @@
 
 #import "VerificationViewController.h"
 #import "OneWayAlertView.h"
+#import "Register.h"
 @interface VerificationViewController ()
 {
     NSString * viewControllTitle;
@@ -66,18 +67,35 @@
 #pragma  mark - Outlet Action
 
 - (IBAction)finishBtnAction:(id)sender {
+    
+    
 }
 
 - (IBAction)clickHereAction:(id)sender {
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak VerificationViewController * weakSelf = self;
     
-    OneWayAlertView * alertView = [[[NSBundle mainBundle]loadNibNamed:@"OneWayAlertView" owner:self options:nil]objectAtIndex:0];
-    alertView.contentTextView.text = @"The verification email has sent to your email,please check it.";
-    alertView.alpha = 0.0;
-    [UIView animateWithDuration:0.3 animations:^{
-        alertView.alpha = 1.0;
-        [self.view addSubview:alertView];
+    [[HttpService sharedInstance]resendVerificationCodeWithParams:@{@"account": _registerObj.account,@"email":_registerObj.email} completionBlock:^(BOOL isSuccess) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (isSuccess) {
+            OneWayAlertView * alertView = [[[NSBundle mainBundle]loadNibNamed:@"OneWayAlertView" owner:self options:nil]objectAtIndex:0];
+            alertView.contentTextView.text = @"The verification email has sent to your email,please check it.";
+            alertView.alpha = 0.0;
+            [UIView animateWithDuration:0.3 animations:^{
+                alertView.alpha = 1.0;
+                [self.view addSubview:alertView];
+            }];
+            alertView = nil;
+        }
+        
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [self showAlertViewWithMessage:error.description];
+        
     }];
-    alertView = nil;
+    
+    
+   
 }
 @end

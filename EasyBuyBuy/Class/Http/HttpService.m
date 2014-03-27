@@ -97,10 +97,20 @@
 {
     [self post:[self mergeURL:login] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Login class]];
-            if ([array count]) {
-                success([array objectAtIndex:0]);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Login class]];
+                if ([array count]) {
+                    success([array objectAtIndex:0]);
+                }
+
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
             }
+            
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         ;
@@ -110,24 +120,46 @@
 -(void)registerWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:registerEa] withParams:params completionBlock:^(id obj) {
+        
         if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
-            if ([array count]) {
-                success([array objectAtIndex:0]);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Register class]];
+                if ([array count]) {
+                    success([array objectAtIndex:0]);
+                }
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
             }
+            
         }
+        
     } failureBlock:^(NSError *error, NSString *responseString) {
         ;
     }];
 }
 
--(void)resendVerificationCodeWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)resendVerificationCodeWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:resend_verification_email] withParams:params completionBlock:^(id obj) {
         if (obj) {
- 
-            success(obj);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
         }
+
     } failureBlock:^(NSError *error, NSString *responseString) {
         ;
     }];
@@ -145,13 +177,23 @@
     }];
 }
 
--(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:add_address] withParams:params completionBlock:^(id obj) {
         if (obj) {
             
-            success(obj);
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
         }
+
     } failureBlock:^(NSError *error, NSString *responseString) {
         ;
     }];

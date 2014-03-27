@@ -555,4 +555,80 @@
                  };
     }
 }
+
+#pragma mark - LoginViewController
+-(NSDictionary *)LoginViewControllerLanguage
+{
+    /*
+     usernameTitle       = @"Username";
+     passwordTitle       = @"Password";
+     loginBtnTitle       = @"Login";
+     registerBtnTitle    = @"Register Here";
+     */
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Login",
+                 @"usernameTitle":@"Username:",
+                 @"loginBtnTitle":@"Login",
+                 @"registerBtnTitle":@"Register",
+                 @"passwordTitle":@"Password"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"登陆",
+                 @"usernameTitle":@"用户名:",
+                 @"loginBtnTitle":@"登陆",
+                 @"registerBtnTitle":@"注册",
+                 @"passwordTitle":@"密码:"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"Order details",
+                 @"usernameTitle":@"Username",
+                 @"loginBtnTitle":@"Login:",
+                 @"registerBtnTitle":@"Register"
+                 };
+    }
+}
+
+#pragma mark - RegisterViewController
+-(NSDictionary *)RegisterViewControllerLanguage
+{
+
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Register",
+                 @"usernameTitle":@"Username:",
+                 @"confirmPasswordTitle":@"Confirm Password",
+                 @"emailTitle":@"Email:",
+                 @"passwordTitle":@"Password:",
+                 @"registerTitle":@"Register"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"注册",
+                 @"usernameTitle":@"用户名:",
+                 @"confirmPasswordTitle":@"确认密码:",
+                 @"emailTitle":@"邮箱:",
+                 @"passwordTitle":@"密码:",
+                 @"registerTitle":@"注册"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تسجيل",
+                 @"usernameTitle":@"اسم المستخدم",
+                 @"confirmPasswordTitle":@"تأكيد كلمة المرور",
+                 @"emailTitle":@"البريد الإلكتروني",
+                 @"passwordTitle":@"كلمة السر",
+                 @"registerTitle":@"تسجيل"
+                 };
+    }
+}
+
 @end

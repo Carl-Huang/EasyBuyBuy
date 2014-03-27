@@ -8,6 +8,8 @@
 
 #import "EditAddressViewController.h"
 #import "EditAddressCell.h"
+#import "User.h"
+
 static NSString * cellIdentifier        = @"cellIdentifier";
 static NSString * normalCellIdentifier  = @"normalCellIdentifier";
 @interface EditAddressViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
@@ -90,6 +92,36 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
 #pragma  mark - Outlet Action
 - (IBAction)confirmBtnAction:(id)sender {
     NSLog(@"%@",textFieldInfoDic);
+    
+    
+    __weak EditAddressViewController * weakSelf = self;
+    //名字，手机号码，电话，地址
+    
+    NSString * name= [textFieldInfoDic objectForKey:@"0"];
+    NSString * phone = [textFieldInfoDic objectForKey:@"1"];
+    NSString * address = [textFieldInfoDic objectForKey:@"3"];
+    
+    
+    User * user = [User getUserFromLocal];
+    if (user) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        [[HttpService sharedInstance]addAddressWithParams:@{@"user_id":user.user_id,@"zip":@"",@"name":name,@"phone":phone,@"address":address} completionBlock:^(BOOL isSuccess) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if (isSuccess) {
+                
+                [weakSelf popVIewController];
+            }
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [self showAlertViewWithMessage:responseString];
+            
+        }];
+    }
+    
+    
+    
 }
 
 #pragma  mark - Table

@@ -13,6 +13,7 @@
 
 #ifdef __OBJC__
     #import "LanguageSelectorMng.h"
+    #import"PersistentStore.h"
     #import "HttpService.h"
     #import "GlobalMethod.h"
     #import "MBProgressHUD.h"

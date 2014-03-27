@@ -9,20 +9,20 @@
 #import <Foundation/Foundation.h>
 
 /*
- id: "6"
- account: "tester"
- avatar: null
- sex: null
- status: "0"
- is_vip: "0"
- email: "971318606@qq.com"
- register_time: "2014-03-01 23:37:04"
- last_time: null
- upgrade_time: null
- password: "123456"
- verification_code: 310980
- */
+ account = vedon;
+ avatar = "<null>";
+ email = "403264272@qq.com";
+ id = 7;
+ "is_vip" = 0;
+ "last_time" = "<null>";
+ password = 123456;
+ "register_time" = "2014-03-27 23:05:13";
+ sex = "<null>";
+ status = 0;
+ "upgrade_time" = "<null>";
+ "verification_code" = 212720;
 
+ */
 @interface Register : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * account;

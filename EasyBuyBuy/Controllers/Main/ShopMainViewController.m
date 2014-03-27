@@ -214,7 +214,7 @@
 - (IBAction)showUserCenter:(id)sender {
     
     User * user = [PersistentStore getFirstObjectWithType:[User class]];
-    if (!user) {
+    if (user) {
         //Already login ,go to usercenter
         UserCenterViewController * viewController = [[UserCenterViewController alloc]initWithNibName:@"UserCenterViewController" bundle:nil];
         [self push:viewController];
