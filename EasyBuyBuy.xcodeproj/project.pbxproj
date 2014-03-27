@@ -129,7 +129,6 @@
 		4EC90BB218E40ECA007969F5 /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BA718E40ECA007969F5 /* PersistentStore.m */; };
 		4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BAA18E40ECA007969F5 /* PhotoManager.m */; };
 		4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BB518E40ED2007969F5 /* CustomiseActionSheet.m */; };
-		4EE309B718DF2478007D6CF1 /* Property List.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4EE309B618DF2478007D6CF1 /* Property List.plist */; };
 		5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238718BD99A900100CBF /* SecurityViewController.m */; };
 		5F00238A18BD99A900100CBF /* SecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00238818BD99A900100CBF /* SecurityViewController.xib */; };
 		5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238C18BD9BF400100CBF /* SecurityCell.m */; };
@@ -422,7 +421,6 @@
 		4EC90BAA18E40ECA007969F5 /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		4EC90BB418E40ED2007969F5 /* CustomiseActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseActionSheet.h; sourceTree = "<group>"; };
 		4EC90BB518E40ED2007969F5 /* CustomiseActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseActionSheet.m; sourceTree = "<group>"; };
-		4EE309B618DF2478007D6CF1 /* Property List.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Property List.plist"; sourceTree = "<group>"; };
 		5F00238618BD99A900100CBF /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		5F00238718BD99A900100CBF /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		5F00238818BD99A900100CBF /* SecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityViewController.xib; sourceTree = "<group>"; };
@@ -914,7 +912,6 @@
 		C33EEB96189666F900A26971 = {
 			isa = PBXGroup;
 			children = (
-				4EE309B618DF2478007D6CF1 /* Property List.plist */,
 				C33EEBA8189666F900A26971 /* EasyBuyBuy */,
 				C33EEBC1189666F900A26971 /* EasyBuyBuyTests */,
 				C33EEBA1189666F900A26971 /* Frameworks */,
@@ -953,7 +950,6 @@
 		C33EEBA8189666F900A26971 /* EasyBuyBuy */ = {
 			isa = PBXGroup;
 			children = (
-				4EC2079018C57754003708D6 /* Vendor */,
 				4EB1AE4718BB1AFC0033364F /* Class */,
 				4EB1AE4818BB1AFC0033364F /* Models */,
 				4EB1AE4918BB1AFC0033364F /* Views */,
@@ -962,6 +958,7 @@
 				C33EEBB1189666F900A26971 /* AppDelegate.h */,
 				C33EEBB2189666F900A26971 /* AppDelegate.m */,
 				C33EEBB4189666F900A26971 /* Images.xcassets */,
+				4EC2079018C57754003708D6 /* Vendor */,
 				C33EEBA9189666F900A26971 /* Supporting Files */,
 			);
 			path = EasyBuyBuy;
@@ -1251,7 +1248,6 @@
 				4EAE464A18C6EE520089B843 /* ProductCell.xib in Resources */,
 				C33EEC68189667B200A26971 /* Sale Promotion_Frame_User@2x.png in Resources */,
 				4EB684A218DC1715005AE976 /* ProductListViewController.xib in Resources */,
-				4EE309B718DF2478007D6CF1 /* Property List.plist in Resources */,
 				4EAE464618C6EE520089B843 /* ProdecutViewController.xib in Resources */,
 				C33EEC4A189667B200A26971 /* Home_Search Bar@2x.png in Resources */,
 				C33EEC55189667B200A26971 /* My Adress_Btn_Delete@2x.png in Resources */,
