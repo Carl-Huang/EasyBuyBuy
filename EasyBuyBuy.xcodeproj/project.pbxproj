@@ -123,12 +123,14 @@
 		4EC90BAC18E40ECA007969F5 /* CycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90B9418E40ECA007969F5 /* CycleScrollView.m */; };
 		4EC90BAD18E40ECA007969F5 /* NSTimer+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90B9618E40ECA007969F5 /* NSTimer+Addition.m */; };
 		4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90B9918E40ECA007969F5 /* AFHttp.m */; };
-		4EC90BAF18E40ECA007969F5 /* HttpService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90B9B18E40ECA007969F5 /* HttpService.m */; };
 		4EC90BB018E40ECA007969F5 /* LanguageSelectorMng.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90B9E18E40ECA007969F5 /* LanguageSelectorMng.m */; };
 		4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BA418E40ECA007969F5 /* parseCSV.m */; };
 		4EC90BB218E40ECA007969F5 /* PersistentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BA718E40ECA007969F5 /* PersistentStore.m */; };
 		4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BAA18E40ECA007969F5 /* PhotoManager.m */; };
 		4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BB518E40ED2007969F5 /* CustomiseActionSheet.m */; };
+		4EC90BBA18E41C10007969F5 /* HttpService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BB918E41C10007969F5 /* HttpService.m */; };
+		4EC90BBD18E41F29007969F5 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBC18E41F29007969F5 /* Login.m */; };
+		4EC90BC018E4208C007969F5 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBF18E4208C007969F5 /* Register.m */; };
 		5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238718BD99A900100CBF /* SecurityViewController.m */; };
 		5F00238A18BD99A900100CBF /* SecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00238818BD99A900100CBF /* SecurityViewController.xib */; };
 		5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238C18BD9BF400100CBF /* SecurityCell.m */; };
@@ -407,8 +409,6 @@
 		4EC90B9618E40ECA007969F5 /* NSTimer+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Addition.m"; sourceTree = "<group>"; };
 		4EC90B9818E40ECA007969F5 /* AFHttp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHttp.h; sourceTree = "<group>"; };
 		4EC90B9918E40ECA007969F5 /* AFHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHttp.m; sourceTree = "<group>"; };
-		4EC90B9A18E40ECA007969F5 /* HttpService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpService.h; sourceTree = "<group>"; };
-		4EC90B9B18E40ECA007969F5 /* HttpService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpService.m; sourceTree = "<group>"; };
 		4EC90B9D18E40ECA007969F5 /* LanguageSelectorMng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageSelectorMng.h; sourceTree = "<group>"; };
 		4EC90B9E18E40ECA007969F5 /* LanguageSelectorMng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LanguageSelectorMng.m; sourceTree = "<group>"; };
 		4EC90BA018E40ECA007969F5 /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
@@ -421,6 +421,12 @@
 		4EC90BAA18E40ECA007969F5 /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		4EC90BB418E40ED2007969F5 /* CustomiseActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseActionSheet.h; sourceTree = "<group>"; };
 		4EC90BB518E40ED2007969F5 /* CustomiseActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseActionSheet.m; sourceTree = "<group>"; };
+		4EC90BB818E41C10007969F5 /* HttpService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpService.h; sourceTree = "<group>"; };
+		4EC90BB918E41C10007969F5 /* HttpService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpService.m; sourceTree = "<group>"; };
+		4EC90BBB18E41F29007969F5 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		4EC90BBC18E41F29007969F5 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		4EC90BBE18E4208C007969F5 /* Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Register.h; sourceTree = "<group>"; };
+		4EC90BBF18E4208C007969F5 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		5F00238618BD99A900100CBF /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		5F00238718BD99A900100CBF /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		5F00238818BD99A900100CBF /* SecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityViewController.xib; sourceTree = "<group>"; };
@@ -738,6 +744,10 @@
 				4EB1AE6518BB2B010033364F /* User.h */,
 				4EB1AE6618BB2B010033364F /* User.m */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
+				4EC90BBB18E41F29007969F5 /* Login.h */,
+				4EC90BBC18E41F29007969F5 /* Login.m */,
+				4EC90BBE18E4208C007969F5 /* Register.h */,
+				4EC90BBF18E4208C007969F5 /* Register.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -858,8 +868,8 @@
 			children = (
 				4EC90B9818E40ECA007969F5 /* AFHttp.h */,
 				4EC90B9918E40ECA007969F5 /* AFHttp.m */,
-				4EC90B9A18E40ECA007969F5 /* HttpService.h */,
-				4EC90B9B18E40ECA007969F5 /* HttpService.m */,
+				4EC90BB818E41C10007969F5 /* HttpService.h */,
+				4EC90BB918E41C10007969F5 /* HttpService.m */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -1325,12 +1335,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
-				4EC90BAF18E40ECA007969F5 /* HttpService.m in Sources */,
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,
 				4EC207AF18C57754003708D6 /* NSString+MD5_32.m in Sources */,
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
+				4EC90BBA18E41C10007969F5 /* HttpService.m in Sources */,
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,
 				4EB6D9FF18E1B3D300985F0B /* PaymentMng.m in Sources */,
 				4EC90BB018E40ECA007969F5 /* LanguageSelectorMng.m in Sources */,
@@ -1347,6 +1357,7 @@
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
 				4EC90BAB18E40ECA007969F5 /* AsynCycleView.m in Sources */,
 				4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */,
+				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
 				4EC207B218C57754003708D6 /* UIColor+Utils.m in Sources */,
@@ -1379,6 +1390,7 @@
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,
 				4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */,
 				4EAE464318C6EE520089B843 /* MyCarViewController.m in Sources */,
+				4EC90BBD18E41F29007969F5 /* Login.m in Sources */,
 				4EAE465518C6EE970089B843 /* AskToBuyViewController.m in Sources */,
 				4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */,
 				4EC207B018C57754003708D6 /* NSString+Utils.m in Sources */,

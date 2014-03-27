@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 
+
 @interface LoginViewController ()
 {
     NSString * viewControllTitle;
@@ -35,6 +36,13 @@
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
+    
+    
+    [[HttpService sharedInstance]loginWithParams:nil completionBlock:^(id object) {
+        ;
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
     // Do any additional setup after loading the view from its nib.
 }
 
