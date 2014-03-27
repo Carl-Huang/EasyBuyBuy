@@ -1,16 +1,13 @@
 //
-//  AllModels.h
+//  Address.m
 //  EasyBuyBuy
 //
 //  Created by vedon on 27/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
-#ifndef EasyBuyBuy_AllModels_h
-#define EasyBuyBuy_AllModels_h
-
-#import "Login.h"
-#import "Register.h"
 #import "Address.h"
 
-#endif
+@implementation Address
+
+@end

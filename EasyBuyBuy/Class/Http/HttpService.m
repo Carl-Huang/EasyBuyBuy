@@ -109,7 +109,7 @@
 
 -(void)registerWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
-    [self post:[self mergeURL:register] withParams:params completionBlock:^(id obj) {
+    [self post:[self mergeURL:registerEa] withParams:params completionBlock:^(id obj) {
         if (obj) {
             NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
             if ([array count]) {
@@ -123,7 +123,7 @@
 
 -(void)resendVerificationCodeWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
-    [self post:[self mergeURL:registerEa] withParams:params completionBlock:^(id obj) {
+    [self post:[self mergeURL:resend_verification_email] withParams:params completionBlock:^(id obj) {
         if (obj) {
  
             success(obj);
@@ -145,4 +145,99 @@
     }];
 }
 
+-(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:add_address] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            
+            success(obj);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+-(void)deleteUserAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:delete_address] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            
+            success(obj);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+
+-(void)updateAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:update_address] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            
+            success(obj);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+-(void)getAddressListWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:update_address] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
+            success(array);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+
+-(void)setDefaultAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:set_default_address] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            success(obj);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+-(void)getDefaultAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:get_default_address] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
+            success(array);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+
+}
+
+-(void)upgradeAccountWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:user_upgrade] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            success(obj);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+-(void)modifyUserPwdWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:change_password] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            success(obj);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
 @end
