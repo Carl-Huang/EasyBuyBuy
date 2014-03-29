@@ -11,7 +11,7 @@
 #import "Register.h"
 #import "LoginViewController.h"
 
-@interface VerificationViewController ()<UIAlertViewDelegate>
+@interface VerificationViewController ()<UIAlertViewDelegate,UITextFieldDelegate>
 {
     NSString * viewControllTitle;
     NSString * descriptionTextViewTitle;
@@ -43,7 +43,7 @@
     if (self.registerObj) {
         latestVerificationCode = self.registerObj.verification_code;
     }
-    
+    _verificationCodeTextField.delegate = self;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -148,4 +148,11 @@
     }
     
 }
+
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    _verificationCodeTextField.text = @"";
+}
+
 @end

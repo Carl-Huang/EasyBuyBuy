@@ -11,8 +11,9 @@
 #import "OneWayAlertView.h"
 #import "GlobalMethod.h"
 #import "User.h"
+#import "LoginViewController.h"
 static NSString * cellIdentifier        = @"cellIdentifier";
-@interface SecurityViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface SecurityViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     
@@ -115,21 +116,26 @@ static NSString * cellIdentifier        = @"cellIdentifier";
             if ([newPassword isEqualToString:reEnterPassword]) {
                 __weak SecurityViewController * weakSelf = self;
                 [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                [[HttpService sharedInstance]modifyUserPwdWithParams:@{@"old_password": @"",@"new_password":@"",@"user_id":@""} completionBlock:^(id object) {
+                [[HttpService sharedInstance]modifyUserPwdWithParams:@{@"old_password":oldPassword,@"new_password":newPassword,@"user_id":user.user_id} completionBlock:^(BOOL isSuccess) {
                     [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                    if (isSuccess) {
+                        [self showAlertViewWithMessage:@"Modify password success" withDelegate:weakSelf tag:1001];
+                    }else
+                    {
+                        [self showAlertViewWithMessage:@"Modify password failed"];
+                    }
                     
                 } failureBlock:^(NSError *error, NSString *responseString) {
                     [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
                 }];
                 
                 
-                [self showCustomiseAlertViewWithMessage:@"Reset Password Successfully"];
+//                [self showCustomiseAlertViewWithMessage:@"Reset Password Successfully"];
             }else
             {
                 //密码不一致
                 [self showAlertViewWithMessage:@"Reset password is not Consistency"];
             }
-            
         }else
         {
             //旧密码不对
@@ -185,4 +191,19 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [textFieldInfoDic setObject:textField.text forKey:[NSString stringWithFormat:@"%d",textField.tag]];
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1001) {
+        //
+        User * user = [PersistentStore getLastObjectWithType:[User class]];
+        [PersistentStore deleteObje:user];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{            
+            LoginViewController * viewController = [[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil];
+            [self.navigationController pushViewController:viewController animated:YES];
+            viewController = nil;
+        });
+        
+    }
+}
 @end

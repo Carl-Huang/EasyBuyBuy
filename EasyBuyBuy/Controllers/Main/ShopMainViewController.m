@@ -5,8 +5,8 @@
 //  Created by vedon on 24/2/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-#define MainIconWidth 190
-#define MainIconHeight 210
+#define MainIconWidth 250
+#define MainIconHeight 250
 #import "ShopMainViewController.h"
 #import "RegionTableViewController.h"
 #import "LoginViewController.h"
@@ -68,11 +68,11 @@
 #pragma mark - Private Method
 -(void)initializationInterface
 {
-    NSInteger contentIconOffsetY = 60;
+    NSInteger contentIconOffsetY = 30;
     CGSize size = CGSizeMake(320 * 5,400);
     if ([OSHelper iPhone5]) {
         size.height = 488;
-        contentIconOffsetY = 100;
+        contentIconOffsetY = 60;
     }
 
     currentPage = 0 ;
@@ -80,7 +80,7 @@
     page.numberOfPages = 5;
     page.currentPage = currentPage;
     
-    NSArray * images = @[@"Home_Icon_Shop.png",@"Home_Icon_Factory.png",@"Home_Icon_Bidding.png",@"Home_Icon_Purchase.png",@"Home_Icon_Transport.png"];
+    NSArray * images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png"];
     for (int i =0; i < 5; i++) {
         UIImage * image = [UIImage imageNamed:[images objectAtIndex:i]];
         UIImageView * imageView = [[UIImageView alloc]initWithImage:image];

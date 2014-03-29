@@ -19,7 +19,10 @@
 #import "GlobalMethod.h"
 #import "FontSizeTableViewCell.h"
 #import "ShopMainViewController.h"
+#import "AboutUsViewController.h"
 #import "User.h"
+#import "PhotoManager.h"
+#import "CustomiseActionSheet.h"
 static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 
 
@@ -80,7 +83,12 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         bottomDataSource  = localizedDic [@"bottomDataSource"];
         localizedFooterView = localizedDic [@"localizedFooterView"];
     }
-    userName  = @"Jack";
+    
+    User * user = [PersistentStore getLastObjectWithType:[User class]];
+    if (user) {
+        userName  = user.account;
+    }
+   
 }
 
 -(void)initializationInterface
@@ -129,6 +137,7 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     }
     _nameLabel.text     = userName;
     _nameLabel.font     = [UIFont systemFontOfSize:fontSize + 4];
+    
 }
 
 -(void)gotoShopMainController
@@ -331,6 +340,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         case 1:
             [self gotoLanguageViewController];
             break;
+        case 2:
+            [self gotoAboutUsViewcontroller];
+            break;
         default:
             break;
 
@@ -383,10 +395,48 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     viewController = nil;
 }
 
+-(void)gotoAboutUsViewcontroller
+{
+    AboutUsViewController * viewController = [[AboutUsViewController alloc]initWithNibName:@"AboutUsViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
 - (IBAction)logoutAction:(id)sender {
     
     User * user = [PersistentStore getLastObjectWithType:[User class]];
     [PersistentStore deleteObje:user];
     [self popVIewController];
+}
+
+
+- (IBAction)userImageAction:(id)sender {
+    __weak UserCenterViewController * weakSelf = self;
+    [[PhotoManager shareManager]setConfigureBlock:^(UIImage * image)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf.userImage setBackgroundImage:image forState:UIControlStateNormal];
+         });
+     }];
+    CustomiseActionSheet * synActionSheet = [[CustomiseActionSheet alloc] init];
+    synActionSheet.titles = [NSArray arrayWithObjects:@"拍照", @"从相册选择",@"取消", nil];
+    synActionSheet.destructiveButtonIndex = -1;
+    synActionSheet.cancelButtonIndex = 2;
+    NSUInteger result = [synActionSheet showInView:self.view];
+    if (result==0) {
+        //拍照
+        NSLog(@"From Camera");
+        [self presentViewController:[PhotoManager shareManager].camera animated:YES completion:nil];
+        
+    }else if(result ==1)
+    {
+        //从相册选择
+        NSLog(@"From Album");
+        [self presentViewController:[PhotoManager shareManager].pickingImageView animated:YES completion:nil];
+        
+    }else
+    {
+        NSLog(@"Cancel");
+    }
 }
 @end

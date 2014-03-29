@@ -8,6 +8,7 @@
 #import "UserCenterViewController.h"
 #import "RegisterViewController.h"
 #import "LoginViewController.h"
+#import "ShopMainViewController.h"
 #import "User.h"
 #import "Login.h"
 
@@ -82,7 +83,12 @@
     [_LoginBtn setTitle:loginBtnTitle forState:UIControlStateNormal];
     [_registerBtn setTitle:registerBtnTitle forState:UIControlStateNormal];
     
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoRootViewController)];
+}
+
+-(void)gotoRootViewController
+{
+    [self popToMyViewController:[ShopMainViewController class]];
 }
 #pragma  mark - Outlet Action
 - (IBAction)loginAction:(id)sender {
@@ -113,6 +119,7 @@
         
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [weakSelf showAlertViewWithMessage:@"Invalid Password"];
     }];
     
     

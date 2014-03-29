@@ -9,7 +9,7 @@
 #import "RegisterViewController.h"
 #import "VerificationViewController.h"
 
-@interface RegisterViewController ()
+@interface RegisterViewController ()<UITextFieldDelegate>
 {
     NSString * viewControllTitle;
     NSString * usernameTitle;
@@ -117,8 +117,26 @@
     }else
     {
         //用户名或密码不能为空
-        
+        [self showAlertViewWithMessage:@"User name or password can not be empty"];
     }
+}
+
+- (IBAction)userNameAction:(id)sender {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_userName becomeFirstResponder];
+    });
+}
+
+- (IBAction)passwordAction:(id)sender {
+    [_password becomeFirstResponder];
+}
+
+- (IBAction)reEnterpasswordAction:(id)sender {
+    [_confirmPassword becomeFirstResponder];
+}
+
+- (IBAction)emailPasswordAction:(id)sender {
+    [_email becomeFirstResponder];
 }
 
 -(void)gotoVerificationViewControllerWithObj:object
@@ -127,5 +145,15 @@
     [viewController setRegisterObj:object];
     [self push:viewController];
     viewController = nil;
+}
+
+#pragma mark - TextField
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([string isEqualToString:@"\n"]) {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 @end

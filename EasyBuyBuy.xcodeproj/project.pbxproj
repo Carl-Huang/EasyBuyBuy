@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1EA34818E715060012BAEC /* AboutUsViewController.m */; };
+		4E1EA34B18E715060012BAEC /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34918E715060012BAEC /* AboutUsViewController.xib */; };
+		4E1EA35418E71B350012BAEC /* Auction.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34F18E71B350012BAEC /* Auction.png */; };
+		4E1EA35518E71B350012BAEC /* Easy sell&Buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35018E71B350012BAEC /* Easy sell&Buy.png */; };
+		4E1EA35618E71B350012BAEC /* Factory.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35118E71B350012BAEC /* Factory.png */; };
+		4E1EA35718E71B350012BAEC /* Shipping.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35218E71B350012BAEC /* Shipping.png */; };
+		4E1EA35818E71B350012BAEC /* Shop.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35318E71B350012BAEC /* Shop.png */; };
 		4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */; };
 		4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */; };
 		4E632CC518C44E2A006DD458 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CC318C44E2A006DD458 /* LanguageViewController.m */; };
@@ -226,6 +233,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E1EA34718E715060012BAEC /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		4E1EA34818E715060012BAEC /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		4E1EA34918E715060012BAEC /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
+		4E1EA34F18E71B350012BAEC /* Auction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Auction.png; sourceTree = "<group>"; };
+		4E1EA35018E71B350012BAEC /* Easy sell&Buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Easy sell&Buy.png"; sourceTree = "<group>"; };
+		4E1EA35118E71B350012BAEC /* Factory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Factory.png; sourceTree = "<group>"; };
+		4E1EA35218E71B350012BAEC /* Shipping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shipping.png; sourceTree = "<group>"; };
+		4E1EA35318E71B350012BAEC /* Shop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shop.png; sourceTree = "<group>"; };
 		4E632CBD18C44E1A006DD458 /* UpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpgradeViewController.h; sourceTree = "<group>"; };
 		4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpgradeViewController.m; sourceTree = "<group>"; };
 		4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeViewController.xib; sourceTree = "<group>"; };
@@ -554,6 +569,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E1EA34E18E71B350012BAEC /* 主页图标 */ = {
+			isa = PBXGroup;
+			children = (
+				4E1EA34F18E71B350012BAEC /* Auction.png */,
+				4E1EA35018E71B350012BAEC /* Easy sell&Buy.png */,
+				4E1EA35118E71B350012BAEC /* Factory.png */,
+				4E1EA35218E71B350012BAEC /* Shipping.png */,
+				4E1EA35318E71B350012BAEC /* Shop.png */,
+			);
+			path = "主页图标";
+			sourceTree = "<group>";
+		};
 		4E632CC718C4580D006DD458 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,6 +744,9 @@
 				4EB684A318DC1973005AE976 /* ProductListTableViewCell.h */,
 				4EB684A418DC1973005AE976 /* ProductListTableViewCell.m */,
 				4EB684A518DC1973005AE976 /* ProductListTableViewCell.xib */,
+				4E1EA34718E715060012BAEC /* AboutUsViewController.h */,
+				4E1EA34818E715060012BAEC /* AboutUsViewController.m */,
+				4E1EA34918E715060012BAEC /* AboutUsViewController.xib */,
 			);
 			path = UserCenter;
 			sourceTree = "<group>";
@@ -1011,6 +1041,7 @@
 		C33EEBED189667B200A26971 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4E1EA34E18E71B350012BAEC /* 主页图标 */,
 				4EAF489318BB6EE10038575F /* Language */,
 				C33EEBEE189667B200A26971 /* 2x */,
 			);
@@ -1204,6 +1235,7 @@
 				4EB5FFB818BC40050064B22C /* AddressCell.xib in Resources */,
 				C33EEC3F189667B200A26971 /* Home_Icon_Factory@2x.png in Resources */,
 				C33EEC46189667B200A26971 /* Home_Point_G@2x.png in Resources */,
+				4E1EA34B18E715060012BAEC /* AboutUsViewController.xib in Resources */,
 				5F00238F18BD9BF400100CBF /* SecurityCell.xib in Resources */,
 				4EAE464E18C6EE520089B843 /* ProductDetailViewControllerViewController.xib in Resources */,
 				C33EEC73189667B200A26971 /* Verification_Line@2x.png in Resources */,
@@ -1211,6 +1243,7 @@
 				4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */,
 				C33EEC6F189667B200A26971 /* Verification_Btn_Click@2x.png in Resources */,
 				C33EEC54189667B200A26971 /* My_Adress_Btn_Add@2x.png in Resources */,
+				4E1EA35618E71B350012BAEC /* Factory.png in Resources */,
 				4EB6849D18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
 				5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */,
@@ -1234,14 +1267,17 @@
 				C33EEC3E189667B200A26971 /* Home_Icon_Choose@2x.png in Resources */,
 				C33EEC5D189667B200A26971 /* My Notification_Line@2x.png in Resources */,
 				4EAF48AA18BB77870038575F /* LoginViewController.xib in Resources */,
+				4E1EA35518E71B350012BAEC /* Easy sell&Buy.png in Resources */,
 				C33EEC45189667B200A26971 /* Home_Icon_User@2x.png in Resources */,
 				C33EEC61189667B200A26971 /* Red Apple_Point_G@2x.png in Resources */,
+				4E1EA35718E71B350012BAEC /* Shipping.png in Resources */,
 				4EAE465118C6EE520089B843 /* ShopViewController.xib in Resources */,
 				4EAE463C18C6EE520089B843 /* BiddingPopupView.xib in Resources */,
 				4EAC792018C4D2080022ECDD /* Slider@2x.png in Resources */,
 				C33EEC47189667B200A26971 /* Home_Point_W@2x.png in Resources */,
 				4EAE464818C6EE520089B843 /* ProductBroswerViewController.xib in Resources */,
 				C33EEC3A189667B200A26971 /* Home_Bg@2x.png in Resources */,
+				4E1EA35418E71B350012BAEC /* Auction.png in Resources */,
 				C33EEC3C189667B200A26971 /* Home_Icon_Back@2x.png in Resources */,
 				C33EEC3B189667B200A26971 /* Home_Bg_1136@2x.png in Resources */,
 				C33EEC63189667B200A26971 /* Red Apple_Point_ShoppingCar@2x.png in Resources */,
@@ -1285,6 +1321,7 @@
 				C33EEC4B189667B200A26971 /* Home_Search Icon@2x.png in Resources */,
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
+				4E1EA35818E71B350012BAEC /* Shop.png in Resources */,
 				4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */,
 				4E632CC618C44E2A006DD458 /* LanguageViewController.xib in Resources */,
 				4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */,
@@ -1390,6 +1427,7 @@
 				4EAE463918C6EE520089B843 /* BiddingCell.m in Sources */,
 				4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */,
 				4EB6849C18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m in Sources */,
+				4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */,
 				4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */,
 				4EAE464518C6EE520089B843 /* ProdecutViewController.m in Sources */,
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,

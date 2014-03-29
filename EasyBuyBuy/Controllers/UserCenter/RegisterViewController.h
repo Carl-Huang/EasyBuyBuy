@@ -20,4 +20,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *confirmPassword;
 @property (weak, nonatomic) IBOutlet UITextField *email;
 - (IBAction)registerBtnAction:(id)sender;
+
+- (IBAction)userNameAction:(id)sender;
+- (IBAction)passwordAction:(id)sender;
+- (IBAction)reEnterpasswordAction:(id)sender;
+- (IBAction)emailPasswordAction:(id)sender;
+
+
 @end

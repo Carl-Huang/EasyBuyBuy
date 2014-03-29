@@ -123,5 +123,5 @@
  * @param  new_password   新密码
  * @param  user_id        用户ID
  */
--(void)modifyUserPwdWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)modifyUserPwdWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

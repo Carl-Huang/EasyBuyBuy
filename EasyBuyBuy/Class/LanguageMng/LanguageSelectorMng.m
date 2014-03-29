@@ -157,19 +157,19 @@
     {
         return @{@"viewControllTitle": @"UserCenter"
                  ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My notification"]
-                 ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@""]
+                 ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@"About us",@""]
                  ,@"localizedFooterView":@[@"Font",@"Small",@"Middle",@"Big"]};
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{@"viewControllTitle": @"用户中心"
                  ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的通知"]
-                 ,@"bottomDataSource":@[@"账号升级",@"语言",@""]
+                 ,@"bottomDataSource":@[@"账号升级",@"语言",@"关于我们",@""]
                  ,@"localizedFooterView":@[@"字体",@"小",@"中",@"大"]};
     }else
     {
         return @{@"viewControllTitle": @"مركز المستعمل"
                  ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات"]
-                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@""]
+                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@"关于我们",@""]
                  ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"]};
     }
 }
@@ -631,4 +631,26 @@
     }
 }
 
+#pragma mark - AboutUsViewController
+
+-(NSDictionary *)AboutUsViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"About us"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"关于我们"
+                };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"关于我们"
+                 };
+    }
+}
 @end

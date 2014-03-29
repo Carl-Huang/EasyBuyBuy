@@ -83,6 +83,8 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     if ([OSHelper iPhone5]) {
         rect.size.height += 88;
     }
+    [_contentScrollView setFrame:rect];
+    _contentScrollView.scrollEnabled = NO;
     
     productNotiTable = [[UITableView alloc]initWithFrame:rect];
     productNotiTable.delegate = self;
@@ -91,6 +93,8 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     systemNotiTable  = [[UITableView alloc]initWithFrame:rect];
     systemNotiTable.delegate = self;
     systemNotiTable.dataSource  = self;
+    
+    
     
     [_contentScrollView addSubview:productNotiTable];
     [_contentScrollView addSubview:systemNotiTable];
@@ -118,8 +122,8 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [_contentScrollView setDelegate:self];
     
     //TODO:Fetch the Data from the Internet
-    productNotiDataSource = [NSMutableArray arrayWithArray:@[@"1",@"2"]];
-    systemNotiDataSource  = [NSMutableArray arrayWithArray:@[@"1",@"2"]];
+    productNotiDataSource = [NSMutableArray arrayWithArray:@[@"1",@"2",@"1",@"2",@"1",@"2"]];
+    systemNotiDataSource  = [NSMutableArray arrayWithArray:@[@"1",@"2",@"1",@"2",@"1",@"2"]];
     
     [self updateUpperBtnStatus];
     
@@ -248,16 +252,20 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 
 #pragma  mark - Outlet Action
 - (IBAction)productNotiBtnAction:(id)sender {
+    _contentScrollView.scrollEnabled = YES;
     [self resetProductNotiButtonStatus:YES];
     isScrollViewShouldScroll = NO;
     [_contentScrollView scrollRectToVisible:CGRectMake(0, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+    _contentScrollView.scrollEnabled = NO;
     NSLog(@"%s",__func__);
 }
 
 - (IBAction)systemNotiBtnAction:(id)sender {
+    _contentScrollView.scrollEnabled = YES;
     [self resetProductNotiButtonStatus:NO];
     isScrollViewShouldScroll = NO;
      [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+    _contentScrollView.scrollEnabled = NO;
     NSLog(@"%s",__func__);
 }
 
@@ -291,25 +299,25 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 }
 
 #pragma mark - UIScrollView
--(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-{
-    isScrollViewShouldScroll = YES;
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (isScrollViewShouldScroll) {
-        CGFloat pageWidth = scrollView.frame.size.width;
-        float fractionalPage = scrollView.contentOffset.x / pageWidth;
-        NSInteger page = lround(fractionalPage);
-        if (page == 1) {
-            [self resetProductNotiButtonStatus:NO];
-        }else
-        {
-            [self resetProductNotiButtonStatus:YES];
-        }
-         NSLog(@"%s",__func__);
-    }
-}
+//-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+//{
+//    isScrollViewShouldScroll = YES;
+//}
+//
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    if (isScrollViewShouldScroll) {
+//        CGFloat pageWidth = scrollView.frame.size.width;
+//        float fractionalPage = scrollView.contentOffset.x / pageWidth;
+//        NSInteger page = lround(fractionalPage);
+//        if (page == 1) {
+//            [self resetProductNotiButtonStatus:NO];
+//        }else
+//        {
+//            [self resetProductNotiButtonStatus:YES];
+//        }
+//         NSLog(@"%s",__func__);
+//    }
+//}
 
 @end

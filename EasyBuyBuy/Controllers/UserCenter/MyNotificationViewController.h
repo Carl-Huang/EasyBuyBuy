@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *productNotiBtn;
 @property (weak, nonatomic) IBOutlet UIButton *systemNotiBtn;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 - (IBAction)productNotiBtnAction:(id)sender;
 

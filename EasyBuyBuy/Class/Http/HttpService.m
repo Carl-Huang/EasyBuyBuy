@@ -113,7 +113,7 @@
             
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -139,7 +139,7 @@
         }
         
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -161,7 +161,7 @@
         }
 
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -180,7 +180,7 @@
             
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -202,7 +202,7 @@
         }
 
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -224,7 +224,7 @@
             
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -237,7 +237,7 @@
             success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -263,7 +263,7 @@
             failure(nil,@"Result is empty");
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -275,7 +275,7 @@
             success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -287,7 +287,7 @@
             success(array);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 
 }
@@ -299,18 +299,23 @@
             success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
--(void)modifyUserPwdWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)modifyUserPwdWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:change_password] withParams:params completionBlock:^(id obj) {
-        if (obj) {
-            success(obj);
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+            failure(nil,@"Result is empty");
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 @end
