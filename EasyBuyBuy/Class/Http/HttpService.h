@@ -49,14 +49,14 @@
  * @param  account  用户的账号
  * @param  email    用户的邮箱
  */
--(void)resendVerificationCodeWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure;
+-(void)resendVerificationCodeWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure;
 /*!
  * 更新用户状态
  *
  * @param  user_id  用户的ID
- * @param  status   用户的账号
+ * @param  status   状态值
  */
--(void)updateUserStatusWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)updateUserStatusWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 /*!
  * 添加地址
  *
@@ -73,7 +73,7 @@
  *
  * @param  id       用户的ID
  */
--(void)deleteUserAddressWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)deleteUserAddressWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 
 /*!
  * 更新地址

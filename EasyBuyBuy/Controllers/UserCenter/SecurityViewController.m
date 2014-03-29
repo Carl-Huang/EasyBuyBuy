@@ -10,7 +10,7 @@
 #import "SecurityCell.h"
 #import "OneWayAlertView.h"
 #import "GlobalMethod.h"
-
+#import "User.h"
 static NSString * cellIdentifier        = @"cellIdentifier";
 @interface SecurityViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
@@ -94,7 +94,51 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
     NSLog(@"%@",textFieldInfoDic);
     
-    [self showCustomiseAlertViewWithMessage:@"Reset Password Successfully"];
+    //旧密码，新密码
+    NSString * oldPassword = [textFieldInfoDic valueForKey:@"0"];
+    NSString * newPassword = [textFieldInfoDic valueForKey:@"1"];
+    NSString * reEnterPassword = [textFieldInfoDic valueForKey:@"2"];
+    if ([oldPassword length] == 0) {
+        [self showAlertViewWithMessage:@"Old password can not be empty"];
+        return;
+    }
+    
+    if ([newPassword length ]==0 || [reEnterPassword length]==0) {
+        [self showAlertViewWithMessage:@"Reset password can not be empty"];
+        return;
+    }
+    
+    
+    User * user = [User getUserFromLocal];
+    if (user) {
+        if ([oldPassword isEqualToString:user.password]) {
+            if ([newPassword isEqualToString:reEnterPassword]) {
+                __weak SecurityViewController * weakSelf = self;
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [[HttpService sharedInstance]modifyUserPwdWithParams:@{@"old_password": @"",@"new_password":@"",@"user_id":@""} completionBlock:^(id object) {
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                    
+                } failureBlock:^(NSError *error, NSString *responseString) {
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                }];
+                
+                
+                [self showCustomiseAlertViewWithMessage:@"Reset Password Successfully"];
+            }else
+            {
+                //密码不一致
+                [self showAlertViewWithMessage:@"Reset password is not Consistency"];
+            }
+            
+        }else
+        {
+            //旧密码不对
+            [self showAlertViewWithMessage:@"Invalid old Password"];
+        }
+    }
+    
+    
+    
     
 }
 

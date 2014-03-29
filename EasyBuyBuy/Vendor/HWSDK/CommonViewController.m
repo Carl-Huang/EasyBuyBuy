@@ -106,6 +106,16 @@
     });
 }
 
+- (void)showAlertViewWithMessage:(NSString *)message withDelegate:(id)delegate tag:(NSInteger)tag
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:message delegate:delegate cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+        [alertView show];
+        alertView.tag = tag;
+        alertView = nil;
+    });
+}
+
 -(void)showCustomiseAlertViewWithMessage:(NSString *)message
 {
     OneWayAlertView * alertView = [[[NSBundle mainBundle]loadNibNamed:@"OneWayAlertView" owner:self options:nil]objectAtIndex:0];

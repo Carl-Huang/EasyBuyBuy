@@ -109,9 +109,6 @@
             {
                 //邮箱有误
             }
-
-            
-            
         }else
         {
             [self showAlertViewWithMessage:@"密码不一致"];

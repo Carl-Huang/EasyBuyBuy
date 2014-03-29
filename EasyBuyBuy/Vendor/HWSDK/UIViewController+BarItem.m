@@ -98,7 +98,7 @@
     NSArray * viewControllers = self.navigationController.viewControllers;
     for (UIViewController * vc in viewControllers) {
         if ([vc isKindOfClass:type]) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popToViewController:vc animated:YES];
         }
     }
 }

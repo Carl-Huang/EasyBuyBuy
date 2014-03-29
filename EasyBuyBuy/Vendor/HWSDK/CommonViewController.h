@@ -11,4 +11,6 @@
 @interface CommonViewController : UIViewController
 - (void)showAlertViewWithMessage:(NSString *)message;
 -(void)showCustomiseAlertViewWithMessage:(NSString *)message;
+
+- (void)showAlertViewWithMessage:(NSString *)message withDelegate:(id)delegate tag:(NSInteger)tag;
 @end
