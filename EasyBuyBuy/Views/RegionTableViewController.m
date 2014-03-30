@@ -165,11 +165,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
-    NSString * value = [dataSource objectAtIndex:indexPath.row];
+    
+    //总是返回英语的地区名
+    NSArray * englishDataSource = [GlobalMethod getRegionTableDataWithLanguage:@"English"];
+    NSString * englishValue = [englishDataSource objectAtIndex:indexPath.row];
     if (_selectedBlock) {
-        _selectedBlock(value);
+        _selectedBlock(englishValue);
         _selectedBlock = nil;
     }
+    englishDataSource = nil;
+    
+    
     for (int i =0; i < [dataSource count]; ++i) {
         if (i != indexPath.row) {
              [itemStatus setValue:[NSNumber numberWithInt:0] forKey:[NSString stringWithFormat:@"%d",i]];
@@ -188,7 +194,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
     
-    
-    [self performSelector:@selector(removeRegionTable) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(removeRegionTable) withObject:nil afterDelay:0.2];
 }
 @end

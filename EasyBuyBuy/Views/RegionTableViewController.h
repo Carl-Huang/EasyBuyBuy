@@ -19,9 +19,6 @@ typedef void (^DidSelectedItem) (id object);
 @property (weak, nonatomic) IBOutlet UIImageView *bgImage;
 @property (weak, nonatomic) IBOutlet UIImageView *tableViewBgImage;
 
-
-
-
 @property (strong ,nonatomic)DidSelectedItem selectedBlock;
 -(void)tableTitle:(NSString *)tableTitle
        dataSource:(NSArray *)contentData

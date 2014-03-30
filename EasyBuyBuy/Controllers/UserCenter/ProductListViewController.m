@@ -10,6 +10,7 @@
 #import "ProductListViewController.h"
 #import "ProductListTableViewCell.h"
 #import "GlobalMethod.h"
+#import "Car.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 
@@ -71,9 +72,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     
-    if ([_products count] == 0) {
-        _products = @[@"1",@"2",@"3"];
-    }
+
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
@@ -106,10 +105,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [cell setBackgroundView:bgView];
     bgView = nil;
     
+    Car * object = [_products objectAtIndex:indexPath.row];
     cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
-    cell.productName.text = @"Red Apple";
-    cell.productNumber.text = @"Amount:13";
-    cell.price.text = @"$12";
+    cell.productName.text = object.name;
+    cell.productNumber.text = [NSString stringWithFormat:@"Amount: %d",object.proNum.integerValue];
+    cell.price.text = [NSString stringWithFormat:@"$%d",object.proNum.integerValue * object.price.integerValue];
     
     
     cell.productName.font = [UIFont systemFontOfSize:fontSize+2];

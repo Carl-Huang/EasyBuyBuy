@@ -39,7 +39,10 @@
     return shareMng;
 }
 
-
+-(void)setPaymentDelegate:(id)object
+{
+    _pPdelegate = object;
+}
 -(void)configurePaymentSetting
 {
     myDelegate = [[UIApplication sharedApplication]delegate];
@@ -78,20 +81,20 @@
     [PayPalMobile preconnectWithEnvironment:self.environment];
 }
 
--(void)paymentWithProduct:(NSArray *)products withDescription:(NSString *)des
+-(void)paymentWithProductsPrice:(NSString *)cost withDescription:(NSString *)des
 {
-    CGFloat amount = 0;
-    for (NSDictionary * product in products) {
-        NSString * price    = [product valueForKey:@"Price"];
-        NSString * number   = [product valueForKey:@"Number"];
-        amount += price.floatValue * number.floatValue;
-        
-    }
-    NSString * amountStr = [NSString stringWithFormat:@"%0.f",amount];
+//    CGFloat amount = 0;
+//    for (NSDictionary * product in products) {
+//        NSString * price    = [product valueForKey:@"Price"];
+//        NSString * number   = [product valueForKey:@"Number"];
+//        amount += price.floatValue * number.floatValue;
+//        
+//    }
+//    NSString * amountStr = [NSString stringWithFormat:@"%0.f",amount];
     
     
     PayPalPayment *payment = [[PayPalPayment alloc] init];
-    payment.amount = [[NSDecimalNumber alloc] initWithString:amountStr];
+    payment.amount = [[NSDecimalNumber alloc] initWithString:cost];
     payment.currencyCode = @"USD";
     payment.shortDescription = des;
     
@@ -114,6 +117,9 @@
 - (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment {
     NSLog(@"PayPal Payment Success!");
     
+    if ([_pPdelegate respondsToSelector:@selector(paymentMngDidFinish:isSuccess:)]) {
+        [_pPdelegate paymentMngDidFinish:completedPayment isSuccess:YES];
+    }
     
     [self sendCompletedPaymentToServer:completedPayment]; // Payment was processed successfully; send to server for verification and fulfillment
     [lastController dismissViewControllerAnimated:YES completion:nil];
@@ -121,6 +127,9 @@
 
 - (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController {
     NSLog(@"PayPal Payment Canceled");
+    if ([_pPdelegate respondsToSelector:@selector(paymentMngDidCancel)]) {
+        [_pPdelegate paymentMngDidCancel];
+    }
     [lastController dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -83,6 +83,9 @@
 		4EB335C218D74B090012EA06 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C118D74B090012EA06 /* CoreMedia.framework */; };
 		4EB335C418D74B220012EA06 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C318D74B220012EA06 /* AssetsLibrary.framework */; };
 		4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */; };
+		4EB46AEE18E7C4F7008F8BED /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AED18E7C4F7008F8BED /* Car.m */; };
+		4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */; };
+		4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */; };
 		4EB5640A18E47BFB00C1B080 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5640918E47BFB00C1B080 /* User.m */; };
 		4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674118C44656006B680A /* BottomCell@2x.png */; };
 		4EB5674718C44657006B680A /* MiddleCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674218C44656006B680A /* MiddleCell@2x.png */; };
@@ -342,6 +345,11 @@
 		4EB335C118D74B090012EA06 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4EB335C318D74B220012EA06 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = My_Adress_Btn_Add_black.png; sourceTree = "<group>"; };
+		4EB46AEC18E7C4F7008F8BED /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
+		4EB46AED18E7C4F7008F8BED /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
+		4EB46AEF18E7D2A5008F8BED /* SelectedAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressViewController.h; sourceTree = "<group>"; };
+		4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressViewController.m; sourceTree = "<group>"; };
+		4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressViewController.xib; sourceTree = "<group>"; };
 		4EB5640818E47BFB00C1B080 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		4EB5640918E47BFB00C1B080 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB5674118C44656006B680A /* BottomCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomCell@2x.png"; sourceTree = "<group>"; };
@@ -666,6 +674,9 @@
 				4EB68AC618DB346B002ECB06 /* ProductDescriptionTableViewCell.h */,
 				4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */,
 				4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */,
+				4EB46AEF18E7D2A5008F8BED /* SelectedAddressViewController.h */,
+				4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */,
+				4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -774,6 +785,8 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
+				4EB46AEC18E7C4F7008F8BED /* Car.h */,
+				4EB46AED18E7C4F7008F8BED /* Car.m */,
 				4EB5640818E47BFB00C1B080 /* User.h */,
 				4EB5640918E47BFB00C1B080 /* User.m */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
@@ -1311,6 +1324,7 @@
 				C33EEC52189667B200A26971 /* Login_Icon_User01@2x.png in Resources */,
 				C33EEC39189667B200A26971 /* Default@2x.png in Resources */,
 				C33EEC58189667B200A26971 /* My Car_Bottom Bar@2x.png in Resources */,
+				4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */,
 				4EAC790B18C4B87D0022ECDD /* Top Bar_128@2x.png in Resources */,
 				4EAC792118C4D2080022ECDD /* SliderBtton@2x.png in Resources */,
 				4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */,
@@ -1386,6 +1400,7 @@
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,
 				4EB6D9FF18E1B3D300985F0B /* PaymentMng.m in Sources */,
 				4EC90BB018E40ECA007969F5 /* LanguageSelectorMng.m in Sources */,
+				4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */,
 				4EC207AE18C57754003708D6 /* NSDate+Utils.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
 				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
@@ -1406,6 +1421,7 @@
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
 				4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */,
 				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
+				4EB46AEE18E7C4F7008F8BED /* Car.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,

@@ -9,14 +9,17 @@
 #import "MyOrderDetailViewController.h"
 #import "MyOrderUserInfoTableViewCell.h"
 #import "DefaultDescriptionCellTableViewCell.h"
+#import "SelectedAddressViewController.h"
 #import "ProductListViewController.h"
 #import "GlobalMethod.h"
 #import "PaymentMng.h"
-
+#import "Car.h"
+#import "User.h"
+#import "Address.h"
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 
-@interface MyOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface MyOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource,PaymentMngDelegate>
 {
     NSString * viewControllTitle;
     
@@ -104,8 +107,30 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     [_contentTable registerNib:cellNib2 forCellReuseIdentifier:descriptioncellIdentifier];
     
     sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7"];
-    NSDictionary * userInfo = @{@"name": @"jack",@"tel":@"150183095838",@"address":@"guangzhou,tianhe,futianlu"};
     
+    //TODO:5 获取默认的地址
+    User * user = [User getUserFromLocal];
+    __weak MyOrderDetailViewController * weakSelf =self;
+    if (user) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getDefaultAddressWithParams:@{@"user_id":user.user_id} completionBlock:^(id object) {
+            
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if (object) {
+                NSArray * array = object;
+                if ([array count]) {
+                    [weakSelf updateDataSourceWithUserDefaultAddress:[array objectAtIndex:0]];
+                }else
+                {
+                    [weakSelf promptUserToSelectAddress];
+                }
+                
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }
+    NSDictionary * userInfo = @{@"name":@"",@"phone":@"",@"address":@""};
     
     [dataSource insertObject:userInfo atIndex:0];
     sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
@@ -116,27 +141,57 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     }
 }
 
+-(void)updateDataSourceWithUserDefaultAddress:(Address *)address
+{
+    [dataSource replaceObjectAtIndex:0 withObject:address];
+    [_contentTable reloadData];
+}
 
+-(void)promptUserToSelectAddress
+{
+    NSDictionary * userInfo = @{@"name":@"Please Seletecd the address",@"phone":@"",@"address":@""};
+    [dataSource replaceObjectAtIndex:0 withObject:userInfo];
+}
+
+
+-(void)gotoSelectedAddressViewController
+{
+    __weak  MyOrderDetailViewController * weakSelf = self;
+    SelectedAddressViewController * viewController = [[SelectedAddressViewController alloc]initWithNibName:@"SelectedAddressViewController" bundle:nil];
+    
+    //获取选择的地址，更新数据源
+    [viewController setDefaultAddrssBlock:^(Address * address)
+     {
+         [weakSelf updateDataSourceWithUserDefaultAddress:address];
+     }];
+    
+    [self push:viewController];
+    viewController = nil;
+}
 #pragma  mark - Public
 -(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew
 {
     _isNewOrder = isNew;
     products = array;
-    
-    
     [_contentTable reloadData];
 }
 
 
 #pragma mark - Outlet Action
 - (IBAction)submitOrderAction:(id)sender {
-    
+    //TODO:3
     //Paypal settting
     [[PaymentMng sharePaymentMng]configurePaymentSetting];
     
-//    NSArray * orderProducts = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"}];
-    [[PaymentMng sharePaymentMng]paymentWithProduct:products withDescription:@"Apple"];
-    
+
+    //获取商品的总价格，传到paypal
+    NSInteger cost = 0;
+    for (Car * object in products) {
+        cost += object.proNum.integerValue * object.price.integerValue;
+    }
+    NSString * costStr = [NSString stringWithFormat:@"%d",cost];
+    [[PaymentMng sharePaymentMng]paymentWithProductsPrice:costStr withDescription:@"Apple"];
+    [[PaymentMng sharePaymentMng]setPaymentDelegate:self];
 }
 
 #pragma mark - UITableView
@@ -168,12 +223,22 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     if (indexPath.row == 0 && indexPath.section == 0) {
         MyOrderUserInfoTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
-        
-        NSDictionary * userInfo = [dataSource objectAtIndex:0];
-        cell.userName.text      = [userInfo valueForKey:@"name"];
-        cell.phoneNumber.text   = [userInfo valueForKey:@"tel"];
-        cell.address.text       = [userInfo valueForKey:@"address"];
-        
+       
+        id  adress        = [dataSource objectAtIndex:0];
+//        if ([adress isKindOfClass:[Address class]]) {
+//            cell.userName.text      = [adress valueForKey:@"name"];
+//            cell.phoneNumber.text   = [adress valueForKey:@"phone"];
+//            cell.address.text       = [adress valueForKey:@"address"];
+//        }else
+//        {
+//            cell.userName.text      = @"";
+//            cell.phoneNumber.text   = @"";
+//            cell.address.text       = @"";
+//        }
+        cell.userName.text      = [adress valueForKey:@"name"];
+        cell.phoneNumber.text   = [adress valueForKey:@"phone"];
+        cell.address.text       = [adress valueForKey:@"address"];
+
         cell.userName.font      = [UIFont systemFontOfSize:fontSize];
         cell.phoneNumber.font   = [UIFont systemFontOfSize:fontSize];
         cell.address.font       = [UIFont systemFontOfSize:fontSize];
@@ -225,13 +290,35 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0 && indexPath.section == 0)
+    {
+        //TODO:6
+        //选择地址
+        [self gotoSelectedAddressViewController];
+    }
+    
     if (indexPath.section == 5) {
-        //
+        //The object in products is Car object;check the car class definition
         ProductListViewController * viewController = [[ProductListViewController alloc]initWithNibName:@"ProductListViewController" bundle:nil];
         [viewController setProducts:products];
         
         [self push:viewController];
         viewController = nil;
     }
+}
+
+#pragma mark - PaymentDelegate
+-(void)paymentMngDidFinish:(PayPalPayment *)proof isSuccess:(BOOL)isSuccess
+{
+    if (isSuccess) {
+        NSLog(@"%@",proof);
+        //TODO:4 清除已经购买的商品数量
+        
+    }
+}
+
+-(void)paymentMngDidCancel
+{
+    NSLog(@"payment is cancel");
 }
 @end

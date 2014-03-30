@@ -210,7 +210,6 @@
 {
     [self post:[self mergeURL:delete_address] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            
             NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
             if ([statusStr isEqualToString:@"1"]) {
                 success(YES);
@@ -283,8 +282,16 @@
 {
     [self post:[self mergeURL:get_default_address] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
-            success(array);
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
+                success(array);
+            }else
+            {
+              
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         failure(error,responseString);

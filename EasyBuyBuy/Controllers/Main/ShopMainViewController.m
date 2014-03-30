@@ -194,13 +194,14 @@
         regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
     }
     NSArray * regionData = [GlobalMethod getRegionTableData];
-    
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
     
-    [regionTable tableTitle:localizedDic[@"viewControllTitle"] dataSource:regionData userDefaultKey:CurrentRegion];
+    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
+    [regionTable setSelectedBlock:^(id object)
+     {
+         NSLog(@"%@",object);
+     }];
     
-//    [regionTable tableTitle:@"Region" dataSource:regionData
-//             userDefaultKey:CurrentRegion];
     
     regionTable.view.alpha = 0.0;
     [UIView animateWithDuration:0.3 animations:^{

@@ -9,6 +9,7 @@
 #import "MyCarViewController.h"
 #import "MyCarCell.h"
 #import "MyOrderDetailViewController.h"
+#import "Car.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyCarViewController ()
@@ -88,10 +89,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
-    
-    
-    
-    
+
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
@@ -109,13 +107,24 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     
     itemSelectedStatus = [NSMutableDictionary dictionary];
+    
+    
     //TODO :Fetch the data from local
-    dataSource = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"},@{@"Title":@"Pear",@"Number":@"10",@"Price":@"2.5"},@{@"Title":@"Banana",@"Number":@"10",@"Price":@"3.5"}];
+//    dataSource = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"},@{@"Title":@"Pear",@"Number":@"10",@"Price":@"2.5"},@{@"Title":@"Banana",@"Number":@"10",@"Price":@"3.5"}];
     
-    for (int i = 0; i < [dataSource count]; ++i) {
-        [itemSelectedStatus setObject:@"1" forKey:[NSString stringWithFormat:@"%d",i]];
+    //TODO:2
+    //从本地获取购物车商品
+    dataSource = [PersistentStore getAllObjectWithType:[Car class]];
+    if ([dataSource count]) {
+        for (int i = 0; i < [dataSource count]; ++i) {
+            Car * object = [dataSource objectAtIndex:i];
+            [itemSelectedStatus setObject:[NSString stringWithFormat:@"%d",object.isSelected.integerValue ] forKey:[NSString stringWithFormat:@"%d",i]];
+        }
+    }else
+    {
+        //购物车为空
     }
-    
+   
 }
 
 
@@ -129,10 +138,19 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     NSString * key = [NSString stringWithFormat:@"%d",tag];
     NSString * value = [itemSelectedStatus valueForKey:key];
+    
+    Car * object = [dataSource objectAtIndex:tag];
     if ([value isEqualToString:@"1"]) {
         [itemSelectedStatus setObject:@"0" forKey:key];
+        object.isSelected = @1;
+        [PersistentStore save];
     }else
+    {
         [itemSelectedStatus setObject:@"1" forKey:key];
+        object.isSelected = @0;
+        [PersistentStore save];
+    }
+    
     
     [_contentTable reloadData];
 }
@@ -152,10 +170,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     MyCarCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
+    Car * productObj = [dataSource objectAtIndex:indexPath.row];
     cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
-    cell.productDes.text    = [[dataSource objectAtIndex:indexPath.row]valueForKey:@"Title"];
-    cell.productCost.text   = @"15";
-    
+    cell.productDes.text    = productObj.name;
+    cell.productCost.text   = [NSString stringWithFormat:@"$%d",productObj.price.integerValue * productObj.proNum.integerValue];
+    cell.productNumber.text = [NSString stringWithFormat:@"%d",productObj.proNum.integerValue];
     
     NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     if ([value isEqualToString:@"1"]) {

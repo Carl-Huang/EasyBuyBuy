@@ -371,23 +371,28 @@
 {
     NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     
+    return [GlobalMethod getRegionTableDataWithLanguage:language];
+}
+
++(NSArray *)getRegionTableDataWithLanguage:(NSString *)language
+{
     NSArray *dirs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
     NSString *documentsDirectoryPath = [dirs objectAtIndex:0];
     NSString *exportPath = [documentsDirectoryPath stringByAppendingPathComponent:@"RegionTable.plist"];
-     if ([[NSFileManager defaultManager] fileExistsAtPath:exportPath])
-     {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:exportPath])
+    {
         
-         NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
+        NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
         NSMutableArray * array = [NSMutableArray array];
-         for (NSDictionary * dic in regionData) {
-//             NSLog(@"%@",dic);
-             [array addObject:dic[language]];
-         }
-         return array;
-     }else
-     {
-         return [NSMutableArray array];
-     }
+        for (NSDictionary * dic in regionData) {
+            //             NSLog(@"%@",dic);
+            [array addObject:dic[language]];
+        }
+        return array;
+    }else
+    {
+        return [NSMutableArray array];
+    }
 }
 @end
 

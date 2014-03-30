@@ -452,19 +452,22 @@
     {
         return @{
                  @"viewControllTitle": @"Sale or Purchase ",
-                 @"dataSource":@[@"Sale",@"Purchase"]
+                 @"dataSource":@[@"Sale",@"Purchase"],
+                 @"Region":@"Region"
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{
                  @"viewControllTitle": @"买或卖 ",
-                 @"dataSource":@[@"卖",@"买"]
+                 @"dataSource":@[@"卖",@"买"],
+                 @"Region":@"地区"
                  };
     }else
     {
         return @{
                  @"viewControllTitle": @"بيع أو شراء ",
-                 @"dataSource":@[@"بيع ",@"أو شراء"]
+                 @"dataSource":@[@"بيع ",@"أو شراء"],
+                 @"Region":@"منطقة"
                  };
     }
 }
