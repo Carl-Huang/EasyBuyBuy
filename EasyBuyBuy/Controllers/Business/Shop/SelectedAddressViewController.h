@@ -12,4 +12,6 @@ typedef void (^DidSelectedDefaultAddress) (Address * address);
 
 @interface SelectedAddressViewController : CommonViewController
 @property (strong ,nonatomic) DidSelectedDefaultAddress  defaultAddrssBlock;
+
+@property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @end
