@@ -21,6 +21,9 @@
 #define get_default_address         @"get_default_address"
 #define user_upgrade                @"user_upgrade"
 #define change_password             @"change_password"
+#define parent_category_list        @"parent_category_list"
+#define child_category_list         @"child_category_list"
+#define goods                       @"goods"
 
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
@@ -124,4 +127,33 @@
  * @param  user_id        用户ID
  */
 -(void)modifyUserPwdWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+
+/*!
+ * 获取商品主分类
+ *
+ * @param  business_model   模式(1:b2c,2:b2b)
+ * @param  page             页
+ * @param  pageSize         每页大小
+ */
+-(void)getParentCategoriesWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取商品次分类
+ *
+ * @param  p_cate_id        父分类ID
+ * @param  page             页
+ * @param  pageSize         每页大小
+ */
+-(void)getChildCategoriesWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取商品
+ *
+ * @param  p_cate_id        父分类ID
+ * @param  c_cate_id        子分类ID
+ * @param  pageSize         每页大小
+ * @param  page             页
+ */
+-(void)getGoodsWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

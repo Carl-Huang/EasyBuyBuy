@@ -117,6 +117,14 @@
 		4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964418D7F5E5001EA448 /* ShippingViewController.m */; };
 		4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */; };
 		4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */; };
+		4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC495918E9A14B00481F8E /* ParentCategory.m */; };
+		4EBC495D18E9A15A00481F8E /* ChildCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC495C18E9A15A00481F8E /* ChildCategory.m */; };
+		4EBC496F18E9ADAA00481F8E /* EGORefreshTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC496118E9ADAA00481F8E /* EGORefreshTableFooterView.m */; };
+		4EBC497018E9ADAA00481F8E /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC496318E9ADAA00481F8E /* EGORefreshTableHeaderView.m */; };
+		4EBC497118E9ADAA00481F8E /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC496718E9ADAA00481F8E /* TMPhotoQuiltViewCell.m */; };
+		4EBC497218E9ADAA00481F8E /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC496A18E9ADAA00481F8E /* TMQuiltView.m */; };
+		4EBC497318E9ADAA00481F8E /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC496C18E9ADAA00481F8E /* TMQuiltViewCell.m */; };
+		4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC496E18E9ADAA00481F8E /* TMQuiltViewController.m */; };
 		4EBCD93A18DED858001EF22C /* 国家地区.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4EBCD93918DED858001EF22C /* 国家地区.csv */; };
 		4EC207AB18C57754003708D6 /* CommonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079318C57754003708D6 /* CommonViewController.m */; };
 		4EC207AC18C57754003708D6 /* HWConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC2079518C57754003708D6 /* HWConnect.m */; };
@@ -397,6 +405,24 @@
 		4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingViewController.xib; sourceTree = "<group>"; };
 		4EB9964818D80B79001EA448 /* CustomiseInformationTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseInformationTable.h; sourceTree = "<group>"; };
 		4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseInformationTable.m; sourceTree = "<group>"; };
+		4EBC495818E9A14B00481F8E /* ParentCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentCategory.h; sourceTree = "<group>"; };
+		4EBC495918E9A14B00481F8E /* ParentCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentCategory.m; sourceTree = "<group>"; };
+		4EBC495B18E9A15A00481F8E /* ChildCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChildCategory.h; sourceTree = "<group>"; };
+		4EBC495C18E9A15A00481F8E /* ChildCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChildCategory.m; sourceTree = "<group>"; };
+		4EBC496018E9ADAA00481F8E /* EGORefreshTableFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableFooterView.h; sourceTree = "<group>"; };
+		4EBC496118E9ADAA00481F8E /* EGORefreshTableFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableFooterView.m; sourceTree = "<group>"; };
+		4EBC496218E9ADAA00481F8E /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		4EBC496318E9ADAA00481F8E /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		4EBC496418E9ADAA00481F8E /* EGOViewCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOViewCommon.h; sourceTree = "<group>"; };
+		4EBC496618E9ADAA00481F8E /* TMPhotoQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMPhotoQuiltViewCell.h; sourceTree = "<group>"; };
+		4EBC496718E9ADAA00481F8E /* TMPhotoQuiltViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMPhotoQuiltViewCell.m; sourceTree = "<group>"; };
+		4EBC496818E9ADAA00481F8E /* TMQuiltView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TMQuiltView-Prefix.pch"; sourceTree = "<group>"; };
+		4EBC496918E9ADAA00481F8E /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
+		4EBC496A18E9ADAA00481F8E /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
+		4EBC496B18E9ADAA00481F8E /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
+		4EBC496C18E9ADAA00481F8E /* TMQuiltViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltViewCell.m; sourceTree = "<group>"; };
+		4EBC496D18E9ADAA00481F8E /* TMQuiltViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewController.h; sourceTree = "<group>"; };
+		4EBC496E18E9ADAA00481F8E /* TMQuiltViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltViewController.m; sourceTree = "<group>"; };
 		4EBCD93818DED472001EF22C /* JXArcCompatibilityMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXArcCompatibilityMacros.h; sourceTree = "<group>"; };
 		4EBCD93918DED858001EF22C /* 国家地区.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = "国家地区.csv"; sourceTree = "<group>"; };
 		4EC2079218C57754003708D6 /* CommonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonViewController.h; sourceTree = "<group>"; };
@@ -796,6 +822,10 @@
 				4EC90BBF18E4208C007969F5 /* Register.m */,
 				4EC90BC118E42920007969F5 /* Address.h */,
 				4EC90BC218E42920007969F5 /* Address.m */,
+				4EBC495818E9A14B00481F8E /* ParentCategory.h */,
+				4EBC495918E9A14B00481F8E /* ParentCategory.m */,
+				4EBC495B18E9A15A00481F8E /* ChildCategory.h */,
+				4EBC495C18E9A15A00481F8E /* ChildCategory.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -857,9 +887,47 @@
 			path = Shipping;
 			sourceTree = "<group>";
 		};
+		4EBC495E18E9ADAA00481F8E /* ImagesFlow */ = {
+			isa = PBXGroup;
+			children = (
+				4EBC495F18E9ADAA00481F8E /* EGO */,
+				4EBC496518E9ADAA00481F8E /* TMQuiltView */,
+			);
+			path = ImagesFlow;
+			sourceTree = "<group>";
+		};
+		4EBC495F18E9ADAA00481F8E /* EGO */ = {
+			isa = PBXGroup;
+			children = (
+				4EBC496018E9ADAA00481F8E /* EGORefreshTableFooterView.h */,
+				4EBC496118E9ADAA00481F8E /* EGORefreshTableFooterView.m */,
+				4EBC496218E9ADAA00481F8E /* EGORefreshTableHeaderView.h */,
+				4EBC496318E9ADAA00481F8E /* EGORefreshTableHeaderView.m */,
+				4EBC496418E9ADAA00481F8E /* EGOViewCommon.h */,
+			);
+			path = EGO;
+			sourceTree = "<group>";
+		};
+		4EBC496518E9ADAA00481F8E /* TMQuiltView */ = {
+			isa = PBXGroup;
+			children = (
+				4EBC496618E9ADAA00481F8E /* TMPhotoQuiltViewCell.h */,
+				4EBC496718E9ADAA00481F8E /* TMPhotoQuiltViewCell.m */,
+				4EBC496818E9ADAA00481F8E /* TMQuiltView-Prefix.pch */,
+				4EBC496918E9ADAA00481F8E /* TMQuiltView.h */,
+				4EBC496A18E9ADAA00481F8E /* TMQuiltView.m */,
+				4EBC496B18E9ADAA00481F8E /* TMQuiltViewCell.h */,
+				4EBC496C18E9ADAA00481F8E /* TMQuiltViewCell.m */,
+				4EBC496D18E9ADAA00481F8E /* TMQuiltViewController.h */,
+				4EBC496E18E9ADAA00481F8E /* TMQuiltViewController.m */,
+			);
+			path = TMQuiltView;
+			sourceTree = "<group>";
+		};
 		4EC2079018C57754003708D6 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4EBC495E18E9ADAA00481F8E /* ImagesFlow */,
 				4EB9705118E085EE001F52D8 /* PayPalMobile */,
 				4EC2079118C57754003708D6 /* HWSDK */,
 			);
@@ -1393,6 +1461,9 @@
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
+				4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */,
+				4EBC497018E9ADAA00481F8E /* EGORefreshTableHeaderView.m in Sources */,
+				4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,
 				4EC207AF18C57754003708D6 /* NSString+MD5_32.m in Sources */,
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
@@ -1403,11 +1474,13 @@
 				4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */,
 				4EC207AE18C57754003708D6 /* NSDate+Utils.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
+				4EBC496F18E9ADAA00481F8E /* EGORefreshTableFooterView.m in Sources */,
 				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
 				4EC90BAC18E40ECA007969F5 /* CycleScrollView.m in Sources */,
 				4EAE465018C6EE520089B843 /* ShopViewController.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
 				4EAC791B18C4D0AE0022ECDD /* GlobalMethod.m in Sources */,
+				4EBC495D18E9A15A00481F8E /* ChildCategory.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
@@ -1429,6 +1502,7 @@
 				4EAA4F7418C743800037D8C5 /* CustomiseTextField.m in Sources */,
 				4EAE464F18C6EE520089B843 /* ProductView.m in Sources */,
 				4EC207B118C57754003708D6 /* OSHelper.m in Sources */,
+				4EBC497318E9ADAA00481F8E /* TMQuiltViewCell.m in Sources */,
 				4EC207B418C57754003708D6 /* UIViewController+BarItem.m in Sources */,
 				4E870DCA18DA8B3E00596D7E /* FontSizeTableViewCell.m in Sources */,
 				4EAF48AB18BB77870038575F /* MyOrderViewController.m in Sources */,
@@ -1448,6 +1522,7 @@
 				4EAE464518C6EE520089B843 /* ProdecutViewController.m in Sources */,
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,
 				4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */,
+				4EBC497118E9ADAA00481F8E /* TMPhotoQuiltViewCell.m in Sources */,
 				4EAE464318C6EE520089B843 /* MyCarViewController.m in Sources */,
 				4EC90BBD18E41F29007969F5 /* Login.m in Sources */,
 				4EAE465518C6EE970089B843 /* AskToBuyViewController.m in Sources */,
@@ -1468,6 +1543,7 @@
 				4EB5640A18E47BFB00C1B080 /* User.m in Sources */,
 				4EAE464B18C6EE520089B843 /* ProductClassifyCell.m in Sources */,
 				4EAE464918C6EE520089B843 /* ProductCell.m in Sources */,
+				4EBC497218E9ADAA00481F8E /* TMQuiltView.m in Sources */,
 				4EAE463F18C6EE520089B843 /* SalePromotionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

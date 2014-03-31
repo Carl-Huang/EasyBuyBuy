@@ -9,6 +9,8 @@
 #import "ProdecutViewController.h"
 #import "ProductCell.h"
 #import "ProductBroswerViewController.h"
+#import "ChildCategory.h"
+#import "UIImageView+AFNetworking.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -19,6 +21,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     CGFloat fontSize;
     
     NSMutableDictionary * itemsSelectedStatus;
+    NSInteger page;
+    NSInteger pageSize;
 }
 @end
 
@@ -65,7 +69,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
-    dataSource = @[@"English",@"Chinese",@"Arabic",@"English",@"Chinese",@"Arabic",@"English",@"Chinese",@"Arabic"];
     
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
@@ -76,17 +79,34 @@ static NSString * cellIdentifier = @"cellIdentifier";
     ProductCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
     
-    
-    //Use for test
+    page = 1;
+    pageSize = 10;
+    __weak ProdecutViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
+    {
+        if (object) {
+            dataSource = object;
+            [weakSelf setItemsSelectedStatus];
+            [weakSelf.contentTable reloadData];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
+-(void)setItemsSelectedStatus
+{
     itemsSelectedStatus = [NSMutableDictionary dictionary];
     for (int i = 0; i < [dataSource count]; ++ i) {
         [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",i]];
     }
 }
 
--(void)gotoProductBroswerViewController
+-(void)gotoProductBroswerViewControllerWithObj:(ChildCategory *)object
 {
     ProductBroswerViewController * viewController = [[ProductBroswerViewController alloc]initWithNibName:@"ProductBroswerViewController" bundle:nil];
+    [viewController setObject:object];
     [self push:viewController];
     viewController = nil;
 }
@@ -119,11 +139,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
     
-    
+    NSURL * imageURL = [NSURL URLWithString:object.image];
+    [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
     cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
-    cell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
-    cell.classifyName.text   = [dataSource objectAtIndex:indexPath.row];
+    cell.classifyName.text = object.name;
     
     NSString * value = [itemsSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     if ([value isEqualToString:@"1"]) {
@@ -144,6 +165,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self gotoProductBroswerViewController];
+    ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
+
+    [self gotoProductBroswerViewControllerWithObj:object];
 }
 @end

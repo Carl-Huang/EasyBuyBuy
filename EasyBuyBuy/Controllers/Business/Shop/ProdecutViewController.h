@@ -10,5 +10,6 @@
 
 @interface ProdecutViewController : CommonViewController
 
+@property (strong ,nonatomic) NSString * parentID;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @end

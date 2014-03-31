@@ -9,6 +9,10 @@
 #import "ShopViewController.h"
 #import "ProductClassifyCell.h"
 #import "ProdecutViewController.h"
+#import "ParentCategory.h"
+#import "UIImageView+AFNetworking.h"
+
+
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -16,6 +20,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     NSArray * dataSource;
     CGFloat fontSize;
+    NSInteger page;
+    NSInteger pageSize;
 }
 @end
 
@@ -66,7 +72,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
-    dataSource = @[@"English",@"Chinese",@"Arabic",@"English",@"Chinese",@"Arabic",@"English",@"Chinese",@"Arabic"];
+    
     
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
@@ -76,7 +82,21 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     ProductClassifyCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductClassifyCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
- 
+    
+    
+    page = 1;
+    pageSize = 10;
+    __weak ShopViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": @"1",@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (object) {
+            dataSource = object;
+            [weakSelf.contentTable reloadData];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
 }
 
 
@@ -95,10 +115,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
     
-    
-    cell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
-    cell.classifyName.text   = [dataSource objectAtIndex:indexPath.row];
+    NSURL * imageURL = [NSURL URLWithString:object.image];
+    [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
+
+    cell.classifyName.text = object.name;
     cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -107,12 +129,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self gotoProdecutViewController];
+    ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
+    [self gotoProdecutViewControllerWithParentID:object.ID];
 }
 
--(void)gotoProdecutViewController
+-(void)gotoProdecutViewControllerWithParentID:(NSString *)parentID
 {
     ProdecutViewController * viewController = [[ProdecutViewController alloc]initWithNibName:@"ProdecutViewController" bundle:nil];
+    [viewController setParentID:parentID];
     [self push:viewController];
     viewController = nil;
 }

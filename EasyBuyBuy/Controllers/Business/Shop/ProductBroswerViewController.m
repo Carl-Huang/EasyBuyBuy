@@ -9,10 +9,13 @@
 #import "ProductBroswerViewController.h"
 #import "ProductView.h"
 #import "ProductDetailViewControllerViewController.h"
+#import "ChildCategory.h"
 
 @interface ProductBroswerViewController ()
 {
-    NSMutableArray * productImages;
+    NSMutableArray * products;
+    NSInteger page;
+    NSInteger pageSize;
 }
 @end
 
@@ -34,7 +37,19 @@
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
     
-    productImages = [NSMutableArray array];
+    page = 1;
+    pageSize = 10;
+    __weak ProductBroswerViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (object) {
+            products = object;
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
+    products = [NSMutableArray array];
     NSInteger contentImageCount = 6;
     NSUInteger width = 130;
     NSUInteger height = 130;
@@ -44,7 +59,7 @@
         [view configureContentImage:nil completedBlock:^(UIImage *image, NSError *error)
         {
             if (!error || error.code == 100) {
-                [productImages addObject:image];
+                [products addObject:image];
             }else
             {
                 NSLog(@"%@",[error description]);
@@ -81,8 +96,8 @@
 {
     ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
     [viewController setIsShouldShowShoppingCar:YES];
-    if ([productImages count]) {
-        [viewController setProductImages:productImages];
+    if ([products count]) {
+        [viewController setProductImages:products];
     }
     
     [self push:viewController];

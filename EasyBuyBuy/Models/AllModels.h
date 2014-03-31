@@ -12,5 +12,6 @@
 #import "Login.h"
 #import "Register.h"
 #import "Address.h"
-
+#import "ParentCategory.h"
+#import "ChildCategory.h"
 #endif

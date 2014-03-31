@@ -325,4 +325,55 @@
         failure(error,responseString);
     }];
 }
+
+-(void)getParentCategoriesWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:parent_category_list] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[ParentCategory class]];
+                success(array);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getChildCategoriesWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:child_category_list] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[ChildCategory class]];
+                success(array);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getGoodsWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:goods] withParams:params completionBlock:^(id obj) {
+        ;
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
 @end
