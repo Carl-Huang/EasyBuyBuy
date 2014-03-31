@@ -9,6 +9,6 @@
 #import "CommonViewController.h"
 @class ChildCategory;
 @interface ProductBroswerViewController : CommonViewController
-@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
+
 @property (strong ,nonatomic) ChildCategory * object;
 @end

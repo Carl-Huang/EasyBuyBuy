@@ -90,7 +90,6 @@
     {
         return [NSArray array];
     }
-    
 }
 #pragma mark Instance Method
 -(void)loginWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
@@ -369,8 +368,54 @@
 
 -(void)getGoodsWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
-    [self post:[self mergeURL:goods] withParams:params completionBlock:^(id obj) {
-        ;
+    [self post:[self mergeURL:goods] withParams:params completionBlock:^(id obj)
+    {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSMutableArray * models = [NSMutableArray array];
+                NSArray * responseObject = obj[@"result"];
+                if ([responseObject count]) {
+                    NSArray * results = (NSArray *)responseObject;
+                    unsigned int outCount,i;
+                    objc_property_t * properties = class_copyPropertyList([Good class], &outCount);
+                    for(NSDictionary * info in results)
+                    {
+                        Good * model = [[Good alloc] init];
+                        for(i = 0; i < outCount; i++)
+                        {
+                            objc_property_t property = properties[i];
+                            NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                            NSString * keyValue = nil;
+                            if ([propertyName isEqualToString:@"ID"]) {
+                                keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
+                            }else if ([propertyName isEqualToString:@"image"])
+                            {
+                                model.image = [info valueForKey:propertyName];
+                            }
+                            else
+                            {
+                                keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                            }
+                            
+                            
+                            if (keyValue) {
+                                [model setValue:keyValue forKeyPath:propertyName];
+                            }
+                            
+                        }
+                        [models addObject:model];
+                    }
+                    free(properties);
+                }
+                success(models);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
     } failureBlock:^(NSError *error, NSString *responseString) {
         failure(error,responseString);
     }];

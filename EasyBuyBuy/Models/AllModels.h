@@ -14,4 +14,5 @@
 #import "Address.h"
 #import "ParentCategory.h"
 #import "ChildCategory.h"
+#import "Good.h"
 #endif

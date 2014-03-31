@@ -7,7 +7,7 @@
 //
 
 #import "CommonViewController.h"
-
+@class Good;
 @interface ProductDetailViewControllerViewController : CommonViewController
 
 @property (strong ,nonatomic) NSArray * productImages;
@@ -15,5 +15,5 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *productImageScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
-
+@property (strong ,nonatomic) Good * good;
 @end
