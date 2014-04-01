@@ -11,17 +11,20 @@
 #import "ProdecutViewController.h"
 #import "ParentCategory.h"
 #import "UIImageView+AFNetworking.h"
-
+#import "EGORefreshTableFooterView.h"
+#import "NSMutableArray+AddUniqueObject.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
 {
     NSString * viewControllTitle;
     
-    NSArray * dataSource;
+    NSMutableArray * dataSource;
     CGFloat fontSize;
     NSInteger page;
     NSInteger pageSize;
+    EGORefreshTableFooterView * footerView;
+    BOOL                        _reloading;
 }
 @end
 
@@ -77,6 +80,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
+    
+    CGRect rect = _contentTable.frame;
+    if ([OSHelper iPhone5]) {
+        rect.size.height +=88;
+    }
+    _contentTable.frame = rect;
+    
     UINib * cellNib = [UINib nibWithNibName:@"ProductClassifyCell" bundle:[NSBundle bundleForClass:[ProductClassifyCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     
@@ -86,21 +96,55 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     page = 1;
     pageSize = 10;
+    dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": @"1",@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
-            dataSource = object;
+            [dataSource addObjectsFromArray:object];
             [weakSelf.contentTable reloadData];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
+
+    
+    [self createFooterView];
+}
+
+-(void)createFooterView
+{
+    if (footerView && [footerView superview]) {
+        [footerView removeFromSuperview];
+    }
+    footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                          CGRectMake(0.0f,_contentTable.frame.size.height,
+                                     self.view.frame.size.width, self.view.bounds.size.height)];
+    footerView.delegate = self;
+    [_contentTable addSubview:footerView];
+    
+    [footerView refreshLastUpdatedDate];
 }
 
 
-
+-(void)loadData
+{
+    pageSize +=10;
+    __weak ShopViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": @"1",@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (object) {
+            [dataSource addUniqueFromArray:object];
+            [weakSelf doneLoadingTableViewData];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
+    
+    
+}
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -140,4 +184,51 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self push:viewController];
     viewController = nil;
 }
+
+#pragma mark - FooterView
+
+- (void)doneLoadingTableViewData{
+    //5
+    //  model should call this when its done loading
+    [self.contentTable reloadData];
+    _reloading = NO;
+    [footerView refreshLastUpdatedDate];
+    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
+    
+}
+
+-(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
+{
+    //2
+    return _reloading;
+}
+- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
+{
+    //4
+	[self loadData];
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+	if (footerView)
+	{
+        //1
+        [footerView egoRefreshScrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	if (footerView)
+	{
+        //3
+        [footerView egoRefreshScrollViewDidEndDragging:scrollView];
+    }
+	
+}
+- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
+{
+	return [NSDate date]; // should return date data source was last changed
+	
+}
+
 @end

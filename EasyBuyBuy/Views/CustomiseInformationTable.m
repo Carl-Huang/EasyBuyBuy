@@ -21,6 +21,7 @@
 #import "AppDelegate.h"
 #import "PopupTable.h"
 #import "CustomiseTableTextfield.h"
+#import "Base64.h"
 
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
@@ -44,6 +45,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
+@property (strong ,nonatomic) NSMutableArray * photosStr;
 @property (strong ,nonatomic) NSString * buinessType;
 @property (strong ,nonatomic) NSMutableDictionary * textFieldVector;  //very obviouse ,it is the vector for textfield
 @end
@@ -64,6 +66,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         self.dataSource = self;
         
         _photos = [NSMutableArray array];
+        _photosStr = [NSMutableArray array];
         textFieldVector = [NSMutableDictionary dictionary];
         tableContentInfo = [NSMutableDictionary dictionary];
         
@@ -258,13 +261,27 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(void)showPicActionSheet:(id)sender
 {
     //show the action sheet
+    if ([_photos count]>4) {
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"No more than 4 photos" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+        [alertView show];
+        alertView = nil;
+        return;
+    }
     __weak CustomiseInformationTable * weakSelf = self;
     [[PhotoManager shareManager]setConfigureBlock:^(UIImage * image)
      {
          dispatch_async(dispatch_get_main_queue(), ^{
-             [weakSelf.photos addObject:image];
+             NSData * imageData = UIImageJPEGRepresentation(image, 0.7);
+             UIImage * compressImage = [[UIImage alloc]initWithData:imageData];
+             [weakSelf.photos addObject:compressImage];
+             compressImage = nil;
              if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
-                 [tableContentInfo setObject:weakSelf.photos forKey:@"Photos"];
+                 
+                 NSString * imageStr = [imageData base64EncodedString];
+                 [weakSelf.photosStr addObject:imageStr];
+                 imageStr = nil;
+                 
+                 [tableContentInfo setObject:weakSelf.photosStr forKey:@"Photos"];
                  [_tableContentdelegate tableContent:tableContentInfo];
              }
              [weakSelf reloadData];

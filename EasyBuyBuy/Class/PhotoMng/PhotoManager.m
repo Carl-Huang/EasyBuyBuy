@@ -113,14 +113,14 @@
         self.configureBlock(image);
         image = nil;
         self.configureBlock = nil;
-        pickingImageView = nil;
+
 	}else if([mediaType isEqualToString:@"public.image"])	//被选中的是图片
 	{
         //获取照片实例
 		UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
         self.configureBlock(image);
         self.configureBlock = nil;
-        pickingImageView = nil;
+
 		if (isSaveToLibrary)
 		{
 			ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];

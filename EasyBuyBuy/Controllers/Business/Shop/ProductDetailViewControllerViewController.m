@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "CarView.h"
 #import "Car.h"
+#import "Good.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
@@ -107,6 +108,8 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:3 addTo:_productImageScrollView];
     [autoScrollView initializationInterface];
+    //fetch the product images form internet
+    
     
     //ShoppingCar configuration
     __weak ProductDetailViewControllerViewController * weakSelf = self;
@@ -173,6 +176,14 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     
     [self layoutProductTable];
    
+}
+
+-(void)getProductImages
+{
+    NSArray * images = [_good valueForKey:@"image"];
+    for (NSString * imageStr  in images) {
+//        []
+    }
 }
 
 -(void)layoutProductTable
