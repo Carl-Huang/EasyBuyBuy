@@ -127,10 +127,6 @@
     ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
     [viewController setGood:good];
     [viewController setIsShouldShowShoppingCar:YES];
-    if ([products count]) {
-        [viewController setProductImages:products];
-    }
-    
     [self push:viewController];
     viewController = nil;
 }

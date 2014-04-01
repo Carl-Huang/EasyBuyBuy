@@ -11,6 +11,7 @@
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "ProductDescriptionTableViewCell.h"
 #import "MyCarViewController.h"
+#import "SDWebImageManager.h"
 #import "CycleScrollView.h"
 #import "AsynCycleView.h"
 #import "GlobalMethod.h"
@@ -33,6 +34,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     NSArray         * dataSource;
     
     CGFloat         fontSize;
+    NSDictionary * goodInfo;
 }
 @end
 
@@ -65,7 +67,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 {
     [super viewWillDisappear:YES];
     [shoppingCar setHidden:YES];
-    
+    [autoScrollView pauseTimer];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -74,7 +76,11 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     if (_isShouldShowShoppingCar) {
         [shoppingCar setHidden:NO];
     }
-    
+    [autoScrollView startTimer];
+}
+-(void)dealloc
+{
+    [autoScrollView cleanAsynCycleView];
 }
 #pragma  mark - Outlet Action
 -(void)putInCarAction:(id)sender
@@ -95,6 +101,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     {
         dataSource = @[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""];
     }
+    
 
 }
 
@@ -109,7 +116,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:3 addTo:_productImageScrollView];
     [autoScrollView initializationInterface];
     //fetch the product images form internet
-    
+    [self getGoodImages];
     
     //ShoppingCar configuration
     __weak ProductDetailViewControllerViewController * weakSelf = self;
@@ -138,15 +145,28 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         fontSize = DefaultFontSize;
     }
     
+    //@[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""];
+    goodInfo = @{@"1":_good.name,
+                                @"2":_good.item_number,
+                                @"3":_good.price,
+                                @"4":_good.size,
+                                @"5":@"重量",
+                                @"6":_good.quality,
+                                @"7":_good.color,
+                                @"8":_good.area,
+                                @"9":_good.pay_method,
+                                @"10":_good.stock,
+                                @"11":_good.description};
+    
     CGRect resizeRect = CGRectMake(0, 0, _contentScrollView.frame.size.width, _contentScrollView.frame.size.height);
     if ([OSHelper iPhone5]) {
-        resizeRect.size.height +=60;
+        resizeRect.size.height +=80;
     }
     CGRect contentScrollViewRect = _contentScrollView.frame;
     contentScrollViewRect.size.height = resizeRect.size.height;
     
 
-    productInfoTable = [[UITableView alloc]initWithFrame:resizeRect style:UITableViewStylePlain];
+    productInfoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 400) style:UITableViewStylePlain];
     productInfoTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [productInfoTable setBackgroundView:nil];
     [productInfoTable setBackgroundColor:[UIColor clearColor]];
@@ -161,36 +181,40 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     UINib * cellNib2 = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
     [productInfoTable registerNib:cellNib2 forCellReuseIdentifier:cellIdentifier];
     
-    [_contentScrollView setShowsVerticalScrollIndicator:NO];
-    [_contentScrollView addSubview:productInfoTable];
+    [self layoutProductTable];
     
     UIButton * putInCarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [putInCarBtn setTitle:@"Put in car" forState:UIControlStateNormal];
     [putInCarBtn setBackgroundImage:[UIImage imageNamed:@"Login_Btn_Login.png"] forState:UIControlStateNormal];
     [putInCarBtn addTarget:self action:@selector(putInCarAction:) forControlEvents:UIControlEventTouchUpInside];
-    [putInCarBtn setFrame:CGRectMake(productInfoTable.frame.origin.x+5, contentScrollViewRect.origin.y+contentScrollViewRect.size.height + 80, 100, 35)];
+    [putInCarBtn setFrame:CGRectMake(productInfoTable.frame.origin.x+5, contentScrollViewRect.origin.y+contentScrollViewRect.size.height+20, 100, 35)];
     [_contentScrollView addSubview:putInCarBtn];
-
-    contentScrollViewRect.size.height+= 50;
     [_contentScrollView setFrame:contentScrollViewRect];
     
-    [self layoutProductTable];
+    [_contentScrollView setShowsVerticalScrollIndicator:NO];
+    [_contentScrollView addSubview:productInfoTable];
+    
    
 }
 
--(void)getProductImages
+-(void)getGoodImages
 {
-    NSArray * images = [_good valueForKey:@"image"];
-    for (NSString * imageStr  in images) {
-//        []
+    NSMutableArray * images = [_good valueForKey:@"image"];
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    
+    for (NSDictionary * imageInfo in images) {
+        [imagesLink addObject:[imageInfo valueForKey:@"image"]];
+    }
+    if ([imagesLink count]) {
+        [autoScrollView updateNetworkImagesLink:imagesLink];
     }
 }
 
 -(void)layoutProductTable
 {
-    NSInteger height = CellHeight * [dataSource count]-1 + 77;
+    NSInteger height = CellHeight * [dataSource count]-1 + 120;
     if (productInfoTable.frame.size.height <= height) {
-        
+    
         CGRect resizeRect = productInfoTable.frame;
         resizeRect.size.height = height;
         productInfoTable.frame = resizeRect;
@@ -206,7 +230,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         return CellHeight;
     }else
     {
-        return 77;
+        return 110;
     }
 }
 
@@ -225,7 +249,14 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         bgView = nil;
         
         cell.contentTitle.text  = [dataSource objectAtIndex:indexPath.row];
-        cell.content.text       = @"Test";
+        
+        if (indexPath.row != [dataSource count]-2) {
+            cell.content.text       = [goodInfo valueForKey:[NSString stringWithFormat:@"%d",indexPath.row+1]];
+        }else
+        {
+            cell.content.text  = 0;
+        }
+        
         cell.contentTitle.font  = [UIFont systemFontOfSize:fontSize];
         cell.content.font       = [UIFont systemFontOfSize:fontSize];
         cell.selectionStyle     = UITableViewCellSelectionStyleNone;
@@ -239,6 +270,8 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         [cell setBackgroundView:bgView];
         bgView = nil;
         cell.content.font = [UIFont systemFontOfSize:fontSize];
+        
+        cell.content.text = [goodInfo valueForKey:@"11"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -249,4 +282,5 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 {
 
 }
+
 @end
