@@ -142,14 +142,16 @@ static NSString * cellIdentifier        = @"cellIdentifier";
             [self showAlertViewWithMessage:@"Invalid old Password"];
         }
     }
-    
-    
-    
-    
+
 }
 
 
 #pragma  mark - Table
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50.0f;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [dataSource count];

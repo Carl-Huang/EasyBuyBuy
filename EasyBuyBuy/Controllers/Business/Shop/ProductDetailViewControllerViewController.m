@@ -109,6 +109,10 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         inCarObject.proCount = @"1";
         inCarObject.des = _good.description;
         inCarObject.isSelected = @"1"; //默认选中
+        if ([_good.image count]) {
+            inCarObject.image = [[_good.image objectAtIndex:0] valueForKey:@"image"];
+        }
+        
         [PersistentStore save];
         [shoppingCar updateProductNumber:[[PersistentStore getAllObjectWithType:[Car class]]count]];
     }else
@@ -121,6 +125,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
             [PersistentStore save];
         }
     }
+    [self showAlertViewWithMessage:@"Add Successfully"];
 }
 
 #pragma mark - Private
@@ -163,7 +168,6 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
          viewController = nil;
      }];
     
-    //TODO:1
     //获取在本地保存的购物车商品数量
     [shoppingCar updateProductNumber:[[PersistentStore getAllObjectWithType:[Car class]]count]];
     

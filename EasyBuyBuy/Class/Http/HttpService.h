@@ -104,7 +104,7 @@
  * @param  id       地址ID
  * @param  user_id  用户ID
  */
--(void)setDefaultAddressWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)setDefaultAddressWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 /*!
  * 获取默认地址
  *

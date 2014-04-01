@@ -9,7 +9,8 @@
 #import "SelectedAddressViewController.h"
 #import "User.h"
 #import "Address.h"
-#import "AddressCell.h"
+#import "SelectedAddressCell.h"
+
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface SelectedAddressViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -20,6 +21,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSInteger page;
     NSInteger pageSize;
     CGFloat   fontSize;
+    User * loginObj;
+    Address * selectedAddress;
+    NSMutableDictionary * selectedAddressInfo;
 }
 @end
 
@@ -40,6 +44,19 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self initializationLocalString];
     [self initializationInterface];
     // Do any additional setup after loading the view from its nib.
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    _defaultAddress = nil;
+    //设置当前选择的为默认地址
+    [[HttpService sharedInstance]setDefaultAddressWithParams:@{@"user_id":loginObj.user_id,@"id":selectedAddress.ID} completionBlock:^(BOOL isSuccess) {
+        if (isSuccess) {
+            
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,12 +80,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)initializationInterface
 {
     self.title = viewControllTitle;
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
     _contentTable.separatorStyle = UITableViewCellSelectionStyleNone;
-    UINib * cellNib = [UINib nibWithNibName:@"AddressCell" bundle:[NSBundle bundleForClass:[AddressCell class]]];
+    UINib * cellNib = [UINib nibWithNibName:@"SelectedAddressCell" bundle:[NSBundle bundleForClass:[SelectedAddressCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
@@ -84,13 +102,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
     __weak SelectedAddressViewController * weakSelf = self;
     NSString * pageStr = [NSString stringWithFormat:@"%d",page];
     NSString * pageSizeStr = [NSString stringWithFormat:@"%d",pageSize];
-    User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
+    loginObj  = [PersistentStore getLastObjectWithType:[User class]];
     if (loginObj) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[HttpService sharedInstance]getAddressListWithParams:@{@"user_id": loginObj.user_id,@"page":pageStr,@"pageSize":pageSizeStr} completionBlock:^(id object) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             if ([object count]) {
                 dataSource = object;
+                [weakSelf setSelectedStatus];
                 [weakSelf.contentTable reloadData];
             }
         } failureBlock:^(NSError *error, NSString *responseString) {
@@ -98,10 +117,29 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }];
     }else
     {
-        
+        NSLog(@"用户没登陆");
     }
 }
 
+
+-(void)setSelectedStatus
+{
+    selectedAddressInfo  = [NSMutableDictionary dictionary];
+    for (int i =0;i<[dataSource count];i++) {
+        Address * object = [dataSource objectAtIndex:i];
+        if (_defaultAddress) {
+            if ([object.ID isEqualToString: _defaultAddress.ID]) {
+                [selectedAddressInfo setObject:@"1" forKey:[NSString stringWithFormat:@"%d",i]];
+            }else
+            {
+                 [selectedAddressInfo setObject:@"0" forKey:[NSString stringWithFormat:@"%d",i]];
+            }
+        }else
+        {
+            [selectedAddressInfo setObject:@"0" forKey:[NSString stringWithFormat:@"%d",i]];
+        }
+    }
+}
 #pragma mark - UITableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -120,11 +158,20 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AddressCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    SelectedAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     Address * object = [dataSource objectAtIndex:indexPath.row];
+    
     cell.addressDes.text    = object.address;
     cell.phoneNO.text       = object.phone;
     cell.userName.text      = object.name;
+    
+    NSString * selectedStatus = [selectedAddressInfo valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+    if ([selectedStatus isEqualToString:@"1"]) {
+        cell.selectedBtn.selected = YES;
+    }else
+    {
+        cell.selectedBtn.selected = NO;
+    }
     
     cell.addressDes.font    = [UIFont systemFontOfSize:fontSize];
     cell.phoneNO.font       = [UIFont systemFontOfSize:fontSize];
@@ -139,10 +186,25 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString * key = [NSString stringWithFormat:@"%d",indexPath.row];
+    NSString * value = [selectedAddressInfo valueForKey:key];
+    
+    for (int i =0; i<[[selectedAddressInfo allKeys]count]; i++) {
+        [selectedAddressInfo setObject:@"0" forKey:[NSString stringWithFormat:@"%d",i]];
+    }
+    
+    selectedAddress = [dataSource objectAtIndex:indexPath.row];
+    if ([value isEqualToString:@"1"]) {
+        [selectedAddressInfo setObject:@"0" forKey:key];
+    }else
+    {
+        [selectedAddressInfo setObject:@"1" forKey:key];
+    }
+    
     if (_defaultAddrssBlock) {
         Address * object = [dataSource objectAtIndex:indexPath.row];
         _defaultAddrssBlock(object);
-        _defaultAddrssBlock = nil;
     }
+    [self.contentTable reloadData];
 }
 @end

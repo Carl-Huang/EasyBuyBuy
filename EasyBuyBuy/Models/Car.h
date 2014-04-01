@@ -19,9 +19,10 @@
 @property (nonatomic, retain) NSString * model;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * price;
+@property (nonatomic, retain) NSString * proCount;
 @property (nonatomic, retain) NSString * proNum;
 @property (nonatomic, retain) NSString * quality;
 @property (nonatomic, retain) NSString * size;
-@property (nonatomic, retain) NSString * proCount;
+@property (nonatomic, retain) NSString * image;
 
 @end

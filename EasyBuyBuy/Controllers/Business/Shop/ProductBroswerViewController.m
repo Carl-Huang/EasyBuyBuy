@@ -68,6 +68,7 @@
     page = 1;
     products = [NSMutableArray array];
     __weak ProductBroswerViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {

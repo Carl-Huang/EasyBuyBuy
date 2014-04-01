@@ -10,6 +10,7 @@
 #import "MyCarCell.h"
 #import "MyOrderDetailViewController.h"
 #import "Car.h"
+#import "User.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyCarViewController ()
@@ -53,19 +54,27 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (IBAction)confirmBtnAction:(id)sender {
     
     //Fetch the products user selected
-    NSMutableArray * selectedProducts = [NSMutableArray array];
-    for (int i =0; i < [[itemSelectedStatus allKeys]count]; ++ i) {
-        NSString * key = [NSString stringWithFormat:@"%d",i];
-        NSString * value = [itemSelectedStatus valueForKey:key];
-        if ([value isEqualToString:@"1"]) {
-            [selectedProducts addObject:[dataSource objectAtIndex:i]];
+    User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
+    if (loginObj) {
+        NSMutableArray * selectedProducts = [NSMutableArray array];
+        for (int i =0; i < [[itemSelectedStatus allKeys]count]; ++ i) {
+            NSString * key = [NSString stringWithFormat:@"%d",i];
+            NSString * value = [itemSelectedStatus valueForKey:key];
+            if ([value isEqualToString:@"1"]) {
+                [selectedProducts addObject:[dataSource objectAtIndex:i]];
+            }
         }
+        
+        MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
+        [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES];
+        [self push:viewController];
+        viewController = nil;
+    }else
+    {
+        [self showAlertViewWithMessage:@"You have to login first"];
     }
     
-    MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES];
-    [self push:viewController];
-    viewController = nil;
+    
     
 }
 
@@ -112,7 +121,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     //TODO :Fetch the data from local
 //    dataSource = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"},@{@"Title":@"Pear",@"Number":@"10",@"Price":@"2.5"},@{@"Title":@"Banana",@"Number":@"10",@"Price":@"3.5"}];
     
-    //TODO:2
     //从本地获取购物车商品
     dataSource = [PersistentStore getAllObjectWithType:[Car class]];
     if ([dataSource count]) {
@@ -142,12 +150,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     Car * object = [dataSource objectAtIndex:tag];
     if ([value isEqualToString:@"1"]) {
         [itemSelectedStatus setObject:@"0" forKey:key];
-        object.isSelected = @1;
+        object.isSelected = @"0";
         [PersistentStore save];
     }else
     {
         [itemSelectedStatus setObject:@"1" forKey:key];
-        object.isSelected = @0;
+        object.isSelected = @"1";
         [PersistentStore save];
     }
     
@@ -173,8 +181,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     Car * productObj = [dataSource objectAtIndex:indexPath.row];
     cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
     cell.productDes.text    = productObj.name;
-    cell.productCost.text   = [NSString stringWithFormat:@"$%d",productObj.price.integerValue * productObj.proNum.integerValue];
-    cell.productNumber.text = [NSString stringWithFormat:@"%d",productObj.proNum.integerValue];
+    cell.productCost.text   = [NSString stringWithFormat:@"$%0.2f",productObj.price.floatValue * productObj.proCount.integerValue];
+    cell.productNumber.text = [NSString stringWithFormat:@"Amount:%@",productObj.proCount];
     
     NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
     if ([value isEqualToString:@"1"]) {

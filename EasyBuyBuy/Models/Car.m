@@ -18,9 +18,10 @@
 @dynamic model;
 @dynamic name;
 @dynamic price;
+@dynamic proCount;
 @dynamic proNum;
 @dynamic quality;
 @dynamic size;
-@dynamic proCount;
+@dynamic image;
 
 @end

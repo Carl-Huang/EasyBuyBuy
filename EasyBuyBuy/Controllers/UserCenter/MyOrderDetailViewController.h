@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
 @property (weak, nonatomic) IBOutlet UILabel *costDesc;
+@property (weak, nonatomic) IBOutlet UILabel *totalPrice;
 
 @property (assign ,nonatomic)BOOL isNewOrder;
 

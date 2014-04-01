@@ -29,6 +29,9 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     NSArray * products;
     CGFloat   fontSize;
+    Address * defaultAddress;
+    
+    NSMutableArray * textFieldVector;
 }
 @end
 
@@ -107,8 +110,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     [_contentTable registerNib:cellNib2 forCellReuseIdentifier:descriptioncellIdentifier];
     
     sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7"];
-    
-    //TODO:5 获取默认的地址
+    defaultAddress = nil;
     User * user = [User getUserFromLocal];
     __weak MyOrderDetailViewController * weakSelf =self;
     if (user) {
@@ -134,15 +136,26 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     [dataSource insertObject:userInfo atIndex:0];
     sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
-    
+
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
+    
+    CGFloat cost = 0;
+    for (Car * object in products) {
+        cost = object.price.floatValue * object.proCount.integerValue;
+    }
+    _totalPrice.text = [NSString stringWithFormat:@"$%0.2f",cost];
+    
+    
+    textFieldVector = [NSMutableArray array];
+    
 }
 
 -(void)updateDataSourceWithUserDefaultAddress:(Address *)address
 {
+    defaultAddress = address;
     [dataSource replaceObjectAtIndex:0 withObject:address];
     [_contentTable reloadData];
 }
@@ -158,6 +171,13 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 {
     __weak  MyOrderDetailViewController * weakSelf = self;
     SelectedAddressViewController * viewController = [[SelectedAddressViewController alloc]initWithNibName:@"SelectedAddressViewController" bundle:nil];
+    
+    if (defaultAddress) {
+        [viewController setDefaultAddress:defaultAddress];
+    }else
+    {
+        [viewController setDefaultAddress:nil];
+    }
     
     //获取选择的地址，更新数据源
     [viewController setDefaultAddrssBlock:^(Address * address)

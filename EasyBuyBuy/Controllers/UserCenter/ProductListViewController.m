@@ -11,6 +11,9 @@
 #import "ProductListTableViewCell.h"
 #import "GlobalMethod.h"
 #import "Car.h"
+#import "Good.h"
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 
@@ -106,10 +109,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
     bgView = nil;
     
     Car * object = [_products objectAtIndex:indexPath.row];
-    cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
+    
+    NSURL * imageURL = [NSURL URLWithString:object.image];
+    if (imageURL) {
+        [cell.productImage setImageWithURL:imageURL placeholderImage:nil];
+    }
     cell.productName.text = object.name;
-    cell.productNumber.text = [NSString stringWithFormat:@"Amount: %d",object.proNum.integerValue];
-    cell.price.text = [NSString stringWithFormat:@"$%d",object.proNum.integerValue * object.price.integerValue];
+    cell.productNumber.text = [NSString stringWithFormat:@"Amount: %d",object.proCount.integerValue];
+    cell.price.text = [NSString stringWithFormat:@"$%0.2f",object.proCount.floatValue * object.price.integerValue];
     
     
     cell.productName.font = [UIFont systemFontOfSize:fontSize+2];
