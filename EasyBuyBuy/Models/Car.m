@@ -2,7 +2,7 @@
 //  Car.m
 //  EasyBuyBuy
 //
-//  Created by vedon on 30/3/14.
+//  Created by vedon on 1/4/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -11,15 +11,16 @@
 
 @implementation Car
 
+@dynamic area;
+@dynamic color;
+@dynamic des;
+@dynamic isSelected;
+@dynamic model;
 @dynamic name;
 @dynamic price;
-@dynamic model;
-@dynamic size;
-@dynamic quality;
-@dynamic color;
-@dynamic area;
-@dynamic des;
 @dynamic proNum;
-@dynamic isSelected;
+@dynamic quality;
+@dynamic size;
+@dynamic proCount;
 
 @end

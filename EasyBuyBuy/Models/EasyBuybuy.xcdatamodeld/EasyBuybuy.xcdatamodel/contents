@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Car" representedClassName="Car" syncable="YES">
         <attribute name="area" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="des" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isSelected" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isSelected" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="model" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="proNum" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="proCount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="proNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quality" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -21,7 +22,7 @@
         <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="Car" positionX="0" positionY="45" width="128" height="195"/>
+        <element name="Car" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="User" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

@@ -11,6 +11,7 @@
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
 		4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */; };
 		4E11216418EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11216318EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m */; };
+		4E11216A18EAC35B00B2F39E /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11216918EAC35B00B2F39E /* Car.m */; };
 		4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1EA34818E715060012BAEC /* AboutUsViewController.m */; };
 		4E1EA34B18E715060012BAEC /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34918E715060012BAEC /* AboutUsViewController.xib */; };
 		4E1EA35418E71B350012BAEC /* Auction.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34F18E71B350012BAEC /* Auction.png */; };
@@ -87,7 +88,6 @@
 		4EB335C218D74B090012EA06 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C118D74B090012EA06 /* CoreMedia.framework */; };
 		4EB335C418D74B220012EA06 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C318D74B220012EA06 /* AssetsLibrary.framework */; };
 		4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */; };
-		4EB46AEE18E7C4F7008F8BED /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AED18E7C4F7008F8BED /* Car.m */; };
 		4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */; };
 		4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */; };
 		4EB5640A18E47BFB00C1B080 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5640918E47BFB00C1B080 /* User.m */; };
@@ -256,6 +256,8 @@
 		4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseTableTextfield.m; sourceTree = "<group>"; };
 		4E11216218EA95B900B2F39E /* NSMutableArray+AddUniqueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+AddUniqueObject.h"; sourceTree = "<group>"; };
 		4E11216318EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+AddUniqueObject.m"; sourceTree = "<group>"; };
+		4E11216818EAC35B00B2F39E /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
+		4E11216918EAC35B00B2F39E /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
 		4E1EA34718E715060012BAEC /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		4E1EA34818E715060012BAEC /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		4E1EA34918E715060012BAEC /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
@@ -365,8 +367,6 @@
 		4EB335C118D74B090012EA06 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4EB335C318D74B220012EA06 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = My_Adress_Btn_Add_black.png; sourceTree = "<group>"; };
-		4EB46AEC18E7C4F7008F8BED /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
-		4EB46AED18E7C4F7008F8BED /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
 		4EB46AEF18E7D2A5008F8BED /* SelectedAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressViewController.h; sourceTree = "<group>"; };
 		4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressViewController.m; sourceTree = "<group>"; };
 		4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressViewController.xib; sourceTree = "<group>"; };
@@ -835,8 +835,8 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
-				4EB46AEC18E7C4F7008F8BED /* Car.h */,
-				4EB46AED18E7C4F7008F8BED /* Car.m */,
+				4E11216818EAC35B00B2F39E /* Car.h */,
+				4E11216918EAC35B00B2F39E /* Car.m */,
 				4EB5640818E47BFB00C1B080 /* User.h */,
 				4EB5640918E47BFB00C1B080 /* User.m */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
@@ -1494,6 +1494,7 @@
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
 				4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */,
+				4E11216A18EAC35B00B2F39E /* Car.m in Sources */,
 				4EBC497018E9ADAA00481F8E /* EGORefreshTableHeaderView.m in Sources */,
 				4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,
@@ -1530,7 +1531,6 @@
 				4EBC497718E9B1FE00481F8E /* Good.m in Sources */,
 				4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */,
 				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
-				4EB46AEE18E7C4F7008F8BED /* Car.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,

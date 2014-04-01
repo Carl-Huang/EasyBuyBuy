@@ -86,6 +86,41 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 -(void)putInCarAction:(id)sender
 {
     //获取在购物车中的商品，判断购物车中是否已经有该商品
+    NSArray * inCarGoods = [PersistentStore getAllObjectWithType:[Car class]];
+    Car * inCarObject = nil;
+    BOOL isAlreadyInCar = NO;
+    for (Car * object in inCarGoods) {
+        if ([object.proNum isEqualToString:_good.item_number]) {
+            inCarObject = object;
+            isAlreadyInCar = YES;
+            break;
+        }
+    }
+    if (!isAlreadyInCar) {
+        //添加到购物车
+        inCarObject = [Car MR_createEntity];
+        inCarObject.name = _good.name;
+        inCarObject.price = _good.price;
+        inCarObject.model = _good.business_model;
+        inCarObject.size = _good.size;
+        inCarObject.quality = _good.quality;
+        inCarObject.color = _good.color;
+        inCarObject.proNum = _good.item_number;
+        inCarObject.proCount = @"1";
+        inCarObject.des = _good.description;
+        inCarObject.isSelected = @"1"; //默认选中
+        [PersistentStore save];
+        [shoppingCar updateProductNumber:[[PersistentStore getAllObjectWithType:[Car class]]count]];
+    }else
+    {
+        //增加改商品的计数
+        if (inCarObject) {
+            NSInteger originalNum = inCarObject.proCount.integerValue;
+            originalNum ++;
+            inCarObject.proCount = [NSString stringWithFormat:@"%d",originalNum];
+            [PersistentStore save];
+        }
+    }
 }
 
 #pragma mark - Private
