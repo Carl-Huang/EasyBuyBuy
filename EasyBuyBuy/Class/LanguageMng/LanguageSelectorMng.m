@@ -363,7 +363,6 @@
                                   @"*Tel Number:",
                                   @"*Mobile Number:",
                                   @"*Email:",
-                                  @"{PRODUCT DATA}",   //9
                                   @"*Photo of product",//10
                                   @"Photo",            //To specify the photo area
                                   @"*Name Of Goods:",
@@ -378,7 +377,7 @@
                                   @"NAME OF MATERIAL:",
                                   @"Weight/KG/G:",
                                   @"Remark:"]
-                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"]
+                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"*Photo of product",@"Size",@"Photo"]
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -393,7 +392,6 @@
                                   @"*电话号码:",
                                   @"*手机号码:",
                                   @"*邮件:",
-                                  @"{货物信息}",   //9
                                   @"*产品图片",//10
                                   @"Photo",            //To specify the photo area
                                   @"*商品名称:",
@@ -408,7 +406,7 @@
                                   @"材料名称:",
                                   @"重量/公斤/克:",
                                   @"备注:"]
-                 ,@"eliminateTheTextfieldItems":@[@"*出售或购买:",@"{货物信息}",@"*产品图片",@"尺寸",@"Photo"]
+                 ,@"eliminateTheTextfieldItems":@[@"*出售或购买:",@"*产品图片",@"尺寸",@"Photo"]
                  };
     }else
     {
@@ -424,7 +422,6 @@
                                   @"*رقم  الهاتف",
                                   @"*رقم الجوال",
                                   @"*البريد الإلكتروني",
-                                  @"{PRODUCT DATA}",
                                   @"*صورة المنتج",
                                   @"Photo",            //To specify the photo area
                                   @"*اسم المنتج",
@@ -439,7 +436,7 @@
                                   @"اسم المادة",
                                   @"الوزن : (كيلو / طن)",
                                   @"ملاحظة"]
-                 ,@"eliminateTheTextfieldItems":@[@"*السهل شراء أو بيع",@"{PRODUCT DATA}",@"*صورة المنتج",@"حجم",@"Photo"]
+                 ,@"eliminateTheTextfieldItems":@[@"*السهل شراء أو بيع",@"*صورة المنتج",@"حجم",@"Photo"]
                  };
     }
 }
@@ -468,6 +465,31 @@
                  @"viewControllTitle": @"بيع أو شراء ",
                  @"dataSource":@[@"بيع ",@"أو شراء"],
                  @"Region":@"منطقة"
+                 };
+    }
+}
+
+#pragma mark - PopupTable
+-(NSDictionary *)PopupTableLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Sale or Purchase ",
+                 @"dataSource":@[@"Sale",@"Purchase"],
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"买或卖 ",
+                 @"dataSource":@[@"卖",@"买"],
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"بيع أو شراء ",
+                 @"dataSource":@[@"بيع ",@"أو شراء"],
                  };
     }
 }

@@ -88,8 +88,6 @@ static NSString * imageCellIdentifier = @"imageCell";
     [self.navigationController.navigationBar setHidden:NO];
     
     
-    
-    
     mustFillItems = [NSMutableArray array];
     for (int i = 1; i < [dataSource count] ; ++i) {
         if (i !=11) {
@@ -112,7 +110,7 @@ static NSString * imageCellIdentifier = @"imageCell";
       eliminateTextFieldItems:eliminateTheTextfieldItems
                     container:_containerView
         willShowPopTableIndex:0
-             noSeperatorRange:NSMakeRange(13, 4)];
+             noSeperatorRange:NSMakeRange(12, 4)];
 
     table.tableContentdelegate = self;
     [table setTakeBtnIndex:9];

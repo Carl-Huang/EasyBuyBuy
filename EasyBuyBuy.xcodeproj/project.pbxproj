@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215918EA642F00B2F39E /* PopupTable.m */; };
+		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
+		4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */; };
 		4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1EA34818E715060012BAEC /* AboutUsViewController.m */; };
 		4E1EA34B18E715060012BAEC /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34918E715060012BAEC /* AboutUsViewController.xib */; };
 		4E1EA35418E71B350012BAEC /* Auction.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34F18E71B350012BAEC /* Auction.png */; };
@@ -245,6 +248,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E11215818EA642F00B2F39E /* PopupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupTable.h; sourceTree = "<group>"; };
+		4E11215918EA642F00B2F39E /* PopupTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupTable.m; sourceTree = "<group>"; };
+		4E11215A18EA642F00B2F39E /* PopupTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupTable.xib; sourceTree = "<group>"; };
+		4E11215D18EA687200B2F39E /* CustomiseTableTextfield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseTableTextfield.h; sourceTree = "<group>"; };
+		4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseTableTextfield.m; sourceTree = "<group>"; };
 		4E1EA34718E715060012BAEC /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		4E1EA34818E715060012BAEC /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		4E1EA34918E715060012BAEC /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
@@ -838,6 +846,9 @@
 		4EB1AE4918BB1AFC0033364F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4E11215818EA642F00B2F39E /* PopupTable.h */,
+				4E11215918EA642F00B2F39E /* PopupTable.m */,
+				4E11215A18EA642F00B2F39E /* PopupTable.xib */,
 				4EC90BB418E40ED2007969F5 /* CustomiseActionSheet.h */,
 				4EC90BB518E40ED2007969F5 /* CustomiseActionSheet.m */,
 				4EB1AE4A18BB1B0F0033364F /* RegionTableViewController.h */,
@@ -857,6 +868,8 @@
 				4EB6849918DC0001005AE976 /* DefaultDescriptionCellTableViewCell.h */,
 				4EB6849A18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m */,
 				4EB6849B18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib */,
+				4E11215D18EA687200B2F39E /* CustomiseTableTextfield.h */,
+				4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1346,6 +1359,7 @@
 				C33EEC60189667B200A26971 /* Red Apple_Frame_Product@2x.png in Resources */,
 				4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */,
 				4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */,
+				4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */,
 				4E632CD918C45C0E006DD458 /* tempTest.png in Resources */,
 				C33EEC70189667B200A26971 /* Verification_Btn_Code@2x.png in Resources */,
 				C33EEC5E189667B200A26971 /* Order Detail_Bg_User@2x.png in Resources */,
@@ -1484,6 +1498,7 @@
 				4EC90BAC18E40ECA007969F5 /* CycleScrollView.m in Sources */,
 				4EAE465018C6EE520089B843 /* ShopViewController.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
+				4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */,
 				4EAC791B18C4D0AE0022ECDD /* GlobalMethod.m in Sources */,
 				4EBC495D18E9A15A00481F8E /* ChildCategory.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
@@ -1492,6 +1507,7 @@
 				4EC90BAB18E40ECA007969F5 /* AsynCycleView.m in Sources */,
 				4EC90BC318E42920007969F5 /* Address.m in Sources */,
 				4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */,
+				4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */,
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
