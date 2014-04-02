@@ -43,7 +43,7 @@
     } failureBlock:^(NSError *error, NSString *responseString) {
         ;
     }];
-    // Do any additional setup after loading the view from its nib.
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
