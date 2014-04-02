@@ -128,8 +128,8 @@ static NSString * imageCellIdentifier = @"imageCell";
         }
     }
     [tableContentInfo setObject:[self fetchTextFieldContent] forKey:@"TextFieldContent"];
-    [tableContentInfo setObject:@"" forKey:@"BuinessType"];
-    [tableContentInfo setObject:@"" forKey:@"Photos"];
+    [tableContentInfo setObject:@1 forKey:@"BuinessType"];
+    [tableContentInfo setObject:[NSArray array] forKey:@"Photos"];
     
     
     [_containerView addSubview:self];
@@ -223,8 +223,13 @@ static NSString * imageCellIdentifier = @"imageCell";
     NSMutableArray * tempArray = [NSMutableArray array];
     for (int i =0 ;i < [[textFieldVector allKeys]count]; ++i) {
         NSString * key  = [[textFieldVector allKeys]objectAtIndex:i];
+        NSString * value = @"";
         UITextField * tempTextField = [textFieldVector valueForKey:key];
-        NSDictionary * dic = @{key:tempTextField.text};
+        
+        if ([tempTextField.text length]) {
+            value = tempTextField.text;
+        }
+        NSDictionary * dic = @{key:value};
         [tempArray addObject:dic];
         dic = nil;
     }
@@ -475,16 +480,16 @@ static NSString * imageCellIdentifier = @"imageCell";
         NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
         
         [regionTable tableTitle:localizedDic[@"viewControllTitle"] dataSource:localizedDic[@"dataSource"] userDefaultKey:nil];
-        [regionTable setSelectedBlock:^(id object)
+        [regionTable setSelectedBlock:^(id object,NSInteger index)
          {
              NSLog(@"%@",object);
 
              [dataSource replaceObjectAtIndex:popupItemIndex withObject:object];
              [eliminateTheTextfieldItems replaceObjectAtIndex:popupItemIndex withObject:object];
-             [weakSelf setValue:object forKey:@"buinessType"];
+//             [weakSelf setValue:object forKey:@"buinessType"];
              
              if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
-                 [tableContentInfo setObject:object forKey:@"BuinessType"];
+                 [tableContentInfo setObject:[NSNumber numberWithInt:index] forKey:@"BuinessType"];
                  [_tableContentdelegate tableContent:tableContentInfo];
              }
              

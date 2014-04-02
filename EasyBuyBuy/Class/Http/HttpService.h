@@ -24,6 +24,8 @@
 #define parent_category_list        @"parent_category_list"
 #define child_category_list         @"child_category_list"
 #define goods                       @"goods"
+#define publish                     @"publish"
+
 
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
@@ -156,4 +158,36 @@
  * @param  page             页
  */
 -(void)getGoodsWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 发布易买，易卖的商品
+ *
+ * @param  user_id          用户ID
+ * @param  type             1(publish type,1:buy,0:sell)
+ * @param  goods_name       商品名字
+ * @param  publisher_second_name 名
+ * @param  publisher_first_name     姓
+ * @param  country                  国家
+ * @param  carton                   纸板箱
+ * @param  telephone                电话
+ * @param  phone                    手机
+ * @param  email                    邮箱
+ * @param  company                  公司
+ * @param  image_1                  图片-
+ * @param  image_2                  图片二
+ * @param  image_3                  图片三
+ * @param  image_4                  图片四
+ * @param  length                   长
+ * @param  width                    宽
+ * @param  height                   高
+ * @param  thickness                厚
+ * @param  weight                   重量
+ * @param  color                    颜色
+ * @param  use                      用于
+ * @param  quantity                 数量
+ * @param  material                 原料
+ * @param  remark                   留言
+ */
+
+-(void)publishWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

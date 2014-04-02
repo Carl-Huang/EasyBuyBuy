@@ -10,4 +10,5 @@
 
 @interface NSMutableArray (AddUniqueObject)
 -(void)addUniqueFromArray:(NSArray *)array;
+
 @end

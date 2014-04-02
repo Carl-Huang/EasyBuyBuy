@@ -7,7 +7,7 @@
 //
 
 #import "CommonViewController.h"
-typedef void (^DidSelectedItem) (id object);
+typedef void (^DidSelectedItem) (id object,NSInteger index);
 
 @interface PopupTable : CommonViewController
 

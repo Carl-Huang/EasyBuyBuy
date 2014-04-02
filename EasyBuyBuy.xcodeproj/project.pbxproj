@@ -11,6 +11,7 @@
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
 		4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */; };
 		4E11216418EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11216318EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m */; };
+		4E137F7118EC089600F99123 /* NSArray+DictionaryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E137F7018EC089600F99123 /* NSArray+DictionaryObj.m */; };
 		4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1EA34818E715060012BAEC /* AboutUsViewController.m */; };
 		4E1EA34B18E715060012BAEC /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34918E715060012BAEC /* AboutUsViewController.xib */; };
 		4E1EA35418E71B350012BAEC /* Auction.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34F18E71B350012BAEC /* Auction.png */; };
@@ -258,6 +259,8 @@
 		4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseTableTextfield.m; sourceTree = "<group>"; };
 		4E11216218EA95B900B2F39E /* NSMutableArray+AddUniqueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+AddUniqueObject.h"; sourceTree = "<group>"; };
 		4E11216318EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+AddUniqueObject.m"; sourceTree = "<group>"; };
+		4E137F6F18EC089600F99123 /* NSArray+DictionaryObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+DictionaryObj.h"; sourceTree = "<group>"; };
+		4E137F7018EC089600F99123 /* NSArray+DictionaryObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+DictionaryObj.m"; sourceTree = "<group>"; };
 		4E1EA34718E715060012BAEC /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		4E1EA34818E715060012BAEC /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		4E1EA34918E715060012BAEC /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
@@ -627,6 +630,8 @@
 			children = (
 				4E11216218EA95B900B2F39E /* NSMutableArray+AddUniqueObject.h */,
 				4E11216318EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m */,
+				4E137F6F18EC089600F99123 /* NSArray+DictionaryObj.h */,
+				4E137F7018EC089600F99123 /* NSArray+DictionaryObj.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1578,6 +1583,7 @@
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				4EAE464D18C6EE520089B843 /* ProductDetailViewControllerViewController.m in Sources */,
 				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,
+				4E137F7118EC089600F99123 /* NSArray+DictionaryObj.m in Sources */,
 				4EAC790E18C4BB870022ECDD /* CarView.m in Sources */,
 				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
 				4EB5FFB618BC3FFB0064B22C /* AddressCell.m in Sources */,

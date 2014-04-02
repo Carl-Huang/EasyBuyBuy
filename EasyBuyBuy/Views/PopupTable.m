@@ -166,9 +166,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     
-    NSString * englishValue = [dataSource objectAtIndex:indexPath.row];
+    NSString * value = [dataSource objectAtIndex:indexPath.row];
     if (_selectedBlock) {
-        _selectedBlock(englishValue);
+        _selectedBlock(value,indexPath.row);
         _selectedBlock = nil;
     }
     
