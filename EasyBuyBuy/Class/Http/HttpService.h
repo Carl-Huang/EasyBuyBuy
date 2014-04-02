@@ -25,6 +25,7 @@
 #define child_category_list         @"child_category_list"
 #define goods                       @"goods"
 #define publish                     @"publish"
+#define shipping_agency             @"shipping_agency"
 
 
 @interface HttpService : AFHttp
@@ -190,4 +191,29 @@
  */
 
 -(void)publishWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 代运
+ *
+ * @param  user_id
+ * @param  first_name
+ * @param  last_name
+ * @param  telephone
+ * @param  phone
+ * @param  email
+ * @param  company
+ * @param  country
+ * @param  goods_name
+ * @param  shipping_type
+ * @param  quantity
+ * @param  shipping_port
+ * @param  destination_port
+ * @param  container
+ * @param  wish_shipping_line
+ * @param  loading_time
+ * @param  weight
+ * @param  remark
+ * @param  document_type
+ */
+-(void)publishShippingAgenthWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

@@ -79,6 +79,7 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
     [self createFooterView];
+    _reloading = NO;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -91,6 +92,8 @@
 -(void)loadData
 {
     pageSize += 10;
+    _reloading = YES;
+    
     __weak ProductBroswerViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
@@ -183,27 +186,63 @@
     [self gotoProductDetailViewControllerWithGoodInfo:tempGood];
 }
 
+-(void)setFooterView{
+	//    UIEdgeInsets test = self.aoView.contentInset;
+    // if the footerView is nil, then create it, reset the position of the footer
+    CGFloat height = MAX(qtmquitView.contentSize.height, qtmquitView.frame.size.height);
+    if (footerView && [footerView superview])
+	{
+        // reset position
+        footerView.frame = CGRectMake(0.0f,
+                                              height,
+                                              qtmquitView.frame.size.width,
+                                              self.view.bounds.size.height);
+    }else
+	{
+        // create the footerView
+        footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                              CGRectMake(0.0f, height,
+                                         qtmquitView.frame.size.width, self.view.bounds.size.height)];
+        footerView.delegate = self;
+        [qtmquitView addSubview:footerView];
+    }
+    
+    if (footerView)
+	{
+        [footerView refreshLastUpdatedDate];
+    }
+}
 
+
+-(void)removeFooterView
+{
+    if (footerView && [footerView superview])
+	{
+        [footerView removeFromSuperview];
+    }
+    footerView = nil;
+}
 #pragma mark - FooterView
 
 - (void)doneLoadingTableViewData{
-    //5
-    //  model should call this when its done loading
-    _reloading = NO;
+    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:qtmquitView];
     [qtmquitView reloadData];
-    [footerView refreshLastUpdatedDate];
-    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.qtmquitView];
-    
+
+    [self removeFooterView];
+    _reloading = NO;
+
+    [self setFooterView];
+    if (footerView) {
+        [self setFooterView];
+    }
 }
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
 {
-    //2
     return _reloading;
 }
 - (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
 {
-    //4
 	[self loadData];
 }
 
@@ -211,7 +250,6 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 	if (footerView)
 	{
-        //1
         [footerView egoRefreshScrollViewDidScroll:scrollView];
     }
 }
@@ -219,7 +257,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	if (footerView)
 	{
-        //3
         [footerView egoRefreshScrollViewDidEndDragging:scrollView];
     }
 	
@@ -227,7 +264,7 @@
 - (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
 {
 	return [NSDate date]; // should return date data source was last changed
-	
 }
+
 @end
 

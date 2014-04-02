@@ -88,6 +88,14 @@
 		4EB335C218D74B090012EA06 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C118D74B090012EA06 /* CoreMedia.framework */; };
 		4EB335C418D74B220012EA06 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C318D74B220012EA06 /* AssetsLibrary.framework */; };
 		4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */; };
+		4EB3E99E18EC5A8400CDEE19 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99618EC5A8400CDEE19 /* blackArrow.png */; };
+		4EB3E99F18EC5A8400CDEE19 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */; };
+		4EB3E9A018EC5A8400CDEE19 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99818EC5A8400CDEE19 /* blueArrow.png */; };
+		4EB3E9A118EC5A8400CDEE19 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99918EC5A8400CDEE19 /* blueArrow@2x.png */; };
+		4EB3E9A218EC5A8400CDEE19 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99A18EC5A8400CDEE19 /* grayArrow.png */; };
+		4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */; };
+		4EB3E9A418EC5A8400CDEE19 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */; };
+		4EB3E9A518EC5A8400CDEE19 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */; };
 		4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */; };
 		4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */; };
 		4EB5640A18E47BFB00C1B080 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5640918E47BFB00C1B080 /* User.m */; };
@@ -370,6 +378,14 @@
 		4EB335C118D74B090012EA06 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4EB335C318D74B220012EA06 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = My_Adress_Btn_Add_black.png; sourceTree = "<group>"; };
+		4EB3E99618EC5A8400CDEE19 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		4EB3E99818EC5A8400CDEE19 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		4EB3E99918EC5A8400CDEE19 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		4EB3E99A18EC5A8400CDEE19 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		4EB46AEF18E7D2A5008F8BED /* SelectedAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressViewController.h; sourceTree = "<group>"; };
 		4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressViewController.m; sourceTree = "<group>"; };
 		4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressViewController.xib; sourceTree = "<group>"; };
@@ -910,6 +926,21 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		4EB3E99518EC5A8400CDEE19 /* EGOResource */ = {
+			isa = PBXGroup;
+			children = (
+				4EB3E99618EC5A8400CDEE19 /* blackArrow.png */,
+				4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */,
+				4EB3E99818EC5A8400CDEE19 /* blueArrow.png */,
+				4EB3E99918EC5A8400CDEE19 /* blueArrow@2x.png */,
+				4EB3E99A18EC5A8400CDEE19 /* grayArrow.png */,
+				4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */,
+				4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */,
+				4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */,
+			);
+			path = EGOResource;
+			sourceTree = "<group>";
+		};
 		4EB9705118E085EE001F52D8 /* PayPalMobile */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,6 +974,7 @@
 		4EBC495F18E9ADAA00481F8E /* EGO */ = {
 			isa = PBXGroup;
 			children = (
+				4EB3E99518EC5A8400CDEE19 /* EGOResource */,
 				4EBC496018E9ADAA00481F8E /* EGORefreshTableFooterView.h */,
 				4EBC496118E9ADAA00481F8E /* EGORefreshTableFooterView.m */,
 				4EBC496218E9ADAA00481F8E /* EGORefreshTableHeaderView.h */,
@@ -1347,6 +1379,7 @@
 				C33EEC42189667B200A26971 /* Home_Icon_Shop@2x.png in Resources */,
 				C33EEC57189667B200A26971 /* My Car_Bg@2x.png in Resources */,
 				4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */,
+				4EB3E99E18EC5A8400CDEE19 /* blackArrow.png in Resources */,
 				C33EEC5A189667B200A26971 /* My Notification_Bg@2x.png in Resources */,
 				4EB68ACA18DB346B002ECB06 /* ProductDescriptionTableViewCell.xib in Resources */,
 				4EAF48AE18BB77870038575F /* RegisterViewController.xib in Resources */,
@@ -1368,6 +1401,7 @@
 				4EB5FFB318BC3E820064B22C /* MyAddressViewController.xib in Resources */,
 				4EB7D73618EAEDFB00F787B3 /* SelectedAddressCell.xib in Resources */,
 				C33EEC6F189667B200A26971 /* Verification_Btn_Click@2x.png in Resources */,
+				4EB3E9A018EC5A8400CDEE19 /* blueArrow.png in Resources */,
 				C33EEC54189667B200A26971 /* My_Adress_Btn_Add@2x.png in Resources */,
 				4E1EA35618E71B350012BAEC /* Factory.png in Resources */,
 				4EB6849D18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib in Resources */,
@@ -1387,8 +1421,10 @@
 				4EB5FFBF18BC6D060064B22C /* EditAddressViewController.xib in Resources */,
 				4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */,
 				4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */,
+				4EB3E9A118EC5A8400CDEE19 /* blueArrow@2x.png in Resources */,
 				4E632CD918C45C0E006DD458 /* tempTest.png in Resources */,
 				C33EEC70189667B200A26971 /* Verification_Btn_Code@2x.png in Resources */,
+				4EB3E9A218EC5A8400CDEE19 /* grayArrow.png in Resources */,
 				C33EEC5E189667B200A26971 /* Order Detail_Bg_User@2x.png in Resources */,
 				4EAF48B018BB77870038575F /* UserCenterViewController.xib in Resources */,
 				C33EEC3E189667B200A26971 /* Home_Icon_Choose@2x.png in Resources */,
@@ -1413,6 +1449,7 @@
 				C33EEC56189667B200A26971 /* My_Adress_Btn_Edit@2x.png in Resources */,
 				4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
+				4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */,
 				C33EEC6C189667B200A26971 /* Top Bar1_128@2x.png in Resources */,
 				4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */,
 				4EAE465618C6EE970089B843 /* AskToBuyViewController.xib in Resources */,
@@ -1432,6 +1469,7 @@
 				C33EEC4E189667B200A26971 /* Login_Btn_Login@2x.png in Resources */,
 				C33EEC53189667B200A26971 /* Login_Icon_User02@2x.png in Resources */,
 				C33EEC65189667B200A26971 /* Sale Promotion_BottomBar@2x.png in Resources */,
+				4EB3E9A418EC5A8400CDEE19 /* whiteArrow.png in Resources */,
 				4EAE463A18C6EE520089B843 /* BiddingCell.xib in Resources */,
 				4EB335B718D744090012EA06 /* ImageTableViewCell.xib in Resources */,
 				C33EEC6E189667B200A26971 /* Verification_Bg@2x.png in Resources */,
@@ -1441,12 +1479,14 @@
 				4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */,
 				4EAC790B18C4B87D0022ECDD /* Top Bar_128@2x.png in Resources */,
 				4EAC792118C4D2080022ECDD /* SliderBtton@2x.png in Resources */,
+				4EB3E9A518EC5A8400CDEE19 /* whiteArrow@2x.png in Resources */,
 				4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */,
 				C33EEC6A189667B200A26971 /* Shop_Icon_Like_G@2x.png in Resources */,
 				C33EEC40189667B200A26971 /* Home_Icon_Purchase@2x.png in Resources */,
 				C33EEC43189667B200A26971 /* Home_Icon_Transport@2x.png in Resources */,
 				4EBCD93A18DED858001EF22C /* 国家地区.csv in Resources */,
 				C33EEC4B189667B200A26971 /* Home_Search Icon@2x.png in Resources */,
+				4EB3E99F18EC5A8400CDEE19 /* blackArrow@2x.png in Resources */,
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
 				4E1EA35818E71B350012BAEC /* Shop.png in Resources */,

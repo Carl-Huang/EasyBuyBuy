@@ -447,6 +447,21 @@
     } failureBlock:^(NSError *error, NSString *responseString) {
         failure(error,responseString);
     }];
-
 }
+
+-(void)publishShippingAgenthWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:shipping_agency] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
 @end

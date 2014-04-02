@@ -16,6 +16,7 @@
         for (id selfObj in self) {
             if ([[selfObj valueForKey:@"ID"]isEqualToString:[object valueForKey:@"ID"]]) {
                 isCanAdd = NO;
+                break;
             }
         }
         if (isCanAdd) {

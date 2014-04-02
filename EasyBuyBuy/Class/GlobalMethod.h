@@ -65,4 +65,9 @@ typedef enum _ANCHOR
 +(void)convertCVSTOPlist:(NSString *)filePath;
 +(id)getRegionTableData;
 +(NSArray *)getRegionTableDataWithLanguage:(NSString *)language;
+
+
++(BOOL)isAllNumCharacterInString:(NSString *)modeStr;
++(BOOL)isNoSpecialCharacterInString:(NSString *)modeStr;
++(BOOL)checkMail:(NSString *) emailtext;
 @end

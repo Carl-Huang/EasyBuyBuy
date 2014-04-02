@@ -5,8 +5,8 @@
 //  Created by vedon on 3/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-
-
+#define ALL_NUM_REGYLAR    @"[0-9]{0,}$"
+#define SPECIAL_CHAR   @"[^[`~!@#$^&*()%=| {}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]]{0,}$"
 
 #import "GlobalMethod.h"
 #import "CustomiseTextField.h"
@@ -393,6 +393,28 @@
     {
         return [NSMutableArray array];
     }
+}
+
++(BOOL)isAllNumCharacterInString:(NSString *)modeStr{
+    NSString * regexNum = ALL_NUM_REGYLAR;
+    NSPredicate * predNum = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexNum];
+    BOOL res = [predNum evaluateWithObject:modeStr];
+    
+    return res;
+}
+
++(BOOL)isNoSpecialCharacterInString:(NSString *)modeStr{
+    NSString * regexNum = SPECIAL_CHAR;
+    NSPredicate * predNum = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexNum];
+    BOOL res = [predNum evaluateWithObject:modeStr];
+    
+    return res;
+}
++(BOOL) checkMail:(NSString *) emailtext
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:emailtext];
 }
 @end
 

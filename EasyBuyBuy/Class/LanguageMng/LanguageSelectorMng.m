@@ -285,7 +285,7 @@
                          @"*Country Name:",
                          @"*Name Of Goods:",
                          @"*Shipping Type Sea/Air",
-                         @"20GP/40GP/40HQ/45HQ CONTAINER:",
+                         @"CONTAINER:",
                          @"*QUANTITY /CBM:",
                          @"*PORT OF THE SHIPPING",
                          @"*PORT OF DESTINATION",
@@ -309,7 +309,7 @@
                          @"*国家名字:",
                          @"*货品名字:",
                          @"*运输类型/海运/空运:",
-                         @"20GP/40GP/40HQ/45HQ集装箱:",
+                         @"集装箱:",
                          @"*数量/立方米:",
                          @"*装船港:",
                          @"*目的港:",
@@ -321,8 +321,8 @@
                  };
     }else
     {
-        return @{@"viewControllTitle": @"Shipping Agency"
-                 ,@"publicBtn":@"提交"
+        return @{@"viewControllTitle": @"والنقل"
+                 ,@"publicBtn":@"عرض"
                  ,@"dataSource":@[
                          @"*الاسم الأخير",
                          @"*الاسم الأول",
@@ -333,7 +333,7 @@
                          @"*اسم البلد",
                          @"*اسم المنتج",
                          @"*نوع الشحن / البحري / الجوي",
-                         @"20GP/40GP/40HQ/45HQ حاويات",
+                         @" حاويات",
                          @"*الكمية / CBM",
                          @"*ميناء الشحن من",
                          @"* آلي ميناء المقصد",

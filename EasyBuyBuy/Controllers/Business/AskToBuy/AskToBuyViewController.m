@@ -25,7 +25,7 @@
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
 
-@interface AskToBuyViewController ()<TableContentDataDelegate>
+@interface AskToBuyViewController ()<TableContentDataDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     TouchLocationView *locationHelperView;
@@ -98,7 +98,6 @@ static NSString * imageCellIdentifier = @"imageCell";
                 [mustFillItems addObject:[NSString stringWithFormat:@"%d",i]];
             }
         }
-       
     }
     
     if ([OSHelper iPhone5]) {
@@ -131,10 +130,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     }else
     {
         [self showAlertViewWithMessage:@"Please login first"];
-    }
-   
-    
-   
+    } 
 }
 
 -(BOOL)isCanPublic
@@ -188,6 +184,34 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(void)publicWithUser:(User *)user
 {
+    NSArray * textFieldContent  = [filledContentInfo valueForKey:@"TextFieldContent"];
+    NSArray * photos            = [filledContentInfo valueForKey:@"Photos"];
+    
+    //检查邮箱格式
+    if (![GlobalMethod checkMail:[textFieldContent objectForKey:8]]) {
+        //邮箱格式不正确
+        NSMutableString * alertStr = [NSMutableString stringWithString:[dataSource objectAtIndex:8]];
+        [alertStr replaceOccurrencesOfString:@":" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [alertStr length])];
+        [self showAlertViewWithMessage:[NSString stringWithFormat:@"%@ is wrong",alertStr]];
+        return;
+    }
+    
+    //检查必须为数字的项是否都为数字
+    if (![GlobalMethod isAllNumCharacterInString:[textFieldContent objectForKey:6]]) {
+        NSMutableString * alertStr = [NSMutableString stringWithString:[dataSource objectAtIndex:6]];
+        [alertStr replaceOccurrencesOfString:@":" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [alertStr length])];
+        [self showAlertViewWithMessage:[NSString stringWithFormat:@"%@ is wrong",alertStr]];
+        return;
+    }
+    
+    if (![GlobalMethod isAllNumCharacterInString:[textFieldContent objectForKey:7]]) {
+        NSMutableString * alertStr = [NSMutableString stringWithString:[dataSource objectAtIndex:7]];
+        [alertStr replaceOccurrencesOfString:@":" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [alertStr length])];
+        [self showAlertViewWithMessage:[NSString stringWithFormat:@"%@ is wrong",alertStr]];
+        return;
+    }
+    
+    
     NSNumber  *typeNum = [filledContentInfo valueForKey:@"BuinessType"];
     NSString * type = nil;
     if (typeNum.integerValue == 0) {
@@ -196,9 +220,6 @@ static NSString * imageCellIdentifier = @"imageCell";
     {
         type = @"1";//买
     }
-    NSArray * textFieldContent  = [filledContentInfo valueForKey:@"TextFieldContent"];
-    NSArray * photos            = [filledContentInfo valueForKey:@"Photos"];
-    
     NSString * image1 = @"";
     NSString * image2 = @"";
     NSString * image3 = @"";
@@ -227,7 +248,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     
     NSDictionary * params = @{@"user_id"        : user.user_id,
                               @"type"           : type,
-                              @"goods_name"     : [textFieldContent objectForKey:9],
+                              @"goods_name"     :@"222",
                               @"publisher_second_name": [textFieldContent objectForKey:1],
                               @"publisher_first_name": [textFieldContent objectForKey:2],
                               @"country"        : [textFieldContent objectForKey:3],
@@ -254,9 +275,14 @@ static NSString * imageCellIdentifier = @"imageCell";
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak AskToBuyViewController * weakSelf = self;
-    [[HttpService sharedInstance]publishWithParams:params completionBlock:^(BOOL object) {
+    [[HttpService sharedInstance]publishWithParams:params completionBlock:^(BOOL isSuccess) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        ;
+        if (isSuccess) {
+            [weakSelf showAlertViewWithMessage:@"Publish Successfully" withDelegate:self tag:1001];
+        }else
+        {
+            [weakSelf showAlertViewWithMessage:@"Publish failed"];
+        }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
@@ -270,6 +296,12 @@ static NSString * imageCellIdentifier = @"imageCell";
     filledContentInfo = [info copy];
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1001) {
+        [self popVIewController];
+    }
+}
 
 /*
  @"dataSource":@[@"*Sale or Purchase:",
