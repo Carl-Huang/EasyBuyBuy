@@ -132,7 +132,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shop";
+
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
     //Note:must be add a @"" to the dataSource ,cuz,for the content area
@@ -148,7 +148,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 
 -(void)initializationInterface
 {
-    self.title = viewControllTitle;
+
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
     //CycleScrollView configuration

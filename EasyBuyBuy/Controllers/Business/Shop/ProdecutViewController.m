@@ -71,7 +71,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)initializationInterface
 {
-    self.title = viewControllTitle;
+//    self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
@@ -121,6 +121,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)gotoProductBroswerViewControllerWithObj:(ChildCategory *)object
 {
     ProductBroswerViewController * viewController = [[ProductBroswerViewController alloc]initWithNibName:@"ProductBroswerViewController" bundle:nil];
+    viewController.title = object.name;
     [viewController setObject:object];
     [self push:viewController];
     viewController = nil;

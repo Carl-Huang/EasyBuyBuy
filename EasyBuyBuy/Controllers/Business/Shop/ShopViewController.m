@@ -204,13 +204,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
-    [self gotoProdecutViewControllerWithParentID:object.ID];
+    [self gotoProdecutViewControllerWithObject:object];
 }
 
--(void)gotoProdecutViewControllerWithParentID:(NSString *)parentID
+-(void)gotoProdecutViewControllerWithObject:(ParentCategory *)object
 {
     ProdecutViewController * viewController = [[ProdecutViewController alloc]initWithNibName:@"ProdecutViewController" bundle:nil];
-    [viewController setParentID:parentID];
+    viewController.title = object.name;
+    [viewController setParentID:object.ID];
     [self push:viewController];
     viewController = nil;
 }

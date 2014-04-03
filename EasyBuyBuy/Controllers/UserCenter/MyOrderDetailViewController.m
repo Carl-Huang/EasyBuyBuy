@@ -42,6 +42,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     
     
     NSString * selectedExpress;
+    NSString * orderID;
 }
 @end
 
@@ -275,7 +276,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     //获取商品的总价格，传到paypal
     NSInteger cost = 0;
     for (Car * object in products) {
-        cost += object.proNum.integerValue * object.price.integerValue;
+        cost += object.proCount.integerValue * object.price.integerValue;
     }
     NSString * costStr = [NSString stringWithFormat:@"%d",cost];
     [[PaymentMng sharePaymentMng]paymentWithProductsPrice:costStr withDescription:@"Apple"];
@@ -301,19 +302,17 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
                                                        options:0
                                                          error:nil];
     NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSString * uuid = [GlobalMethod stringWithUUID];
+    
     
     //把订单上传到服务器
     __weak MyOrderDetailViewController * weakSelf =self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"Air",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(BOOL isSuccess)
+    [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent,@"order_number":uuid} completionBlock:^(id object)
     {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (isSuccess) {
-            [weakSelf paying];
-        }else
-        {
-            [self showAlertViewWithMessage:@"Submit order failed"];
-        }
+        orderID = [object valueForKey:@"order_id"];
+        [weakSelf paying];
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [self showAlertViewWithMessage:@"Submit order failed"];
@@ -477,7 +476,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         }
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         __weak MyOrderDetailViewController * weakSelf =self;
-        [[HttpService sharedInstance]updateOrderStatusWithParams:@{@"": @""} completionBlock:^(BOOL isSuccess) {
+        [[HttpService sharedInstance]updateOrderStatusWithParams:@{@"id":orderID,@"status":@"1"} completionBlock:^(BOOL isSuccess) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             if (isSuccess) {
                 [self showAlertViewWithMessage:@"Successfully" withDelegate:self tag:1001];

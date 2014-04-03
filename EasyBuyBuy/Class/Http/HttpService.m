@@ -487,16 +487,17 @@
     }];
 }
 
--(void)submitOrderWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)submitOrderWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:order] withParams:params completionBlock:^(id obj)
     {
         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj && [statusStr isEqualToString:@"1"]) {
-            success(YES);
+            success(obj[@"result"]);
         }else
         {
-            success(NO);
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
         }
 
     } failureBlock:^(NSError *error, NSString *responseString) {

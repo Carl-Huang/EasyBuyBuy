@@ -49,7 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Apple";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
     
@@ -130,6 +129,7 @@
 -(void)gotoProductDetailViewControllerWithGoodInfo:(Good *)good
 {
     ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    viewController.title = good.name;
     [viewController setGood:good];
     [viewController setIsShouldShowShoppingCar:YES];
     [self push:viewController];

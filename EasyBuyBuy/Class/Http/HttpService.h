@@ -242,8 +242,9 @@
  * @param  pay_method      付款方式
  * @param  status          状态(Order status,1:paid,0:unpaid),
  * @param  remark          留言
+ * @param  order_number     订单号，自己生成
  */
--(void)submitOrderWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)submitOrderWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 
 /*!
  * 更新订单状态
