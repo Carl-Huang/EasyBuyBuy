@@ -464,4 +464,58 @@
     }];
 }
 
+
+-(void)updateUserInfoWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:update_member] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Register class]];
+                if ([array count]) {
+                    success([array objectAtIndex:0]);
+                }
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)submitOrderWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:order] withParams:params completionBlock:^(id obj)
+    {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+         failure(error,responseString);
+    }];
+}
+
+-(void)updateOrderStatusWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:update_order_status] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
 @end

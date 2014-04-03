@@ -83,15 +83,6 @@
 
 -(void)paymentWithProductsPrice:(NSString *)cost withDescription:(NSString *)des
 {
-//    CGFloat amount = 0;
-//    for (NSDictionary * product in products) {
-//        NSString * price    = [product valueForKey:@"Price"];
-//        NSString * number   = [product valueForKey:@"Number"];
-//        amount += price.floatValue * number.floatValue;
-//        
-//    }
-//    NSString * amountStr = [NSString stringWithFormat:@"%0.f",amount];
-    
     
     PayPalPayment *payment = [[PayPalPayment alloc] init];
     payment.amount = [[NSDecimalNumber alloc] initWithString:cost];

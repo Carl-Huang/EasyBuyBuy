@@ -100,7 +100,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": @"1",@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             [dataSource addObjectsFromArray:object];
@@ -163,7 +163,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     _reloading = YES;
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": @"1",@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             [dataSource addUniqueFromArray:object];

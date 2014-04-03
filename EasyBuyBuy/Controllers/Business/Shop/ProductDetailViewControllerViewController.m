@@ -99,16 +99,17 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     if (!isAlreadyInCar) {
         //添加到购物车
         inCarObject = [Car MR_createEntity];
-        inCarObject.name = _good.name;
-        inCarObject.price = _good.price;
-        inCarObject.model = _good.business_model;
-        inCarObject.size = _good.size;
+        inCarObject.name    = _good.name;
+        inCarObject.price   = _good.price;
+        inCarObject.model   = _good.business_model;
+        inCarObject.size    = _good.size;
         inCarObject.quality = _good.quality;
-        inCarObject.color = _good.color;
-        inCarObject.proNum = _good.item_number;
+        inCarObject.color   = _good.color;
+        inCarObject.proNum  = _good.item_number;
         inCarObject.proCount = @"1";
-        inCarObject.des = _good.description;
+        inCarObject.des     = _good.description;
         inCarObject.isSelected = @"1"; //默认选中
+        inCarObject.productID = _good.ID;
         if ([_good.image count]) {
             inCarObject.image = [[_good.image objectAtIndex:0] valueForKey:@"image"];
         }

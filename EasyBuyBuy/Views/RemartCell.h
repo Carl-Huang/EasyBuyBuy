@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^RemartContentBlock)(NSString * content);
 @interface RemartCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel *cellTitle;
+@property (weak, nonatomic) IBOutlet UITextView *cellContentView;
+@property (strong,nonatomic) RemartContentBlock  remartBlock;
 
 @end

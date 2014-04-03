@@ -9,6 +9,7 @@
 #import "MyOrderViewController.h"
 #import "MyOrderDetailViewController.h"
 #import "OrderCell.h"
+#import "CheckOrderViewController.h"
 @interface MyOrderViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
@@ -88,8 +89,7 @@ static NSString * cellIdentifier = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [viewController orderDetailWithProduct:dataSource isNewOrder:NO];
+    CheckOrderViewController * viewController = [[CheckOrderViewController alloc]initWithNibName:@"CheckOrderViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
     

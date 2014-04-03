@@ -38,7 +38,7 @@ const CGFloat kTMPhotoQuiltViewMargin = 5;
 {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }

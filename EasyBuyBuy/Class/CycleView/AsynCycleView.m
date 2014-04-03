@@ -112,8 +112,8 @@
             
         }else
         {
-            for (int i = [links count]; i < [weakSelf.placeHolderImages count]; i ++) {
-                [weakSelf.placeHolderImages removeObjectAtIndex:i];
+            for (int i = [weakSelf.placeHolderImages count]; i > [links count]; i --) {
+                [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
             }
         }
         autoScrollView.totalPagesCount = ^NSInteger(void){

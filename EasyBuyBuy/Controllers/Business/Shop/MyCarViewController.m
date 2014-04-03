@@ -65,6 +65,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
             }
         }
         
+        if ([selectedProducts count]==0) {
+            [self showAlertViewWithMessage:@"You have to choose one product at least"];
+            return;
+        }
+        
         MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
         [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES];
         [self push:viewController];

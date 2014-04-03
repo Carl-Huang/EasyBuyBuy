@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
-#import "MyOrderDetailViewController.h"
+#import "CheckOrderViewController.h"
 #import "MyOrderUserInfoTableViewCell.h"
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "SelectedAddressViewController.h"
@@ -24,11 +24,11 @@ static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
-@interface MyOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource,PaymentMngDelegate,UIAlertViewDelegate>
+@interface CheckOrderViewController ()<UITableViewDelegate,UITableViewDataSource,PaymentMngDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     NSString * remartTitle;
-    NSString * remartContent;
+    
     
     NSArray * sectionArray;
     NSMutableArray * dataSource;
@@ -45,7 +45,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 }
 @end
 
-@implementation MyOrderDetailViewController
+@implementation CheckOrderViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -88,7 +88,8 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 #pragma  mark - Private Method
 -(void)initializationLocalString
 {
-
+   
+    
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
     if (localizedDic) {
@@ -126,7 +127,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6"];
     defaultAddress = nil;
     User * user = [User getUserFromLocal];
-    __weak MyOrderDetailViewController * weakSelf =self;
+    __weak CheckOrderViewController * weakSelf =self;
     if (user) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[HttpService sharedInstance]getDefaultAddressWithParams:@{@"user_id":user.user_id} completionBlock:^(id object) {
@@ -156,15 +157,8 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         fontSize = DefaultFontSize;
     }
     
-
-    CGFloat cost = 0;
-    for (Car * object in products) {
-        cost = object.price.floatValue * object.proCount.integerValue;
-    }
-    _totalPrice.text = [NSString stringWithFormat:@"$%0.2f",cost];
-
+    
     selectedExpress = @"";
-    remartContent = @"";
     myDelegate = [[UIApplication sharedApplication]delegate];
 }
 
@@ -184,7 +178,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
 -(void)gotoSelectedAddressViewController
 {
-    __weak  MyOrderDetailViewController * weakSelf = self;
+    __weak  CheckOrderViewController * weakSelf = self;
     SelectedAddressViewController * viewController = [[SelectedAddressViewController alloc]initWithNibName:@"SelectedAddressViewController" bundle:nil];
     
     if (defaultAddress) {
@@ -236,7 +230,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
 //    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
     
-    __weak MyOrderDetailViewController * weakSelf = self;
+    __weak CheckOrderViewController * weakSelf = self;
     [regionTable tableTitle:@"Express" dataSource:@[@"EMS",@"ABC"] userDefaultKey:nil];
     [regionTable setSelectedBlock:^(id object,NSInteger index)
      {
@@ -259,19 +253,13 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     regionTable = nil;
 }
 
--(NSMutableArray *)assembleOrderProducts
-{
-    NSMutableArray * tempProducts = [NSMutableArray array];
-    for (Car * object in products) {
-        NSDictionary * dic= @{@"id": object.productID,@"price":object.price,@"amount":object.proCount};
-        
-        [tempProducts addObject:dic];
-    }
-    return tempProducts;
-}
+#pragma mark - Outlet Action
+- (IBAction)submitOrderAction:(id)sender {
+    //TODO:3
+    //Paypal settting
+    [[PaymentMng sharePaymentMng]configurePaymentSetting];
+    
 
--(void)paying
-{
     //获取商品的总价格，传到paypal
     NSInteger cost = 0;
     for (Car * object in products) {
@@ -280,47 +268,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     NSString * costStr = [NSString stringWithFormat:@"%d",cost];
     [[PaymentMng sharePaymentMng]paymentWithProductsPrice:costStr withDescription:@"Apple"];
     [[PaymentMng sharePaymentMng]setPaymentDelegate:self];
-}
-#pragma  mark - Public
--(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew
-{
-    _isNewOrder = isNew;
-    products = array;
-    [_contentTable reloadData];
-}
-
-
-#pragma mark - Outlet Action
-- (IBAction)submitOrderAction:(id)sender {
-    [[PaymentMng sharePaymentMng]configurePaymentSetting];
-    
-    
-    User * user = [User getUserFromLocal];
-    NSMutableArray * orderProducts = [self assembleOrderProducts];
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
-                                                       options:0
-                                                         error:nil];
-    NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    //把订单上传到服务器
-    __weak MyOrderDetailViewController * weakSelf =self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"Air",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(BOOL isSuccess)
-    {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (isSuccess) {
-            [weakSelf paying];
-        }else
-        {
-            [self showAlertViewWithMessage:@"Submit order failed"];
-        }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [self showAlertViewWithMessage:@"Submit order failed"];
-    }];
-    
-    
-    
 }
 
 #pragma mark - UITableView
@@ -383,10 +330,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         cell.cellTitle.text     = remartTitle;
         cell.cellTitle.font     = [UIFont systemFontOfSize:fontSize];
         cell.cellContentView.font = [UIFont systemFontOfSize:fontSize];
-        [cell setRemartBlock:^(NSString * content)
-        {
-            remartContent = content;
-        }];
         
         UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 84)];
         [cell setBackgroundView:bgView];
@@ -475,21 +418,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         for (Car * object in products) {
             [PersistentStore deleteObje:object];
         }
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        __weak MyOrderDetailViewController * weakSelf =self;
-        [[HttpService sharedInstance]updateOrderStatusWithParams:@{@"": @""} completionBlock:^(BOOL isSuccess) {
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-            if (isSuccess) {
-                [self showAlertViewWithMessage:@"Successfully" withDelegate:self tag:1001];
-            }else
-            {
-                [self showAlertViewWithMessage:@"Pay failed"];
-            }
-            
-        } failureBlock:^(NSError *error, NSString *responseString) {
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        }];
-
+        [self showAlertViewWithMessage:@"Successfully" withDelegate:self tag:1001];
     }
 }
 

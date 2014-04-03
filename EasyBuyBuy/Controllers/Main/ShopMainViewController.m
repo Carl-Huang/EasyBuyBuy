@@ -125,10 +125,10 @@
 {
     switch (tapNumber) {
         case 0:
-            [self gotoShopViewController];
+            [self gotoShopViewControllerWithType:@"1"];
             break;
         case 1:
-            [self gotoShopViewController];
+            [self gotoShopViewControllerWithType:@"2"];
             break;
         case 2:
             [self gotoSalePromotionViewController];
@@ -143,9 +143,10 @@
             break;
     }
 }
--(void)gotoShopViewController
+-(void)gotoShopViewControllerWithType:(NSString *)type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
+    [viewController setType:type];
     [self push:viewController];
     viewController = nil;
 }

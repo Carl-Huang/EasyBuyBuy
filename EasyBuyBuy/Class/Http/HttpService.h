@@ -26,7 +26,9 @@
 #define goods                       @"goods"
 #define publish                     @"publish"
 #define shipping_agency             @"shipping_agency"
-
+#define update_member               @"update_member"
+#define order                       @"order"
+#define update_order_status         @"update_order_status"
 
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
@@ -216,4 +218,39 @@
  * @param  document_type
  */
 -(void)publishShippingAgenthWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+
+/*!
+ * 更新用户信息
+ *
+ * @param  id         用户ID
+ * @param  account    用户   (Optional,can not be empty.)
+ * @param  phone      手机   (Optional)
+ * @param  avatar     头像   (Optional,base64 encoding string only)
+ * @param  sex        性别   (Optional,1:Man,0:Woman)
+ */
+-(void)updateUserInfoWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+
+/*!
+ * 提交订单
+ *
+ * @param  user_id         用户ID
+ * @param  goods_detail    商品列表 '[{"id":"1", "price":"20.00"}, {"id":"2", "price":"25.00"}]
+ * @param  address_id      地址ID
+ * @param  shipping_type   快递方式
+ * @param  pay_method      付款方式
+ * @param  status          状态(Order status,1:paid,0:unpaid),
+ * @param  remark          留言
+ */
+-(void)submitOrderWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 更新订单状态
+ *
+ * @param  id         订单ID
+ * @param  status     订单状态 (Order status,1:paid,0:unpaid)
+ */
+-(void)updateOrderStatusWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 @end

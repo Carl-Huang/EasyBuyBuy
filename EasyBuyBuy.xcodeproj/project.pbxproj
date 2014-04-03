@@ -123,9 +123,11 @@
 		4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB68AC718DB346B002ECB06 /* ProductDescriptionTableViewCell.m */; };
 		4EB68ACA18DB346B002ECB06 /* ProductDescriptionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */; };
 		4EB6D9FF18E1B3D300985F0B /* PaymentMng.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */; };
+		4EB6F61318ED9E5800D4C9C1 /* CheckOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6F61118ED9E5800D4C9C1 /* CheckOrderViewController.m */; };
+		4EB6F61418ED9E5800D4C9C1 /* CheckOrderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB6F61218ED9E5800D4C9C1 /* CheckOrderViewController.xib */; };
+		4EB6F61718EDA4FD00D4C9C1 /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6F61618EDA4FD00D4C9C1 /* Car.m */; };
 		4EB7D73518EAEDFB00F787B3 /* SelectedAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */; };
 		4EB7D73618EAEDFB00F787B3 /* SelectedAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */; };
-		4EB7D73918EAF5E500F787B3 /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D73818EAF5E500F787B3 /* Car.m */; };
 		4EB9705618E085EE001F52D8 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705218E085EE001F52D8 /* libPayPalMobile.a */; };
 		4EB9705818E086BA001F52D8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705718E086BA001F52D8 /* MessageUI.framework */; };
 		4EB9705A18E086C4001F52D8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705918E086C4001F52D8 /* CoreLocation.framework */; };
@@ -428,11 +430,14 @@
 		4EB68AC818DB346B002ECB06 /* ProductDescriptionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDescriptionTableViewCell.xib; sourceTree = "<group>"; };
 		4EB6D9FD18E1B3D300985F0B /* PaymentMng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentMng.h; path = ../Controllers/Business/PaymentMng.h; sourceTree = "<group>"; };
 		4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentMng.m; path = ../Controllers/Business/PaymentMng.m; sourceTree = "<group>"; };
+		4EB6F61018ED9E5800D4C9C1 /* CheckOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckOrderViewController.h; sourceTree = "<group>"; };
+		4EB6F61118ED9E5800D4C9C1 /* CheckOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckOrderViewController.m; sourceTree = "<group>"; };
+		4EB6F61218ED9E5800D4C9C1 /* CheckOrderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckOrderViewController.xib; sourceTree = "<group>"; };
+		4EB6F61518EDA4FD00D4C9C1 /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
+		4EB6F61618EDA4FD00D4C9C1 /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
 		4EB7D73218EAEDFB00F787B3 /* SelectedAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressCell.h; sourceTree = "<group>"; };
 		4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressCell.m; sourceTree = "<group>"; };
 		4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressCell.xib; sourceTree = "<group>"; };
-		4EB7D73718EAF5E500F787B3 /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
-		4EB7D73818EAF5E500F787B3 /* Car.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Car.m; sourceTree = "<group>"; };
 		4EB9705218E085EE001F52D8 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPayPalMobile.a; sourceTree = "<group>"; };
 		4EB9705318E085EE001F52D8 /* PayPalMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalMobile.h; sourceTree = "<group>"; };
 		4EB9705418E085EE001F52D8 /* PayPalPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPayment.h; sourceTree = "<group>"; };
@@ -841,6 +846,9 @@
 				4E1EA34718E715060012BAEC /* AboutUsViewController.h */,
 				4E1EA34818E715060012BAEC /* AboutUsViewController.m */,
 				4E1EA34918E715060012BAEC /* AboutUsViewController.xib */,
+				4EB6F61018ED9E5800D4C9C1 /* CheckOrderViewController.h */,
+				4EB6F61118ED9E5800D4C9C1 /* CheckOrderViewController.m */,
+				4EB6F61218ED9E5800D4C9C1 /* CheckOrderViewController.xib */,
 			);
 			path = UserCenter;
 			sourceTree = "<group>";
@@ -869,8 +877,8 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
-				4EB7D73718EAF5E500F787B3 /* Car.h */,
-				4EB7D73818EAF5E500F787B3 /* Car.m */,
+				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
+				4EB6F61618EDA4FD00D4C9C1 /* Car.m */,
 				4EB5640818E47BFB00C1B080 /* User.h */,
 				4EB5640918E47BFB00C1B080 /* User.m */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
@@ -1436,6 +1444,7 @@
 				C33EEC5E189667B200A26971 /* Order Detail_Bg_User@2x.png in Resources */,
 				4EAF48B018BB77870038575F /* UserCenterViewController.xib in Resources */,
 				C33EEC3E189667B200A26971 /* Home_Icon_Choose@2x.png in Resources */,
+				4EB6F61418ED9E5800D4C9C1 /* CheckOrderViewController.xib in Resources */,
 				C33EEC5D189667B200A26971 /* My Notification_Line@2x.png in Resources */,
 				4EAF48AA18BB77870038575F /* LoginViewController.xib in Resources */,
 				4E1EA35518E71B350012BAEC /* Easy sell&Buy.png in Resources */,
@@ -1613,12 +1622,13 @@
 				4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */,
 				4EAE464718C6EE520089B843 /* ProductBroswerViewController.m in Sources */,
 				4EC207AB18C57754003708D6 /* CommonViewController.m in Sources */,
+				4EB6F61718EDA4FD00D4C9C1 /* Car.m in Sources */,
 				4EAE463918C6EE520089B843 /* BiddingCell.m in Sources */,
 				4EAF48AD18BB77870038575F /* RegisterViewController.m in Sources */,
 				4EB6849C18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m in Sources */,
-				4EB7D73918EAF5E500F787B3 /* Car.m in Sources */,
 				4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */,
 				4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */,
+				4EB6F61318ED9E5800D4C9C1 /* CheckOrderViewController.m in Sources */,
 				4EAE464518C6EE520089B843 /* ProdecutViewController.m in Sources */,
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,
 				4EB68AC918DB346B002ECB06 /* ProductDescriptionTableViewCell.m in Sources */,

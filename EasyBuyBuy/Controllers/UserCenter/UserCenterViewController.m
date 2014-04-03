@@ -23,6 +23,9 @@
 #import "User.h"
 #import "PhotoManager.h"
 #import "CustomiseActionSheet.h"
+#import "MyCarViewController.h"
+#import "Macro.h"
+#import "Base64.h"
 static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 
 
@@ -37,6 +40,8 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     UIView * bottomTableFooterView;
     NSArray * localizedFooterView;
     CGFloat fontSize;
+    
+    NSString * userImageStr;
 }
 @end
 
@@ -137,7 +142,13 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     }
     _nameLabel.text     = userName;
     _nameLabel.font     = [UIFont systemFontOfSize:fontSize + 4];
+    userImageStr        = @"";
     
+    NSData * imageData = [[NSUserDefaults standardUserDefaults]objectForKey:UserAvatar];
+    if (imageData) {
+        UIImage * avatar = [[UIImage alloc]initWithData:imageData];
+        [self.userImage setBackgroundImage:avatar forState:UIControlStateNormal];
+    }
 }
 
 -(void)gotoShopMainController
@@ -158,6 +169,24 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     [self.bottomTableView reloadData];
     NSLog(@"%f",slider.value);
 }
+
+-(void)updateUserInfo
+{
+    User * user = [User getUserFromLocal];
+    if (user) {
+        __weak UserCenterViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]updateUserInfoWithParams:@{@"id":user.user_id,@"account":@"",@"phone":@"",@"avatar":userImageStr,@"sex":@""} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }
+    
+}
+
 #pragma mark - UITableView
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -324,6 +353,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
                 [self gotoSecurityViewController];
                 break;
             case 3:
+                [self gotoMyCarViewController];
+                break;
+            case 4:
                 [self gotoMyNotificationViewController];
                 break;
                 
@@ -381,6 +413,13 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     viewController = nil;
 }
 
+-(void)gotoMyCarViewController
+{
+    MyCarViewController * viewController = [[MyCarViewController alloc]initWithNibName:@"MyCarViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
 -(void)gotoUpgradeViewController
 {
     UpgradeViewController * viewController = [[UpgradeViewController alloc]initWithNibName:@"UpgradeViewController" bundle:nil];
@@ -406,6 +445,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     
     User * user = [PersistentStore getLastObjectWithType:[User class]];
     [PersistentStore deleteObje:user];
+    [[NSUserDefaults standardUserDefaults]setObject:nil forKey:UserAvatar];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
     [self popVIewController];
 }
 
@@ -416,6 +458,12 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
      {
          dispatch_async(dispatch_get_main_queue(), ^{
              [weakSelf.userImage setBackgroundImage:image forState:UIControlStateNormal];
+             NSData * imageData = UIImagePNGRepresentation(image);
+             userImageStr = [imageData base64EncodedString];
+             [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:UserAvatar];
+             [[NSUserDefaults standardUserDefaults]synchronize];
+             
+             [weakSelf updateUserInfo];
          });
      }];
     CustomiseActionSheet * synActionSheet = [[CustomiseActionSheet alloc] init];

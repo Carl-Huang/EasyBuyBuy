@@ -156,19 +156,19 @@
     if ([language isEqualToString:@"English"])
     {
         return @{@"viewControllTitle": @"UserCenter"
-                 ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My notification"]
+                 ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My Shopping Car",@"My notification"]
                  ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@"About us",@""]
                  ,@"localizedFooterView":@[@"Font",@"Small",@"Middle",@"Big"]};
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{@"viewControllTitle": @"用户中心"
-                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的通知"]
+                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的购物车",@"我的通知"]
                  ,@"bottomDataSource":@[@"账号升级",@"语言",@"关于我们",@""]
                  ,@"localizedFooterView":@[@"字体",@"小",@"中",@"大"]};
     }else
     {
         return @{@"viewControllTitle": @"مركز المستعمل"
-                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات"]
+                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات",@"我的购物车"]
                  ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@"关于我们",@""]
                  ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"]};
     }
@@ -560,7 +560,8 @@
                  @"viewControllTitle": @"Order details",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
-                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"]
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"remart":@"Leave a message"
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -568,7 +569,8 @@
                  @"viewControllTitle": @"订单详情",
                  @"confirmBtn":@"确定",
                  @"costDesc":@"总价:",
-                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"]
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"remart":@"留言"
                  };
     }else
     {
@@ -576,7 +578,8 @@
                  @"viewControllTitle": @"تفاصيل الطلب",
                  @"confirmBtn":@"أكد الطلب",
                  @"costDesc":@"السعر الإجمالي",
-                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"",@"سعر",@"حالة الطلب",@"وقت الطلب",@"السعر الإجمالي"]
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"حالة الطلب",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"remart":@"ترك رسالة"
                  };
     }
 }
