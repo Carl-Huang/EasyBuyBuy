@@ -70,4 +70,8 @@ typedef enum _ANCHOR
 +(BOOL)isAllNumCharacterInString:(NSString *)modeStr;
 +(BOOL)isNoSpecialCharacterInString:(NSString *)modeStr;
 +(BOOL)checkMail:(NSString *) emailtext;
+
+
++(NSString *)getCurrentTimeWithFormat:(NSString *)format;
+
 @end

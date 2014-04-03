@@ -74,11 +74,11 @@
         if (object) {
             [products addObjectsFromArray:object];
             [weakSelf.qtmquitView reloadData];
+            [weakSelf setFooterView];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
-    [self createFooterView];
     _reloading = NO;
     // Do any additional setup after loading the view from its nib.
 }
@@ -115,8 +115,9 @@
     if (footerView && [footerView superview]) {
         [footerView removeFromSuperview];
     }
+    CGFloat height = MAX(qtmquitView.contentSize.height, qtmquitView.frame.size.height);
     footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                  CGRectMake(0.0f,qtmquitView.frame.size.height,
+                  CGRectMake(0.0f,height,
                              self.view.frame.size.width, self.view.bounds.size.height)];
     footerView.delegate = self;
     [qtmquitView addSubview:footerView];
@@ -200,6 +201,7 @@
     }else
 	{
         // create the footerView
+        _reloading = NO;
         footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
                               CGRectMake(0.0f, height,
                                          qtmquitView.frame.size.width, self.view.bounds.size.height)];

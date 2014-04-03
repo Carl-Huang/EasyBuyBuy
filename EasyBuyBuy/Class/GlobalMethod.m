@@ -416,5 +416,15 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:emailtext];
 }
+
++(NSString *)getCurrentTimeWithFormat:(NSString *)format
+{
+    NSDate * date = [NSDate date];
+    NSDateFormatter * dateFormat = [[NSDateFormatter alloc]init];
+    [dateFormat setDateFormat:format];
+    NSString * currentDateStr = [dateFormat stringFromDate:date];
+    dateFormat = nil;
+    return currentDateStr;
+}
 @end
 

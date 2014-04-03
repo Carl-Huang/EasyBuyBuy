@@ -117,10 +117,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     itemSelectedStatus = [NSMutableDictionary dictionary];
     
-    
-    //TODO :Fetch the data from local
-//    dataSource = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"},@{@"Title":@"Pear",@"Number":@"10",@"Price":@"2.5"},@{@"Title":@"Banana",@"Number":@"10",@"Price":@"3.5"}];
-    
     //从本地获取购物车商品
     dataSource = [PersistentStore getAllObjectWithType:[Car class]];
     if ([dataSource count]) {

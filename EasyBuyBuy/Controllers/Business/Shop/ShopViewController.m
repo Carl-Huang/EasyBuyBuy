@@ -85,6 +85,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iPhone5]) {
         rect.size.height +=88;
     }
+    _contentTable.contentSize = CGSizeMake(320, rect.size.height);
     _contentTable.frame = rect;
     
     UINib * cellNib = [UINib nibWithNibName:@"ProductClassifyCell" bundle:[NSBundle bundleForClass:[ProductClassifyCell class]]];
@@ -104,13 +105,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
         if (object) {
             [dataSource addObjectsFromArray:object];
             [weakSelf.contentTable reloadData];
+            [weakSelf setFooterView];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
 
-    
-    [self createFooterView];
+
 }
 
 -(void)createFooterView
@@ -118,8 +119,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if (footerView && [footerView superview]) {
         [footerView removeFromSuperview];
     }
+    CGFloat height = MAX(_contentTable.contentSize.height, _contentTable.frame.size.height);
     footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                          CGRectMake(0.0f,_contentTable.frame.size.height,
+                          CGRectMake(0.0f,height,
                                      self.view.frame.size.width, self.view.bounds.size.height)];
     footerView.delegate = self;
     [_contentTable addSubview:footerView];
@@ -127,10 +129,38 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [footerView refreshLastUpdatedDate];
 }
 
+-(void)setFooterView{
+    
+    CGFloat height = MAX(_contentTable.contentSize.height, _contentTable.frame.size.height);
+   
+    if (footerView && [footerView superview])
+	{
+        // reset position
+        footerView.frame = CGRectMake(0.0f,
+                                              height,
+                                              _contentTable.frame.size.width,
+                                              self.view.bounds.size.height);
+    }else
+	{
+        _reloading = NO;
+        // create the footerView
+        footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                              CGRectMake(0.0f, height,
+                                         _contentTable.frame.size.width, self.view.bounds.size.height)];
+        footerView.delegate = self;
+        [_contentTable addSubview:footerView];
+    }
+    
+    if (footerView)
+	{
+        [footerView refreshLastUpdatedDate];
+    }
+}
 
 -(void)loadData
 {
     pageSize +=10;
+    _reloading = YES;
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": @"1",@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
@@ -199,12 +229,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
 {
-    //2
     return _reloading;
 }
 - (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
 {
-    //4
 	[self loadData];
 }
 
@@ -212,7 +240,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 	if (footerView)
 	{
-        //1
         [footerView egoRefreshScrollViewDidScroll:scrollView];
     }
 }
@@ -220,7 +247,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	if (footerView)
 	{
-        //3
         [footerView egoRefreshScrollViewDidEndDragging:scrollView];
     }
 	
@@ -228,7 +254,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
 {
 	return [NSDate date]; // should return date data source was last changed
-	
 }
+
 
 @end

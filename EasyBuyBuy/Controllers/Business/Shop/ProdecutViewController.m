@@ -155,9 +155,38 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [footerView refreshLastUpdatedDate];
 }
 
+-(void)setFooterView{
+    
+    CGFloat height = MAX(_contentTable.contentSize.height, _contentTable.frame.size.height);
+    
+    if (footerView && [footerView superview])
+	{
+        // reset position
+        footerView.frame = CGRectMake(0.0f,
+                                      height,
+                                      _contentTable.frame.size.width,
+                                      self.view.bounds.size.height);
+    }else
+	{
+        _reloading = NO;
+        // create the footerView
+        footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                      CGRectMake(0.0f, height,
+                                 _contentTable.frame.size.width, self.view.bounds.size.height)];
+        footerView.delegate = self;
+        [_contentTable addSubview:footerView];
+    }
+    
+    if (footerView)
+	{
+        [footerView refreshLastUpdatedDate];
+    }
+}
+
 -(void)loadData
 {
     pageSize +=10;
+    _reloading = YES;
     __weak ProdecutViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
@@ -232,12 +261,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
 {
-    //2
     return _reloading;
 }
 - (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
 {
-    //4
 	[self loadData];
 }
 
@@ -245,7 +272,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 	if (footerView)
 	{
-        //1
         [footerView egoRefreshScrollViewDidScroll:scrollView];
     }
 }
@@ -253,7 +279,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	if (footerView)
 	{
-        //3
         [footerView egoRefreshScrollViewDidEndDragging:scrollView];
     }
 	

@@ -16,6 +16,9 @@
 #import "Car.h"
 #import "User.h"
 #import "Address.h"
+#import "PopupTable.h"
+#import "AppDelegate.h"
+
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 
@@ -30,8 +33,11 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     NSArray * products;
     CGFloat   fontSize;
     Address * defaultAddress;
+    AppDelegate * myDelegate;
+    NSMutableDictionary * textFieldVector;
     
-    NSMutableArray * textFieldVector;
+    
+    NSString * selectedExpress;
 }
 @end
 
@@ -109,7 +115,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     UINib * cellNib2 = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
     [_contentTable registerNib:cellNib2 forCellReuseIdentifier:descriptioncellIdentifier];
     
-    sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7"];
+    sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6"];
     defaultAddress = nil;
     User * user = [User getUserFromLocal];
     __weak MyOrderDetailViewController * weakSelf =self;
@@ -135,7 +141,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     NSDictionary * userInfo = @{@"name":@"",@"phone":@"",@"address":@""};
     
     [dataSource insertObject:userInfo atIndex:0];
-    sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
+    sectionOffset = @[@"1",@"1",@"1",@"2",@"1",@"3"];
 
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
@@ -147,10 +153,8 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         cost = object.price.floatValue * object.proCount.integerValue;
     }
     _totalPrice.text = [NSString stringWithFormat:@"$%0.2f",cost];
-    
-    
-    textFieldVector = [NSMutableArray array];
-    
+    selectedExpress = @"";
+    myDelegate = [[UIApplication sharedApplication]delegate];
 }
 
 -(void)updateDataSourceWithUserDefaultAddress:(Address *)address
@@ -187,6 +191,61 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     [self push:viewController];
     viewController = nil;
+}
+
+-(void)configureLastSectionCell:(DefaultDescriptionCellTableViewCell *)cell index:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        //订单状态
+        NSString * status = @"Wait for paying";
+        cell.content.text = status;
+    }else if (indexPath.row == 1)
+    {
+        //订单时间
+        NSString * time = [GlobalMethod getCurrentTimeWithFormat:@"yyyy-MM-dd hh:mm:ss"];
+        cell.content.text = time;
+        
+    }else if (indexPath.row == 2)
+    {
+        //总价钱
+        CGFloat cost = 0;
+        for (Car * object in products) {
+            cost = object.price.floatValue * object.proCount.integerValue;
+        }
+        cell.content.text = [NSString stringWithFormat:@"%0.2f",cost];
+    }else
+    {
+        //未定义
+    }
+    
+}
+
+-(void)showTheExpressTable
+{
+    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+//    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+    
+    __weak MyOrderDetailViewController * weakSelf = self;
+    [regionTable tableTitle:@"Express" dataSource:@[@"EMS",@"ABC"] userDefaultKey:nil];
+    [regionTable setSelectedBlock:^(id object,NSInteger index)
+     {
+         NSLog(@"%@",object);
+         selectedExpress = object;
+         [weakSelf.contentTable reloadData];
+     }];
+    
+    regionTable.view.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        regionTable.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        if ([myDelegate.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController * nav =(UINavigationController *) myDelegate.window.rootViewController;
+            UIViewController * lastController = [nav.viewControllers lastObject];
+            [lastController.view addSubview:regionTable.view];
+            [lastController addChildViewController:regionTable];
+        }
+    }];
+    regionTable = nil;
 }
 #pragma  mark - Public
 -(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew
@@ -288,20 +347,28 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         }
         
         cell.contentTitle.text  = [dataSource objectAtIndex:offset];
-        cell.content.text = @"test";
         
-        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
-        cell.content.font       = [UIFont systemFontOfSize:fontSize];
-        
-        if (indexPath.section == 5) {
+        if (indexPath.section == 2) {
+            cell.content.text = selectedExpress;
+        }
+        if (indexPath.section == 4) {
             cell.content.text = @"";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }else
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        if (indexPath.section ==1) {
+            cell.content.text = @"Paypal";
+        }
+        if (indexPath.section == [sectionArray count]-1) {
+            [self configureLastSectionCell:cell index:indexPath];
+        }
         
         
+        
+        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
+        cell.content.font       = [UIFont systemFontOfSize:fontSize];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -312,7 +379,6 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 {
     if (indexPath.row == 0 && indexPath.section == 0)
     {
-        //TODO:6
         //选择地址
         [self gotoSelectedAddressViewController];
     }
@@ -324,6 +390,11 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         
         [self push:viewController];
         viewController = nil;
+    }
+    
+    if (indexPath.section == 2) {
+        //TODO:选择快递方式
+        [self showTheExpressTable];
     }
 }
 

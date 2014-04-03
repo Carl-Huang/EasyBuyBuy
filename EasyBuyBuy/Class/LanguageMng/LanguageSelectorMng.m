@@ -560,7 +560,7 @@
                  @"viewControllTitle": @"Order details",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
-                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"",@"Price:",@"Freight:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"]
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"]
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -568,7 +568,7 @@
                  @"viewControllTitle": @"订单详情",
                  @"confirmBtn":@"确定",
                  @"costDesc":@"总价:",
-                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"",@"价钱:",@"运费:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"]
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"]
                  };
     }else
     {
@@ -576,7 +576,7 @@
                  @"viewControllTitle": @"تفاصيل الطلب",
                  @"confirmBtn":@"أكد الطلب",
                  @"costDesc":@"السعر الإجمالي",
-                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"",@"سعر",@"شحن",@"قائمة المنتجات",@"حالة الطلب",@"وقت الطلب",@"السعر الإجمالي"]
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"",@"سعر",@"حالة الطلب",@"وقت الطلب",@"السعر الإجمالي"]
                  };
     }
 }
