@@ -80,6 +80,10 @@
 -(void)preConnectToIntenet
 {
     self.environment = kPayPalEnvironment;
+//    @"PayPalEnvironmentProduction" : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP",
+    NSDictionary * paypalMobileEnviroment = @{kPayPalEnvironment : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP"};
+
+    [PayPalMobile initializeWithClientIdsForEnvironments:paypalMobileEnviroment];
     [PayPalMobile preconnectWithEnvironment:self.environment];
 }
 
