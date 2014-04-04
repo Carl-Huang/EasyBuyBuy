@@ -11,6 +11,8 @@
 // - To use the PayPal sandbox, use PayPalEnvironmentSandbox.
 // - For testing, use PayPalEnvironmentNoNetwork.
 #define kPayPalEnvironment PayPalEnvironmentSandbox
+#define MerchantName        @"Easybuybuy"
+//#define MerchantName        @"vedon.fu-facilitator@gmail.com"
 
 #import "PaymentMng.h"
 #import "PayPalMobile.h"
@@ -53,9 +55,9 @@
         _payPalConfig = [[PayPalConfiguration alloc] init];
         _payPalConfig.acceptCreditCards = YES;
         _payPalConfig.languageOrLocale = @"en";
-        _payPalConfig.merchantName = @"Awesome Shirts, Inc.";
-        _payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/privacy-full"];
-        _payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/useragreement-full"];
+        _payPalConfig.merchantName = MerchantName;
+        _payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"www.baidu.com"];
+        _payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:@"www.baidu.com"];
         
         // Setting the languageOrLocale property is optional.
         //
@@ -88,6 +90,7 @@
     payment.amount = [[NSDecimalNumber alloc] initWithString:cost];
     payment.currencyCode = @"USD";
     payment.shortDescription = des;
+
     
     if (!payment.processable) {
         // This particular payment will always be processable. If, for

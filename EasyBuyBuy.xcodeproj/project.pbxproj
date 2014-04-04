@@ -170,6 +170,8 @@
 		4EC90BBD18E41F29007969F5 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBC18E41F29007969F5 /* Login.m */; };
 		4EC90BC018E4208C007969F5 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBF18E4208C007969F5 /* Register.m */; };
 		4EC90BC318E42920007969F5 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BC218E42920007969F5 /* Address.m */; };
+		4EF1F54118EE63120047254B /* YMDPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF1F54018EE63120047254B /* YMDPickerView.m */; };
+		4EF1F54318EE63240047254B /* YMDPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EF1F54218EE63240047254B /* YMDPickerView.xib */; };
 		5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238718BD99A900100CBF /* SecurityViewController.m */; };
 		5F00238A18BD99A900100CBF /* SecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00238818BD99A900100CBF /* SecurityViewController.xib */; };
 		5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238C18BD9BF400100CBF /* SecurityCell.m */; };
@@ -527,6 +529,9 @@
 		4EC90BBF18E4208C007969F5 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		4EC90BC118E42920007969F5 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		4EC90BC218E42920007969F5 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		4EF1F53F18EE63120047254B /* YMDPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMDPickerView.h; sourceTree = "<group>"; };
+		4EF1F54018EE63120047254B /* YMDPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMDPickerView.m; sourceTree = "<group>"; };
+		4EF1F54218EE63240047254B /* YMDPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YMDPickerView.xib; sourceTree = "<group>"; };
 		5F00238618BD99A900100CBF /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		5F00238718BD99A900100CBF /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		5F00238818BD99A900100CBF /* SecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityViewController.xib; sourceTree = "<group>"; };
@@ -928,6 +933,9 @@
 				4E13E86018ED3F7E00183DAA /* RemartCell.h */,
 				4E13E86118ED3F7E00183DAA /* RemartCell.m */,
 				4E13E86318ED3F8E00183DAA /* RemartCell.xib */,
+				4EF1F53F18EE63120047254B /* YMDPickerView.h */,
+				4EF1F54018EE63120047254B /* YMDPickerView.m */,
+				4EF1F54218EE63240047254B /* YMDPickerView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1441,6 +1449,7 @@
 				4E632CD918C45C0E006DD458 /* tempTest.png in Resources */,
 				C33EEC70189667B200A26971 /* Verification_Btn_Code@2x.png in Resources */,
 				4EB3E9A218EC5A8400CDEE19 /* grayArrow.png in Resources */,
+				4EF1F54318EE63240047254B /* YMDPickerView.xib in Resources */,
 				C33EEC5E189667B200A26971 /* Order Detail_Bg_User@2x.png in Resources */,
 				4EAF48B018BB77870038575F /* UserCenterViewController.xib in Resources */,
 				C33EEC3E189667B200A26971 /* Home_Icon_Choose@2x.png in Resources */,
@@ -1639,6 +1648,7 @@
 				4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */,
 				4EC207B018C57754003708D6 /* NSString+Utils.m in Sources */,
 				4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */,
+				4EF1F54118EE63120047254B /* YMDPickerView.m in Sources */,
 				4EAE463D18C6EE520089B843 /* SalePromotionItemViewController.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				4EAE464D18C6EE520089B843 /* ProductDetailViewControllerViewController.m in Sources */,
