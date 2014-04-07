@@ -111,6 +111,7 @@
             user.user_id    = loginObj.ID;
             user.sex        = loginObj.sex;
             user.phone      = loginObj.phone;
+            user.isVip      = loginObj.isVip;
             [PersistentStore save];
             [weakSelf gotoUserCenterViewController];
             

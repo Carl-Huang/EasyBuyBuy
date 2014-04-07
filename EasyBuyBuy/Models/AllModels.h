@@ -15,4 +15,6 @@
 #import "ParentCategory.h"
 #import "ChildCategory.h"
 #import "Good.h"
+#import "MyOrderList.h"
+#import "GoodListSingleObj.h"
 #endif

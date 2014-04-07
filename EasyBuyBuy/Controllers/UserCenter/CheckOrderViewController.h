@@ -7,7 +7,7 @@
 //
 
 #import "CommonViewController.h"
-
+@class MyOrderList;
 @interface CheckOrderViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *costDesc;
 @property (weak, nonatomic) IBOutlet UILabel *totalPrice;
 
+@property (strong ,nonatomic) MyOrderList * orderList;
 @property (assign ,nonatomic)BOOL isNewOrder;
 
 - (IBAction)submitOrderAction:(id)sender;

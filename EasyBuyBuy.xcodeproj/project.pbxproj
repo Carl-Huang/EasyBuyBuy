@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FA07118F04F3900FE466A /* MyOrderList.m */; };
 		4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215918EA642F00B2F39E /* PopupTable.m */; };
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
 		4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215E18EA687200B2F39E /* CustomiseTableTextfield.m */; };
@@ -39,6 +40,7 @@
 		4EAC791F18C4D2080022ECDD /* BackGroud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */; };
 		4EAC792018C4D2080022ECDD /* Slider@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791D18C4D2080022ECDD /* Slider@2x.png */; };
 		4EAC792118C4D2080022ECDD /* SliderBtton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */; };
+		4EAD1DA318F0DBEF009B3AD0 /* GoodListSingleObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAD1DA218F0DBEF009B3AD0 /* GoodListSingleObj.m */; };
 		4EAE463918C6EE520089B843 /* BiddingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE461318C6EE510089B843 /* BiddingCell.m */; };
 		4EAE463A18C6EE520089B843 /* BiddingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE461418C6EE510089B843 /* BiddingCell.xib */; };
 		4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE461618C6EE510089B843 /* BiddingPopupView.m */; };
@@ -100,7 +102,6 @@
 		4EB3E9A518EC5A8400CDEE19 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */; };
 		4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */; };
 		4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */; };
-		4EB5640A18E47BFB00C1B080 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB5640918E47BFB00C1B080 /* User.m */; };
 		4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674118C44656006B680A /* BottomCell@2x.png */; };
 		4EB5674718C44657006B680A /* MiddleCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674218C44656006B680A /* MiddleCell@2x.png */; };
 		4EB5674A18C44657006B680A /* UpperCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674518C44657006B680A /* UpperCell@2x.png */; };
@@ -170,6 +171,9 @@
 		4EC90BBD18E41F29007969F5 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBC18E41F29007969F5 /* Login.m */; };
 		4EC90BC018E4208C007969F5 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBF18E4208C007969F5 /* Register.m */; };
 		4EC90BC318E42920007969F5 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BC218E42920007969F5 /* Address.m */; };
+		4EECE1BA18F26F7A00FF412C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EECE1B918F26F7A00FF412C /* User.m */; };
+		4EECE1BC18F2802D00FF412C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EECE1BB18F2802D00FF412C /* StoreKit.framework */; };
+		4EECE1BE18F2803800FF412C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */; };
 		4EF1F54118EE63120047254B /* YMDPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF1F54018EE63120047254B /* YMDPickerView.m */; };
 		4EF1F54318EE63240047254B /* YMDPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EF1F54218EE63240047254B /* YMDPickerView.xib */; };
 		5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00238718BD99A900100CBF /* SecurityViewController.m */; };
@@ -266,6 +270,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E0FA07018F04F3900FE466A /* MyOrderList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderList.h; sourceTree = "<group>"; };
+		4E0FA07118F04F3900FE466A /* MyOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderList.m; sourceTree = "<group>"; };
 		4E11215818EA642F00B2F39E /* PopupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupTable.h; sourceTree = "<group>"; };
 		4E11215918EA642F00B2F39E /* PopupTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupTable.m; sourceTree = "<group>"; };
 		4E11215A18EA642F00B2F39E /* PopupTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupTable.xib; sourceTree = "<group>"; };
@@ -312,6 +318,8 @@
 		4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackGroud@2x.png"; sourceTree = "<group>"; };
 		4EAC791D18C4D2080022ECDD /* Slider@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slider@2x.png"; sourceTree = "<group>"; };
 		4EAC791E18C4D2080022ECDD /* SliderBtton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SliderBtton@2x.png"; sourceTree = "<group>"; };
+		4EAD1DA118F0DBEF009B3AD0 /* GoodListSingleObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodListSingleObj.h; sourceTree = "<group>"; };
+		4EAD1DA218F0DBEF009B3AD0 /* GoodListSingleObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodListSingleObj.m; sourceTree = "<group>"; };
 		4EAE461218C6EE510089B843 /* BiddingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiddingCell.h; sourceTree = "<group>"; };
 		4EAE461318C6EE510089B843 /* BiddingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiddingCell.m; sourceTree = "<group>"; };
 		4EAE461418C6EE510089B843 /* BiddingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BiddingCell.xib; sourceTree = "<group>"; };
@@ -398,8 +406,6 @@
 		4EB46AEF18E7D2A5008F8BED /* SelectedAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressViewController.h; sourceTree = "<group>"; };
 		4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressViewController.m; sourceTree = "<group>"; };
 		4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressViewController.xib; sourceTree = "<group>"; };
-		4EB5640818E47BFB00C1B080 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		4EB5640918E47BFB00C1B080 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB5674118C44656006B680A /* BottomCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BottomCell@2x.png"; sourceTree = "<group>"; };
 		4EB5674218C44656006B680A /* MiddleCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MiddleCell@2x.png"; sourceTree = "<group>"; };
 		4EB5674518C44657006B680A /* UpperCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpperCell@2x.png"; sourceTree = "<group>"; };
@@ -529,6 +535,10 @@
 		4EC90BBF18E4208C007969F5 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		4EC90BC118E42920007969F5 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		4EC90BC218E42920007969F5 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		4EECE1B818F26F7A00FF412C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		4EECE1B918F26F7A00FF412C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		4EECE1BB18F2802D00FF412C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4EF1F53F18EE63120047254B /* YMDPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMDPickerView.h; sourceTree = "<group>"; };
 		4EF1F54018EE63120047254B /* YMDPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMDPickerView.m; sourceTree = "<group>"; };
 		4EF1F54218EE63240047254B /* YMDPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YMDPickerView.xib; sourceTree = "<group>"; };
@@ -629,6 +639,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EECE1BE18F2803800FF412C /* MobileCoreServices.framework in Frameworks */,
+				4EECE1BC18F2802D00FF412C /* StoreKit.framework in Frameworks */,
 				4EB9705E18E086DA001F52D8 /* SystemConfiguration.framework in Frameworks */,
 				4EB9705C18E086D6001F52D8 /* AVFoundation.framework in Frameworks */,
 				4EB9705A18E086C4001F52D8 /* CoreLocation.framework in Frameworks */,
@@ -882,10 +894,10 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
+				4EECE1B818F26F7A00FF412C /* User.h */,
+				4EECE1B918F26F7A00FF412C /* User.m */,
 				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
 				4EB6F61618EDA4FD00D4C9C1 /* Car.m */,
-				4EB5640818E47BFB00C1B080 /* User.h */,
-				4EB5640918E47BFB00C1B080 /* User.m */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
 				4EC90BBB18E41F29007969F5 /* Login.h */,
 				4EC90BBC18E41F29007969F5 /* Login.m */,
@@ -899,6 +911,10 @@
 				4EBC495C18E9A15A00481F8E /* ChildCategory.m */,
 				4EBC497518E9B1FE00481F8E /* Good.h */,
 				4EBC497618E9B1FE00481F8E /* Good.m */,
+				4E0FA07018F04F3900FE466A /* MyOrderList.h */,
+				4E0FA07118F04F3900FE466A /* MyOrderList.m */,
+				4EAD1DA118F0DBEF009B3AD0 /* GoodListSingleObj.h */,
+				4EAD1DA218F0DBEF009B3AD0 /* GoodListSingleObj.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1158,6 +1174,8 @@
 		C33EEBA1189666F900A26971 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */,
+				4EECE1BB18F2802D00FF412C /* StoreKit.framework */,
 				4EB9705D18E086DA001F52D8 /* SystemConfiguration.framework */,
 				4EB9705B18E086D6001F52D8 /* AVFoundation.framework */,
 				4EB9705918E086C4001F52D8 /* CoreLocation.framework */,
@@ -1599,6 +1617,7 @@
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
+				4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */,
 				4EC90BAB18E40ECA007969F5 /* AsynCycleView.m in Sources */,
 				4EC90BC318E42920007969F5 /* Address.m in Sources */,
 				4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */,
@@ -1606,6 +1625,7 @@
 				4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */,
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
+				4EECE1BA18F26F7A00FF412C /* User.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
 				4EC207B218C57754003708D6 /* UIColor+Utils.m in Sources */,
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
@@ -1654,6 +1674,7 @@
 				4EAE464D18C6EE520089B843 /* ProductDetailViewControllerViewController.m in Sources */,
 				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,
 				4E137F7118EC089600F99123 /* NSArray+DictionaryObj.m in Sources */,
+				4EAD1DA318F0DBEF009B3AD0 /* GoodListSingleObj.m in Sources */,
 				4EAC790E18C4BB870022ECDD /* CarView.m in Sources */,
 				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
 				4EB5FFB618BC3FFB0064B22C /* AddressCell.m in Sources */,
@@ -1661,7 +1682,6 @@
 				4EC90BB218E40ECA007969F5 /* PersistentStore.m in Sources */,
 				4EB335BA18D7444F0012EA06 /* ImageTableViewCell.m in Sources */,
 				4E632CC518C44E2A006DD458 /* LanguageViewController.m in Sources */,
-				4EB5640A18E47BFB00C1B080 /* User.m in Sources */,
 				4EB7D73518EAEDFB00F787B3 /* SelectedAddressCell.m in Sources */,
 				4EAE464B18C6EE520089B843 /* ProductClassifyCell.m in Sources */,
 				4EAE464918C6EE520089B843 /* ProductCell.m in Sources */,
@@ -1784,6 +1804,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D8A6A1375573401D8B93A62B /* Pods-EasyBuyBuy.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1824,6 +1845,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D8A6A1375573401D8B93A62B /* Pods-EasyBuyBuy.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

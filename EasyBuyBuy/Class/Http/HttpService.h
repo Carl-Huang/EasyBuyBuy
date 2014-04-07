@@ -29,6 +29,8 @@
 #define update_member               @"update_member"
 #define order                       @"order"
 #define update_order_status         @"update_order_status"
+#define my_order_list               @"my_order_list"
+#define order_goods_list            @"order_goods_list"
 
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
@@ -254,4 +256,20 @@
  */
 -(void)updateOrderStatusWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 
+/*!
+ * 获取我的订单
+ *
+ * @param  user_id   用户ID
+ * @param  page
+ * @param  pageSize
+ */
+-(void)getMyOrderListWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取商品列表详情
+ *
+ * @param  id         订单ID
+ * @param  status     订单状态 (Order status,1:paid,0:unpaid)
+ */
+-(void)getMySpecifyOrderDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

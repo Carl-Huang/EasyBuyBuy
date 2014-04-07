@@ -18,6 +18,8 @@ PODS:
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
   - Base64nl (1.2)
+  - CargoBay (2.0.3):
+    - AFNetworking (~> 2.1)
   - MagicalRecord (2.2):
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
@@ -29,6 +31,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0.0)
   - Base64nl (~> 1.2)
+  - CargoBay (~> 2.0.3)
   - MagicalRecord (~> 2.2)
   - MBProgressHUD (~> 0.8)
   - SDWebImage (~> 3.6)
@@ -36,6 +39,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   Base64nl: ca7e1d5ac232fddec4e32553feae81fb730ce3f2
+  CargoBay: 3a8ef0f0cc8667d37364412fb62216d06b353e7c
   MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   SDWebImage: 7eb273e54ca8a2e506ad9bd5e80c35b2a4d7c95e

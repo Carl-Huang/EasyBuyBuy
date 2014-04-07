@@ -10,11 +10,15 @@
 #import "MyOrderDetailViewController.h"
 #import "OrderCell.h"
 #import "CheckOrderViewController.h"
+#import "MyOrderList.h"
+#import "User.h"
+
 @interface MyOrderViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
     
     NSArray * dataSource;
+    CGFloat fontSize;
 }
 @end
 
@@ -53,8 +57,24 @@ static NSString * cellIdentifier = @"cell";
 {
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
-    //TODO:Fetch the data from internet
-    dataSource = @[@"1",@"2"];
+    User * user = [User getUserFromLocal];
+    if (user) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        __weak MyOrderViewController * weakSelf = self;
+        [[HttpService sharedInstance]getMyOrderListWithParams:@{@"user_id":user.user_id,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if (object) {
+                dataSource = object;
+                [weakSelf.contentTable reloadData];
+            }
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }
+    
+    
+   
     
     UINib * cellNib = [UINib nibWithNibName:@"OrderCell" bundle:[NSBundle bundleForClass:[OrderCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
@@ -63,9 +83,14 @@ static NSString * cellIdentifier = @"cell";
     }
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    
+    fontSize = [GlobalMethod getDefaultFontSize] * 13;
+    if (fontSize < 0) {
+        fontSize = 13;
+    }
     self.title = viewControllTitle;
 }
+
+
 
 #pragma mark - UITableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -81,7 +106,18 @@ static NSString * cellIdentifier = @"cell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-
+    MyOrderList * object = [dataSource objectAtIndex:indexPath.row];
+    cell.productName.text = object.order_number;
+    cell.orderStatus.text = object.status;
+//    cell.orderCost.text = object.
+    cell.orderTimeStamp.text = object.order_time;
+    
+    cell.productName.font   = [UIFont systemFontOfSize:fontSize+2];
+    cell.orderTimeStamp.font = [UIFont systemFontOfSize:fontSize-1];
+    cell.orderStatus.font   = [UIFont systemFontOfSize:fontSize];
+    cell.orderCost.font     =[UIFont systemFontOfSize:fontSize];
+    
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -89,7 +125,9 @@ static NSString * cellIdentifier = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    MyOrderList * object = [dataSource objectAtIndex:indexPath.row];
     CheckOrderViewController * viewController = [[CheckOrderViewController alloc]initWithNibName:@"CheckOrderViewController" bundle:nil];
+    [viewController setOrderList:object];
     [self push:viewController];
     viewController = nil;
     

@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "ShopMainViewController.h"
 #import "PayPalMobile.h"
+#import "CargoBay.h"
+
 
 @implementation AppDelegate
 
@@ -21,6 +23,9 @@
     //Nav bar
     [self custonNavigationBar];
 
+    //In app Purchase
+    [self initializeInAppPurchaseSetting];
+    
     //Language
      NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     if (!language) {
@@ -91,5 +96,45 @@
         
     }
     
+}
+
+#pragma  mark - In App Purchase
+//Payment Queue Observation
+-(void)initializeInAppPurchaseSetting
+{
+    [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
+        NSLog(@"Updated Transactions: %@", transactions);
+    }];
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue
+ updatedTransactions:(NSArray *)transactions
+{
+    for (SKPaymentTransaction *transaction in transactions) {
+        switch (transaction.transactionState) {
+                // Call the appropriate custom method.
+            case SKPaymentTransactionStatePurchased:
+                [self paymentVerification:transaction];
+                break;
+            case SKPaymentTransactionStateFailed:
+                
+                break;
+            case SKPaymentTransactionStateRestored:
+                
+            default:
+                break;
+        }
+    }
+}
+
+-(void)paymentVerification:(SKPaymentTransaction *)transaction
+{
+    [[CargoBay sharedManager] verifyTransaction:transaction password:nil success:^(NSDictionary *receipt) {
+        NSLog(@"Receipt: %@", receipt);
+    } failure:^(NSError *error) {
+        NSLog(@"Error %d (%@)", [error code], [error localizedDescription]);
+    }];
 }
 @end

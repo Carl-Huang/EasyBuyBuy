@@ -13,6 +13,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
+#import "User.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
@@ -28,6 +29,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
+    BOOL                        isVip;
 }
 @end
 
@@ -71,7 +73,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)initializationInterface
 {
-//    self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
@@ -108,6 +109,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
     [self createFooterView];
+    
+    
+    isVip = NO;
+    User * user = [User getUserFromLocal];
+    if (user) {
+        isVip = user.isVip.boolValue;
+    }
 }
 
 -(void)setItemsSelectedStatus
@@ -218,6 +226,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
+    
+    if (!isVip) {
+        [cell.likeBtn setHidden:YES];
+    }
     
     NSURL * imageURL = [NSURL URLWithString:object.image];
     [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
