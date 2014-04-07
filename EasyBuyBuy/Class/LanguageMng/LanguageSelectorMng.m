@@ -84,6 +84,22 @@
     }
 }
 
+#pragma mark -  OrderProductListViewController
+-(NSDictionary *)OrderProductListViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Shop"};
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"商店"};
+    }else
+    {
+        return @{@"viewControllTitle": @"دكان صغير"};
+    }
+}
+
 
 #pragma mark -  ProductDetailViewControllerViewController
 
@@ -168,8 +184,8 @@
     }else
     {
         return @{@"viewControllTitle": @"مركز المستعمل"
-                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات",@"我的购物车"]
-                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@"关于我们",@""]
+                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات",@"سلة التسوق"]
+                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@"من نحن ",@""]
                  ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"]};
     }
 }
@@ -561,7 +577,9 @@
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
                  @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
-                 @"remart":@"Leave a message"
+                 @"remart":@"Leave a message",
+                 @"pay":@"paid",
+                 @"unpay":@"unpaid"
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -570,7 +588,9 @@
                  @"confirmBtn":@"确定",
                  @"costDesc":@"总价:",
                  @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
-                 @"remart":@"留言"
+                 @"remart":@"留言",
+                 @"pay":@"已付款",
+                 @"unpay":@"未付款"
                  };
     }else
     {
@@ -579,10 +599,93 @@
                  @"confirmBtn":@"أكد الطلب",
                  @"costDesc":@"السعر الإجمالي",
                  @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
-                 @"remart":@"ترك رسالة"
+                 @"remart":@"ترك رسالة",
+                 @"pay":@"مدفوع ",
+                 @"unpay":@"غير مدفوع"
                  };
     }
 }
+
+#pragma  mark - MyOrderViewController
+-(NSDictionary *)MyOrderViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Order details",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"remart":@"Leave a message",
+                 @"pay":@"paid",
+                 @"unpay":@"unpaid"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"订单详情",
+                 @"confirmBtn":@"确定",
+                 @"costDesc":@"总价:",
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"remart":@"留言",
+                 @"pay":@"已付款",
+                 @"unpay":@"未付款"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تفاصيل الطلب",
+                 @"confirmBtn":@"أكد الطلب",
+                 @"costDesc":@"السعر الإجمالي",
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"remart":@"ترك رسالة",
+                 @"pay":@"مدفوع ",
+                 @"unpay":@"غير مدفوع"
+                 };
+    }
+}
+
+#pragma  mark - CheckOrderViewController
+-(NSDictionary *)CheckOrderViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Order details",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"remart":@"Leave a message",
+                 @"pay":@"paid",
+                 @"unpay":@"unpaid"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"订单详情",
+                 @"confirmBtn":@"确定",
+                 @"costDesc":@"总价:",
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"remart":@"留言",
+                 @"pay":@"已付款",
+                 @"unpay":@"未付款"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تفاصيل الطلب",
+                 @"confirmBtn":@"أكد الطلب",
+                 @"costDesc":@"السعر الإجمالي",
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"remart":@"ترك رسالة",
+                 @"pay":@"مدفوع ",
+                 @"unpay":@"غير مدفوع"
+                 };
+    }
+}
+
 
 #pragma mark - LoginViewController
 -(NSDictionary *)LoginViewControllerLanguage

@@ -129,6 +129,9 @@
 		4EB6F61718EDA4FD00D4C9C1 /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6F61618EDA4FD00D4C9C1 /* Car.m */; };
 		4EB7D73518EAEDFB00F787B3 /* SelectedAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */; };
 		4EB7D73618EAEDFB00F787B3 /* SelectedAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */; };
+		4EB8FF5018F2D54300A13709 /* ShippingType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8FF4F18F2D54300A13709 /* ShippingType.m */; };
+		4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8FF5218F2F92700A13709 /* OrderProductListViewController.m */; };
+		4EB8FF5518F2F92700A13709 /* OrderProductListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB8FF5318F2F92700A13709 /* OrderProductListViewController.xib */; };
 		4EB9705618E085EE001F52D8 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705218E085EE001F52D8 /* libPayPalMobile.a */; };
 		4EB9705818E086BA001F52D8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705718E086BA001F52D8 /* MessageUI.framework */; };
 		4EB9705A18E086C4001F52D8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705918E086C4001F52D8 /* CoreLocation.framework */; };
@@ -446,6 +449,11 @@
 		4EB7D73218EAEDFB00F787B3 /* SelectedAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressCell.h; sourceTree = "<group>"; };
 		4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressCell.m; sourceTree = "<group>"; };
 		4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressCell.xib; sourceTree = "<group>"; };
+		4EB8FF4E18F2D54300A13709 /* ShippingType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingType.h; sourceTree = "<group>"; };
+		4EB8FF4F18F2D54300A13709 /* ShippingType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingType.m; sourceTree = "<group>"; };
+		4EB8FF5118F2F92700A13709 /* OrderProductListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductListViewController.h; sourceTree = "<group>"; };
+		4EB8FF5218F2F92700A13709 /* OrderProductListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderProductListViewController.m; sourceTree = "<group>"; };
+		4EB8FF5318F2F92700A13709 /* OrderProductListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderProductListViewController.xib; sourceTree = "<group>"; };
 		4EB9705218E085EE001F52D8 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPayPalMobile.a; sourceTree = "<group>"; };
 		4EB9705318E085EE001F52D8 /* PayPalMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalMobile.h; sourceTree = "<group>"; };
 		4EB9705418E085EE001F52D8 /* PayPalPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPayment.h; sourceTree = "<group>"; };
@@ -794,6 +802,9 @@
 		4EAF489918BB77870038575F /* UserCenter */ = {
 			isa = PBXGroup;
 			children = (
+				4EB8FF5118F2F92700A13709 /* OrderProductListViewController.h */,
+				4EB8FF5218F2F92700A13709 /* OrderProductListViewController.m */,
+				4EB8FF5318F2F92700A13709 /* OrderProductListViewController.xib */,
 				4EB7D73218EAEDFB00F787B3 /* SelectedAddressCell.h */,
 				4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */,
 				4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */,
@@ -915,6 +926,8 @@
 				4E0FA07118F04F3900FE466A /* MyOrderList.m */,
 				4EAD1DA118F0DBEF009B3AD0 /* GoodListSingleObj.h */,
 				4EAD1DA218F0DBEF009B3AD0 /* GoodListSingleObj.m */,
+				4EB8FF4E18F2D54300A13709 /* ShippingType.h */,
+				4EB8FF4F18F2D54300A13709 /* ShippingType.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1455,6 +1468,7 @@
 				4EAC791F18C4D2080022ECDD /* BackGroud@2x.png in Resources */,
 				4EAF48B718BB78DC0038575F /* OrderCell.xib in Resources */,
 				4EAE464418C6EE520089B843 /* MyCarViewController.xib in Resources */,
+				4EB8FF5518F2F92700A13709 /* OrderProductListViewController.xib in Resources */,
 				C33EEC4D189667B200A26971 /* Login_Bar_User@2x.png in Resources */,
 				C33EEC64189667B200A26971 /* Red Apple_ShoppingCar@2x.png in Resources */,
 				4EB30DA018DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib in Resources */,
@@ -1611,9 +1625,11 @@
 				4EC90BAC18E40ECA007969F5 /* CycleScrollView.m in Sources */,
 				4EAE465018C6EE520089B843 /* ShopViewController.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
+				4EB8FF5018F2D54300A13709 /* ShippingType.m in Sources */,
 				4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */,
 				4EAC791B18C4D0AE0022ECDD /* GlobalMethod.m in Sources */,
 				4EBC495D18E9A15A00481F8E /* ChildCategory.m in Sources */,
+				4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,

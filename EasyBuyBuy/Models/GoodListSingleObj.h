@@ -14,4 +14,5 @@
 @property (strong ,nonatomic) NSString * goods_price;
 @property (strong ,nonatomic) NSString * goods_amount;
 @property (strong ,nonatomic) NSString * order_id;
+@property (strong ,nonatomic) NSArray * goods_image;
 @end

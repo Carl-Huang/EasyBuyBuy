@@ -19,6 +19,7 @@
 #import "PopupTable.h"
 #import "AppDelegate.h"
 #import "RemartCell.h"
+#import "ShippingType.h"
 
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
@@ -33,6 +34,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     NSArray * sectionArray;
     NSMutableArray * dataSource;
     NSArray * sectionOffset;
+    NSArray * shippingTypeData;
     
     NSArray * products;
     CGFloat   fontSize;
@@ -41,7 +43,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     NSMutableDictionary * textFieldVector;
     
     
-    NSString * selectedExpress;
+    NSInteger  selectedExpressIndex;
     NSString * orderID;
 }
 @end
@@ -164,7 +166,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     }
     _totalPrice.text = [NSString stringWithFormat:@"$%0.2f",cost];
 
-    selectedExpress = @"";
+    selectedExpressIndex = -1;
     remartContent = @"";
     myDelegate = [[UIApplication sharedApplication]delegate];
 }
@@ -234,30 +236,26 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
 -(void)showTheExpressTable
 {
-    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
-//    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-    
     __weak MyOrderDetailViewController * weakSelf = self;
-    [regionTable tableTitle:@"Express" dataSource:@[@"EMS",@"ABC"] userDefaultKey:nil];
-    [regionTable setSelectedBlock:^(id object,NSInteger index)
-     {
-         NSLog(@"%@",object);
-         selectedExpress = object;
-         [weakSelf.contentTable reloadData];
-     }];
-    
-    regionTable.view.alpha = 0.0;
-    [UIView animateWithDuration:0.3 animations:^{
-        regionTable.view.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        if ([myDelegate.window.rootViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController * nav =(UINavigationController *) myDelegate.window.rootViewController;
-            UIViewController * lastController = [nav.viewControllers lastObject];
-            [lastController.view addSubview:regionTable.view];
-            [lastController addChildViewController:regionTable];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSString * type = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+    if (!type) {
+        for (Car * object in products) {
+            type = object.model;
+            break;
         }
+    }
+    
+    [[HttpService sharedInstance]getShippingTypeListWithParams:@{@"business_model":type} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([object count]) {
+            [weakSelf showPopupTableWithData:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
-    regionTable = nil;
+    
+   
 }
 
 -(NSMutableArray *)assembleOrderProducts
@@ -282,6 +280,42 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     [[PaymentMng sharePaymentMng]paymentWithProductsPrice:costStr withDescription:@"Apple"];
     [[PaymentMng sharePaymentMng]setPaymentDelegate:self];
 }
+
+-(void)showPopupTableWithData:(NSArray *)data
+{
+    shippingTypeData = data;
+    NSMutableArray * tempData = [NSMutableArray array];
+    for (ShippingType * object in data) {
+        NSString * content = object.name;
+        [tempData addObject:content];
+    }
+    
+    
+    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+      __weak MyOrderDetailViewController * weakSelf = self;
+    [regionTable tableTitle:@"Express" dataSource:tempData userDefaultKey:nil];
+    [regionTable setSelectedBlock:^(id object,NSInteger index)
+     {
+         NSLog(@"%@",object);
+         selectedExpressIndex  = index;
+         [weakSelf.contentTable reloadData];
+     }];
+    
+    regionTable.view.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        regionTable.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        if ([myDelegate.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController * nav =(UINavigationController *) myDelegate.window.rootViewController;
+            UIViewController * lastController = [nav.viewControllers lastObject];
+            [lastController.view addSubview:regionTable.view];
+            [lastController addChildViewController:regionTable];
+        }
+    }];
+    regionTable = nil;
+}
+
+
 #pragma  mark - Public
 -(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew
 {
@@ -317,7 +351,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [self showAlertViewWithMessage:@"Submit order failed"];
     }];
-    
     
     
 }
@@ -417,7 +450,10 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         cell.contentTitle.text  = [dataSource objectAtIndex:offset];
         
         if (indexPath.section == 2) {
-            cell.content.text = selectedExpress;
+            if ([shippingTypeData count]) {
+                ShippingType * shippingType = [shippingTypeData objectAtIndex:selectedExpressIndex];
+                cell.content.text = shippingType.name;
+            }
         }
         if (indexPath.section == 4) {
             cell.content.text = @"";

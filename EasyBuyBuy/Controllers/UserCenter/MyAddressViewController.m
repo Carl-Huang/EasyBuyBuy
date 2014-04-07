@@ -223,7 +223,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
     BOOL someCondition = YES;
     return (someCondition) ?
     UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;

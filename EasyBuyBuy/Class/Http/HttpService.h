@@ -31,6 +31,8 @@
 #define update_order_status         @"update_order_status"
 #define my_order_list               @"my_order_list"
 #define order_goods_list            @"order_goods_list"
+#define shipping_type_list          @"shipping_type_list"
+#define address_detail              @"address_detail"
 
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
@@ -268,8 +270,23 @@
 /*!
  * 获取商品列表详情
  *
- * @param  id         订单ID
- * @param  status     订单状态 (Order status,1:paid,0:unpaid)
+ * @param  order_id         订单ID
+ * @param  page     
+ * @param  pageSize
  */
 -(void)getMySpecifyOrderDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取运输方式
+ *
+ * @param  business_model
+ */
+-(void)getShippingTypeListWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 根据address_id 获取地址信息
+ *
+ * @param  id   地址ID
+ */
+-(void)getAddressDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

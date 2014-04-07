@@ -19,6 +19,9 @@
     
     NSArray * dataSource;
     CGFloat fontSize;
+    
+    NSString * pay;
+    NSString * unpay;
 }
 @end
 
@@ -51,6 +54,13 @@ static NSString * cellIdentifier = @"cell";
 -(void)initializationLocalString
 {
     viewControllTitle = @"My order";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        pay = localizedDic[@"pay"];
+        unpay = localizedDic[@"unpay"];
+    }
 }
 
 -(void)initializationInterface
@@ -106,16 +116,21 @@ static NSString * cellIdentifier = @"cell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    MyOrderList * object = [dataSource objectAtIndex:indexPath.row];
-    cell.productName.text = object.order_number;
-    cell.orderStatus.text = object.status;
-//    cell.orderCost.text = object.
-    cell.orderTimeStamp.text = object.order_time;
+    MyOrderList * object    = [dataSource objectAtIndex:indexPath.row];
+    cell.productName.text   = object.order_number;
+    cell.orderCost.text     = object.total_price;
+    cell.orderTimeStamp.text= object.order_time;
+    if ([object.status isEqualToString:@"1"]) {
+        cell.orderStatus.text = pay;
+    }else
+    {
+        cell.orderStatus.text = unpay;
+    }
     
     cell.productName.font   = [UIFont systemFontOfSize:fontSize+2];
-    cell.orderTimeStamp.font = [UIFont systemFontOfSize:fontSize-1];
+    cell.orderTimeStamp.font= [UIFont systemFontOfSize:fontSize-1];
     cell.orderStatus.font   = [UIFont systemFontOfSize:fontSize];
-    cell.orderCost.font     =[UIFont systemFontOfSize:fontSize];
+    cell.orderCost.font     = [UIFont systemFontOfSize:fontSize];
     
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

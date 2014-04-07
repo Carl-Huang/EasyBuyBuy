@@ -125,9 +125,13 @@
 {
     switch (tapNumber) {
         case 0:
+            //1 : b2c
+            [GlobalMethod setUserDefaultValue:@"1" key:BuinessModel];
             [self gotoShopViewControllerWithType:@"1"];
             break;
         case 1:
+            //2 : b2b
+            [GlobalMethod setUserDefaultValue:@"2" key:BuinessModel];
             [self gotoShopViewControllerWithType:@"2"];
             break;
         case 2:

@@ -108,7 +108,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         inCarObject.proNum  = _good.item_number;
         inCarObject.proCount = @"1";
         inCarObject.des     = _good.description;
-        inCarObject.isSelected = @"1"; //默认选中
+        inCarObject.isSelected = @"0"; //默认不选中
         inCarObject.productID = _good.ID;
         if ([_good.image count]) {
             inCarObject.image = [[_good.image objectAtIndex:0] valueForKey:@"image"];

@@ -13,7 +13,7 @@
 #import "User.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface MyCarViewController ()
+@interface MyCarViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     NSString * confirmBtnTitle;
@@ -22,6 +22,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSArray * dataSource;
     NSMutableDictionary * itemSelectedStatus;
     CGFloat fontSize;
+    
+    NSString * previousSelectedType;
 }
 @end
 
@@ -57,11 +59,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
     User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
     if (loginObj) {
         NSMutableArray * selectedProducts = [NSMutableArray array];
+        
         for (int i =0; i < [[itemSelectedStatus allKeys]count]; ++ i) {
             NSString * key = [NSString stringWithFormat:@"%d",i];
             NSString * value = [itemSelectedStatus valueForKey:key];
+            Car * object = [dataSource objectAtIndex:i];
             if ([value isEqualToString:@"1"]) {
-                [selectedProducts addObject:[dataSource objectAtIndex:i]];
+                [selectedProducts addObject:object];
+            
             }
         }
         
@@ -102,6 +107,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setRightCustomBarItem:@"My Adress_Btn_Delete.png" action:@selector(deleteCarObject)];
     [self.navigationController.navigationBar setHidden:NO];
 
     if ([OSHelper iOS7]) {
@@ -122,12 +128,23 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     itemSelectedStatus = [NSMutableDictionary dictionary];
     
+    previousSelectedType = nil;
     //从本地获取购物车商品
     dataSource = [PersistentStore getAllObjectWithType:[Car class]];
     if ([dataSource count]) {
         for (int i = 0; i < [dataSource count]; ++i) {
             Car * object = [dataSource objectAtIndex:i];
-            [itemSelectedStatus setObject:[NSString stringWithFormat:@"%d",object.isSelected.integerValue ] forKey:[NSString stringWithFormat:@"%d",i]];
+            NSString * value = [NSString stringWithFormat:@"%d",object.isSelected.integerValue ];
+            
+            [itemSelectedStatus setObject:value forKey:[NSString stringWithFormat:@"%d",i]];
+            
+            if ([value isEqualToString:@"1"] && previousSelectedType ==nil) {
+                previousSelectedType = object.model;
+            }
+            if (![object.model isEqualToString:previousSelectedType]) {
+                NSLog(@"所选的和之前商品分类不一致");
+            }
+
         }
     }else
     {
@@ -147,24 +164,53 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     NSString * key = [NSString stringWithFormat:@"%d",tag];
     NSString * value = [itemSelectedStatus valueForKey:key];
-    
     Car * object = [dataSource objectAtIndex:tag];
+    
+//    for (int i=0; i< [[itemSelectedStatus allKeys]count]; i++) {
+//        NSString * key = [NSString stringWithFormat:@"%d",i];
+//        NSString * value = [itemSelectedStatus valueForKey:key];
+//        if ([value isEqualToString:@"1"]) {
+//            if (!previousSelectedType) {
+//                previousSelectedType = object.model;
+//            }
+//        }
+//    }
+//    if (!previousSelectedType) {
+//        previousSelectedType = object.model;
+//    }else
+//    {
+//        if (![object.model isEqualToString:previousSelectedType]) {
+//            [self showAlertViewWithMessage:@"The product you choose is not the same type with the previous one"];
+//            return;
+//        }
+//    }
+    
+
     if ([value isEqualToString:@"1"]) {
+        
+        
         [itemSelectedStatus setObject:@"0" forKey:key];
         object.isSelected = @"0";
         [PersistentStore save];
     }else
     {
+               previousSelectedType = object.model;
         [itemSelectedStatus setObject:@"1" forKey:key];
         object.isSelected = @"1";
         [PersistentStore save];
     }
     
-    
     [_contentTable reloadData];
 }
 
+
+-(void)deleteCarObject
+{
+    [self showAlertViewWithMessage:@"Are you sure to delete the products you selected" withDelegate:self tag:1001];
+    
+}
 #pragma mark - Table
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return  [dataSource count];
@@ -206,4 +252,21 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     [self updateStatusWithTag:indexPath.row];
 }
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1001) {
+        for (int i =0; i< [[itemSelectedStatus allKeys]count]; i++) {
+            NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",i]];
+            if ([value isEqualToString:@"1"]) {
+                Car * object = [dataSource objectAtIndex:i];
+                [PersistentStore deleteObje:object];
+                
+            }
+        }
+        dataSource = [PersistentStore getAllObjectWithType:[Car class]];
+        [_contentTable reloadData];
+    }
+}
+
 @end

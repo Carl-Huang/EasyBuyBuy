@@ -28,5 +28,6 @@
 @property (strong ,nonatomic) NSString * status;
 @property (strong ,nonatomic) NSString * order_time;
 @property (strong ,nonatomic) NSString * remark;
+@property (strong ,nonatomic) NSString * total_price;
 
 @end

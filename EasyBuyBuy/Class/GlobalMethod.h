@@ -74,4 +74,7 @@ typedef enum _ANCHOR
 
 +(NSString *)getCurrentTimeWithFormat:(NSString *)format;
 + (NSString*) stringWithUUID;
+
++(void)setUserDefaultValue:(NSString *)value key:(NSString *)key;
++(NSString *)getUserDefaultWithKey:(NSString *)key;
 @end

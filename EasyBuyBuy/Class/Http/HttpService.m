@@ -550,8 +550,52 @@
         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj && [statusStr isEqualToString:@"1"]) {
             
-            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[GoodListSingleObj class]];
-            success(array);
+            if (obj) {
+                NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+                if ([statusStr isEqualToString:@"1"]) {
+                    NSMutableArray * models = [NSMutableArray array];
+                    NSArray * responseObject = obj[@"result"];
+                    if ([responseObject count]) {
+                        NSArray * results = (NSArray *)responseObject;
+                        unsigned int outCount,i;
+                        objc_property_t * properties = class_copyPropertyList([GoodListSingleObj class], &outCount);
+                        for(NSDictionary * info in results)
+                        {
+                            GoodListSingleObj * model = [[GoodListSingleObj alloc] init];
+                            for(i = 0; i < outCount; i++)
+                            {
+                                objc_property_t property = properties[i];
+                                NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                                NSString * keyValue = nil;
+                                if ([propertyName isEqualToString:@"ID"]) {
+                                    keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
+                                }else if ([propertyName isEqualToString:@"goods_image"])
+                                {
+                                    model.goods_image = [info valueForKey:propertyName];
+                                }
+                                else
+                                {
+                                    keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                                }
+                                
+                                
+                                if (keyValue) {
+                                    [model setValue:keyValue forKeyPath:propertyName];
+                                }
+                                
+                            }
+                            [models addObject:model];
+                        }
+                        free(properties);
+                    }
+                    success(models);
+                }else
+                {
+                    
+                    NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                    failure(error,obj[@"result"]);
+                }
+            }
         }else
         {
             NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
@@ -562,5 +606,41 @@
     }];
 }
 
+
+-(void)getShippingTypeListWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:shipping_type_list] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[ShippingType class]];
+            success(array);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error ,responseString);
+    }];
+}
+
+-(void)getAddressDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure
+{
+    [self post:[self mergeURL:address_detail] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
+            success(array);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
 @end
 

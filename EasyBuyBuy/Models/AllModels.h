@@ -17,4 +17,5 @@
 #import "Good.h"
 #import "MyOrderList.h"
 #import "GoodListSingleObj.h"
+#import "ShippingType.h"
 #endif
