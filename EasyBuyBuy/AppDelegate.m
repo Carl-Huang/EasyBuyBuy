@@ -104,30 +104,26 @@
 {
     [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
         NSLog(@"Updated Transactions: %@", transactions);
+        for (SKPaymentTransaction *transaction in transactions) {
+            switch (transaction.transactionState) {
+                    // Call the appropriate custom method.
+                case SKPaymentTransactionStatePurchased:
+                    [self paymentVerification:transaction];
+                    break;
+                case SKPaymentTransactionStateFailed:
+                    
+                    break;
+                case SKPaymentTransactionStateRestored:
+                    
+                default:
+                    break;
+            }
+        }
     }];
     
     [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
 }
 
-- (void)paymentQueue:(SKPaymentQueue *)queue
- updatedTransactions:(NSArray *)transactions
-{
-    for (SKPaymentTransaction *transaction in transactions) {
-        switch (transaction.transactionState) {
-                // Call the appropriate custom method.
-            case SKPaymentTransactionStatePurchased:
-                [self paymentVerification:transaction];
-                break;
-            case SKPaymentTransactionStateFailed:
-                
-                break;
-            case SKPaymentTransactionStateRestored:
-                
-            default:
-                break;
-        }
-    }
-}
 
 -(void)paymentVerification:(SKPaymentTransaction *)transaction
 {
