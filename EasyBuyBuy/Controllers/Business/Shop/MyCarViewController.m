@@ -76,7 +76,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
         
         MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-        [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES];
+        [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES orderDetail:nil];
         [self push:viewController];
         viewController = nil;
     }else

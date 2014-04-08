@@ -87,6 +87,7 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         upperDataSource   = localizedDic [@"upperDataSource"];
         bottomDataSource  = localizedDic [@"bottomDataSource"];
         localizedFooterView = localizedDic [@"localizedFooterView"];
+        [_logoutBtn setTitle:localizedDic [@"logoutBtn"] forState:UIControlStateNormal];
     }
     
     User * user = [PersistentStore getLastObjectWithType:[User class]];

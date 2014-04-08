@@ -116,6 +116,13 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
+    if ([OSHelper iPhone5]) {
+        CGRect rect = _contentTable.frame;
+        rect.size.height +=88;
+        _contentTable.frame = rect;
+    }
+    
+    
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -319,7 +326,14 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     {
         RemartCell * cell = [tableView dequeueReusableCellWithIdentifier:remartCellIdentifier];
         cell.cellTitle.text     = remartTitle;
-        cell.cellContentView.text = _orderList.remark;
+        
+        if (![_orderList.remark isEqualToString:@"<null>"]) {
+            cell.cellContentView.text = _orderList.remark;
+        }else
+        {
+            cell.cellContentView.text = @"";
+        }
+        
         cell.cellContentView.editable = NO;
         
         cell.cellTitle.font     = [UIFont systemFontOfSize:fontSize];

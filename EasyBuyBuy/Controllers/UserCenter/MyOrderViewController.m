@@ -140,11 +140,35 @@ static NSString * cellIdentifier = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    MyOrderList * object = [dataSource objectAtIndex:indexPath.row];
-    CheckOrderViewController * viewController = [[CheckOrderViewController alloc]initWithNibName:@"CheckOrderViewController" bundle:nil];
-    [viewController setOrderList:object];
+    MyOrderList * orderInfo = [dataSource objectAtIndex:indexPath.row];
+    if ([orderInfo.status isEqualToString:@"1"]) {
+       //付款
+        CheckOrderViewController * viewController = [[CheckOrderViewController alloc]initWithNibName:@"CheckOrderViewController" bundle:nil];
+        [viewController setOrderList:orderInfo];
+        [self push:viewController];
+        viewController = nil;
+    }else
+    {
+        //未付款
+        __weak MyOrderViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getMySpecifyOrderDetailWithParams:@{@"order_id":orderInfo.ID,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if ([object count]) {
+                [weakSelf gotoMyOrderDetailViewControllerWithObj:orderInfo product:object];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+        
+    }
+    
+}
+-(void)gotoMyOrderDetailViewControllerWithObj:(MyOrderList *)orderInfo product:(NSArray * )products
+{
+    MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
+    [viewController orderDetailWithProduct:products isNewOrder:NO orderDetail:orderInfo];
     [self push:viewController];
     viewController = nil;
-    
 }
 @end
