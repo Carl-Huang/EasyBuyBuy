@@ -7,13 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+@class PayPalPayment;
 
+@protocol PaymentMngDelegate <NSObject>
+@required
+-(void)paymentMngDidFinish:(PayPalPayment *)proof isSuccess:(BOOL)isSuccess;
+-(void)paymentMngDidCancel;
+@end
 @interface PaymentMng : NSObject
 
 +(id)sharePaymentMng;
 
 -(void)configurePaymentSetting;
 -(void)preConnectToIntenet;
--(void)paymentWithProduct:(NSArray *)products withDescription:(NSString *)des;
+-(void)paymentWithProductsPrice:(NSString *)cost withDescription:(NSString *)des;
 - (void)getUserAuthorization;
+-(void)setPaymentDelegate:(id)object;
+
+@property (weak ,nonatomic) id<PaymentMngDelegate>pPdelegate;
 @end

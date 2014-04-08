@@ -14,6 +14,8 @@
 #define SelectedLanguage     @"SelectedLanguage"
 #define AppFontSize         @"AppFontSize"
 #define AskToBuyType        @"AskToBuyType"
+#define UserAvatar          @"UserAvatar"
+#define BuinessModel        @"BuinessModel"
 
 #define DefaultFontSize     14
 

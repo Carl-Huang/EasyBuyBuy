@@ -10,7 +10,8 @@
 #import "AddressCell.h"
 #import "EditAddressViewController.h"
 #import "GlobalMethod.h"
-
+#import "User.h"
+#import "Address.h"
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyAddressViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -20,6 +21,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSMutableArray * dataSource;
     NSArray        * deletedItems;
     CGFloat          fontSize;
+    
+    NSInteger page;
+    NSInteger pageSize;
 }
 @end
 
@@ -69,8 +73,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self enterIntoNormalModel];
     self.title = viewControllTitle;
     
-    dataSource = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3"]];
-    
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
@@ -85,6 +87,30 @@ static NSString * cellIdentifier = @"cellIdentifier";
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
+    }
+    
+    
+    
+    page = 1;
+    pageSize = 10;
+    __weak MyAddressViewController * weakSelf = self;
+    NSString * pageStr = [NSString stringWithFormat:@"%d",page];
+    NSString * pageSizeStr = [NSString stringWithFormat:@"%d",pageSize];
+    User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
+    if (loginObj) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getAddressListWithParams:@{@"user_id": loginObj.user_id,@"page":pageStr,@"pageSize":pageSizeStr} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if ([object count]) {
+                dataSource = object;
+                [weakSelf.contentTable reloadData];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }else
+    {
+        
     }
 }
 
@@ -170,10 +196,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AddressCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    cell.addressDes.text    = @"Guangzhou ,Tianhe,shangshe";
-    cell.phoneNO.text       = @"150193857240";
-    cell.userName.text      = @"Jack";
+    Address * object = [dataSource objectAtIndex:indexPath.row];
+    cell.addressDes.text    = object.address;
+    cell.phoneNO.text       = object.phone;
+    cell.userName.text      = object.name;
     
     cell.addressDes.font    = [UIFont systemFontOfSize:fontSize];
     cell.phoneNO.font       = [UIFont systemFontOfSize:fontSize];
@@ -185,21 +211,18 @@ static NSString * cellIdentifier = @"cellIdentifier";
     bgView = nil;
     
     
-    UIImageView * imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Choose"]];
-    UIView * selectedBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
-    [selectedBgView setBackgroundColor:[UIColor clearColor]];
-    [imageView setFrame:CGRectMake(10, 32, 30, 30)];
-    [selectedBgView addSubview:imageView];
-    imageView = nil;
-    
-
-    cell.selectedBackgroundView = selectedBgView;
+//    UIImageView * imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Choose"]];
+//    UIView * selectedBgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height)];
+//    [selectedBgView setBackgroundColor:[UIColor clearColor]];
+//    [imageView setFrame:CGRectMake(10, 32, 30, 30)];
+//    [selectedBgView addSubview:imageView];
+//    imageView = nil;
+//    cell.selectedBackgroundView = selectedBgView;
     return  cell;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
     BOOL someCondition = YES;
     return (someCondition) ?
     UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
@@ -212,6 +235,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Address * object = [dataSource objectAtIndex:indexPath.row];
+        [[HttpService sharedInstance]deleteUserAddressWithParams:@{@"id":object.ID} completionBlock:^(BOOL isSuccess) {
+            if (!isSuccess) {
+                [self showAlertViewWithMessage:@"Delete address failed"];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            ;
+        }];
         [dataSource removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
@@ -229,7 +260,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [tempDeletedItems addObject:obj];
     }
     
-    for (id object in tempDeletedItems) {
+    for (Address * object in tempDeletedItems) {
+        [[HttpService sharedInstance]deleteUserAddressWithParams:@{@"id":object.ID} completionBlock:^(BOOL isSuccess) {
+            if (isSuccess) {
+                ;
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            ;
+        }];
         [dataSource removeObject:object];
     }
     tempDeletedItems = nil;

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserCenterViewController">
             <connections>
                 <outlet property="bottomTableView" destination="yL4-Wq-R5P" id="7X4-eJ-JMo"/>
                 <outlet property="contentScrollView" destination="r99-PQ-EGP" id="7dV-Q4-o54"/>
+                <outlet property="logoutBtn" destination="hJz-K2-0sw" id="pX7-gS-yZv"/>
                 <outlet property="nameLabel" destination="Bxo-qB-Xm9" id="i91-7a-bau"/>
                 <outlet property="upperTableView" destination="5EI-pC-aJ3" id="Nfx-56-uFM"/>
                 <outlet property="userImage" destination="F9O-a3-hTN" id="nyJ-e8-0Dl"/>
@@ -29,20 +31,23 @@
                             <state key="normal" backgroundImage="Shop_Icon_Like_R.png">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="userImageAction:" destination="-1" eventType="touchUpInside" id="iCY-JD-ijx"/>
+                            </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jack" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bxo-qB-Xm9">
-                            <rect key="frame" x="90" y="64" width="147" height="21"/>
+                            <rect key="frame" x="90" y="70" width="147" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.03529411927" green="0.94117653369999998" blue="0.93725496529999996" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" id="zpx-OB-Z91">
-                            <rect key="frame" x="11" y="300" width="298" height="170"/>
+                            <rect key="frame" x="11" y="340" width="298" height="230"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yL4-Wq-R5P">
-                                    <rect key="frame" x="7" y="5" width="285" height="180"/>
+                                    <rect key="frame" x="7" y="10" width="285" height="230"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -54,11 +59,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" id="Yp1-la-5xQ">
-                            <rect key="frame" x="11" y="104" width="298" height="182"/>
+                            <rect key="frame" x="11" y="93" width="298" height="239"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5EI-pC-aJ3">
-                                    <rect key="frame" x="7" y="4" width="285" height="163"/>
+                                    <rect key="frame" x="7" y="13" width="285" height="226"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -69,6 +74,16 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hJz-K2-0sw">
+                            <rect key="frame" x="50" y="570" width="220" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Logout" backgroundImage="Verification_Btn_Confirm.png">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="logoutAction:" destination="-1" eventType="touchUpInside" id="V5O-KK-nf4"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </scrollView>
             </subviews>
@@ -80,5 +95,6 @@
     </objects>
     <resources>
         <image name="Shop_Icon_Like_R.png" width="25" height="25"/>
+        <image name="Verification_Btn_Confirm.png" width="261" height="42"/>
     </resources>
 </document>

@@ -90,34 +90,55 @@
     {
         return [NSArray array];
     }
-    
 }
 #pragma mark Instance Method
 -(void)loginWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:login] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Login class]];
-            if ([array count]) {
-                success([array objectAtIndex:0]);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Login class]];
+                if ([array count]) {
+                    success([array objectAtIndex:0]);
+                }
+
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
             }
+            
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
 -(void)registerWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:registerEa] withParams:params completionBlock:^(id obj) {
+        
         if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
-            if ([array count]) {
-                success([array objectAtIndex:0]);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Register class]];
+                if ([array count]) {
+                    success([array objectAtIndex:0]);
+                }
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
             }
+            
         }
+        
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -125,47 +146,83 @@
 {
     [self post:[self mergeURL:resend_verification_email] withParams:params completionBlock:^(id obj) {
         if (obj) {
- 
-            success(obj);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(obj[@"result"]);
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
         }
+
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
--(void)updateUserStatusWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)updateUserStatusWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:update_user_status] withParams:params completionBlock:^(id obj) {
         if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
             
-            success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
--(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:add_address] withParams:params completionBlock:^(id obj) {
         if (obj) {
             
-            success(obj);
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
         }
+
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
--(void)deleteUserAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)deleteUserAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:delete_address] withParams:params completionBlock:^(id obj) {
         if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+                
+            }else
+            {
+                success (NO);
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
             
-            success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -178,31 +235,58 @@
             success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
 -(void)getAddressListWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
-    [self post:[self mergeURL:update_address] withParams:params completionBlock:^(id obj) {
-        if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
-            success(array);
+    [self post:[self mergeURL:address_list] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            if (![obj[@"result"] isKindOfClass:[NSNull class]]) {
+                NSArray * addresses = obj[@"result"];
+                if ([addresses count]) {
+                    NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
+                    success(array);
+                    
+                }
+            }else
+            {
+                NSError * error = [NSError errorWithDomain:@"Result is empty" code:100 userInfo:nil];
+                failure(error,@"Result is empty");
+            }
+        }else
+        {
+            failure(nil,@"Result is empty");
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
 
--(void)setDefaultAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)setDefaultAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:set_default_address] withParams:params completionBlock:^(id obj) {
+         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj) {
-            success(obj);
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+                
+            }else
+            {
+                success(NO);
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
         }
+
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
@@ -210,11 +294,19 @@
 {
     [self post:[self mergeURL:get_default_address] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            NSArray * array = [self mapModelProcess:obj withClass:[Register class]];
-            success(array);
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
+                success(array);
+            }else
+            {
+              
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 
 }
@@ -226,18 +318,329 @@
             success(obj);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+        failure(error,responseString);
     }];
 }
 
--(void)modifyUserPwdWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)modifyUserPwdWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:change_password] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+            failure(nil,@"Result is empty");
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getParentCategoriesWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:parent_category_list] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            success(obj);
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[ParentCategory class]];
+                success(array);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getChildCategoriesWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:child_category_list] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = nil;
+                if (![obj[@"result"] isKindOfClass:[NSNull class]]) {
+                    array = [self mapModelProcess:obj[@"result"] withClass:[ChildCategory class]];
+                   
+                }
+                 success(array);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getGoodsWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:goods] withParams:params completionBlock:^(id obj)
+    {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSMutableArray * models = [NSMutableArray array];
+                NSArray * responseObject = obj[@"result"];
+                if ([responseObject count]) {
+                    NSArray * results = (NSArray *)responseObject;
+                    unsigned int outCount,i;
+                    objc_property_t * properties = class_copyPropertyList([Good class], &outCount);
+                    for(NSDictionary * info in results)
+                    {
+                        Good * model = [[Good alloc] init];
+                        for(i = 0; i < outCount; i++)
+                        {
+                            objc_property_t property = properties[i];
+                            NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                            NSString * keyValue = nil;
+                            if ([propertyName isEqualToString:@"ID"]) {
+                                keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
+                            }else if ([propertyName isEqualToString:@"image"])
+                            {
+                                model.image = [info valueForKey:propertyName];
+                            }
+                            else
+                            {
+                                keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                            }
+                            
+                            
+                            if (keyValue) {
+                                [model setValue:keyValue forKeyPath:propertyName];
+                            }
+                            
+                        }
+                        [models addObject:model];
+                    }
+                    free(properties);
+                }
+                success(models);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)publishWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:publish] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)publishShippingAgenthWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:shipping_agency] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+
+-(void)updateUserInfoWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:update_member] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Register class]];
+                if ([array count]) {
+                    success([array objectAtIndex:0]);
+                }
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)submitOrderWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:order] withParams:params completionBlock:^(id obj)
+    {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(obj[@"result"]);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+         failure(error,responseString);
+    }];
+}
+
+-(void)updateOrderStatusWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:update_order_status] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            success(NO);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getMyOrderListWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:my_order_list] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[MyOrderList class]];
+             success(array);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+
+    
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getMySpecifyOrderDetailWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:order_goods_list] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            if (obj) {
+                NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+                if ([statusStr isEqualToString:@"1"]) {
+                    NSMutableArray * models = [NSMutableArray array];
+                    NSArray * responseObject = obj[@"result"];
+                    if ([responseObject count]) {
+                        NSArray * results = (NSArray *)responseObject;
+                        unsigned int outCount,i;
+                        objc_property_t * properties = class_copyPropertyList([GoodListSingleObj class], &outCount);
+                        for(NSDictionary * info in results)
+                        {
+                            GoodListSingleObj * model = [[GoodListSingleObj alloc] init];
+                            for(i = 0; i < outCount; i++)
+                            {
+                                objc_property_t property = properties[i];
+                                NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                                NSString * keyValue = nil;
+                                if ([propertyName isEqualToString:@"ID"]) {
+                                    keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
+                                }else if ([propertyName isEqualToString:@"goods_image"])
+                                {
+                                    model.goods_image = [info valueForKey:propertyName];
+                                }
+                                else
+                                {
+                                    keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                                }
+                                
+                                
+                                if (keyValue) {
+                                    [model setValue:keyValue forKeyPath:propertyName];
+                                }
+                                
+                            }
+                            [models addObject:model];
+                        }
+                        free(properties);
+                    }
+                    success(models);
+                }else
+                {
+                    
+                    NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                    failure(error,obj[@"result"]);
+                }
+            }
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         ;
     }];
 }
+
+
+-(void)getShippingTypeListWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:shipping_type_list] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[ShippingType class]];
+            success(array);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error ,responseString);
+    }];
+}
+
+-(void)getAddressDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure
+{
+    [self post:[self mergeURL:address_detail] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
+            success(array);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
 @end
+

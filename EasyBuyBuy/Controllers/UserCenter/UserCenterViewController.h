@@ -15,4 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *userImage;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
+- (IBAction)logoutAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
+- (IBAction)userImageAction:(id)sender;
 @end

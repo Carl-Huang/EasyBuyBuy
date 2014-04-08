@@ -2,7 +2,7 @@
 //  User.m
 //  EasyBuyBuy
 //
-//  Created by vedon on 24/2/14.
+//  Created by vedon on 7/4/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -11,8 +11,20 @@
 
 @implementation User
 
-@dynamic name;
-@dynamic password;
+@dynamic account;
 @dynamic email;
+@dynamic password;
+@dynamic phone;
+@dynamic sex;
+@dynamic user_id;
+@dynamic isVip;
 
++(User *)getUserFromLocal
+{
+    User * user = [PersistentStore getLastObjectWithType:[User class]];
+    if (user) {
+        return user;
+    }
+    return nil;
+}
 @end

@@ -12,5 +12,10 @@
 #import "Login.h"
 #import "Register.h"
 #import "Address.h"
-
+#import "ParentCategory.h"
+#import "ChildCategory.h"
+#import "Good.h"
+#import "MyOrderList.h"
+#import "GoodListSingleObj.h"
+#import "ShippingType.h"
 #endif

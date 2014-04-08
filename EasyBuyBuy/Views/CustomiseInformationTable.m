@@ -12,7 +12,6 @@
 
 #import "CustomiseInformationTable.h"
 #import "TouchLocationView.h"
-#import "RegionTableViewController.h"
 #import "CustomiseActionSheet.h"
 #import "ImageTableViewCell.h"
 #import "TouchLocationView.h"
@@ -20,6 +19,9 @@
 #import "GlobalMethod.h"
 #import "Macro_Noti.h"
 #import "AppDelegate.h"
+#import "PopupTable.h"
+#import "CustomiseTableTextfield.h"
+#import "Base64.h"
 
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
@@ -43,6 +45,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
+@property (strong ,nonatomic) NSMutableArray * photosStr;
 @property (strong ,nonatomic) NSString * buinessType;
 @property (strong ,nonatomic) NSMutableDictionary * textFieldVector;  //very obviouse ,it is the vector for textfield
 @end
@@ -63,6 +66,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         self.dataSource = self;
         
         _photos = [NSMutableArray array];
+        _photosStr = [NSMutableArray array];
         textFieldVector = [NSMutableDictionary dictionary];
         tableContentInfo = [NSMutableDictionary dictionary];
         
@@ -89,6 +93,8 @@ static NSString * imageCellIdentifier = @"imageCell";
     eliminateTheTextfieldItems = [items mutableCopy];
     _containerView = view;
     popupItemIndex = index;
+    start = range.location;
+    end = range.location + range.length;
     
     for (int i = 0 ;i< [dataSource count]; ++i) {
         NSString * contentTitle  = [dataSource objectAtIndex:i];
@@ -105,7 +111,13 @@ static NSString * imageCellIdentifier = @"imageCell";
         }
         if (isCanAddTextField) {
             //New TextField
-            UITextField * blankCellTextField = [GlobalMethod addTextFieldForCellAtIndex:i withFrame:CGRectMake(textFieldOriginalOffsetX, 0, self.frame.size.width - 150, CellHeigth)];
+            NSInteger width = self.frame.size.width - 150;
+            NSInteger height = CellHeigth;
+            if (i >= start && i<= end) {
+                height = MinerCellHeigth;
+            }
+            
+            CustomiseTableTextfield * blankCellTextField = (CustomiseTableTextfield *)[GlobalMethod addTextFieldForCellAtIndex:i withFrame:CGRectMake(textFieldOriginalOffsetX, 0,width,height)];
             
             blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
             blankCellTextField.delegate = self;
@@ -116,8 +128,8 @@ static NSString * imageCellIdentifier = @"imageCell";
         }
     }
     [tableContentInfo setObject:[self fetchTextFieldContent] forKey:@"TextFieldContent"];
-    [tableContentInfo setObject:@"" forKey:@"BuinessType"];
-    [tableContentInfo setObject:@"" forKey:@"Photos"];
+    [tableContentInfo setObject:@1 forKey:@"BuinessType"];
+    [tableContentInfo setObject:[NSArray array] forKey:@"Photos"];
     
     
     [_containerView addSubview:self];
@@ -129,8 +141,6 @@ static NSString * imageCellIdentifier = @"imageCell";
     locationHelperView = nil;
     
     
-    start = range.location;
-    end = range.location + range.length;
     
     _takeBtnIndex = -1;
 }
@@ -213,8 +223,13 @@ static NSString * imageCellIdentifier = @"imageCell";
     NSMutableArray * tempArray = [NSMutableArray array];
     for (int i =0 ;i < [[textFieldVector allKeys]count]; ++i) {
         NSString * key  = [[textFieldVector allKeys]objectAtIndex:i];
+        NSString * value = @"";
         UITextField * tempTextField = [textFieldVector valueForKey:key];
-        NSDictionary * dic = @{key:tempTextField.text};
+        
+        if ([tempTextField.text length]) {
+            value = tempTextField.text;
+        }
+        NSDictionary * dic = @{key:value};
         [tempArray addObject:dic];
         dic = nil;
     }
@@ -251,13 +266,27 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(void)showPicActionSheet:(id)sender
 {
     //show the action sheet
+    if ([_photos count]>4) {
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"No more than 4 photos" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+        [alertView show];
+        alertView = nil;
+        return;
+    }
     __weak CustomiseInformationTable * weakSelf = self;
     [[PhotoManager shareManager]setConfigureBlock:^(UIImage * image)
      {
          dispatch_async(dispatch_get_main_queue(), ^{
-             [weakSelf.photos addObject:image];
+             NSData * imageData = UIImageJPEGRepresentation(image, 0.7);
+             UIImage * compressImage = [[UIImage alloc]initWithData:imageData];
+             [weakSelf.photos addObject:compressImage];
+             compressImage = nil;
              if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
-                 [tableContentInfo setObject:weakSelf.photos forKey:@"Photos"];
+                 
+                 NSString * imageStr = [imageData base64EncodedString];
+                 [weakSelf.photosStr addObject:imageStr];
+                 imageStr = nil;
+                 
+                 [tableContentInfo setObject:weakSelf.photosStr forKey:@"Photos"];
                  [_tableContentdelegate tableContent:tableContentInfo];
              }
              [weakSelf reloadData];
@@ -349,7 +378,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     @autoreleasepool {
         NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
         if (indexPath.row < start || indexPath.row >end) {
-            if (_takeBtnIndex != -1 && _takeBtnIndex == indexPath.row -2) {
+            if (_takeBtnIndex != -1 && _takeBtnIndex == indexPath.row -1) {
                 return PhotoAreaHeight;
             }
             return CellHeigth;
@@ -372,15 +401,21 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
    
     
-    //ImageCell
-    if (_takeBtnIndex != -1 &&_takeBtnIndex == indexPath.row -2) {
+    //放置用户上传图片
+    if (_takeBtnIndex != -1 &&_takeBtnIndex == indexPath.row -1) {
         return [self addImageCell:indexPath withTable:tableView];
     }
     
     UITableViewCell * cell = [self defaultCell:indexPath forTable:tableView];
+    NSArray * contentSubviews = cell.contentView.subviews;
+    for (UIView * view in contentSubviews) {
+        if ([view isKindOfClass:[CustomiseTableTextfield class]]) {
+            [view removeFromSuperview];
+        }
+    }
     cell.textLabel.text = contentTitle;
     
-    
+    //在start 和 end 范围内的是没有分割线的cell
     if (indexPath.row < start || indexPath.row >end) {
         //Background
         UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, self.frame.size.width, CellHeigth) lastItemNumber:[dataSource count]];
@@ -394,7 +429,7 @@ static NSString * imageCellIdentifier = @"imageCell";
             }
         }
         if (isCanAddTextField) {
-            UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+            CustomiseTableTextfield * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
             if (tempTextField) {
                 [cell.contentView addSubview:tempTextField];
             }
@@ -414,7 +449,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     }else
     {
         //Background
-        UIView * bgImageView = [GlobalMethod configureMinerBgViewWithCell:cell index:indexPath.row-13 withFrame:CGRectMake(0, 0, self.frame.size.width, MinerCellHeigth) lastItemNumber:5];
+        UIView * bgImageView = [GlobalMethod configureMinerBgViewWithCell:cell index:indexPath.row-start withFrame:CGRectMake(0, 0, self.frame.size.width, MinerCellHeigth) lastItemNumber:(end-start+1)];
         [cell setBackgroundView:bgImageView];
         bgImageView = nil;
         
@@ -426,7 +461,7 @@ static NSString * imageCellIdentifier = @"imageCell";
             }
         }
         if (isCanAddTextField) {
-           UITextField * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+           CustomiseTableTextfield * tempTextField = [textFieldVector valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
             if (tempTextField) {
                 [cell.contentView addSubview:tempTextField];
             }
@@ -438,22 +473,23 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //popupItemIndex == -1，表示没有设置弹出
     if (popupItemIndex !=-1 && indexPath.row == 0) {
         __weak CustomiseInformationTable * weakSelf = self;
-        RegionTableViewController * regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+        PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
         NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
         
         [regionTable tableTitle:localizedDic[@"viewControllTitle"] dataSource:localizedDic[@"dataSource"] userDefaultKey:nil];
-        [regionTable setSelectedBlock:^(id object)
+        [regionTable setSelectedBlock:^(id object,NSInteger index)
          {
              NSLog(@"%@",object);
 
              [dataSource replaceObjectAtIndex:popupItemIndex withObject:object];
              [eliminateTheTextfieldItems replaceObjectAtIndex:popupItemIndex withObject:object];
-             [weakSelf setValue:object forKey:@"buinessType"];
+//             [weakSelf setValue:object forKey:@"buinessType"];
              
              if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
-                 [tableContentInfo setObject:object forKey:@"BuinessType"];
+                 [tableContentInfo setObject:[NSNumber numberWithInt:index] forKey:@"BuinessType"];
                  [_tableContentdelegate tableContent:tableContentInfo];
              }
              
@@ -474,8 +510,15 @@ static NSString * imageCellIdentifier = @"imageCell";
             }
         }];
         regionTable = nil;
+    }else
+    {
+        //当点击对应的cell 的时候，相应的TextField 获得相应
+        UITextField * tempTextfield = [textFieldVector valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
+        if (tempTextfield) {
+            [tempTextfield becomeFirstResponder];
+        }
     }
-
+    
 }
 
 #pragma mark - TextField

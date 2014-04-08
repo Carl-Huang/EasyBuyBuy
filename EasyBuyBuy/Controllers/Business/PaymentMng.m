@@ -11,6 +11,8 @@
 // - To use the PayPal sandbox, use PayPalEnvironmentSandbox.
 // - For testing, use PayPalEnvironmentNoNetwork.
 #define kPayPalEnvironment PayPalEnvironmentSandbox
+#define MerchantName        @"Easybuybuy"
+//#define MerchantName        @"vedon.fu-facilitator@gmail.com"
 
 #import "PaymentMng.h"
 #import "PayPalMobile.h"
@@ -39,7 +41,10 @@
     return shareMng;
 }
 
-
+-(void)setPaymentDelegate:(id)object
+{
+    _pPdelegate = object;
+}
 -(void)configurePaymentSetting
 {
     myDelegate = [[UIApplication sharedApplication]delegate];
@@ -50,9 +55,9 @@
         _payPalConfig = [[PayPalConfiguration alloc] init];
         _payPalConfig.acceptCreditCards = YES;
         _payPalConfig.languageOrLocale = @"en";
-        _payPalConfig.merchantName = @"Awesome Shirts, Inc.";
-        _payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/privacy-full"];
-        _payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/useragreement-full"];
+        _payPalConfig.merchantName = MerchantName;
+        _payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"www.baidu.com"];
+        _payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:@"www.baidu.com"];
         
         // Setting the languageOrLocale property is optional.
         //
@@ -75,25 +80,21 @@
 -(void)preConnectToIntenet
 {
     self.environment = kPayPalEnvironment;
+//    @"PayPalEnvironmentProduction" : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP",
+    NSDictionary * paypalMobileEnviroment = @{kPayPalEnvironment : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP"};
+
+    [PayPalMobile initializeWithClientIdsForEnvironments:paypalMobileEnviroment];
     [PayPalMobile preconnectWithEnvironment:self.environment];
 }
 
--(void)paymentWithProduct:(NSArray *)products withDescription:(NSString *)des
+-(void)paymentWithProductsPrice:(NSString *)cost withDescription:(NSString *)des
 {
-    CGFloat amount = 0;
-    for (NSDictionary * product in products) {
-        NSString * price    = [product valueForKey:@"Price"];
-        NSString * number   = [product valueForKey:@"Number"];
-        amount += price.floatValue * number.floatValue;
-        
-    }
-    NSString * amountStr = [NSString stringWithFormat:@"%0.f",amount];
-    
     
     PayPalPayment *payment = [[PayPalPayment alloc] init];
-    payment.amount = [[NSDecimalNumber alloc] initWithString:amountStr];
+    payment.amount = [[NSDecimalNumber alloc] initWithString:cost];
     payment.currencyCode = @"USD";
     payment.shortDescription = des;
+
     
     if (!payment.processable) {
         // This particular payment will always be processable. If, for
@@ -114,6 +115,9 @@
 - (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment {
     NSLog(@"PayPal Payment Success!");
     
+    if ([_pPdelegate respondsToSelector:@selector(paymentMngDidFinish:isSuccess:)]) {
+        [_pPdelegate paymentMngDidFinish:completedPayment isSuccess:YES];
+    }
     
     [self sendCompletedPaymentToServer:completedPayment]; // Payment was processed successfully; send to server for verification and fulfillment
     [lastController dismissViewControllerAnimated:YES completion:nil];
@@ -121,6 +125,9 @@
 
 - (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController {
     NSLog(@"PayPal Payment Canceled");
+    if ([_pPdelegate respondsToSelector:@selector(paymentMngDidCancel)]) {
+        [_pPdelegate paymentMngDidCancel];
+    }
     [lastController dismissViewControllerAnimated:YES completion:nil];
 }
 

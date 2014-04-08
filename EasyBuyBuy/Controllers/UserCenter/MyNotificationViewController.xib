@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyNotificationViewController">
             <connections>
+                <outlet property="containerView" destination="R0X-k4-Dip" id="X9x-BG-Feg"/>
                 <outlet property="contentScrollView" destination="JJW-2v-V3n" id="5Ob-Ra-4fc"/>
                 <outlet property="productNotiBtn" destination="3Ta-xM-f1D" id="tfJ-as-Ojx"/>
                 <outlet property="systemNotiBtn" destination="1iv-Ox-mVn" id="n0O-79-zrB"/>
@@ -50,7 +52,7 @@
                 </view>
                 <view contentMode="scaleToFill" id="R0X-k4-Dip">
                     <rect key="frame" x="0.0" y="45" width="320" height="371"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" id="JJW-2v-V3n">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="371"/>

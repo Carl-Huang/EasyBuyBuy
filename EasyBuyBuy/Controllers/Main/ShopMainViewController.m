@@ -5,8 +5,8 @@
 //  Created by vedon on 24/2/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-#define MainIconWidth 190
-#define MainIconHeight 210
+#define MainIconWidth 250
+#define MainIconHeight 250
 #import "ShopMainViewController.h"
 #import "RegionTableViewController.h"
 #import "LoginViewController.h"
@@ -68,11 +68,11 @@
 #pragma mark - Private Method
 -(void)initializationInterface
 {
-    NSInteger contentIconOffsetY = 60;
+    NSInteger contentIconOffsetY = 30;
     CGSize size = CGSizeMake(320 * 5,400);
     if ([OSHelper iPhone5]) {
         size.height = 488;
-        contentIconOffsetY = 100;
+        contentIconOffsetY = 60;
     }
 
     currentPage = 0 ;
@@ -80,7 +80,7 @@
     page.numberOfPages = 5;
     page.currentPage = currentPage;
     
-    NSArray * images = @[@"Home_Icon_Shop.png",@"Home_Icon_Factory.png",@"Home_Icon_Bidding.png",@"Home_Icon_Purchase.png",@"Home_Icon_Transport.png"];
+    NSArray * images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png"];
     for (int i =0; i < 5; i++) {
         UIImage * image = [UIImage imageNamed:[images objectAtIndex:i]];
         UIImageView * imageView = [[UIImageView alloc]initWithImage:image];
@@ -125,10 +125,14 @@
 {
     switch (tapNumber) {
         case 0:
-            [self gotoShopViewController];
+            //1 : b2c
+            [GlobalMethod setUserDefaultValue:@"1" key:BuinessModel];
+            [self gotoShopViewControllerWithType:@"1"];
             break;
         case 1:
-            [self gotoShopViewController];
+            //2 : b2b
+            [GlobalMethod setUserDefaultValue:@"2" key:BuinessModel];
+            [self gotoShopViewControllerWithType:@"2"];
             break;
         case 2:
             [self gotoSalePromotionViewController];
@@ -143,9 +147,10 @@
             break;
     }
 }
--(void)gotoShopViewController
+-(void)gotoShopViewControllerWithType:(NSString *)type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
+    [viewController setType:type];
     [self push:viewController];
     viewController = nil;
 }
@@ -194,13 +199,14 @@
         regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
     }
     NSArray * regionData = [GlobalMethod getRegionTableData];
-    
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
     
-    [regionTable tableTitle:localizedDic[@"viewControllTitle"] dataSource:regionData userDefaultKey:CurrentRegion];
+    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
+    [regionTable setSelectedBlock:^(id object)
+     {
+         NSLog(@"%@",object);
+     }];
     
-//    [regionTable tableTitle:@"Region" dataSource:regionData
-//             userDefaultKey:CurrentRegion];
     
     regionTable.view.alpha = 0.0;
     [UIView animateWithDuration:0.3 animations:^{
@@ -214,7 +220,7 @@
 - (IBAction)showUserCenter:(id)sender {
     
     User * user = [PersistentStore getFirstObjectWithType:[User class]];
-    if (!user) {
+    if (user) {
         //Already login ,go to usercenter
         UserCenterViewController * viewController = [[UserCenterViewController alloc]initWithNibName:@"UserCenterViewController" bundle:nil];
         [self push:viewController];

@@ -18,7 +18,14 @@
 #import "LanguageViewController.h"
 #import "GlobalMethod.h"
 #import "FontSizeTableViewCell.h"
-
+#import "ShopMainViewController.h"
+#import "AboutUsViewController.h"
+#import "User.h"
+#import "PhotoManager.h"
+#import "CustomiseActionSheet.h"
+#import "MyCarViewController.h"
+#import "Macro.h"
+#import "Base64.h"
 static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 
 
@@ -33,6 +40,8 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     UIView * bottomTableFooterView;
     NSArray * localizedFooterView;
     CGFloat fontSize;
+    
+    NSString * userImageStr;
 }
 @end
 
@@ -78,15 +87,21 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         upperDataSource   = localizedDic [@"upperDataSource"];
         bottomDataSource  = localizedDic [@"bottomDataSource"];
         localizedFooterView = localizedDic [@"localizedFooterView"];
+        [_logoutBtn setTitle:localizedDic [@"logoutBtn"] forState:UIControlStateNormal];
     }
-    userName  = @"Jack";
+    
+    User * user = [PersistentStore getLastObjectWithType:[User class]];
+    if (user) {
+        userName  = user.account;
+    }
+   
 }
 
 -(void)initializationInterface
 {
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoShopMainController)];
     self.title          = viewControllTitle;
-   
+    
     
     _upperTableView.tag = UpperTableTag;
     [_upperTableView setBackgroundView:nil];
@@ -128,8 +143,19 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     }
     _nameLabel.text     = userName;
     _nameLabel.font     = [UIFont systemFontOfSize:fontSize + 4];
+    userImageStr        = @"";
+    
+    NSData * imageData = [[NSUserDefaults standardUserDefaults]objectForKey:UserAvatar];
+    if (imageData) {
+        UIImage * avatar = [[UIImage alloc]initWithData:imageData];
+        [self.userImage setBackgroundImage:avatar forState:UIControlStateNormal];
+    }
 }
 
+-(void)gotoShopMainController
+{
+    [self popToMyViewController:[ShopMainViewController class]];
+}
 
 -(void)changeFontSize:(id)sender
 {
@@ -144,6 +170,24 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     [self.bottomTableView reloadData];
     NSLog(@"%f",slider.value);
 }
+
+-(void)updateUserInfo
+{
+    User * user = [User getUserFromLocal];
+    if (user) {
+        __weak UserCenterViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]updateUserInfoWithParams:@{@"id":user.user_id,@"account":@"",@"phone":@"",@"avatar":userImageStr,@"sex":@""} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }
+    
+}
+
 #pragma mark - UITableView
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -310,6 +354,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
                 [self gotoSecurityViewController];
                 break;
             case 3:
+                [self gotoMyCarViewController];
+                break;
+            case 4:
                 [self gotoMyNotificationViewController];
                 break;
                 
@@ -325,6 +372,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
             break;
         case 1:
             [self gotoLanguageViewController];
+            break;
+        case 2:
+            [self gotoAboutUsViewcontroller];
             break;
         default:
             break;
@@ -364,6 +414,13 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     viewController = nil;
 }
 
+-(void)gotoMyCarViewController
+{
+    MyCarViewController * viewController = [[MyCarViewController alloc]initWithNibName:@"MyCarViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
 -(void)gotoUpgradeViewController
 {
     UpgradeViewController * viewController = [[UpgradeViewController alloc]initWithNibName:@"UpgradeViewController" bundle:nil];
@@ -378,4 +435,57 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     viewController = nil;
 }
 
+-(void)gotoAboutUsViewcontroller
+{
+    AboutUsViewController * viewController = [[AboutUsViewController alloc]initWithNibName:@"AboutUsViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+- (IBAction)logoutAction:(id)sender {
+    
+    User * user = [PersistentStore getLastObjectWithType:[User class]];
+    [PersistentStore deleteObje:user];
+    [[NSUserDefaults standardUserDefaults]setObject:nil forKey:UserAvatar];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    [self popVIewController];
+}
+
+
+- (IBAction)userImageAction:(id)sender {
+    __weak UserCenterViewController * weakSelf = self;
+    [[PhotoManager shareManager]setConfigureBlock:^(UIImage * image)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf.userImage setBackgroundImage:image forState:UIControlStateNormal];
+             NSData * imageData = UIImagePNGRepresentation(image);
+             userImageStr = [imageData base64EncodedString];
+             [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:UserAvatar];
+             [[NSUserDefaults standardUserDefaults]synchronize];
+             
+             [weakSelf updateUserInfo];
+         });
+     }];
+    CustomiseActionSheet * synActionSheet = [[CustomiseActionSheet alloc] init];
+    synActionSheet.titles = [NSArray arrayWithObjects:@"拍照", @"从相册选择",@"取消", nil];
+    synActionSheet.destructiveButtonIndex = -1;
+    synActionSheet.cancelButtonIndex = 2;
+    NSUInteger result = [synActionSheet showInView:self.view];
+    if (result==0) {
+        //拍照
+        NSLog(@"From Camera");
+        [self presentViewController:[PhotoManager shareManager].camera animated:YES completion:nil];
+        
+    }else if(result ==1)
+    {
+        //从相册选择
+        NSLog(@"From Album");
+        [self presentViewController:[PhotoManager shareManager].pickingImageView animated:YES completion:nil];
+        
+    }else
+    {
+        NSLog(@"Cancel");
+    }
+}
 @end

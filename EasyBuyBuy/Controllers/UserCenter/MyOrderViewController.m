@@ -9,11 +9,19 @@
 #import "MyOrderViewController.h"
 #import "MyOrderDetailViewController.h"
 #import "OrderCell.h"
+#import "CheckOrderViewController.h"
+#import "MyOrderList.h"
+#import "User.h"
+
 @interface MyOrderViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
     
     NSArray * dataSource;
+    CGFloat fontSize;
+    
+    NSString * pay;
+    NSString * unpay;
 }
 @end
 
@@ -46,14 +54,37 @@ static NSString * cellIdentifier = @"cell";
 -(void)initializationLocalString
 {
     viewControllTitle = @"My order";
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
+    if (localizedDic) {
+        viewControllTitle = localizedDic [@"viewControllTitle"];
+        pay = localizedDic[@"pay"];
+        unpay = localizedDic[@"unpay"];
+    }
 }
 
 -(void)initializationInterface
 {
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
-    //TODO:Fetch the data from internet
-    dataSource = @[@"1",@"2"];
+    User * user = [User getUserFromLocal];
+    if (user) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        __weak MyOrderViewController * weakSelf = self;
+        [[HttpService sharedInstance]getMyOrderListWithParams:@{@"user_id":user.user_id,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if (object) {
+                dataSource = object;
+                [weakSelf.contentTable reloadData];
+            }
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }
+    
+    
+   
     
     UINib * cellNib = [UINib nibWithNibName:@"OrderCell" bundle:[NSBundle bundleForClass:[OrderCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
@@ -62,9 +93,14 @@ static NSString * cellIdentifier = @"cell";
     }
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    
+    fontSize = [GlobalMethod getDefaultFontSize] * 13;
+    if (fontSize < 0) {
+        fontSize = 13;
+    }
     self.title = viewControllTitle;
 }
+
+
 
 #pragma mark - UITableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -80,7 +116,23 @@ static NSString * cellIdentifier = @"cell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     OrderCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-
+    MyOrderList * object    = [dataSource objectAtIndex:indexPath.row];
+    cell.productName.text   = object.order_number;
+    cell.orderCost.text     = object.total_price;
+    cell.orderTimeStamp.text= object.order_time;
+    if ([object.status isEqualToString:@"1"]) {
+        cell.orderStatus.text = pay;
+    }else
+    {
+        cell.orderStatus.text = unpay;
+    }
+    
+    cell.productName.font   = [UIFont systemFontOfSize:fontSize+2];
+    cell.orderTimeStamp.font= [UIFont systemFontOfSize:fontSize-1];
+    cell.orderStatus.font   = [UIFont systemFontOfSize:fontSize];
+    cell.orderCost.font     = [UIFont systemFontOfSize:fontSize];
+    
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -88,10 +140,35 @@ static NSString * cellIdentifier = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    MyOrderList * orderInfo = [dataSource objectAtIndex:indexPath.row];
+    if ([orderInfo.status isEqualToString:@"1"]) {
+       //付款
+        CheckOrderViewController * viewController = [[CheckOrderViewController alloc]initWithNibName:@"CheckOrderViewController" bundle:nil];
+        [viewController setOrderList:orderInfo];
+        [self push:viewController];
+        viewController = nil;
+    }else
+    {
+        //未付款
+        __weak MyOrderViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getMySpecifyOrderDetailWithParams:@{@"order_id":orderInfo.ID,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if ([object count]) {
+                [weakSelf gotoMyOrderDetailViewControllerWithObj:orderInfo product:object];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+        
+    }
+    
+}
+-(void)gotoMyOrderDetailViewControllerWithObj:(MyOrderList *)orderInfo product:(NSArray * )products
+{
     MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-    [viewController orderDetailWithProduct:dataSource isNewOrder:NO];
+    [viewController orderDetailWithProduct:products isNewOrder:NO orderDetail:orderInfo];
     [self push:viewController];
     viewController = nil;
-    
 }
 @end

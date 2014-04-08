@@ -9,7 +9,10 @@
 #import "ShippingViewController.h"
 #import "CustomiseInformationTable.h"
 #import "TouchLocationView.h"
-@interface ShippingViewController ()<TableContentDataDelegate>
+#import "User.h"
+#import "NSArray+DictionaryObj.h"
+
+@interface ShippingViewController ()<TableContentDataDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     NSArray * dataSource;
@@ -99,6 +102,19 @@
     filledContentInfo = [info copy];
 }
 - (IBAction)publicBtnAction:(id)sender {
+    User * user = [User getUserFromLocal];
+    if (user) {
+        if ([self isCanPublic]) {
+            ;
+        }
+    }else
+    {
+        [self showAlertViewWithMessage:@"Please login first"];
+    }
+}
+
+-(BOOL)isCanPublic
+{
     NSArray * textFieldContent = [filledContentInfo valueForKey:@"TextFieldContent"];
     for (NSString * key in mustFillItems) {
         BOOL isShouldHintUser = YES;
@@ -119,8 +135,81 @@
             NSRange range = NSMakeRange(0, alertText.length);
             [alertText replaceOccurrencesOfString:@":" withString:description options:NSBackwardsSearch range:range];
             [self showAlertViewWithMessage:alertText];
-            return;
+            return NO;
         }
     }
+    return YES;
 }
+
+-(void)publicWithUser:(User *)user
+{
+    NSArray * textFieldContent = [filledContentInfo valueForKey:@"TextFieldContent"];
+    
+    if (![GlobalMethod checkMail:[textFieldContent objectForKey:4]]) {
+        //邮箱格式不正确
+        NSMutableString * alertStr = [NSMutableString stringWithString:[dataSource objectAtIndex:4]];
+        [alertStr replaceOccurrencesOfString:@":" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [alertStr length])];
+        [self showAlertViewWithMessage:[NSString stringWithFormat:@"%@ is wrong",alertStr]];
+        return;
+    }
+    
+    //检查必须为数字的项是否都为数字
+    if (![GlobalMethod isAllNumCharacterInString:[textFieldContent objectForKey:2]]) {
+        NSMutableString * alertStr = [NSMutableString stringWithString:[dataSource objectAtIndex:2]];
+        [alertStr replaceOccurrencesOfString:@":" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [alertStr length])];
+        [self showAlertViewWithMessage:[NSString stringWithFormat:@"%@ is wrong",alertStr]];
+        return;
+    }
+    
+    if (![GlobalMethod isAllNumCharacterInString:[textFieldContent objectForKey:3]]) {
+        NSMutableString * alertStr = [NSMutableString stringWithString:[dataSource objectAtIndex:3]];
+        [alertStr replaceOccurrencesOfString:@":" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [alertStr length])];
+        [self showAlertViewWithMessage:[NSString stringWithFormat:@"%@ is wrong",alertStr]];
+        return;
+    }
+    
+    
+    NSDictionary * params = @{@"user_id"            : user.user_id,
+                              @"last_name"          : [textFieldContent objectForKey:0],
+                              @"first_name"         : [textFieldContent objectForKey:1],
+                              @"telephone"          : [textFieldContent objectForKey:3],
+                              @"phone"              : [textFieldContent objectForKey:2],
+                              @"email"              : [textFieldContent objectForKey:4],
+                              @"company"            : [textFieldContent objectForKey:5],
+                              @"country"            : [textFieldContent objectForKey:6],
+                              @"goods_name"         : [textFieldContent objectForKey:7],
+                              @"shipping_type"      : [textFieldContent objectForKey:8],
+                              @"container"          : [textFieldContent objectForKey:9],
+                              @"quantity"           : [textFieldContent objectForKey:10],
+                              @"shipping_port"      : [textFieldContent objectForKey:11],
+                              @"destination_port"   : [textFieldContent objectForKey:12],
+                              @"wish_shipping_line" : [textFieldContent objectForKey:13],
+                              @"loading_time"       : [textFieldContent objectForKey:14],
+                              @"weight"             : [textFieldContent objectForKey:15],
+                              @"remark"             : [textFieldContent objectForKey:16],
+                              @"document_type"      : [textFieldContent objectForKey:17]
+                              };
+    
+    __weak ShippingViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]publishShippingAgenthWithParams:params completionBlock:^(BOOL isSucess) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (isSucess) {
+            [weakSelf showAlertViewWithMessage:@"Publish Successfully" withDelegate:self tag:1001];
+        }else
+        {
+            [weakSelf showAlertViewWithMessage:@"Publish failed"];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1001) {
+        [self popVIewController];
+    }
+}
+
 @end

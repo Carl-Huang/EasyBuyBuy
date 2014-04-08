@@ -10,9 +10,10 @@
 #import "SecurityCell.h"
 #import "OneWayAlertView.h"
 #import "GlobalMethod.h"
-
+#import "User.h"
+#import "LoginViewController.h"
 static NSString * cellIdentifier        = @"cellIdentifier";
-@interface SecurityViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface SecurityViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     
@@ -94,12 +95,63 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [[UIApplication sharedApplication].keyWindow endEditing:YES];
     NSLog(@"%@",textFieldInfoDic);
     
-    [self showCustomiseAlertViewWithMessage:@"Reset Password Successfully"];
+    //旧密码，新密码
+    NSString * oldPassword = [textFieldInfoDic valueForKey:@"0"];
+    NSString * newPassword = [textFieldInfoDic valueForKey:@"1"];
+    NSString * reEnterPassword = [textFieldInfoDic valueForKey:@"2"];
+    if ([oldPassword length] == 0) {
+        [self showAlertViewWithMessage:@"Old password can not be empty"];
+        return;
+    }
     
+    if ([newPassword length ]==0 || [reEnterPassword length]==0) {
+        [self showAlertViewWithMessage:@"Reset password can not be empty"];
+        return;
+    }
+    
+    
+    User * user = [User getUserFromLocal];
+    if (user) {
+        if ([oldPassword isEqualToString:user.password]) {
+            if ([newPassword isEqualToString:reEnterPassword]) {
+                __weak SecurityViewController * weakSelf = self;
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [[HttpService sharedInstance]modifyUserPwdWithParams:@{@"old_password":oldPassword,@"new_password":newPassword,@"user_id":user.user_id} completionBlock:^(BOOL isSuccess) {
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                    if (isSuccess) {
+                        [self showAlertViewWithMessage:@"Modify password success" withDelegate:weakSelf tag:1001];
+                    }else
+                    {
+                        [self showAlertViewWithMessage:@"Modify password failed"];
+                    }
+                    
+                } failureBlock:^(NSError *error, NSString *responseString) {
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                }];
+                
+                
+//                [self showCustomiseAlertViewWithMessage:@"Reset Password Successfully"];
+            }else
+            {
+                //密码不一致
+                [self showAlertViewWithMessage:@"Reset password is not Consistency"];
+            }
+        }else
+        {
+            //旧密码不对
+            [self showAlertViewWithMessage:@"Invalid old Password"];
+        }
+    }
+
 }
 
 
 #pragma  mark - Table
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50.0f;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [dataSource count];
@@ -141,4 +193,19 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [textFieldInfoDic setObject:textField.text forKey:[NSString stringWithFormat:@"%d",textField.tag]];
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1001) {
+        //
+        User * user = [PersistentStore getLastObjectWithType:[User class]];
+        [PersistentStore deleteObje:user];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{            
+            LoginViewController * viewController = [[LoginViewController alloc]initWithNibName:@"LoginViewController" bundle:nil];
+            [self.navigationController pushViewController:viewController animated:YES];
+            viewController = nil;
+        });
+        
+    }
+}
 @end

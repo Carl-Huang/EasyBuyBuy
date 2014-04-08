@@ -23,6 +23,7 @@
 @property (strong ,nonatomic) NSString * user_id;
 @property (strong ,nonatomic) NSString * name;
 @property (strong ,nonatomic) NSString * phone;
+@property (strong ,nonatomic) NSString * telephone;
 @property (strong ,nonatomic) NSString * zip;
 @property (strong ,nonatomic) NSString * address;
 @property (strong ,nonatomic) NSString * is_default;

@@ -93,10 +93,21 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
+-(void)popToMyViewController:(Class)type
+{
+    NSArray * viewControllers = self.navigationController.viewControllers;
+    for (UIViewController * vc in viewControllers) {
+        if ([vc isKindOfClass:type]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
+}
+
 #pragma mark - Private Methods
 - (void)pushBack
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end

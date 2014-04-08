@@ -5,8 +5,8 @@
 //  Created by vedon on 3/3/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-
-
+#define ALL_NUM_REGYLAR    @"[0-9]{0,}$"
+#define SPECIAL_CHAR   @"[^[`~!@#$^&*()%=| {}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]]{0,}$"
 
 #import "GlobalMethod.h"
 #import "CustomiseTextField.h"
@@ -371,23 +371,68 @@
 {
     NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     
+    return [GlobalMethod getRegionTableDataWithLanguage:language];
+}
+
++(NSArray *)getRegionTableDataWithLanguage:(NSString *)language
+{
     NSArray *dirs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
     NSString *documentsDirectoryPath = [dirs objectAtIndex:0];
     NSString *exportPath = [documentsDirectoryPath stringByAppendingPathComponent:@"RegionTable.plist"];
-     if ([[NSFileManager defaultManager] fileExistsAtPath:exportPath])
-     {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:exportPath])
+    {
         
-         NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
+        NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
         NSMutableArray * array = [NSMutableArray array];
-         for (NSDictionary * dic in regionData) {
-//             NSLog(@"%@",dic);
-             [array addObject:dic[language]];
-         }
-         return array;
-     }else
-     {
-         return [NSMutableArray array];
-     }
+        for (NSDictionary * dic in regionData) {
+            //             NSLog(@"%@",dic);
+            [array addObject:dic[language]];
+        }
+        return array;
+    }else
+    {
+        return [NSMutableArray array];
+    }
+}
+
++(BOOL)isAllNumCharacterInString:(NSString *)modeStr{
+    NSString * regexNum = ALL_NUM_REGYLAR;
+    NSPredicate * predNum = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexNum];
+    BOOL res = [predNum evaluateWithObject:modeStr];
+    
+    return res;
+}
+
++(BOOL)isNoSpecialCharacterInString:(NSString *)modeStr{
+    NSString * regexNum = SPECIAL_CHAR;
+    NSPredicate * predNum = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexNum];
+    BOOL res = [predNum evaluateWithObject:modeStr];
+    
+    return res;
+}
++(BOOL) checkMail:(NSString *) emailtext
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:emailtext];
+}
+
++(NSString *)getCurrentTimeWithFormat:(NSString *)format
+{
+    NSDate * date = [NSDate date];
+    NSDateFormatter * dateFormat = [[NSDateFormatter alloc]init];
+    [dateFormat setDateFormat:format];
+    NSString * currentDateStr = [dateFormat stringFromDate:date];
+    dateFormat = nil;
+    return currentDateStr;
+}
+
++ (NSString*) stringWithUUID {
+    CFUUIDRef    uuidObj = CFUUIDCreate(nil);//create a new UUID
+    //get the string representation of the UUID
+    NSString    *uuidString = (NSString*)CFBridgingRelease(CFUUIDCreateString(nil, uuidObj));
+    CFRelease(uuidObj);
+    return uuidString;
 }
 @end
 

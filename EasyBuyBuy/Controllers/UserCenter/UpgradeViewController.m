@@ -7,7 +7,7 @@
 //
 
 #import "UpgradeViewController.h"
-
+#import "CargoBay.h"
 @interface UpgradeViewController ()
 
 @end
@@ -41,4 +41,25 @@
 - (IBAction)upgradeBtnAction:(id)sender {
     NSLog(@"%s",__func__);
 }
+
+#pragma mark - In app Purchase
+//Product Requests
+-(void)getProduct
+{
+    NSArray *identifiers = @[
+                             @"com.example.myapp.apple",
+                             @"com.example.myapp.pear",
+                             @"com.example.myapp.banana"
+                             ];
+    
+    [[CargoBay sharedManager] productsWithIdentifiers:[NSSet setWithArray:identifiers]
+                                              success:^(NSArray *products, NSArray *invalidIdentifiers) {
+                                                  NSLog(@"Products: %@", products);
+                                                  NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
+                                              } failure:^(NSError *error) {
+                                                  NSLog(@"Error: %@", error);
+                                              }];
+}
+
+
 @end

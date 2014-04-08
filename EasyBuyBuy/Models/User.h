@@ -2,7 +2,7 @@
 //  User.h
 //  EasyBuyBuy
 //
-//  Created by vedon on 24/2/14.
+//  Created by vedon on 7/4/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -12,8 +12,13 @@
 
 @interface User : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * password;
+@property (nonatomic, retain) NSString * account;
 @property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * password;
+@property (nonatomic, retain) NSString * phone;
+@property (nonatomic, retain) NSString * sex;
+@property (nonatomic, retain) NSString * user_id;
+@property (nonatomic, retain) NSString * isVip;
 
++(User *)getUserFromLocal;
 @end

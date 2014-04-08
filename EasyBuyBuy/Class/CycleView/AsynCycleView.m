@@ -9,11 +9,13 @@
 
 #import "AsynCycleView.h"
 #import "CycleScrollView.h"
-
+#import "HttpService.h"
+#import "SDWebImageManager.h"
 //#include <pthread.h>
 
 @interface AsynCycleView()
 {
+    pthread_mutex_t imagesLock;
     CycleScrollView * autoScrollView;
     
     CGRect cycleViewFrame;
@@ -37,7 +39,7 @@
 {
     self = [super init];
     if (self) {
-        _placeHoderImage = [[UIImage alloc]initWithData:UIImagePNGRepresentation(image)];
+        _placeHoderImage = image;
         nPlaceholderImages = numOfPlaceHoderImages;
         cycleViewParentView = parentView;
         cycleViewFrame = rect;
@@ -49,14 +51,12 @@
 -(void)initializationInterface
 {
     __weak AsynCycleView * weakSelf =self;
-
+    
     for (int i =0; i<nPlaceholderImages; ++i) {
         if (placeHolderImages == nil) {
             placeHolderImages = [NSMutableArray array];
         }
         UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
-        [tempImageView setFrame:cycleViewFrame];
-        tempImageView.contentMode = UIViewContentModeScaleAspectFit;
         [placeHolderImages addObject:tempImageView];
         tempImageView = nil;
     }
@@ -82,7 +82,8 @@
     [cycleViewParentView addSubview:autoScrollView];
     cycleViewParentView = nil;
     
-
+    //    pthread_mutex_init(&imagesLock,NULL);
+    
 }
 
 -(void)updateNetworkImagesLink:(NSArray *)links
@@ -100,54 +101,57 @@
 
 -(void)resetThePlaceImages:(NSArray *)links
 {
-    __weak AsynCycleView * weakSelf =self;
-    if ([links count ] > [weakSelf.placeHolderImages count]) {
-        for (int i = [weakSelf.placeHolderImages count]; i < [links count]; i ++) {
-            UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
-            [weakSelf.placeHolderImages addObject:tempImageView];
-            tempImageView = nil;
+    dispatch_async(serialQueue, ^{
+        __weak AsynCycleView * weakSelf =self;
+        if ([links count ] > [weakSelf.placeHolderImages count]) {
+            for (int i = [weakSelf.placeHolderImages count]; i < [links count]; i ++) {
+                UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
+                [weakSelf.placeHolderImages addObject:tempImageView];
+                tempImageView = nil;
+            }
+            
+        }else
+        {
+            for (int i = [weakSelf.placeHolderImages count]; i > [links count]; i --) {
+                [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
+            }
         }
-        
-    }else
-    {
-        for (int i = [links count]; i < [weakSelf.placeHolderImages count]; i ++) {
-            [weakSelf.placeHolderImages removeObjectAtIndex:i];
-        }
-    }
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [weakSelf.placeHolderImages count];
-    };
+        autoScrollView.totalPagesCount = ^NSInteger(void){
+            return [weakSelf.placeHolderImages count];
+        };
+
+    });
 }
 
 -(void)getImage:(NSString *)imgStr withIndex:(NSInteger)index
 {
     __weak AsynCycleView * weakSelf = self;
+    NSURL * url = [NSURL URLWithString:imgStr];
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
     
-//    [[HttpService sharedInstance]getImageWithResourcePath:imgStr completedBlock:^(id object) {
-//        if (object) {
-//            dispatch_async(serialQueue, ^{
-//                if ([object isKindOfClass:[UIImage class]]) {
-//                    //TODO: Is is the thread issue ,replace with another thread ,
-//                    //it will responsed very slowly,what the hell.
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        NSLog(@"replace");
-//                        UIImageView * imageView = nil;
-//                        imageView = [[UIImageView alloc]initWithImage:object];
-//                        if (imageView) {
-//                            [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
-//                            [weakSelf updateAutoScrollViewItem];
-//                        }
-//                        
-//                        imageView = nil;
-//                    });
-//                    
-//                }
-//            });
-//            
-//        }
-//    } failureBlock:^(NSError * error) {
-//        ;
-//    }];
+    [manager downloadWithURL:url options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+        ;
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+    
+        dispatch_async(serialQueue, ^{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"replace");
+                UIImageView * imageView = nil;
+                imageView = [[UIImageView alloc]initWithImage:image];
+                if (imageView) {
+                    
+                    [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
+                    [weakSelf updateAutoScrollViewItem];
+                }
+                imageView = nil;
+            });
+        });
+
+    }];
 }
 
 -(void)updateAutoScrollViewItem
@@ -169,7 +173,6 @@
         [autoScrollView stopTimer];
         autoScrollView = nil;
     }
-    _placeHoderImage = nil;
 }
 
 -(void)cleanAsynCycleView
@@ -178,4 +181,13 @@
     autoScrollView = nil;
 }
 
+-(void)startTimer
+{
+    [autoScrollView startTimer];
+}
+
+-(void)pauseTimer
+{
+    [autoScrollView stopTimer];
+}
 @end

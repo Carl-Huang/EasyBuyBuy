@@ -18,4 +18,6 @@
 -(void)updateNetworkImagesLink:(NSArray *)links;
 
 -(void)cleanAsynCycleView;
+-(void)pauseTimer;
+-(void)startTimer;
 @end

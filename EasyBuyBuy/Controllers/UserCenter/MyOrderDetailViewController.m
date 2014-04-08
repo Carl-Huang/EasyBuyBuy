@@ -9,23 +9,46 @@
 #import "MyOrderDetailViewController.h"
 #import "MyOrderUserInfoTableViewCell.h"
 #import "DefaultDescriptionCellTableViewCell.h"
+#import "SelectedAddressViewController.h"
 #import "ProductListViewController.h"
+#import "OrderProductListViewController.h"
 #import "GlobalMethod.h"
 #import "PaymentMng.h"
+#import "Car.h"
+#import "User.h"
+#import "Address.h"
+#import "PopupTable.h"
+#import "AppDelegate.h"
+#import "RemartCell.h"
+#import "ShippingType.h"
+#import "MyOrderList.h"
 
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
+static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
-@interface MyOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface MyOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource,PaymentMngDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
+    NSString * remartTitle;
+    NSString * remartContent;
+    NSString * pay;
+    NSString * unpay;
     
     NSArray * sectionArray;
     NSMutableArray * dataSource;
     NSArray * sectionOffset;
+    NSArray * shippingTypeData;
     
     NSArray * products;
     CGFloat   fontSize;
+    Address * defaultAddress;
+    AppDelegate * myDelegate;
+    NSMutableDictionary * textFieldVector;
+    
+    
+    NSInteger  selectedExpressIndex;
+    NSString * orderID;
 }
 @end
 
@@ -50,15 +73,15 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    if (_isNewOrder) {
-        [_postOrderView setHidden:NO];
-    }else
-    {
-        [_postOrderView setHidden:YES];
-        CGRect rect = _contentView.frame;
-        rect.size.height += _postOrderView.frame.size.height;
-        _contentView.frame = rect;
-    }
+//    if (_isNewOrder) {
+//        [_postOrderView setHidden:NO];
+//    }else
+//    {
+//        [_postOrderView setHidden:YES];
+//        CGRect rect = _contentView.frame;
+//        rect.size.height += _postOrderView.frame.size.height;
+//        _contentView.frame = rect;
+//    }
     
     [[PaymentMng sharePaymentMng]preConnectToIntenet];
 }
@@ -72,8 +95,7 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 #pragma  mark - Private Method
 -(void)initializationLocalString
 {
-   
-    
+
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
     if (localizedDic) {
@@ -81,7 +103,9 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         dataSource = [NSMutableArray arrayWithArray:[localizedDic valueForKey:@"dataSource"]];
         [_confirmBtn setTitle:localizedDic [@"confirmBtn"] forState:UIControlStateNormal];
         _costDesc.text = localizedDic[@"costDesc"];
-        
+        remartTitle = [localizedDic valueForKey:@"remart"];
+        pay = localizedDic[@"pay"];
+        unpay = localizedDic[@"unpay"];
     }
 
 }
@@ -94,6 +118,11 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
+    if ([OSHelper iPhone5]) {
+        CGRect rect = _contentTable.frame;
+        rect.size.height +=88;
+        _contentTable.frame = rect;
+    }
     [_contentTable setBackgroundView:nil];
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -102,40 +131,300 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     [_contentTable registerNib:cellNib1 forCellReuseIdentifier:userInfoCellIdentifier];
     UINib * cellNib2 = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
     [_contentTable registerNib:cellNib2 forCellReuseIdentifier:descriptioncellIdentifier];
+    UINib * cellNib3 = [UINib nibWithNibName:@"RemartCell" bundle:[NSBundle bundleForClass:[RemartCell class]]];
+    [_contentTable registerNib:cellNib3 forCellReuseIdentifier:remartCellIdentifier];
     
-    sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7"];
-    NSDictionary * userInfo = @{@"name": @"jack",@"tel":@"150183095838",@"address":@"guangzhou,tianhe,futianlu"};
     
     
+    sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6"];
+    User * user = [User getUserFromLocal];
+    __weak MyOrderDetailViewController * weakSelf =self;
+    if (_isNewOrder) {
+        defaultAddress = nil;
+        if (user) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [[HttpService sharedInstance]getDefaultAddressWithParams:@{@"user_id":user.user_id} completionBlock:^(id object) {
+                
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                if (object) {
+                    NSArray * array = object;
+                    if ([array count]) {
+                        [weakSelf updateDataSourceWithUserDefaultAddress:[array objectAtIndex:0]];
+                    }else
+                    {
+                        [weakSelf promptUserToSelectAddress];
+                    }
+                    
+                }
+            } failureBlock:^(NSError *error, NSString *responseString) {
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            }];
+        }
+        CGFloat cost = 0;
+        
+        for (Car * object in products) {
+            cost += object.price.floatValue * object.proCount.integerValue;
+        }
+        _totalPrice.text = [NSString stringWithFormat:@"$%0.2f",cost];
+    }else
+    {
+        if (user) {
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [[HttpService sharedInstance]getAddressDetailWithParams:@{@"id": _orderListDetail.address_id} completionBlock:^(id object) {
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                if ([object count]) {
+                    [weakSelf updateDataSourceWithUserDefaultAddress:[object objectAtIndex:0]];
+                }
+            } failureBlock:^(NSError *error, NSString *responseString) {
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            }];
+        }
+        _totalPrice.text  = _orderListDetail.total_price;
+    }
+    
+    NSDictionary * userInfo = @{@"name":@"",@"phone":@"",@"address":@""};
     [dataSource insertObject:userInfo atIndex:0];
-    sectionOffset = @[@"1",@"1",@"1",@"2",@"2",@"1",@"3"];
-    
+    sectionOffset = @[@"1",@"1",@"1",@"1",@"1",@"3"];
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
+    
+
+   
+
+    selectedExpressIndex = -1;
+    remartContent = @"";
+    myDelegate = [[UIApplication sharedApplication]delegate];
+}
+
+-(void)updateDataSourceWithUserDefaultAddress:(Address *)address
+{
+    defaultAddress = address;
+    [self replaceDefaultAddress];
+}
+
+-(void)replaceDefaultAddress
+{
+    [dataSource replaceObjectAtIndex:0 withObject:defaultAddress];
+    [_contentTable reloadData];
+}
+
+-(void)promptUserToSelectAddress
+{
+    NSDictionary * userInfo = @{@"name":@"Please Seletecd the address",@"phone":@"",@"address":@""};
+    [dataSource replaceObjectAtIndex:0 withObject:userInfo];
+}
+
+
+-(void)gotoSelectedAddressViewController
+{
+    __weak  MyOrderDetailViewController * weakSelf = self;
+    SelectedAddressViewController * viewController = [[SelectedAddressViewController alloc]initWithNibName:@"SelectedAddressViewController" bundle:nil];
+    
+    if (defaultAddress) {
+        [viewController setDefaultAddress:defaultAddress];
+    }else
+    {
+        [viewController setDefaultAddress:nil];
+    }
+    
+    //获取选择的地址，更新数据源
+    [viewController setDefaultAddrssBlock:^(Address * address)
+     {
+         [weakSelf updateDataSourceWithUserDefaultAddress:address];
+     }];
+    
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)configureLastSectionCell:(DefaultDescriptionCellTableViewCell *)cell index:(NSIndexPath *)indexPath
+{
+    
+    
+    if (_isNewOrder) {
+        if (indexPath.row == 0) {
+            //订单状态
+            NSString * status = @"Wait for paying";
+            cell.content.text = status;
+        }else if (indexPath.row == 1)
+        {
+            //订单时间
+            NSString * time = [GlobalMethod getCurrentTimeWithFormat:@"yyyy-MM-dd hh:mm:ss"];
+            cell.content.text = time;
+            
+        }else if (indexPath.row == 2)
+        {
+            //总价钱
+            CGFloat cost = 0;
+            for (Car * object in products) {
+                cost += object.price.floatValue * object.proCount.integerValue;
+            }
+            cell.content.text = [NSString stringWithFormat:@"$%0.2f",cost];
+        }else
+        {
+            //未定义
+        }
+    }else
+    {
+        if (indexPath.row == 0) {
+            //订单状态
+            if ([_orderListDetail.status isEqualToString:@"1"]) {
+                cell.content.text = pay;
+            }else
+            {
+                cell.content.text = unpay;
+            }
+        }else if (indexPath.row == 1)
+        {
+            //订单时间
+            cell.content.text = _orderListDetail.order_time;
+            
+        }else if (indexPath.row == 2)
+        {
+            //总价钱
+            cell.content.text = _orderListDetail.total_price;
+        }else
+        {
+            //未定义
+        }
+    }
+    
+}
+
+-(void)showTheExpressTable
+{
+    __weak MyOrderDetailViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSString * type = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+    if (!type) {
+        for (Car * object in products) {
+            type = object.model;
+            break;
+        }
+    }
+    
+    [[HttpService sharedInstance]getShippingTypeListWithParams:@{@"business_model":type} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([object count]) {
+            [weakSelf showPopupTableWithData:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+    
+   
+}
+
+-(NSMutableArray *)assembleOrderProducts
+{
+    NSMutableArray * tempProducts = [NSMutableArray array];
+    for (Car * object in products) {
+        NSDictionary * dic= @{@"id": object.productID,@"price":object.price,@"amount":object.proCount};
+        
+        [tempProducts addObject:dic];
+    }
+    return tempProducts;
+}
+
+-(void)paying
+{
+    //获取商品的总价格，传到paypal
+    NSString * costStr = nil;
+    if (_isNewOrder) {
+        NSInteger cost = 0;
+        for (Car * object in products) {
+            cost += object.proCount.integerValue * object.price.integerValue;
+        }
+        costStr = [NSString stringWithFormat:@"%d",cost];
+    }else
+    {
+        costStr = _orderListDetail.total_price;
+    }
+    
+    [[PaymentMng sharePaymentMng]paymentWithProductsPrice:costStr withDescription:@"Apple"];
+    [[PaymentMng sharePaymentMng]setPaymentDelegate:self];
+}
+
+-(void)showPopupTableWithData:(NSArray *)data
+{
+    shippingTypeData = data;
+    NSMutableArray * tempData = [NSMutableArray array];
+    for (ShippingType * object in data) {
+        NSString * content = object.name;
+        [tempData addObject:content];
+    }
+    
+    
+    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+      __weak MyOrderDetailViewController * weakSelf = self;
+    [regionTable tableTitle:@"Express" dataSource:tempData userDefaultKey:nil];
+    [regionTable setSelectedBlock:^(id object,NSInteger index)
+     {
+         NSLog(@"%@",object);
+         selectedExpressIndex  = index;
+         [weakSelf.contentTable reloadData];
+     }];
+    
+    regionTable.view.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        regionTable.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        if ([myDelegate.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController * nav =(UINavigationController *) myDelegate.window.rootViewController;
+            UIViewController * lastController = [nav.viewControllers lastObject];
+            [lastController.view addSubview:regionTable.view];
+            [lastController addChildViewController:regionTable];
+        }
+    }];
+    regionTable = nil;
 }
 
 
 #pragma  mark - Public
--(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew
+-(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew orderDetail:(MyOrderList *)orderDetail
 {
+    if (!_isNewOrder) {
+        _orderListDetail = orderDetail;
+    }
     _isNewOrder = isNew;
     products = array;
-    
-    
     [_contentTable reloadData];
 }
 
 
 #pragma mark - Outlet Action
 - (IBAction)submitOrderAction:(id)sender {
-    
-    //Paypal settting
     [[PaymentMng sharePaymentMng]configurePaymentSetting];
     
-//    NSArray * orderProducts = @[@{@"Title":@"Apple",@"Number":@"10",@"Price":@"1.5"}];
-    [[PaymentMng sharePaymentMng]paymentWithProduct:products withDescription:@"Apple"];
+    
+    User * user = [User getUserFromLocal];
+    if (_isNewOrder) {
+        NSMutableArray * orderProducts = [self assembleOrderProducts];
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
+                                                           options:0
+                                                             error:nil];
+        NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        //把订单上传到服务器
+        __weak MyOrderDetailViewController * weakSelf =self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
+         {
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+             orderID = [object valueForKey:@"order_id"];
+             [weakSelf paying];
+         } failureBlock:^(NSError *error, NSString *responseString) {
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+             [self showAlertViewWithMessage:@"Submit order failed"];
+         }];
+        
+    }else
+    {
+        [self paying];
+    }
+   
     
 }
 
@@ -157,6 +446,9 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         case 0:
             return 77;
             break;
+        case 3:
+            return 84;
+            break;
         default:
             return 40;
             break;
@@ -168,25 +460,51 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
     
     if (indexPath.row == 0 && indexPath.section == 0) {
         MyOrderUserInfoTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
-        
-        NSDictionary * userInfo = [dataSource objectAtIndex:0];
-        cell.userName.text      = [userInfo valueForKey:@"name"];
-        cell.phoneNumber.text   = [userInfo valueForKey:@"tel"];
-        cell.address.text       = [userInfo valueForKey:@"address"];
-        
+       
+        id  adress        = [dataSource objectAtIndex:0];
+        cell.userName.text      = [adress valueForKey:@"name"];
+        cell.phoneNumber.text   = [adress valueForKey:@"phone"];
+        cell.address.text       = [adress valueForKey:@"address"];
+
         cell.userName.font      = [UIFont systemFontOfSize:fontSize];
         cell.phoneNumber.font   = [UIFont systemFontOfSize:fontSize];
         cell.address.font       = [UIFont systemFontOfSize:fontSize];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return  cell;
+    }else if(indexPath.section == 3)
+    {
+        RemartCell * cell = [tableView dequeueReusableCellWithIdentifier:remartCellIdentifier];
+        cell.cellTitle.text     = remartTitle;
+        cell.cellTitle.font     = [UIFont systemFontOfSize:fontSize];
+        cell.cellContentView.font = [UIFont systemFontOfSize:fontSize];
+        [cell setRemartBlock:^(NSString * content)
+        {
+            remartContent = content;
+        }];
+        if (!_isNewOrder) {
+            if (![_orderListDetail.remark isEqualToString:@"<null>"]) {
+                cell.cellContentView.text = _orderListDetail.remark;
+            }else
+            {
+                cell.cellContentView.text = @"";
+            }
+            cell.cellContentView.editable = NO;
+        }
+        
+        
+        UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 84)];
+        [cell setBackgroundView:bgView];
+        bgView = nil;
+        
+        return cell;
     }else
     {
         DefaultDescriptionCellTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:descriptioncellIdentifier];
 
         NSString * rowsInSection = [sectionOffset objectAtIndex:indexPath.section];
-        NSInteger offset = indexPath.row+1;
-        for (int i = 1 ; i < indexPath.section; ++i) {
+        NSInteger offset = indexPath.row;
+        for (int i = 0 ; i < indexPath.section; ++i) {
             NSString * str  = [sectionOffset objectAtIndex:i];
             offset +=str.integerValue;
         }
@@ -203,20 +521,37 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
         }
         
         cell.contentTitle.text  = [dataSource objectAtIndex:offset];
-        cell.content.text = @"test";
         
-        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
-        cell.content.font       = [UIFont systemFontOfSize:fontSize];
-        
-        if (indexPath.section == 5) {
+        if (indexPath.section == 2) {
+            if (_isNewOrder) {
+                if ([shippingTypeData count]) {
+                    ShippingType * shippingType = [shippingTypeData objectAtIndex:selectedExpressIndex];
+                    cell.content.text = shippingType.name;
+                }
+            }else
+            {
+                cell.content.text = _orderListDetail.shipping_type;
+            }
+           
+        }
+        if (indexPath.section == 4) {
             cell.content.text = @"";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }else
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+        if (indexPath.section ==1) {
+            cell.content.text = @"Paypal";
+        }
+        if (indexPath.section == [sectionArray count]-1) {
+            [self configureLastSectionCell:cell index:indexPath];
+        }
         
         
+        
+        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
+        cell.content.font       = [UIFont systemFontOfSize:fontSize];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -225,13 +560,105 @@ static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 5) {
-        //
-        ProductListViewController * viewController = [[ProductListViewController alloc]initWithNibName:@"ProductListViewController" bundle:nil];
-        [viewController setProducts:products];
+    if (indexPath.row == 0 && indexPath.section == 0)
+    {
+        //选择地址
+        if (_isNewOrder) {
+            [self gotoSelectedAddressViewController];
+        }
+    }
+    
+    if (indexPath.section == 4) {
+        if (_isNewOrder) {
+            //The object in products is Car object;check the car class definition
+            ProductListViewController * viewController = [[ProductListViewController alloc]initWithNibName:@"ProductListViewController" bundle:nil];
+            [viewController setProducts:products];
+            [self push:viewController];
+            viewController = nil;
+        }else
+        {
+            OrderProductListViewController * viewController = [[OrderProductListViewController alloc]initWithNibName:@"OrderProductListViewController" bundle:nil];
+            [viewController setProducts:products];
+            [self push:viewController];
+            viewController = nil;
+        }
         
-        [self push:viewController];
-        viewController = nil;
+    }
+    
+    if (indexPath.section == 2) {
+        if (_isNewOrder) {
+            [self showTheExpressTable];
+        }
     }
 }
+
+#pragma mark - PaymentDelegate
+-(void)paymentMngDidFinish:(PayPalPayment *)proof isSuccess:(BOOL)isSuccess
+{
+    if (isSuccess) {
+        NSLog(@"%@",proof);
+        NSString * _orderID = nil;
+        if (_isNewOrder) {
+            for (Car * object in products) {
+                [PersistentStore deleteObje:object];
+            }
+            _orderID = orderID;
+        }else
+        {
+            _orderID = _orderListDetail.ID;
+        }
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        __weak MyOrderDetailViewController * weakSelf =self;
+        [[HttpService sharedInstance]updateOrderStatusWithParams:@{@"id":_orderID,@"status":@"1"} completionBlock:^(BOOL isSuccess) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if (isSuccess) {
+                [self showAlertViewWithMessage:@"Successfully" withDelegate:self tag:1001];
+            }else
+            {
+                [self showAlertViewWithMessage:@"Pay failed"];
+            }
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+
+    }
+}
+
+-(void)paymentMngDidCancel
+{
+    NSLog(@"payment is cancel");
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1001) {
+        [self popToRoot];
+    }
+}
+//payment proof
+/*
+ CurrencyCode: USD
+ Amount: 192
+ Short Description: Apple
+ Intent: sale
+ Processable: Already processed
+ Display: $192.00
+ Confirmation: {
+ client =     {
+ environment = sandbox;
+ "paypal_sdk_version" = "2.0.1";
+ platform = iOS;
+ "product_name" = "PayPal iOS SDK";
+ };
+ response =     {
+ "create_time" = "2014-04-03T13:13:11Z";
+ id = "PAY-8VD6608501909800TKM6V4ZY";
+ intent = sale;
+ state = pending;
+ };
+ "response_type" = payment;
+ }
+ */
 @end

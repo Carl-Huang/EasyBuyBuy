@@ -84,6 +84,22 @@
     }
 }
 
+#pragma mark -  OrderProductListViewController
+-(NSDictionary *)OrderProductListViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Shop"};
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"商店"};
+    }else
+    {
+        return @{@"viewControllTitle": @"دكان صغير"};
+    }
+}
+
 
 #pragma mark -  ProductDetailViewControllerViewController
 
@@ -156,21 +172,24 @@
     if ([language isEqualToString:@"English"])
     {
         return @{@"viewControllTitle": @"UserCenter"
-                 ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My notification"]
-                 ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@""]
-                 ,@"localizedFooterView":@[@"Font",@"Small",@"Middle",@"Big"]};
+                 ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My Shopping Car",@"My notification"]
+                 ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@"About us",@""]
+                 ,@"localizedFooterView":@[@"Font",@"Small",@"Middle",@"Big"],
+                 @"logoutBtn":@"Logout"};
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{@"viewControllTitle": @"用户中心"
-                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的通知"]
-                 ,@"bottomDataSource":@[@"账号升级",@"语言",@""]
-                 ,@"localizedFooterView":@[@"字体",@"小",@"中",@"大"]};
+                 ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的购物车",@"我的通知"]
+                 ,@"bottomDataSource":@[@"账号升级",@"语言",@"关于我们",@""]
+                 ,@"localizedFooterView":@[@"字体",@"小",@"中",@"大"],
+                 @"logoutBtn":@"退出"};
     }else
     {
         return @{@"viewControllTitle": @"مركز المستعمل"
-                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات"]
-                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@""]
-                 ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"]};
+                 ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات",@"سلة التسوق"]
+                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@"من نحن ",@""]
+                 ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"],
+                 @"logoutBtn":@"تسجيل الخروج"};
     }
 }
 
@@ -285,7 +304,7 @@
                          @"*Country Name:",
                          @"*Name Of Goods:",
                          @"*Shipping Type Sea/Air",
-                         @"20GP/40GP/40HQ/45HQ CONTAINER:",
+                         @"CONTAINER:",
                          @"*QUANTITY /CBM:",
                          @"*PORT OF THE SHIPPING",
                          @"*PORT OF DESTINATION",
@@ -309,7 +328,7 @@
                          @"*国家名字:",
                          @"*货品名字:",
                          @"*运输类型/海运/空运:",
-                         @"20GP/40GP/40HQ/45HQ集装箱:",
+                         @"集装箱:",
                          @"*数量/立方米:",
                          @"*装船港:",
                          @"*目的港:",
@@ -321,8 +340,8 @@
                  };
     }else
     {
-        return @{@"viewControllTitle": @"Shipping Agency"
-                 ,@"publicBtn":@"提交"
+        return @{@"viewControllTitle": @"والنقل"
+                 ,@"publicBtn":@"عرض"
                  ,@"dataSource":@[
                          @"*الاسم الأخير",
                          @"*الاسم الأول",
@@ -333,11 +352,11 @@
                          @"*اسم البلد",
                          @"*اسم المنتج",
                          @"*نوع الشحن / البحري / الجوي",
-                         @"20GP/40GP/40HQ/45HQ حاويات",
+                        @"حجم الحاويات",
                          @"*الكمية / CBM",
                          @"*ميناء الشحن من",
                          @"* آلي ميناء المقصد",
-                         @"الاسم المفضل شحن خط",
+                         @"أسم الخط الملاحي المفضل",
                          @" الوقت التحميل",
                          @"الوزن / كيلو / طن",
                          @"ملاحظة",
@@ -363,7 +382,6 @@
                                   @"*Tel Number:",
                                   @"*Mobile Number:",
                                   @"*Email:",
-                                  @"{PRODUCT DATA}",   //9
                                   @"*Photo of product",//10
                                   @"Photo",            //To specify the photo area
                                   @"*Name Of Goods:",
@@ -378,7 +396,7 @@
                                   @"NAME OF MATERIAL:",
                                   @"Weight/KG/G:",
                                   @"Remark:"]
-                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"{PRODUCT DATA}",@"*Photo of product",@"Size",@"Photo"]
+                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"*Photo of product",@"Size",@"Photo"]
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -393,7 +411,6 @@
                                   @"*电话号码:",
                                   @"*手机号码:",
                                   @"*邮件:",
-                                  @"{货物信息}",   //9
                                   @"*产品图片",//10
                                   @"Photo",            //To specify the photo area
                                   @"*商品名称:",
@@ -408,7 +425,7 @@
                                   @"材料名称:",
                                   @"重量/公斤/克:",
                                   @"备注:"]
-                 ,@"eliminateTheTextfieldItems":@[@"*出售或购买:",@"{货物信息}",@"*产品图片",@"尺寸",@"Photo"]
+                 ,@"eliminateTheTextfieldItems":@[@"*出售或购买:",@"*产品图片",@"尺寸",@"Photo"]
                  };
     }else
     {
@@ -424,22 +441,21 @@
                                   @"*رقم  الهاتف",
                                   @"*رقم الجوال",
                                   @"*البريد الإلكتروني",
-                                  @"{PRODUCT DATA}",
                                   @"*صورة المنتج",
                                   @"Photo",            //To specify the photo area
                                   @"*اسم المنتج",
                                   @"حجم",
                                   @"طول",
                                   @"عرض",
-                                  @"HEIGTH:",
+                                  @"ارتفاع",
                                   @"سمك",
                                   @"لون",
-                                  @"المستخدمة في",
+                                  @"هذه المنتج يستخدم في",
                                   @"*الكمية  المتاحة",
                                   @"اسم المادة",
                                   @"الوزن : (كيلو / طن)",
                                   @"ملاحظة"]
-                 ,@"eliminateTheTextfieldItems":@[@"*السهل شراء أو بيع",@"{PRODUCT DATA}",@"*صورة المنتج",@"حجم",@"Photo"]
+                 ,@"eliminateTheTextfieldItems":@[@"*السهل شراء أو بيع",@"*صورة المنتج",@"حجم",@"Photo"]
                  };
     }
 }
@@ -452,19 +468,47 @@
     {
         return @{
                  @"viewControllTitle": @"Sale or Purchase ",
-                 @"dataSource":@[@"Sale",@"Purchase"]
+                 @"dataSource":@[@"Sale",@"Purchase"],
+                 @"Region":@"Region"
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{
                  @"viewControllTitle": @"买或卖 ",
-                 @"dataSource":@[@"卖",@"买"]
+                 @"dataSource":@[@"卖",@"买"],
+                 @"Region":@"地区"
                  };
     }else
     {
         return @{
                  @"viewControllTitle": @"بيع أو شراء ",
-                 @"dataSource":@[@"بيع ",@"أو شراء"]
+                 @"dataSource":@[@"بيع ",@"أو شراء"],
+                 @"Region":@"منطقة"
+                 };
+    }
+}
+
+#pragma mark - PopupTable
+-(NSDictionary *)PopupTableLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Sale or Purchase ",
+                 @"dataSource":@[@"Sale",@"Purchase"],
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"买或卖 ",
+                 @"dataSource":@[@"卖",@"买"],
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"بيع أو شراء ",
+                 @"dataSource":@[@"بيع ",@"أو شراء"],
                  };
     }
 }
@@ -535,7 +579,10 @@
                  @"viewControllTitle": @"Order details",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
-                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"",@"Price:",@"Freight:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"]
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"remart":@"Leave a message",
+                 @"pay":@"paid",
+                 @"unpay":@"unpaid"
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -543,7 +590,10 @@
                  @"viewControllTitle": @"订单详情",
                  @"confirmBtn":@"确定",
                  @"costDesc":@"总价:",
-                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"",@"价钱:",@"运费:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"]
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"remart":@"留言",
+                 @"pay":@"已付款",
+                 @"unpay":@"未付款"
                  };
     }else
     {
@@ -551,7 +601,190 @@
                  @"viewControllTitle": @"تفاصيل الطلب",
                  @"confirmBtn":@"أكد الطلب",
                  @"costDesc":@"السعر الإجمالي",
-                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"",@"سعر",@"شحن",@"قائمة المنتجات",@"حالة الطلب",@"وقت الطلب",@"السعر الإجمالي"]
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"remart":@"ترك رسالة",
+                 @"pay":@"مدفوع ",
+                 @"unpay":@"غير مدفوع"
+                 };
+    }
+}
+
+#pragma  mark - MyOrderViewController
+-(NSDictionary *)MyOrderViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Order details",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"remart":@"Leave a message",
+                 @"pay":@"paid",
+                 @"unpay":@"unpaid"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"订单详情",
+                 @"confirmBtn":@"确定",
+                 @"costDesc":@"总价:",
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"remart":@"留言",
+                 @"pay":@"已付款",
+                 @"unpay":@"未付款"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تفاصيل الطلب",
+                 @"confirmBtn":@"أكد الطلب",
+                 @"costDesc":@"السعر الإجمالي",
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"remart":@"ترك رسالة",
+                 @"pay":@"مدفوع ",
+                 @"unpay":@"غير مدفوع"
+                 };
+    }
+}
+
+#pragma  mark - CheckOrderViewController
+-(NSDictionary *)CheckOrderViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Order details",
+                 @"confirmBtn":@"Confirm",
+                 @"costDesc":@"Total Cost:",
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"remart":@"Leave a message",
+                 @"pay":@"paid",
+                 @"unpay":@"unpaid"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"订单详情",
+                 @"confirmBtn":@"确定",
+                 @"costDesc":@"总价:",
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"remart":@"留言",
+                 @"pay":@"已付款",
+                 @"unpay":@"未付款"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تفاصيل الطلب",
+                 @"confirmBtn":@"أكد الطلب",
+                 @"costDesc":@"السعر الإجمالي",
+                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"remart":@"ترك رسالة",
+                 @"pay":@"مدفوع ",
+                 @"unpay":@"غير مدفوع"
+                 };
+    }
+}
+
+
+#pragma mark - LoginViewController
+-(NSDictionary *)LoginViewControllerLanguage
+{
+    /*
+     usernameTitle       = @"Username";
+     passwordTitle       = @"Password";
+     loginBtnTitle       = @"Login";
+     registerBtnTitle    = @"Register Here";
+     */
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Login",
+                 @"usernameTitle":@"Username:",
+                 @"loginBtnTitle":@"Login",
+                 @"registerBtnTitle":@"Register",
+                 @"passwordTitle":@"Password"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"登陆",
+                 @"usernameTitle":@"用户名:",
+                 @"loginBtnTitle":@"登陆",
+                 @"registerBtnTitle":@"注册",
+                 @"passwordTitle":@"密码:"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"دخول",
+                 @"usernameTitle":@"اسم المستخدم",
+                 @"loginBtnTitle":@"دخول",
+                 @"registerBtnTitle":@"تسجيل",
+                 @"passwordTitle":@"كلمة السر"
+                 };
+    }
+}
+
+#pragma mark - RegisterViewController
+-(NSDictionary *)RegisterViewControllerLanguage
+{
+
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"Register",
+                 @"usernameTitle":@"Username:",
+                 @"confirmPasswordTitle":@"Confirm Password",
+                 @"emailTitle":@"Email:",
+                 @"passwordTitle":@"Password:",
+                 @"registerTitle":@"Register"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"注册",
+                 @"usernameTitle":@"用户名:",
+                 @"confirmPasswordTitle":@"确认密码:",
+                 @"emailTitle":@"邮箱:",
+                 @"passwordTitle":@"密码:",
+                 @"registerTitle":@"注册"
+                 };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"تسجيل",
+                 @"usernameTitle":@"اسم المستخدم",
+                 @"confirmPasswordTitle":@"تأكيد كلمة المرور",
+                 @"emailTitle":@"البريد الإلكتروني",
+                 @"passwordTitle":@"كلمة السر",
+                 @"registerTitle":@"تسجيل"
+                 };
+    }
+}
+
+#pragma mark - AboutUsViewController
+
+-(NSDictionary *)AboutUsViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{
+                 @"viewControllTitle": @"About us"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{
+                 @"viewControllTitle": @"关于我们"
+                };
+    }else
+    {
+        return @{
+                 @"viewControllTitle": @"关于我们"
                  };
     }
 }
