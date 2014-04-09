@@ -12,9 +12,12 @@
 #import "GlobalMethod.h"
 #import "AppDelegate.h"
 #import "BiddingCell.h"
-
-
-
+#import "ChildCategory.h"
+#import "BiddingInfo.h"
+#import "AsynCycleView.h"
+#import "BiddingClient.h"
+#import "UIImageView+AFNetworking.h"
+#import "Good.h"
 static NSString * firstSectionCellIdentifier  = @"firstSectionCell";
 static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 @interface SalePromotionItemViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -24,12 +27,14 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     
     NSArray * firstSectionDataSource;
     NSArray * secondSectionDataSource;
-    CycleScrollView  * autoScrollView;
+    AsynCycleView  * autoScrollView;
     BiddingPopupView * biddingView;
     AppDelegate      * myDelegate;
     
     CGFloat priceFontSize;
     CGFloat desFontSize;
+    
+    BiddingInfo * biddingInfo;
 }
 @end
 
@@ -57,13 +62,26 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    [autoScrollView pauseTimer];
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [autoScrollView startTimer];
+}
+-(void)dealloc
+{
+    [autoScrollView cleanAsynCycleView];
+}
 
 
 #pragma mark - Private
 -(void)initializationLocalString
 {
-    viewControllTitle = @"Shop";
     
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
@@ -71,6 +89,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         firstSectionDataSource = localizedDic [@"firstSectionDataSource"];
         [_biddingBtn setTitle:localizedDic [@"_biddingBtn"]forState:UIControlStateNormal];
         biddingViewInfo = localizedDic[@"biddingView"];
+        viewControllTitle = localizedDic[@"viewControllTitle"];
     }
 }
 
@@ -91,74 +110,76 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     [_contentTable setBackgroundView:nil];
 
     
-    secondSectionDataSource = @[@"1",@"2",@"2"];
-    
-    
-    
     //autoScrollview configuration
     CGRect rect = _productBorswerContanier.bounds;
-    autoScrollView = [[CycleScrollView alloc] initWithFrame:rect animationDuration:2];
-    autoScrollView.backgroundColor = [UIColor clearColor];
-    //Use the place holder image
-    if ([_productImages count] == 0) {
-        _productImages = @[[UIImage imageNamed:@"tempTest.png"]];
-    }
-    NSMutableArray * images = [NSMutableArray array];
-    //UIImageView covert the image
-    for (UIImage * image in _productImages) {
-        UIImageView * tempImageView = [[UIImageView alloc]initWithImage:image];
-        [tempImageView setFrame:rect];
-        [images addObject:tempImageView];
-        tempImageView = nil;
-    }
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return images[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [images count];
-    };
-    autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        NSLog(@"点击了第%ld个",(long)pageIndex);
-    };
-    [_productBorswerContanier addSubview:autoScrollView];
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:3 addTo:_productBorswerContanier];
+    [autoScrollView initializationInterface];
+
     
     biddingView = nil;
-    
     BiddingCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"BiddingCell" owner:self options:nil]objectAtIndex:0];
     
     priceFontSize = cell.biddingPrice.font.pointSize * [GlobalMethod getDefaultFontSize];
     desFontSize = cell.biddingDesc.font.pointSize * [GlobalMethod getDefaultFontSize];
+    
+    __weak SalePromotionItemViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]getBiddingGoodWithParams:@{@"c_cate_id": _object.ID,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (object) {
+            biddingInfo = object;
+            //1）更新商品图片
+            [weakSelf getGoodImages];
+            //2)刷新Content
+            [weakSelf updateContent];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
 
+    
+}
+
+-(void)updateContent
+{
+    secondSectionDataSource = biddingInfo.biddingClients;
+    [self.contentTable reloadData];
+}
+
+-(void)getGoodImages
+{
+    NSArray * images = biddingInfo.good.image;
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    
+    for (NSDictionary * imageInfo in images) {
+        [imagesLink addObject:[imageInfo valueForKey:@"image"]];
+    }
+    if ([imagesLink count]) {
+        [autoScrollView updateNetworkImagesLink:imagesLink];
+    }
 }
 
 -(void)configureClickActionOnFirstSection:(NSIndexPath *)index
 {
-    
     if (index.row == 1) {
-        
         [self gotoProductDetailViewControllerViewController];
     }
 }
 
 -(void)gotoProductDetailViewControllerViewController
 {
+  
+    Good * good = nil;
+    good = (Good *)biddingInfo.good;
+    
     ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    viewController.title = biddingInfo.good.name;
+    [viewController setGood:good];
     [viewController setIsShouldShowShoppingCar:NO];
     [self.navigationController pushViewController:viewController animated:YES];
     viewController = nil;
 }
 
--(void)updateAutoScrollViewItem:(NSArray *)images
-{
-
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return images[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [images count];
-    };
-
-}
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -208,11 +229,15 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
             bgImageView = nil;
             bgImageView = nil;
         }
-        
+
         if (indexPath.row == 1) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.text = [firstSectionDataSource objectAtIndex:indexPath.row];
         }else
         {
+            cell.textLabel.text = [firstSectionDataSource objectAtIndex:indexPath.row];
+            NSString * desStr = [NSString stringWithFormat:@"%@ %@",cell.textLabel.text,biddingInfo.good.name];
+            cell.textLabel.text = desStr;
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
@@ -220,7 +245,6 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         //Font attributed
         [cell.textLabel setFont:[UIFont systemFontOfSize:13 * [GlobalMethod getDefaultFontSize]]];
         [cell.textLabel setTextColor:[UIColor darkGrayColor]];
-        cell.textLabel.text = [firstSectionDataSource objectAtIndex:indexPath.row];
         [cell setBackgroundColor:[UIColor clearColor]];
         cell.selectionStyle = UITableViewCellSeparatorStyleNone;
         return cell;
@@ -228,6 +252,16 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     {
         //New Cell
         BiddingCell * cell = [tableView dequeueReusableCellWithIdentifier:secondSectionCellIdentifier];
+        BiddingClient * client = [secondSectionDataSource objectAtIndex:indexPath.row];
+        
+        cell.biddingPrice.text = client.price;
+        cell.biddingDesc.text  = client.remark;
+        
+        NSURL * imageURL = [NSURL URLWithString:client.avatar];
+        if (imageURL) {
+            [cell.userImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
+        }
+
         
         cell.biddingDesc.font = [UIFont systemFontOfSize:desFontSize * [GlobalMethod getDefaultFontSize]];
         cell.biddingPrice.font = [UIFont systemFontOfSize:priceFontSize * [GlobalMethod getDefaultFontSize]];

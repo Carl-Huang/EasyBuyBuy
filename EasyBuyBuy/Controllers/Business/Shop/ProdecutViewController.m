@@ -14,6 +14,7 @@
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 #import "User.h"
+#import "SalePromotionItemViewController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
@@ -129,6 +130,16 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)gotoProductBroswerViewControllerWithObj:(ChildCategory *)object
 {
     ProductBroswerViewController * viewController = [[ProductBroswerViewController alloc]initWithNibName:@"ProductBroswerViewController" bundle:nil];
+    viewController.title = object.name;
+    [viewController setObject:object];
+    [self push:viewController];
+    viewController = nil;
+}
+
+//竞价
+-(void)gotoSalePromotionItemViewControllerWithObj:(ChildCategory *)object
+{
+    SalePromotionItemViewController * viewController = [[SalePromotionItemViewController alloc]initWithNibName:@"SalePromotionItemViewController" bundle:nil];
     viewController.title = object.name;
     [viewController setObject:object];
     [self push:viewController];
@@ -257,7 +268,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
 
-    [self gotoProductBroswerViewControllerWithObj:object];
+    //获取当前的模式类型
+    NSString * type = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+    if ([type isEqualToString:@"bidding"]) {
+        [self gotoSalePromotionItemViewControllerWithObj:object];
+    }else
+    {
+        [self gotoProductBroswerViewControllerWithObj:object];
+    }
+    
 }
 
 #pragma mark - FooterView

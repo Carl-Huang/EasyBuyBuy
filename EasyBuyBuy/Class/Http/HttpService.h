@@ -33,6 +33,7 @@
 #define order_goods_list            @"order_goods_list"
 #define shipping_type_list          @"shipping_type_list"
 #define address_detail              @"address_detail"
+#define get_bidding_goods           @"get_bidding_goods"
 
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
@@ -289,4 +290,13 @@
  * @param  id   地址ID
  */
 -(void)getAddressDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取竞价商品
+ *
+ * @param  c_cate_id   子分类ID
+ * @param  page
+ * @param  pageSize
+ */
+-(void)getBiddingGoodWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

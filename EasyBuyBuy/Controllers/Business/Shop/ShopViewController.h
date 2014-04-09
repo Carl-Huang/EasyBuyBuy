@@ -12,4 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @property (strong ,nonatomic) NSString * type;
+
+-(void)setShopViewControllerModel:(NSString *)type;
 @end

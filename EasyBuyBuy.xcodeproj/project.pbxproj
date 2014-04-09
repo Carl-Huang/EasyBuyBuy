@@ -103,6 +103,9 @@
 		4EB4229518F50F6F00DF2053 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4229418F50F6F00DF2053 /* logo.png */; };
 		4EB422F118F51E6900DF2053 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */; };
 		4EB422F218F51E6900DF2053 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB422F018F51E6900DF2053 /* SearchResultViewController.xib */; };
+		4EB422F518F5301F00DF2053 /* BiddingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422F418F5301F00DF2053 /* BiddingInfo.m */; };
+		4EB422F818F5313F00DF2053 /* BiddingGood.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422F718F5313F00DF2053 /* BiddingGood.m */; };
+		4EB422FB18F5314800DF2053 /* BiddingClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422FA18F5314800DF2053 /* BiddingClient.m */; };
 		4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */; };
 		4EB46AF318E7D2A5008F8BED /* SelectedAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */; };
 		4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5674118C44656006B680A /* BottomCell@2x.png */; };
@@ -413,6 +416,12 @@
 		4EB422EE18F51E6900DF2053 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		4EB422F018F51E6900DF2053 /* SearchResultViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultViewController.xib; sourceTree = "<group>"; };
+		4EB422F318F5301F00DF2053 /* BiddingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiddingInfo.h; sourceTree = "<group>"; };
+		4EB422F418F5301F00DF2053 /* BiddingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiddingInfo.m; sourceTree = "<group>"; };
+		4EB422F618F5313F00DF2053 /* BiddingGood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiddingGood.h; sourceTree = "<group>"; };
+		4EB422F718F5313F00DF2053 /* BiddingGood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiddingGood.m; sourceTree = "<group>"; };
+		4EB422F918F5314800DF2053 /* BiddingClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiddingClient.h; sourceTree = "<group>"; };
+		4EB422FA18F5314800DF2053 /* BiddingClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiddingClient.m; sourceTree = "<group>"; };
 		4EB46AEF18E7D2A5008F8BED /* SelectedAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressViewController.h; sourceTree = "<group>"; };
 		4EB46AF018E7D2A5008F8BED /* SelectedAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressViewController.m; sourceTree = "<group>"; };
 		4EB46AF118E7D2A5008F8BED /* SelectedAddressViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressViewController.xib; sourceTree = "<group>"; };
@@ -938,6 +947,12 @@
 				4EAD1DA218F0DBEF009B3AD0 /* GoodListSingleObj.m */,
 				4EB8FF4E18F2D54300A13709 /* ShippingType.h */,
 				4EB8FF4F18F2D54300A13709 /* ShippingType.m */,
+				4EB422F318F5301F00DF2053 /* BiddingInfo.h */,
+				4EB422F418F5301F00DF2053 /* BiddingInfo.m */,
+				4EB422F618F5313F00DF2053 /* BiddingGood.h */,
+				4EB422F718F5313F00DF2053 /* BiddingGood.m */,
+				4EB422F918F5314800DF2053 /* BiddingClient.h */,
+				4EB422FA18F5314800DF2053 /* BiddingClient.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1656,11 +1671,13 @@
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
 				4EECE1BA18F26F7A00FF412C /* User.m in Sources */,
+				4EB422F818F5313F00DF2053 /* BiddingGood.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
 				4EC207B218C57754003708D6 /* UIColor+Utils.m in Sources */,
 				4EAF48A918BB77870038575F /* LoginViewController.m in Sources */,
 				4EBC497718E9B1FE00481F8E /* Good.m in Sources */,
 				4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */,
+				4EB422F518F5301F00DF2053 /* BiddingInfo.m in Sources */,
 				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */,
@@ -1708,6 +1725,7 @@
 				4EAC790E18C4BB870022ECDD /* CarView.m in Sources */,
 				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
 				4EB5FFB618BC3FFB0064B22C /* AddressCell.m in Sources */,
+				4EB422FB18F5314800DF2053 /* BiddingClient.m in Sources */,
 				4EC90BAD18E40ECA007969F5 /* NSTimer+Addition.m in Sources */,
 				4EC90BB218E40ECA007969F5 /* PersistentStore.m in Sources */,
 				4EB335BA18D7444F0012EA06 /* ImageTableViewCell.m in Sources */,

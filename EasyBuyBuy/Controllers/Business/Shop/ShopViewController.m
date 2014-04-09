@@ -99,6 +99,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     pageSize = 10;
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -110,7 +111,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
-
 
 }
 
@@ -172,8 +172,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
-    
-    
+}
+
+-(void)setShopViewControllerModel:(NSString *)type
+{
+    _type = type;
 }
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

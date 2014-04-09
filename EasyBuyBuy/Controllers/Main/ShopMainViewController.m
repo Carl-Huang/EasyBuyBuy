@@ -137,7 +137,9 @@
             [self gotoShopViewControllerWithType:@"2"];
             break;
         case 2:
-            [self gotoSalePromotionViewController];
+            [GlobalMethod setUserDefaultValue:@"bidding" key:BuinessModel];
+            //用b2c的模式浏览商品，竞价
+            [self gotoShopViewControllerWithType:@"1"];
             break;
         case 3:
             [self gotoAskToBuyViewController];
@@ -152,7 +154,7 @@
 -(void)gotoShopViewControllerWithType:(NSString *)type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
-    [viewController setType:type];
+    [viewController setShopViewControllerModel:type];
     [self push:viewController];
     viewController = nil;
 }
