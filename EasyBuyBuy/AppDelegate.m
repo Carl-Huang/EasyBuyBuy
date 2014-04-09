@@ -11,12 +11,15 @@
 #import "PayPalMobile.h"
 #import "CargoBay.h"
 
-
+#import "APService.h"
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    [APService setupWithOption:launchOptions];
     //MagicalRecord
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"EasyBuybuy.sqlite"];
     
@@ -76,6 +79,25 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+    [APService registerDeviceToken:deviceToken];
+    
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+    [APService handleRemoteNotification:userInfo];    
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    NSLog(@"%@,%@",NSStringFromSelector(_cmd),error);
+    
 }
 
 

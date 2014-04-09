@@ -11,7 +11,7 @@
 #import "ShopMainViewController.h"
 #import "User.h"
 #import "Login.h"
-
+#import "APService.h"
 @interface LoginViewController ()
 {
     NSString * viewControllTitle;
@@ -39,13 +39,6 @@
     [self initializationLocalString];
     [self initializationInterface];
     
-    
-    [[HttpService sharedInstance]loginWithParams:nil completionBlock:^(id object) {
-        ;
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
-    }];
-
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -112,6 +105,8 @@
             user.sex        = loginObj.sex;
             user.phone      = loginObj.phone;
             user.isVip      = loginObj.isVip;
+            user.avatar     = loginObj.avatar;
+            [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
             [PersistentStore save];
             [weakSelf gotoUserCenterViewController];
             
@@ -138,4 +133,9 @@
     [self push:viewController];
     viewController = nil;
 }
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
+}
+
 @end

@@ -77,4 +77,6 @@ typedef enum _ANCHOR
 
 +(void)setUserDefaultValue:(NSString *)value key:(NSString *)key;
 +(NSString *)getUserDefaultWithKey:(NSString *)key;
+
++(NSString *)getRegionCode;
 @end

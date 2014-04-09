@@ -56,11 +56,53 @@
 //将取得的内容转换为模型
 - (NSArray *)mapModelProcess:(id)responseObject withClass:(Class)class
 {
+    if ([responseObject isKindOfClass:[NSArray class]]) {
+        if ([responseObject count]) {
+            NSArray * results = (NSArray *)responseObject;
+            unsigned int outCount,i;
+            objc_property_t * properties = class_copyPropertyList(class, &outCount);
+            NSMutableArray * models = [NSMutableArray arrayWithCapacity:results.count];
+            for(NSDictionary * info in results)
+            {
+                id model = [[class alloc] init];
+                for(i = 0; i < outCount; i++)
+                {
+                    objc_property_t property = properties[i];
+                    NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                    NSString * keyValue = nil;
+                    if ([propertyName isEqualToString:@"ID"]) {
+                        keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
+                    }else
+                    {
+                        keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                    }
+                    
+                    
+                    if (keyValue) {
+                        [model setValue:keyValue forKeyPath:propertyName];
+                    }
+                    
+                }
+                [models addObject:model];
+            }
+            free(properties);
+            return (NSArray *)models;
+        }else
+        {
+            return [NSArray array];
+        }
+    }
+    return nil;
+}
+
+-(NSArray *)mapModelProcess:(id)responseObject withClass:(Class)class arrayKey:(NSString *)key
+{
+    NSMutableArray * models = [NSMutableArray array];
+
     if ([responseObject count]) {
         NSArray * results = (NSArray *)responseObject;
         unsigned int outCount,i;
         objc_property_t * properties = class_copyPropertyList(class, &outCount);
-        NSMutableArray * models = [NSMutableArray arrayWithCapacity:results.count];
         for(NSDictionary * info in results)
         {
             id model = [[class alloc] init];
@@ -71,11 +113,14 @@
                 NSString * keyValue = nil;
                 if ([propertyName isEqualToString:@"ID"]) {
                     keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
-                }else
+                }else if ([propertyName isEqualToString:key])
+                {
+                    [model setValue:[info valueForKey:propertyName] forKey:key];
+                }
+                else
                 {
                     keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
                 }
-                
                 
                 if (keyValue) {
                     [model setValue:keyValue forKeyPath:propertyName];
@@ -85,11 +130,8 @@
             [models addObject:model];
         }
         free(properties);
-        return (NSArray *)models;
-    }else
-    {
-        return [NSArray array];
     }
+    return  models;
 }
 #pragma mark Instance Method
 -(void)loginWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
@@ -390,45 +432,12 @@
         if (obj) {
             NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
             if ([statusStr isEqualToString:@"1"]) {
-                NSMutableArray * models = [NSMutableArray array];
+                
                 NSArray * responseObject = obj[@"result"];
-                if ([responseObject count]) {
-                    NSArray * results = (NSArray *)responseObject;
-                    unsigned int outCount,i;
-                    objc_property_t * properties = class_copyPropertyList([Good class], &outCount);
-                    for(NSDictionary * info in results)
-                    {
-                        Good * model = [[Good alloc] init];
-                        for(i = 0; i < outCount; i++)
-                        {
-                            objc_property_t property = properties[i];
-                            NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
-                            NSString * keyValue = nil;
-                            if ([propertyName isEqualToString:@"ID"]) {
-                                keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
-                            }else if ([propertyName isEqualToString:@"image"])
-                            {
-                                model.image = [info valueForKey:propertyName];
-                            }
-                            else
-                            {
-                                keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
-                            }
-                            
-                            
-                            if (keyValue) {
-                                [model setValue:keyValue forKeyPath:propertyName];
-                            }
-                            
-                        }
-                        [models addObject:model];
-                    }
-                    free(properties);
-                }
-                success(models);
+                NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
+                success(tempArray);
             }else
             {
-                
                 NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
                 failure(error,obj[@"result"]);
             }
@@ -553,45 +562,11 @@
             if (obj) {
                 NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
                 if ([statusStr isEqualToString:@"1"]) {
-                    NSMutableArray * models = [NSMutableArray array];
                     NSArray * responseObject = obj[@"result"];
-                    if ([responseObject count]) {
-                        NSArray * results = (NSArray *)responseObject;
-                        unsigned int outCount,i;
-                        objc_property_t * properties = class_copyPropertyList([GoodListSingleObj class], &outCount);
-                        for(NSDictionary * info in results)
-                        {
-                            GoodListSingleObj * model = [[GoodListSingleObj alloc] init];
-                            for(i = 0; i < outCount; i++)
-                            {
-                                objc_property_t property = properties[i];
-                                NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
-                                NSString * keyValue = nil;
-                                if ([propertyName isEqualToString:@"ID"]) {
-                                    keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
-                                }else if ([propertyName isEqualToString:@"goods_image"])
-                                {
-                                    model.goods_image = [info valueForKey:propertyName];
-                                }
-                                else
-                                {
-                                    keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
-                                }
-                                
-                                
-                                if (keyValue) {
-                                    [model setValue:keyValue forKeyPath:propertyName];
-                                }
-                                
-                            }
-                            [models addObject:model];
-                        }
-                        free(properties);
-                    }
-                    success(models);
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[GoodListSingleObj class] arrayKey:@"goods_image"];
+                    success(tempArray);
                 }else
                 {
-                    
                     NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
                     failure(error,obj[@"result"]);
                 }
@@ -642,5 +617,78 @@
         failure(error,responseString);
     }];
 }
+
+-(void)getBiddingGoodWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:get_bidding_goods] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj && [statusStr isEqualToString:@"1"]) {
+            
+            
+            BiddingInfo * biddingInfo = [[BiddingInfo alloc]init];
+            NSArray * responseObject = obj[@"result"];
+            biddingInfo.good = [[self mapModelProcess:responseObject withClass:[BiddingGood class] arrayKey:@"image"]objectAtIndex:0];
+            
+            NSArray * biddingListObj = [[obj[@"result"] valueForKey:@"bidding_list"]objectAtIndex:0];
+            biddingInfo.biddingClients = [self mapModelProcess:biddingListObj withClass:[BiddingClient class]];
+        
+            success(biddingInfo);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+
+}
+
+-(void)submitBiddingWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:bidding] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if (obj) {
+            
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+                
+            }else
+            {
+                success(NO);
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+            
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getSearchResultWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:search] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                
+                NSArray * responseObject = obj[@"result"];
+                NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
+                success(tempArray);
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
 @end
 

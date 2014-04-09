@@ -144,6 +144,7 @@
     if ([language isEqualToString:@"English"])
     {
         return @{
+                 @"viewControllTitle": @"Sale Promotion",
                  @"firstSectionDataSource":@[@"Product Name:",@"Product Description"]
                  ,@"_biddingBtn":@"Bidding"
                  ,@"biddingView":@{@"Title": @"Bidding",@"Price":@"Price:",@"Description":@"Description:",@"Confirm":@"Confirm",@"Cancel":@"Cancel"}
@@ -151,6 +152,7 @@
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{
+                 @"viewControllTitle": @"促销",
                  @"firstSectionDataSource":@[@"商品名:",@"商品详情"]
                  ,@"_biddingBtn":@"我要拍"
                  ,@"biddingView":@{@"Title": @"拍卖",@"Price":@"出价:",@"Description":@"描述:",@"Confirm":@"确定",@"Cancel":@"取消"}
@@ -158,6 +160,7 @@
     }else
     {
         return @{
+                 @"viewControllTitle": @"الترقيات",
                  @"firstSectionDataSource":@[@"اسم المنتج:", @"مقدمة"]
                  ,@"_biddingBtn":@"مزاد علني"
                  ,@"biddingView":@{@"Title": @"مزاد علني",@"Price":@"السعر ",@"Description":@"وصف ",@"Confirm":@"أكد",@"Cancel":@"إلغاء"}

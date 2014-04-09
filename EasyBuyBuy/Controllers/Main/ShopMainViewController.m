@@ -20,11 +20,15 @@
 #import "SalePromotionViewController.h"
 #import "AskToBuyViewController.h"
 #import "ShippingViewController.h"
+#import "SearchResultViewController.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
 {
     UIPageControl * page;
     NSInteger  currentPage;
+    NSString * zipCode;
     
+    NSInteger reloadPage;
+    NSString * searchContent;
     RegionTableViewController * regionTable;
 }
 @end
@@ -50,7 +54,8 @@
     NSString *filePath = [mainBundle pathForResource:@"国家地区"
                                               ofType:@"csv"];
     [GlobalMethod convertCVSTOPlist:filePath];
-    
+    [self getZipCode];
+    reloadPage = 1;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -109,10 +114,29 @@
     _searchTextField.returnKeyType = UIReturnKeySearch;
 }
 
--(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)())finishBlock
+-(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
 {
-    finishBlock();
+    searchContent = searchText;
+    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15"} completionBlock:^(id object) {
+        if (object) {
+            finishBlock(object);
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+
 }
+
+-(void)reloadSearchWithPage:(NSInteger)page
+{
+    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":@"",@"page":@"",@"pageSize":@""} completionBlock:^(id object) {
+        ;
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
 
 -(void)tapAction:(UITapGestureRecognizer *)tap
 {
@@ -135,7 +159,9 @@
             [self gotoShopViewControllerWithType:@"2"];
             break;
         case 2:
-            [self gotoSalePromotionViewController];
+            [GlobalMethod setUserDefaultValue:@"bidding" key:BuinessModel];
+            //用b2c的模式浏览商品，竞价
+            [self gotoShopViewControllerWithType:@"1"];
             break;
         case 3:
             [self gotoAskToBuyViewController];
@@ -150,7 +176,7 @@
 -(void)gotoShopViewControllerWithType:(NSString *)type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
-    [viewController setType:type];
+    [viewController setShopViewControllerModel:type];
     [self push:viewController];
     viewController = nil;
 }
@@ -174,6 +200,12 @@
     ShippingViewController * viewController = [[ShippingViewController alloc]initWithNibName:@"ShippingViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
+}
+
+-(void)getZipCode
+{
+    zipCode = [GlobalMethod getRegionCode];
+    NSLog(@"Zipcode:%@",zipCode);
 }
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -200,11 +232,13 @@
     }
     NSArray * regionData = [GlobalMethod getRegionTableData];
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-    
+    __weak ShopMainViewController * weakSelf = self;
     [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
     [regionTable setSelectedBlock:^(id object)
      {
          NSLog(@"%@",object);
+         //更新zipCode
+         [weakSelf getZipCode];
      }];
     
     
@@ -241,11 +275,12 @@
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
         
-        //Do the Searching
         __weak ShopMainViewController * weakSelf = self;
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self searchingWithText:string completedHandler:^{
+        [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [weakSelf gotoSearchResultViewControllerWithData:objects];
+            
         }];
         
         return NO;
@@ -253,5 +288,12 @@
     return YES;
 }
 
+-(void)gotoSearchResultViewControllerWithData:(NSArray *)data
+{
+    SearchResultViewController * viewController = [[SearchResultViewController alloc]initWithNibName:@"SearchResultViewController" bundle:nil];
+    [viewController searchTableWithResult:data];
+    [self push:viewController];
+    viewController = nil;
+}
 
 @end

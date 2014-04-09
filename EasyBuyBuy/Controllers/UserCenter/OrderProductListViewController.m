@@ -121,7 +121,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     cell.productName.text = object.goods_name;
     cell.productNumber.text = object.goods_amount;
-    cell.price.text = [NSString stringWithFormat:@"$%0.2f",object.goods_price.floatValue * object.goods_amount.integerValue];
+    cell.price.text = object.goods_price;
     
     
     cell.productName.font = [UIFont systemFontOfSize:fontSize+2];

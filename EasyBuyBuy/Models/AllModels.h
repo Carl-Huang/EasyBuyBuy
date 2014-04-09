@@ -18,4 +18,5 @@
 #import "MyOrderList.h"
 #import "GoodListSingleObj.h"
 #import "ShippingType.h"
+#import "BiddingInfo.h"
 #endif

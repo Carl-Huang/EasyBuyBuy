@@ -33,7 +33,9 @@
 #define order_goods_list            @"order_goods_list"
 #define shipping_type_list          @"shipping_type_list"
 #define address_detail              @"address_detail"
-
+#define get_bidding_goods           @"get_bidding_goods"
+#define bidding                     @"bidding"
+#define search                      @"search"
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
 
@@ -289,4 +291,35 @@
  * @param  id   地址ID
  */
 -(void)getAddressDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取竞价商品
+ *
+ * @param  c_cate_id   子分类ID
+ * @param  page
+ * @param  pageSize
+ */
+-(void)getBiddingGoodWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 竞价
+ *
+ * @param  goods_id   商品ID
+ * @param  c_cate_id  分类ID
+ * @param  user_id    用户ID
+ * @param  price      价钱
+ * @param  remark     留言
+ */
+-(void)submitBiddingWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 商品搜索
+ *
+ * @param  business_model   模式
+ * @param  keyword          搜索关键字
+ * @param  page             页码
+ * @param  pageSize         页大小
+ */
+-(void)getSearchResultWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 @end
