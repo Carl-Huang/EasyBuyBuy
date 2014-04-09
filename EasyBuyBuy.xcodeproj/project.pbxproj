@@ -187,6 +187,8 @@
 		5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */; };
 		5F00239718BDB03500100CBF /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00239618BDB03500100CBF /* NotificationCell.m */; };
 		5F00239918BDB04200100CBF /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F00239818BDB04200100CBF /* NotificationCell.xib */; };
+		C32183DC18F5A1E0004CDB30 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C32183DB18F5A1E0004CDB30 /* libPushSDK.a */; };
+		C32183DE18F5A1F6004CDB30 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = C32183DD18F5A1F6004CDB30 /* PushConfig.plist */; };
 		C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA2189666F900A26971 /* Foundation.framework */; };
 		C33EEBA5189666F900A26971 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA4189666F900A26971 /* CoreGraphics.framework */; };
 		C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33EEBA6189666F900A26971 /* UIKit.framework */; };
@@ -563,6 +565,9 @@
 		5F00239618BDB03500100CBF /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCell.m; sourceTree = "<group>"; };
 		5F00239818BDB04200100CBF /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		6EB2CF5BACC142DEACBA756F /* libPods-EasyBuyBuy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyBuyBuy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C32183DA18F5A1E0004CDB30 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		C32183DB18F5A1E0004CDB30 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
+		C32183DD18F5A1F6004CDB30 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		C33EEB9F189666F900A26971 /* EasyBuyBuy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyBuyBuy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C33EEBA2189666F900A26971 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C33EEBA4189666F900A26971 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -659,6 +664,7 @@
 				C33EEBA7189666F900A26971 /* UIKit.framework in Frameworks */,
 				4EB9705618E085EE001F52D8 /* libPayPalMobile.a in Frameworks */,
 				C33EEBA3189666F900A26971 /* Foundation.framework in Frameworks */,
+				C32183DC18F5A1E0004CDB30 /* libPushSDK.a in Frameworks */,
 				E89CBDD09BDB4CC1BE294A0E /* libPods-EasyBuyBuy.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1056,6 +1062,7 @@
 		4EC2079018C57754003708D6 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C32183D918F5A1E0004CDB30 /* JPush */,
 				4EBC495E18E9ADAA00481F8E /* ImagesFlow */,
 				4EB9705118E085EE001F52D8 /* PayPalMobile */,
 				4EC2079118C57754003708D6 /* HWSDK */,
@@ -1162,6 +1169,16 @@
 				4EC90BAA18E40ECA007969F5 /* PhotoManager.m */,
 			);
 			path = PhotoMng;
+			sourceTree = "<group>";
+		};
+		C32183D918F5A1E0004CDB30 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				C32183DD18F5A1F6004CDB30 /* PushConfig.plist */,
+				C32183DA18F5A1E0004CDB30 /* APService.h */,
+				C32183DB18F5A1E0004CDB30 /* libPushSDK.a */,
+			);
+			path = JPush;
 			sourceTree = "<group>";
 		};
 		C33EEB96189666F900A26971 = {
@@ -1505,6 +1522,7 @@
 				4EAE464C18C6EE520089B843 /* ProductClassifyCell.xib in Resources */,
 				C33EEC66189667B200A26971 /* Sale Promotion_Btn_Bidding@2x.png in Resources */,
 				C33EEC56189667B200A26971 /* My_Adress_Btn_Edit@2x.png in Resources */,
+				C32183DE18F5A1F6004CDB30 /* PushConfig.plist in Resources */,
 				4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
 				4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */,
@@ -1833,6 +1851,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EasyBuyBuy/Vendor/PayPalMobile",
+					"$(SRCROOT)/EasyBuyBuy/Vendor/JPush",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1874,6 +1893,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EasyBuyBuy/Vendor/PayPalMobile",
+					"$(SRCROOT)/EasyBuyBuy/Vendor/JPush",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
