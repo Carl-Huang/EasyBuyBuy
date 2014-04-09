@@ -34,7 +34,7 @@
 #define shipping_type_list          @"shipping_type_list"
 #define address_detail              @"address_detail"
 #define get_bidding_goods           @"get_bidding_goods"
-
+#define bidding                     @"bidding"
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
 
@@ -299,4 +299,15 @@
  * @param  pageSize
  */
 -(void)getBiddingGoodWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 竞价
+ *
+ * @param  goods_id   商品ID
+ * @param  c_cate_id  分类ID
+ * @param  user_id    用户ID
+ * @param  price      价钱
+ * @param  remark     留言
+ */
+-(void)submitBiddingWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end
