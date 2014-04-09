@@ -369,9 +369,34 @@
 
 +(id)getRegionTableData
 {
-    NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     
+    
+    NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     return [GlobalMethod getRegionTableDataWithLanguage:language];
+}
+
++(NSString *)getRegionCode
+{
+    NSInteger currentSelectedItem = [[[NSUserDefaults standardUserDefaults]objectForKey:CurrentRegion] integerValue];
+    
+    
+    NSArray *dirs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
+    NSString *documentsDirectoryPath = [dirs objectAtIndex:0];
+    NSString *exportPath = [documentsDirectoryPath stringByAppendingPathComponent:@"RegionTable.plist"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:exportPath])
+    {
+        NSMutableArray * array = [NSMutableArray array];
+        NSArray * regionData = [[NSArray alloc]initWithContentsOfFile:exportPath];
+        for (NSDictionary * dic in regionData) {
+           
+            [array addObject:dic[@"Zip"]];
+        }
+        return  [array objectAtIndex:currentSelectedItem];
+    }else
+    {
+        return nil;
+    }
 }
 
 +(NSArray *)getRegionTableDataWithLanguage:(NSString *)language
