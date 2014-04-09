@@ -35,6 +35,7 @@
 #define address_detail              @"address_detail"
 #define get_bidding_goods           @"get_bidding_goods"
 #define bidding                     @"bidding"
+#define search                      @"search"
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
 
@@ -310,4 +311,15 @@
  * @param  remark     留言
  */
 -(void)submitBiddingWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 商品搜索
+ *
+ * @param  business_model   模式
+ * @param  keyword          搜索关键字
+ * @param  page             页码
+ * @param  pageSize         页大小
+ */
+-(void)getSearchResultWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 @end

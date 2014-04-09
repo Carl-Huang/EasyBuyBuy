@@ -27,6 +27,8 @@
     NSInteger  currentPage;
     NSString * zipCode;
     
+    NSInteger reloadPage;
+    NSString * searchContent;
     RegionTableViewController * regionTable;
 }
 @end
@@ -53,6 +55,7 @@
                                               ofType:@"csv"];
     [GlobalMethod convertCVSTOPlist:filePath];
     [self getZipCode];
+    reloadPage = 1;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -111,10 +114,29 @@
     _searchTextField.returnKeyType = UIReturnKeySearch;
 }
 
--(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)())finishBlock
+-(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
 {
-    finishBlock();
+    searchContent = searchText;
+    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15"} completionBlock:^(id object) {
+        if (object) {
+            finishBlock(object);
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+
 }
+
+-(void)reloadSearchWithPage:(NSInteger)page
+{
+    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":@"",@"page":@"",@"pageSize":@""} completionBlock:^(id object) {
+        ;
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+}
+
 
 -(void)tapAction:(UITapGestureRecognizer *)tap
 {
@@ -253,16 +275,12 @@
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
         
-        //TODO:Do the Searching
-        NSDictionary * searchInfo = @{@"zipCode": zipCode,@"searchName":@"name",@"searchModel":@""};
-        NSLog(@"%@",searchInfo);
-        
         __weak ShopMainViewController * weakSelf = self;
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self searchingWithText:string completedHandler:^{
-            
-            
+        [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [weakSelf gotoSearchResultViewControllerWithData:objects];
+            
         }];
         
         return NO;

@@ -56,40 +56,43 @@
 //将取得的内容转换为模型
 - (NSArray *)mapModelProcess:(id)responseObject withClass:(Class)class
 {
-    if ([responseObject count]) {
-        NSArray * results = (NSArray *)responseObject;
-        unsigned int outCount,i;
-        objc_property_t * properties = class_copyPropertyList(class, &outCount);
-        NSMutableArray * models = [NSMutableArray arrayWithCapacity:results.count];
-        for(NSDictionary * info in results)
-        {
-            id model = [[class alloc] init];
-            for(i = 0; i < outCount; i++)
+    if ([responseObject isKindOfClass:[NSArray class]]) {
+        if ([responseObject count]) {
+            NSArray * results = (NSArray *)responseObject;
+            unsigned int outCount,i;
+            objc_property_t * properties = class_copyPropertyList(class, &outCount);
+            NSMutableArray * models = [NSMutableArray arrayWithCapacity:results.count];
+            for(NSDictionary * info in results)
             {
-                objc_property_t property = properties[i];
-                NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
-                NSString * keyValue = nil;
-                if ([propertyName isEqualToString:@"ID"]) {
-                    keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
-                }else
+                id model = [[class alloc] init];
+                for(i = 0; i < outCount; i++)
                 {
-                    keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                    objc_property_t property = properties[i];
+                    NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
+                    NSString * keyValue = nil;
+                    if ([propertyName isEqualToString:@"ID"]) {
+                        keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
+                    }else
+                    {
+                        keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                    }
+                    
+                    
+                    if (keyValue) {
+                        [model setValue:keyValue forKeyPath:propertyName];
+                    }
+                    
                 }
-                
-                
-                if (keyValue) {
-                    [model setValue:keyValue forKeyPath:propertyName];
-                }
-                
+                [models addObject:model];
             }
-            [models addObject:model];
+            free(properties);
+            return (NSArray *)models;
+        }else
+        {
+            return [NSArray array];
         }
-        free(properties);
-        return (NSArray *)models;
-    }else
-    {
-        return [NSArray array];
     }
+    return nil;
 }
 
 -(NSArray *)mapModelProcess:(id)responseObject withClass:(Class)class arrayKey:(NSString *)key
@@ -664,5 +667,28 @@
         failure(error,responseString);
     }];
 }
+
+-(void)getSearchResultWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:search] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                
+                NSArray * responseObject = obj[@"result"];
+                NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
+                success(tempArray);
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
 @end
 

@@ -135,6 +135,7 @@
 		4EB6F61718EDA4FD00D4C9C1 /* Car.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB6F61618EDA4FD00D4C9C1 /* Car.m */; };
 		4EB7D73518EAEDFB00F787B3 /* SelectedAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */; };
 		4EB7D73618EAEDFB00F787B3 /* SelectedAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */; };
+		4EB88ECF18F588A5001C2AA5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB88ECE18F588A5001C2AA5 /* User.m */; };
 		4EB8FF5018F2D54300A13709 /* ShippingType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8FF4F18F2D54300A13709 /* ShippingType.m */; };
 		4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8FF5218F2F92700A13709 /* OrderProductListViewController.m */; };
 		4EB8FF5518F2F92700A13709 /* OrderProductListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB8FF5318F2F92700A13709 /* OrderProductListViewController.xib */; };
@@ -180,7 +181,6 @@
 		4EC90BBD18E41F29007969F5 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBC18E41F29007969F5 /* Login.m */; };
 		4EC90BC018E4208C007969F5 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBF18E4208C007969F5 /* Register.m */; };
 		4EC90BC318E42920007969F5 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BC218E42920007969F5 /* Address.m */; };
-		4EECE1BA18F26F7A00FF412C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EECE1B918F26F7A00FF412C /* User.m */; };
 		4EECE1BC18F2802D00FF412C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EECE1BB18F2802D00FF412C /* StoreKit.framework */; };
 		4EECE1BE18F2803800FF412C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */; };
 		4EF1F54118EE63120047254B /* YMDPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF1F54018EE63120047254B /* YMDPickerView.m */; };
@@ -465,6 +465,8 @@
 		4EB7D73218EAEDFB00F787B3 /* SelectedAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressCell.h; sourceTree = "<group>"; };
 		4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressCell.m; sourceTree = "<group>"; };
 		4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressCell.xib; sourceTree = "<group>"; };
+		4EB88ECD18F588A5001C2AA5 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		4EB88ECE18F588A5001C2AA5 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB8FF4E18F2D54300A13709 /* ShippingType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingType.h; sourceTree = "<group>"; };
 		4EB8FF4F18F2D54300A13709 /* ShippingType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingType.m; sourceTree = "<group>"; };
 		4EB8FF5118F2F92700A13709 /* OrderProductListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderProductListViewController.h; sourceTree = "<group>"; };
@@ -559,8 +561,6 @@
 		4EC90BBF18E4208C007969F5 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		4EC90BC118E42920007969F5 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		4EC90BC218E42920007969F5 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
-		4EECE1B818F26F7A00FF412C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		4EECE1B918F26F7A00FF412C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EECE1BB18F2802D00FF412C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4EF1F53F18EE63120047254B /* YMDPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMDPickerView.h; sourceTree = "<group>"; };
@@ -924,8 +924,8 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
-				4EECE1B818F26F7A00FF412C /* User.h */,
-				4EECE1B918F26F7A00FF412C /* User.m */,
+				4EB88ECD18F588A5001C2AA5 /* User.h */,
+				4EB88ECE18F588A5001C2AA5 /* User.m */,
 				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
 				4EB6F61618EDA4FD00D4C9C1 /* Car.m */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
@@ -1631,6 +1631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EB88ECF18F588A5001C2AA5 /* User.m in Sources */,
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
@@ -1670,7 +1671,6 @@
 				4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */,
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
-				4EECE1BA18F26F7A00FF412C /* User.m in Sources */,
 				4EB422F818F5313F00DF2053 /* BiddingGood.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
 				4EC207B218C57754003708D6 /* UIColor+Utils.m in Sources */,

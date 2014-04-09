@@ -26,6 +26,7 @@
 #import "MyCarViewController.h"
 #import "Macro.h"
 #import "Base64.h"
+#import "SDWebImageManager.h"
 static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
 
 
@@ -93,6 +94,15 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     User * user = [PersistentStore getLastObjectWithType:[User class]];
     if (user) {
         userName  = user.account;
+        __weak UserCenterViewController * weakSelf = self;
+        NSURL * avatarImageURL = [NSURL URLWithString:user.avatar];
+        if (avatarImageURL) {
+            [[SDWebImageManager sharedManager]downloadWithURL:avatarImageURL options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                ;
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                [weakSelf setUserIMageWithImage:image];
+            }];
+        }
     }
    
 }
@@ -150,6 +160,11 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         UIImage * avatar = [[UIImage alloc]initWithData:imageData];
         [self.userImage setBackgroundImage:avatar forState:UIControlStateNormal];
     }
+}
+
+-(void)setUserIMageWithImage:(UIImage *)image
+{
+    [_userImage setBackgroundImage:image forState:UIControlStateNormal];
 }
 
 -(void)gotoShopMainController

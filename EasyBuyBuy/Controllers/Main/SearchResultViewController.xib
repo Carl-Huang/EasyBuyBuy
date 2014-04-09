@@ -24,6 +24,10 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="WTb-DN-hAx"/>
+                                <outlet property="delegate" destination="-1" id="bq5-JI-alC"/>
+                            </connections>
                         </tableView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

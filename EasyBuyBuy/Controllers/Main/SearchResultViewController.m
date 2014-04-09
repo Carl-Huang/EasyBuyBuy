@@ -10,6 +10,7 @@
 #import "ProductCell.h"
 #import "ProductDetailViewControllerViewController.h"
 #import "Good.h"
+#import "UIImageView+AFNetworking.h"
 static NSString * cellIdentifier = @"cellIdentifier";
 
 @interface SearchResultViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -49,6 +50,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private Method
 -(void)initializationInterface
 {
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self.navigationController.navigationBar setHidden:NO];
+    
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
@@ -65,7 +69,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)searchTableWithResult:(NSArray *)array
 {
-    
+    dataSource = array;
+    [self.contentTable reloadData];
 }
 
 
@@ -87,21 +92,29 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100.0f;
+    return 82.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    Good * object = [dataSource objectAtIndex:indexPath.row];
+    cell.classifyName.text = object.name;
+    NSURL * imageURL = [NSURL URLWithString:[[object.image objectAtIndex:0] valueForKey:@"image"]];
+    if (imageURL) {
+        [cell.classifyImage setImageWithURL:imageURL placeholderImage:nil];
+    }
+    [cell.likeBtn setHidden:YES];
     
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //去到商品详情页面
-    [self gotoProductDetailViewControllerWithGoodInfo:nil];
+    Good * object = [dataSource objectAtIndex:indexPath.row];
+    [self gotoProductDetailViewControllerWithGoodInfo:object];
 }
 
 @end

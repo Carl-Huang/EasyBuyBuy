@@ -223,12 +223,16 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     
     [self layoutProductTable];
     
-    UIButton * putInCarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [putInCarBtn setTitle:@"Put in car" forState:UIControlStateNormal];
-    [putInCarBtn setBackgroundImage:[UIImage imageNamed:@"Login_Btn_Login.png"] forState:UIControlStateNormal];
-    [putInCarBtn addTarget:self action:@selector(putInCarAction:) forControlEvents:UIControlEventTouchUpInside];
-    [putInCarBtn setFrame:CGRectMake(productInfoTable.frame.origin.x+5, contentScrollViewRect.origin.y+contentScrollViewRect.size.height+20, 100, 35)];
-    [_contentScrollView addSubview:putInCarBtn];
+    if (_isShouldShowShoppingCar) {
+        UIButton * putInCarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [putInCarBtn setTitle:@"Put in car" forState:UIControlStateNormal];
+        [putInCarBtn setBackgroundImage:[UIImage imageNamed:@"Login_Btn_Login.png"] forState:UIControlStateNormal];
+        [putInCarBtn addTarget:self action:@selector(putInCarAction:) forControlEvents:UIControlEventTouchUpInside];
+        [putInCarBtn setFrame:CGRectMake(productInfoTable.frame.origin.x+5, contentScrollViewRect.origin.y+contentScrollViewRect.size.height+20, 100, 35)];
+        [_contentScrollView addSubview:putInCarBtn];
+        putInCarBtn = nil;
+    }
+   
     [_contentScrollView setFrame:contentScrollViewRect];
     
     [_contentScrollView setShowsVerticalScrollIndicator:NO];

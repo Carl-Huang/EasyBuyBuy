@@ -39,12 +39,7 @@
     [self initializationLocalString];
     [self initializationInterface];
     
-    
-    [[HttpService sharedInstance]loginWithParams:nil completionBlock:^(id object) {
-        ;
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
-    }];
+
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -112,6 +107,7 @@
             user.sex        = loginObj.sex;
             user.phone      = loginObj.phone;
             user.isVip      = loginObj.isVip;
+            user.avatar     = loginObj.avatar;
             [PersistentStore save];
             [weakSelf gotoUserCenterViewController];
             
