@@ -200,9 +200,12 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[HttpService sharedInstance]updateUserInfoWithParams:@{@"id":user.user_id,@"account":@"",@"phone":@"",@"avatar":userImageStr,@"sex":@""} completionBlock:^(id object) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-            
+            if (object) {
+                [self showAlertViewWithMessage:@"Upload Image Successfully"];
+            }
             
         } failureBlock:^(NSError *error, NSString *responseString) {
+            [self showAlertViewWithMessage:@"Upload Image failed"];
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         }];
     }
