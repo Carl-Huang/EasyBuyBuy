@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E08AC3D18F67BEF007967B9 /* Icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3B18F67BEF007967B9 /* Icon_57.png */; };
+		4E08AC3E18F67BEF007967B9 /* Icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3C18F67BEF007967B9 /* Icon_114.png */; };
+		4E08AC4018F67E82007967B9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */; };
 		4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FA07118F04F3900FE466A /* MyOrderList.m */; };
 		4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215918EA642F00B2F39E /* PopupTable.m */; };
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
@@ -282,6 +285,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E08AC3B18F67BEF007967B9 /* Icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_57.png; sourceTree = "<group>"; };
+		4E08AC3C18F67BEF007967B9 /* Icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_114.png; sourceTree = "<group>"; };
+		4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4E0FA07018F04F3900FE466A /* MyOrderList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderList.h; sourceTree = "<group>"; };
 		4E0FA07118F04F3900FE466A /* MyOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderList.m; sourceTree = "<group>"; };
 		4E11215818EA642F00B2F39E /* PopupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupTable.h; sourceTree = "<group>"; };
@@ -1309,6 +1315,9 @@
 		C33EEBEE189667B200A26971 /* 2x */ = {
 			isa = PBXGroup;
 			children = (
+				4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */,
+				4E08AC3B18F67BEF007967B9 /* Icon_57.png */,
+				4E08AC3C18F67BEF007967B9 /* Icon_114.png */,
 				4EB4229418F50F6F00DF2053 /* logo.png */,
 				4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */,
 				4EAC791C18C4D2080022ECDD /* BackGroud@2x.png */,
@@ -1433,6 +1442,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = helloworld;
 				TargetAttributes = {
+					C33EEB9E189666F900A26971 = {
+						DevelopmentTeam = YX3SRBN6K9;
+					};
 					C33EEBB9189666F900A26971 = {
 						TestTargetID = C33EEB9E189666F900A26971;
 					};
@@ -1506,8 +1518,10 @@
 				4EB6849D18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib in Resources */,
 				C33EEC3D189667B200A26971 /* Home_Icon_Bidding@2x.png in Resources */,
 				5F00239418BDA0AF00100CBF /* MyNotificationViewController.xib in Resources */,
+				4E08AC3E18F67BEF007967B9 /* Icon_114.png in Resources */,
 				C33EEC59189667B200A26971 /* My Car_Btn_Confirm@2x.png in Resources */,
 				C33EEC67189667B200A26971 /* Sale Promotion_Btn_Confirm@2x.png in Resources */,
+				4E08AC3D18F67BEF007967B9 /* Icon_57.png in Resources */,
 				C33EEC41189667B200A26971 /* Home_Icon_Region@2x.png in Resources */,
 				4EAC791F18C4D2080022ECDD /* BackGroud@2x.png in Resources */,
 				4EAF48B718BB78DC0038575F /* OrderCell.xib in Resources */,
@@ -1552,6 +1566,7 @@
 				C32183DE18F5A1F6004CDB30 /* PushConfig.plist in Resources */,
 				4EAF48AC18BB77870038575F /* MyOrderViewController.xib in Resources */,
 				C33EEC72189667B200A26971 /* Verification_Btn_Fnish@2x.png in Resources */,
+				4E08AC4018F67E82007967B9 /* Default-568h@2x.png in Resources */,
 				4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */,
 				C33EEC6C189667B200A26971 /* Top Bar1_128@2x.png in Resources */,
 				4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */,
@@ -1812,7 +1827,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Production IOS Push Services: com.helloworld.easybuybuy";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Production IOS Push Services: com.helloworld.easybuybuy";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1830,6 +1846,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "0B9908E7-E6B4-4B3C-8F11-A5322B3FA27A";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1851,7 +1868,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Production IOS Push Services: com.helloworld.easybuybuy";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Production IOS Push Services: com.helloworld.easybuybuy";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1862,6 +1880,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "0B9908E7-E6B4-4B3C-8F11-A5322B3FA27A";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1876,7 +1895,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyBuyBuy/EasyBuyBuy-Prefix.pch";
 				INFOPLIST_FILE = "EasyBuyBuy/EasyBuyBuy-Info.plist";
@@ -1904,7 +1923,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0B9908E7-E6B4-4B3C-8F11-A5322B3FA27A";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1918,7 +1937,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyBuyBuy/EasyBuyBuy-Prefix.pch";
 				INFOPLIST_FILE = "EasyBuyBuy/EasyBuyBuy-Info.plist";
@@ -1946,7 +1965,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0B9908E7-E6B4-4B3C-8F11-A5322B3FA27A";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
