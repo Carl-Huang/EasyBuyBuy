@@ -64,4 +64,7 @@
         fontSize = DefaultFontSize;
     }
 }
+- (IBAction)openWebSiteAction:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.easybuybuy.com"]];
+}
 @end

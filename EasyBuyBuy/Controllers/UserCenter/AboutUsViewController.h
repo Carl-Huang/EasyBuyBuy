@@ -10,4 +10,5 @@
 
 @interface AboutUsViewController : CommonViewController
 
+- (IBAction)openWebSiteAction:(id)sender;
 @end

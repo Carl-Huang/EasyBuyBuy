@@ -18,8 +18,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+#if TARGET_OS_IPHONE
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     [APService setupWithOption:launchOptions];
+#endif
+    
     //MagicalRecord
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"EasyBuybuy.sqlite"];
     
@@ -42,6 +45,11 @@
                                                            PayPalEnvironmentSandbox : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW"}];
     
     
+    
+    [self getProduct];
+    
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -52,6 +60,22 @@
     nav = nil;
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+
+-(void)getProduct
+{
+    NSArray *identifiers = @[
+                             @"com.helloworld.easybuybuy.Vip"
+                             ];
+    
+    [[CargoBay sharedManager] productsWithIdentifiers:[NSSet setWithArray:identifiers]
+                                              success:^(NSArray *products, NSArray *invalidIdentifiers) {
+                                                  NSLog(@"Products: %@", products);
+                                                  NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
+                                              } failure:^(NSError *error) {
+                                                  NSLog(@"Error: %@", error);
+                                              }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -83,15 +107,21 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+#if TARGET_OS_IPHONE
+     [APService registerDeviceToken:deviceToken];
+#endif
     NSLog(@"%@",NSStringFromSelector(_cmd));
-    [APService registerDeviceToken:deviceToken];
+   
     
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"%@",NSStringFromSelector(_cmd));
+#if TARGET_OS_IPHONE
     [APService handleRemoteNotification:userInfo];
+#endif
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+    
     
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];

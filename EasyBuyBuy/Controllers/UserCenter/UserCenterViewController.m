@@ -157,7 +157,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
             [[SDWebImageManager sharedManager]downloadWithURL:avatarImageURL options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 ;
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                [weakSelf setUserIMageWithImage:image];
+                if (image) {
+                    [weakSelf setUserIMageWithImage:image];
+                }
             }];
         }
     }

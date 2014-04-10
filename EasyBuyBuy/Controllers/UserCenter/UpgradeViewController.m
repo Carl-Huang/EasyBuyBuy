@@ -40,6 +40,7 @@
 
 - (IBAction)upgradeBtnAction:(id)sender {
     NSLog(@"%s",__func__);
+    [self showAlertViewWithMessage:@"Connecting..."];
 }
 
 #pragma mark - In app Purchase
