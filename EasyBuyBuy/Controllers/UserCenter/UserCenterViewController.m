@@ -91,20 +91,6 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         [_logoutBtn setTitle:localizedDic [@"logoutBtn"] forState:UIControlStateNormal];
     }
     
-    User * user = [PersistentStore getLastObjectWithType:[User class]];
-    if (user) {
-        userName  = user.account;
-        __weak UserCenterViewController * weakSelf = self;
-        NSURL * avatarImageURL = [NSURL URLWithString:user.avatar];
-        if (avatarImageURL) {
-            [[SDWebImageManager sharedManager]downloadWithURL:avatarImageURL options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                ;
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-                [weakSelf setUserIMageWithImage:image];
-            }];
-        }
-    }
-   
 }
 
 -(void)initializationInterface
@@ -160,10 +146,30 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
         UIImage * avatar = [[UIImage alloc]initWithData:imageData];
         [self.userImage setBackgroundImage:avatar forState:UIControlStateNormal];
     }
+    
+    
+    User * user = [PersistentStore getLastObjectWithType:[User class]];
+    if (user) {
+        userName  = user.account;
+        __weak UserCenterViewController * weakSelf = self;
+        NSURL * avatarImageURL = [NSURL URLWithString:user.avatar];
+        if (avatarImageURL) {
+            [[SDWebImageManager sharedManager]downloadWithURL:avatarImageURL options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                ;
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                [weakSelf setUserIMageWithImage:image];
+            }];
+        }
+    }
 }
 
 -(void)setUserIMageWithImage:(UIImage *)image
 {
+    
+    NSData * imageData = UIImagePNGRepresentation(image);
+    userImageStr = [imageData base64EncodedString];
+    [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:UserAvatar];
+    [[NSUserDefaults standardUserDefaults]synchronize];
     [_userImage setBackgroundImage:image forState:UIControlStateNormal];
 }
 

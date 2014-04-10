@@ -126,6 +126,7 @@ static NSString * cellIdentifier = @"cell";
     {
         cell.orderStatus.text = unpay;
     }
+    cell.orderImage.image = [UIImage imageNamed:@"Red Apple_ShoppingCar@2x"];
     
     cell.productName.font   = [UIFont systemFontOfSize:fontSize+2];
     cell.orderTimeStamp.font= [UIFont systemFontOfSize:fontSize-1];

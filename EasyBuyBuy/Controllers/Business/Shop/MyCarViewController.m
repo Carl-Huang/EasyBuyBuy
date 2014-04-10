@@ -11,6 +11,7 @@
 #import "MyOrderDetailViewController.h"
 #import "Car.h"
 #import "User.h"
+#import "UIImageView+AFNetworking.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyCarViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
@@ -226,7 +227,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     MyCarCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     Car * productObj = [dataSource objectAtIndex:indexPath.row];
-    cell.productImage.image = [UIImage imageNamed:@"tempTest.png"];
+    NSURL * imageURL = [NSURL URLWithString:productObj.image];
+    if (imageURL) {
+        [cell.productImage setImageWithURL:imageURL placeholderImage:nil];
+    }
+    
     cell.productDes.text    = productObj.name;
     cell.productCost.text   = [NSString stringWithFormat:@"$%0.2f",productObj.price.floatValue * productObj.proCount.integerValue];
     cell.productNumber.text = [NSString stringWithFormat:@"Amount:%@",productObj.proCount];

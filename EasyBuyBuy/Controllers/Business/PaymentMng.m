@@ -10,8 +10,10 @@
 // - For live charges, use PayPalEnvironmentProduction (default).
 // - To use the PayPal sandbox, use PayPalEnvironmentSandbox.
 // - For testing, use PayPalEnvironmentNoNetwork.
-#define kPayPalEnvironment PayPalEnvironmentSandbox
+#define kPayPalEnvironment PayPalEnvironmentProduction
 #define MerchantName        @"Easybuybuy"
+#define ClientID            @"AdZGfxD-XrCXWOT9MOH0h6wqqACDTvISvmBYDRE6-FeZBj-pfeZOLj2Fcs9_"
+
 //#define MerchantName        @"vedon.fu-facilitator@gmail.com"
 
 #import "PaymentMng.h"
@@ -80,9 +82,12 @@
 -(void)preConnectToIntenet
 {
     self.environment = kPayPalEnvironment;
-//    @"PayPalEnvironmentProduction" : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP",
-    NSDictionary * paypalMobileEnviroment = @{kPayPalEnvironment : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP"};
 
+    //SandBox
+//    NSDictionary * paypalMobileEnviroment = @{kPayPalEnvironment : @"AYs2phA03uZbYIp0o3cAxZ24rmDQtQS0_sKGJptrmWTYZ9fW1EePDWOhgQEP"};
+
+    
+    NSDictionary * paypalMobileEnviroment = @{kPayPalEnvironment : ClientID};
     [PayPalMobile initializeWithClientIdsForEnvironments:paypalMobileEnviroment];
     [PayPalMobile preconnectWithEnvironment:self.environment];
 }
