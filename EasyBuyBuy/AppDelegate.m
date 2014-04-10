@@ -17,7 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    _badge_num = 0;
+    _sysNotiContainer = [NSMutableArray array];
+    _proNotiContainer = [NSMutableArray array];
 #if TARGET_OS_IPHONE
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     [APService setupWithOption:launchOptions];
@@ -98,6 +100,10 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    _badge_num = 0;
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -120,11 +126,24 @@
 #if TARGET_OS_IPHONE
     [APService handleRemoteNotification:userInfo];
 #endif
-    NSLog(@"%@",NSStringFromSelector(_cmd));
-    
-    
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    _badge_num ++;
+    NSLog(@"_badge_num :%d",_badge_num);
+    NSLog(@"%@",userInfo);
+    NSString * type = [NSString stringWithFormat:@"%@",userInfo[@"is_system"]];
+    if ([type isEqualToString:@"0"] ) {
+        //商品信息推送
+        [_proNotiContainer addObject:userInfo];
+    }else
+    {
+        //系统信息推送
+        [_sysNotiContainer addObject:userInfo];
+    }
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:_badge_num];
+}
+
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    NSLog(@"%s",__func__);
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

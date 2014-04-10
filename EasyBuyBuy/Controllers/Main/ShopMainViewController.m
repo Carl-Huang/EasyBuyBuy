@@ -21,6 +21,8 @@
 #import "AskToBuyViewController.h"
 #import "ShippingViewController.h"
 #import "SearchResultViewController.h"
+#import "APService.h"
+
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
 {
     UIPageControl * page;
@@ -56,6 +58,11 @@
     [GlobalMethod convertCVSTOPlist:filePath];
     [self getZipCode];
     reloadPage = 1;
+    
+    User * user = [User getUserFromLocal];
+    if (user) {
+         [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
+    }
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -69,6 +76,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
+}
+
 
 #pragma mark - Private Method
 -(void)initializationInterface

@@ -17,6 +17,7 @@
 
 #import "MyNotificationViewController.h"
 #import "NotificationCell.h"
+#import "AppDelegate.h"
 
 static NSString * cellIdentifier        = @"cellIdentifier";
 @interface MyNotificationViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
@@ -30,6 +31,7 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     NSInteger currentPage;
     
     CGFloat fontSize;
+    AppDelegate * myDelegate;
 }
 @property (strong ,nonatomic) UITableView * productNotiTable;
 @property (strong ,nonatomic) UITableView * systemNotiTable;
@@ -121,9 +123,7 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [_contentScrollView setPagingEnabled:YES];
     [_contentScrollView setDelegate:self];
     
-    //TODO:Fetch the Data from the Internet
-    productNotiDataSource = [NSMutableArray arrayWithArray:@[@"1",@"2",@"1",@"2",@"1",@"2"]];
-    systemNotiDataSource  = [NSMutableArray arrayWithArray:@[@"1",@"2",@"1",@"2",@"1",@"2"]];
+    
     
     [self updateUpperBtnStatus];
     
@@ -134,7 +134,16 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     [_productNotiBtn.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
     [_systemNotiBtn.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    
+    myDelegate = [[UIApplication sharedApplication]delegate];
+    //TODO:Fetch the Data from the Internet
+    
+    
+    productNotiDataSource = myDelegate.proNotiContainer;
+    systemNotiDataSource  = myDelegate.sysNotiContainer;
+    
 }
+
 
 -(void)modifyNotiTable
 {
@@ -290,10 +299,10 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 {
     NotificationCell  * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (tableView.tag == ProductTableType) {
-        
+        cell.notiTitle.text = @"商品";
     }else
     {
-
+        cell.notiTitle.text = @"系统";
     }
     return cell;
 }

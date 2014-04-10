@@ -18,5 +18,5 @@
 @property (strong ,nonatomic) NSString * upgrade_time;
 @property (strong ,nonatomic) NSString * last_time;
 @property (strong ,nonatomic) NSString * password;
-@property (strong ,nonatomic) NSString * isVip;
+@property (strong ,nonatomic) NSString * is_vip;
 @end

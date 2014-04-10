@@ -104,8 +104,9 @@
             user.user_id    = loginObj.ID;
             user.sex        = loginObj.sex;
             user.phone      = loginObj.phone;
-            user.isVip      = loginObj.isVip;
+            user.isVip      = loginObj.is_vip;
             user.avatar     = loginObj.avatar;
+            
             [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
             [PersistentStore save];
             [weakSelf gotoUserCenterViewController];

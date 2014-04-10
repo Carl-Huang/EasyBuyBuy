@@ -30,7 +30,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
-    BOOL                        isVip;
+    NSString                  *  isVip;
 }
 @end
 
@@ -115,7 +115,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     isVip = NO;
     User * user = [User getUserFromLocal];
     if (user) {
-        isVip = user.isVip.boolValue;
+        isVip = user.isVip;
     }
 }
 
@@ -238,7 +238,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
     
-    if (!isVip) {
+    if (![isVip isEqualToString:@"1"]) {
         [cell.likeBtn setHidden:YES];
     }
     
