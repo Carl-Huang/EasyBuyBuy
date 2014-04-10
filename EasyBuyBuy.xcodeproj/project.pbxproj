@@ -1433,9 +1433,6 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = helloworld;
 				TargetAttributes = {
-					C33EEB9E189666F900A26971 = {
-						DevelopmentTeam = Y8CJPVFVEM;
-					};
 					C33EEBB9189666F900A26971 = {
 						TestTargetID = C33EEB9E189666F900A26971;
 					};
