@@ -1,0 +1,3 @@
+PODS_EASYBUYBUY_RMSTORE_HEADER_SEARCH_PATHS = ${PODS_ROOT}/RMStore/RMStore/Optional/openssl-1.0.1e/include/**
+PODS_EASYBUYBUY_RMSTORE_LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/RMStore/RMStore/Optional/openssl-1.0.1e/lib" "$(PODS_ROOT)/RMStore/RMStore/Optional/openssl-1.0.1e/lib"
+PODS_EASYBUYBUY_RMSTORE_OTHER_LDFLAGS = -lcrypto -lssl -framework Security -framework StoreKit
