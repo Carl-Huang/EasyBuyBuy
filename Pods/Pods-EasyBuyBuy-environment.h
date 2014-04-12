@@ -78,6 +78,42 @@
 #define COCOAPODS_VERSION_MINOR_MagicalRecord_Core 2
 #define COCOAPODS_VERSION_PATCH_MagicalRecord_Core 0
 
+// RMStore
+#define COCOAPODS_POD_AVAILABLE_RMStore
+#define COCOAPODS_VERSION_MAJOR_RMStore 0
+#define COCOAPODS_VERSION_MINOR_RMStore 4
+#define COCOAPODS_VERSION_PATCH_RMStore 2
+
+// RMStore/Core
+#define COCOAPODS_POD_AVAILABLE_RMStore_Core
+#define COCOAPODS_VERSION_MAJOR_RMStore_Core 0
+#define COCOAPODS_VERSION_MINOR_RMStore_Core 4
+#define COCOAPODS_VERSION_PATCH_RMStore_Core 2
+
+// RMStore/KeychainPersistence
+#define COCOAPODS_POD_AVAILABLE_RMStore_KeychainPersistence
+#define COCOAPODS_VERSION_MAJOR_RMStore_KeychainPersistence 0
+#define COCOAPODS_VERSION_MINOR_RMStore_KeychainPersistence 4
+#define COCOAPODS_VERSION_PATCH_RMStore_KeychainPersistence 2
+
+// RMStore/NSUserDefaultsPersistence
+#define COCOAPODS_POD_AVAILABLE_RMStore_NSUserDefaultsPersistence
+#define COCOAPODS_VERSION_MAJOR_RMStore_NSUserDefaultsPersistence 0
+#define COCOAPODS_VERSION_MINOR_RMStore_NSUserDefaultsPersistence 4
+#define COCOAPODS_VERSION_PATCH_RMStore_NSUserDefaultsPersistence 2
+
+// RMStore/OpenSSL
+#define COCOAPODS_POD_AVAILABLE_RMStore_OpenSSL
+#define COCOAPODS_VERSION_MAJOR_RMStore_OpenSSL 0
+#define COCOAPODS_VERSION_MINOR_RMStore_OpenSSL 4
+#define COCOAPODS_VERSION_PATCH_RMStore_OpenSSL 2
+
+// RMStore/TransactionReceiptVerificator
+#define COCOAPODS_POD_AVAILABLE_RMStore_TransactionReceiptVerificator
+#define COCOAPODS_VERSION_MAJOR_RMStore_TransactionReceiptVerificator 0
+#define COCOAPODS_VERSION_MINOR_RMStore_TransactionReceiptVerificator 4
+#define COCOAPODS_VERSION_PATCH_RMStore_TransactionReceiptVerificator 2
+
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3

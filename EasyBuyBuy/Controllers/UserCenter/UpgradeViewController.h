@@ -12,4 +12,5 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *upgradeBtn;
 - (IBAction)upgradeBtnAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *productDes;
 @end

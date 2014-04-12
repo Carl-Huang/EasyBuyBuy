@@ -128,7 +128,7 @@
  * @param  is_vip   是否是vip ,(1:是  0:否)
  * @param  user_id  用户ID
  */
--(void)upgradeAccountWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)upgradeAccountWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 
 /*!
  * 更改密码

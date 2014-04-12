@@ -17,9 +17,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"%s",__func__);
     _badge_num = 0;
     _sysNotiContainer = [NSMutableArray array];
     _proNotiContainer = [NSMutableArray array];
+    NSDictionary *remoteNotif = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    //Accept push notification when app is not open
+    if (remoteNotif) {
+        [self application:application didReceiveRemoteNotification:remoteNotif];
+    }
+    
+    
 #if TARGET_OS_IPHONE
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     [APService setupWithOption:launchOptions];
@@ -32,7 +41,7 @@
     [self custonNavigationBar];
 
     //In app Purchase
-    [self initializeInAppPurchaseSetting];
+//    [self initializeInAppPurchaseSetting];
     
     //Language
      NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
@@ -94,15 +103,19 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    NSLog(@"%d",application.applicationIconBadgeNumber);
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"%s",__func__);
+    
     _badge_num = 0;
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
 }
 
@@ -120,6 +133,7 @@
    
     
 }
+
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
@@ -140,6 +154,9 @@
     }
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:_badge_num];
 }
+
+
+
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {

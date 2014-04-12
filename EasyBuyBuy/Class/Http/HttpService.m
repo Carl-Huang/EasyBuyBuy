@@ -353,11 +353,19 @@
 
 }
 
--(void)upgradeAccountWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)upgradeAccountWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
     [self post:[self mergeURL:user_upgrade] withParams:params completionBlock:^(id obj) {
         if (obj) {
-            success(obj);
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                success(YES);
+            }else
+            {
+                
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         failure(error,responseString);

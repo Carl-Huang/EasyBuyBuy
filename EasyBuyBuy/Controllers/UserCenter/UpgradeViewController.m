@@ -7,8 +7,19 @@
 //
 
 #import "UpgradeViewController.h"
-#import "CargoBay.h"
+
+#import "RMStore.h"
+#import "RMStoreTransactionReceiptVerificator.h"
+#import "RMStoreKeychainPersistence.h"
+#import "User.h"
 @interface UpgradeViewController ()
+{
+    NSArray * _products;
+    BOOL _productsRequestFinished;
+    
+    id<RMStoreReceiptVerificator> _receiptVerificator;
+    RMStoreKeychainPersistence *_persistence;
+}
 
 @end
 
@@ -28,8 +39,29 @@
     [super viewDidLoad];
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     self.title = @"Upgrade Account";
+    [self configureStore];
     
-    // Do any additional setup after loading the view from its nib.
+    __weak UpgradeViewController * weakSelf = self;
+    _products = @[@"com.helloworld.easybuybuy.Vip"];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [[RMStore defaultStore] requestProducts:[NSSet setWithArray:_products] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        _productsRequestFinished = YES;
+        [weakSelf updateContent];
+    } failure:^(NSError *error) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        _productsRequestFinished = NO;
+        [weakSelf updateContent];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Products Request Failed", @"")
+                                                            message:error.localizedDescription
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    
+       // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,29 +69,73 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)configureStore
+{
+    _receiptVerificator =  [[RMStoreTransactionReceiptVerificator alloc] init];
+    [RMStore defaultStore].receiptVerificator = _receiptVerificator;
+    
+    _persistence = [[RMStoreKeychainPersistence alloc] init];
+    [RMStore defaultStore].transactionPersistor = _persistence;
+}
+-(void)updateContent
+{
+    if (_productsRequestFinished) {
+        NSString *productID = [_products objectAtIndex:0]; //只有一个商品
+        SKProduct *product = [[RMStore defaultStore] productForIdentifier:productID];
+        NSString * productName = product.localizedTitle;
+        NSString * productPrice = [RMStore localizedPriceOfProduct:product];
+        _productDes.text = [NSString stringWithFormat:@"%@ :%@",productName,productPrice];
+    }else
+    {
+        [self showAlertViewWithMessage:@"No product founded"];
+    }
+   
+
+}
+
 
 - (IBAction)upgradeBtnAction:(id)sender {
     NSLog(@"%s",__func__);
-    [self showAlertViewWithMessage:@"Connecting..."];
+    if (_productsRequestFinished) {
+    
+        if (![RMStore canMakePayments]) return;
+        
+        __weak UpgradeViewController * weakSelf = self;
+        NSString *productID = [_products objectAtIndex:0];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [[RMStore defaultStore] addPayment:productID success:^(SKPaymentTransaction *transaction) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            //更新改用户为Vip 用户
+            [weakSelf upgradeToVip];
+        } failure:^(SKPaymentTransaction *transaction, NSError *error) {
+            
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            if (error.code !=2) {
+                [self showAlertViewWithMessage:@"Payment Transaction Failed"];
+            }
+        }];
+    }else
+    {
+        
+    }
+    
+    
 }
 
-#pragma mark - In app Purchase
-//Product Requests
--(void)getProduct
+-(void)upgradeToVip
 {
-    NSArray *identifiers = @[
-                             @"com.example.myapp.apple",
-                             @"com.example.myapp.pear",
-                             @"com.example.myapp.banana"
-                             ];
     
-    [[CargoBay sharedManager] productsWithIdentifiers:[NSSet setWithArray:identifiers]
-                                              success:^(NSArray *products, NSArray *invalidIdentifiers) {
-                                                  NSLog(@"Products: %@", products);
-                                                  NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
-                                              } failure:^(NSError *error) {
-                                                  NSLog(@"Error: %@", error);
-                                              }];
+    User * user = [User getUserFromLocal];
+    if (user) {
+        [[HttpService sharedInstance]upgradeAccountWithParams:@{@"is_vip": @"1",@"user_id":user.user_id} completionBlock:^(BOOL isSuccess) {
+            if (isSuccess) {
+                [self showAlertViewWithMessage:@"Upgrade Successfully"];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            ;
+        }];
+    }
+    
 }
 
 

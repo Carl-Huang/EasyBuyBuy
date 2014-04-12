@@ -3,6 +3,7 @@
 
 
 target "EasyBuyBuy" do
+pod 'RMStore', '~> 0.4.2'
 pod 'CargoBay', '~> 2.0.3'
 pod 'SDWebImage', '~> 3.6'
 pod 'Base64nl', '~> 1.2'
