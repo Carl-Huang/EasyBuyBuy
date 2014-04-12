@@ -43,14 +43,17 @@
     
     __weak UpgradeViewController * weakSelf = self;
     _products = @[@"com.helloworld.easybuybuy.Vip"];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [[RMStore defaultStore] requestProducts:[NSSet setWithArray:_products] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         _productsRequestFinished = YES;
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [weakSelf updateContent];
     } failure:^(NSError *error) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         _productsRequestFinished = NO;
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [weakSelf updateContent];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Products Request Failed", @"")
                                                             message:error.localizedDescription
@@ -127,12 +130,17 @@
     
     User * user = [User getUserFromLocal];
     if (user) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        __weak UpgradeViewController * weakSelf = self;
+        
         [[HttpService sharedInstance]upgradeAccountWithParams:@{@"is_vip": @"1",@"user_id":user.user_id} completionBlock:^(BOOL isSuccess) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             if (isSuccess) {
                 [self showAlertViewWithMessage:@"Upgrade Successfully"];
             }
         } failureBlock:^(NSError *error, NSString *responseString) {
-            ;
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [self showAlertViewWithMessage:@"Upgrade Failed"];
         }];
     }
     
