@@ -83,12 +83,21 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self resizeContent];
     _tableTitle.text = titleStr;
     
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTap)];
+    [_contentView addGestureRecognizer:tap];
+    tap = nil;
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)didTap
+{
+    [self performSelector:@selector(removeRegionTable) withObject:nil afterDelay:0.2];
 }
 
 -(void)resizeContent

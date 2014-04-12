@@ -22,6 +22,7 @@
 #import "ShippingViewController.h"
 #import "SearchResultViewController.h"
 #import "APService.h"
+#import "AppDelegate.h"
 
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
 {
@@ -32,6 +33,9 @@
     NSInteger reloadPage;
     NSString * searchContent;
     RegionTableViewController * regionTable;
+    
+    UIView * maskView;
+    AppDelegate * myDelegate;
 }
 @end
 
@@ -63,6 +67,22 @@
     if (user) {
          [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
+    
+    CGRect rect = CGRectMake(0, 44, 320, 580);
+    if ([OSHelper iOS7]) {
+        rect.origin.y = 64;
+    }
+    maskView = [[UIView alloc]initWithFrame:rect];
+    [maskView setBackgroundColor:[UIColor blackColor]];
+    [maskView setAlpha:0.6];
+    UITapGestureRecognizer * maskViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapMaskView)];
+    [maskView addGestureRecognizer:maskViewTapGesture];
+    maskViewTapGesture = nil;
+    [maskView setHidden:YES];
+    
+    myDelegate = [[UIApplication sharedApplication]delegate];
+    
+    [myDelegate.window addSubview:maskView];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -185,6 +205,13 @@
             break;
     }
 }
+
+-(void)didTapMaskView
+{
+    [[[UIApplication sharedApplication]keyWindow]endEditing:YES];
+    
+    [maskView setHidden:YES];
+}
 -(void)gotoShopViewControllerWithType:(NSString *)type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
@@ -282,19 +309,28 @@
 }
 
 #pragma mark - Search
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [maskView setHidden:NO];
+}
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
-        
-        __weak ShopMainViewController * weakSelf = self;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-            [weakSelf gotoSearchResultViewControllerWithData:objects];
-            
-        }];
-        
+        if ([textField.text length]) {
+            __weak ShopMainViewController * weakSelf = self;
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                [weakSelf gotoSearchResultViewControllerWithData:objects];
+                
+            }];
+            [maskView setHidden:YES];
+        }else
+        {
+            [maskView setHidden:YES];
+        }
         return NO;
     }
     return YES;

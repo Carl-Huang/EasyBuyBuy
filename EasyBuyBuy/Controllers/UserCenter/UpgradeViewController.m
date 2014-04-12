@@ -19,6 +19,8 @@
     
     id<RMStoreReceiptVerificator> _receiptVerificator;
     RMStoreKeychainPersistence *_persistence;
+    
+    User * user;
 }
 
 @end
@@ -39,29 +41,38 @@
     [super viewDidLoad];
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     self.title = @"Upgrade Account";
-    [self configureStore];
     
-    __weak UpgradeViewController * weakSelf = self;
-    _products = @[@"com.helloworld.easybuybuy.Vip"];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [[RMStore defaultStore] requestProducts:[NSSet setWithArray:_products] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        _productsRequestFinished = YES;
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [weakSelf updateContent];
-    } failure:^(NSError *error) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        _productsRequestFinished = NO;
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [weakSelf updateContent];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Products Request Failed", @"")
-                                                            message:error.localizedDescription
-                                                           delegate:nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }];
+    user = [User getUserFromLocal];
+    
+    if (![user.isVip isEqualToString:@"1"]) {
+        [self configureStore];
+        __weak UpgradeViewController * weakSelf = self;
+        _products = @[@"com.helloworld.easybuybuy.Vip"];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [[RMStore defaultStore] requestProducts:[NSSet setWithArray:_products] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            _productsRequestFinished = YES;
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [weakSelf updateContent];
+        } failure:^(NSError *error) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            _productsRequestFinished = NO;
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [weakSelf updateContent];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Products Request Failed", @"")
+                                                                message:error.localizedDescription
+                                                               delegate:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"OK", @"")
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        }];
+
+    }else
+    {
+         _productDes.text = @"You are a Vip in Easybuybuy";
+        [_upgradeBtn setHidden:YES];
+    }
     
     
        // Do any additional setup after loading the view from its nib.
@@ -121,14 +132,11 @@
     {
         
     }
-    
-    
+
 }
 
 -(void)upgradeToVip
 {
-    
-    User * user = [User getUserFromLocal];
     if (user) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         __weak UpgradeViewController * weakSelf = self;
