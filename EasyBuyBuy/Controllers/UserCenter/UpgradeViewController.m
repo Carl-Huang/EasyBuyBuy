@@ -73,8 +73,6 @@
          _productDes.text = @"You are a Vip in Easybuybuy";
         [_upgradeBtn setHidden:YES];
     }
-    
-    
        // Do any additional setup after loading the view from its nib.
 }
 
@@ -103,8 +101,6 @@
     {
         [self showAlertViewWithMessage:@"No product founded"];
     }
-   
-
 }
 
 
