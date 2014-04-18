@@ -195,7 +195,7 @@
 		}
 		
 		if (_state == EGOOPullRefreshPulling && 
-            (scrollView.contentOffset.y+scrollView.contentSize.height) < scrollView.contentSize.height+REFRESH_REGION_HEIGHT &&
+            (scrollView.contentOffset.y+scrollView.frame.size.height) < scrollView.contentSize.height+REFRESH_REGION_HEIGHT &&
             scrollView.contentOffset.y > 0.0f && !_loading) {
 			[self setState:EGOOPullRefreshNormal];
 		} else if (_state == EGOOPullRefreshNormal && 
@@ -218,7 +218,7 @@
 		_loading = [_delegate egoRefreshTableDataSourceIsLoading:self];
 	}
 	
-	if (scrollView.contentOffset.y+(scrollView.contentSize.height) > scrollView.contentSize.height+REFRESH_REGION_HEIGHT  && !_loading) {
+	if (scrollView.contentOffset.y+(scrollView.frame.size.height) > scrollView.contentSize.height+REFRESH_REGION_HEIGHT  && !_loading) {
 		
 		if ([_delegate respondsToSelector:@selector(egoRefreshTableDidTriggerRefresh:)]) {
 			[_delegate egoRefreshTableDidTriggerRefresh:EGORefreshFooter];

@@ -128,7 +128,6 @@
     {
         
     }
-
 }
 
 -(void)upgradeToVip

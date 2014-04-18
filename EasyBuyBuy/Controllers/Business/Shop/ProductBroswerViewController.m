@@ -103,11 +103,10 @@
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        _reloading = NO;
     }];
     
 }
-
-
 
 -(void)createFooterView
 {
@@ -124,6 +123,13 @@
     [footerView refreshLastUpdatedDate];
 }
 
+-(void)removeFootView
+{
+    if (footerView) {
+        [footerView removeFromSuperview];
+        footerView = nil;
+    }
+}
 
 
 -(void)gotoProductDetailViewControllerWithGoodInfo:(Good *)good
@@ -231,12 +237,9 @@
     [qtmquitView reloadData];
 
     [self removeFooterView];
+    [self setFooterView];
     _reloading = NO;
 
-    [self setFooterView];
-    if (footerView) {
-        [self setFooterView];
-    }
 }
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view

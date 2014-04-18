@@ -184,6 +184,7 @@
 		4EC90BBD18E41F29007969F5 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBC18E41F29007969F5 /* Login.m */; };
 		4EC90BC018E4208C007969F5 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BBF18E4208C007969F5 /* Register.m */; };
 		4EC90BC318E42920007969F5 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC90BC218E42920007969F5 /* Address.m */; };
+		4ED09B2418FE376E004D6A7D /* home_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED09B2318FE376E004D6A7D /* home_Icon.png */; };
 		4EECE1BC18F2802D00FF412C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EECE1BB18F2802D00FF412C /* StoreKit.framework */; };
 		4EECE1BE18F2803800FF412C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */; };
 		4EF1F54118EE63120047254B /* YMDPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF1F54018EE63120047254B /* YMDPickerView.m */; };
@@ -570,6 +571,7 @@
 		4EC90BBF18E4208C007969F5 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		4EC90BC118E42920007969F5 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		4EC90BC218E42920007969F5 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		4ED09B2318FE376E004D6A7D /* home_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_Icon.png; sourceTree = "<group>"; };
 		4EECE1BB18F2802D00FF412C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4EF1F53F18EE63120047254B /* YMDPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMDPickerView.h; sourceTree = "<group>"; };
@@ -1315,6 +1317,7 @@
 		C33EEBEE189667B200A26971 /* 2x */ = {
 			isa = PBXGroup;
 			children = (
+				4ED09B2318FE376E004D6A7D /* home_Icon.png */,
 				4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */,
 				4E08AC3B18F67BEF007967B9 /* Icon_57.png */,
 				4E08AC3C18F67BEF007967B9 /* Icon_114.png */,
@@ -1536,6 +1539,7 @@
 				4EB5674618C44657006B680A /* BottomCell@2x.png in Resources */,
 				4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */,
 				4EB3E9A118EC5A8400CDEE19 /* blueArrow@2x.png in Resources */,
+				4ED09B2418FE376E004D6A7D /* home_Icon.png in Resources */,
 				4E632CD918C45C0E006DD458 /* tempTest.png in Resources */,
 				C33EEC70189667B200A26971 /* Verification_Btn_Code@2x.png in Resources */,
 				4EB3E9A218EC5A8400CDEE19 /* grayArrow.png in Resources */,
@@ -1894,8 +1898,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Salem Mohamed (7T5J36AH8J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Salem Mohamed (7T5J36AH8J)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyBuyBuy/EasyBuyBuy-Prefix.pch";
 				INFOPLIST_FILE = "EasyBuyBuy/EasyBuyBuy-Info.plist";
@@ -1936,8 +1940,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Salem Mohamed (7T5J36AH8J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Salem Mohamed (7T5J36AH8J)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyBuyBuy/EasyBuyBuy-Prefix.pch";
 				INFOPLIST_FILE = "EasyBuyBuy/EasyBuyBuy-Info.plist";

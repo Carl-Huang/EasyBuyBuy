@@ -193,7 +193,7 @@
         case 2:
             [GlobalMethod setUserDefaultValue:@"bidding" key:BuinessModel];
             //用b2c的模式浏览商品，竞价
-            [self gotoShopViewControllerWithType:@"1"];
+            [self gotoShopViewControllerWithType:@"3"];
             break;
         case 3:
             [self gotoAskToBuyViewController];

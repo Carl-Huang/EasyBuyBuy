@@ -142,8 +142,22 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     productNotiDataSource = myDelegate.proNotiContainer;
     systemNotiDataSource  = myDelegate.sysNotiContainer;
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataDataSource) name:UpdataLocalNotificationStore object:nil];
+    
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+-(void)updataDataSource
+{
+    productNotiDataSource = myDelegate.proNotiContainer;
+    systemNotiDataSource  = myDelegate.sysNotiContainer;
+    [self.productNotiTable reloadData];
+    [self.systemNotiTable reloadData];
+}
 
 -(void)modifyNotiTable
 {

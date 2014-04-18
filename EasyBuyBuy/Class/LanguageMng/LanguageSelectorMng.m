@@ -54,16 +54,21 @@
 #pragma mark -  ShopViewController
 -(NSDictionary *)ShopViewControllerLanguage
 {
-    
     if ([language isEqualToString:@"English"])
     {
-        return @{@"viewControllTitle": @"Shop"};
+        return @{@"viewControllTitle": @"Shop(B2C)",
+                 @"biddingTitle":@"Auction",
+                 @"factoryTitle":@"Factory(B2B)"};
     }else if ([language isEqualToString:@"Chinese"])
     {
-        return @{@"viewControllTitle": @"商店"};
+        return @{@"viewControllTitle": @"商店(B2C)",
+                 @"biddingTitle":@"促销",
+                 @"factoryTitle":@"工厂(B2B)"};
     }else
     {
-        return @{@"viewControllTitle": @"دكان صغير"};
+        return @{@"viewControllTitle": @"دكان صغير(B2C)",
+                 @"biddingTitle":@"الترقيات",
+                 @"factoryTitle":@"مصنع(B2B)"};
     }
 }
 

@@ -62,16 +62,21 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     
     if (localizedDic) {
-        viewControllTitle = localizedDic [@"viewControllTitle"];
-    }else
-    {
-        viewControllTitle = @"Shop";
+        if ([_type isEqualToString:@"3"]) {
+            viewControllTitle = localizedDic [@"biddingTitle"];
+        }else if([_type isEqualToString:@"2"])
+        {
+            viewControllTitle = localizedDic[@"factoryTitle"];
+        }else
+        {
+            viewControllTitle = localizedDic [@"viewControllTitle"];
+        }
     }
-    
 }
 
 -(void)initializationInterface
 {
+    
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
@@ -110,6 +115,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        _reloading = NO;
     }];
 
 }
@@ -157,6 +163,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
 }
 
+-(void)removeFootView
+{
+    if (footerView) {
+        [footerView removeFromSuperview];
+        footerView = nil;
+    }
+}
+
+
 -(void)loadData
 {
     page +=1;
@@ -171,6 +186,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        _reloading = NO;
     }];
 }
 
@@ -225,6 +241,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     //5
     //  model should call this when its done loading
     [self.contentTable reloadData];
+    
+    [self removeFootView];
+    [self setFooterView];
+    
     _reloading = NO;
     [footerView refreshLastUpdatedDate];
     [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];

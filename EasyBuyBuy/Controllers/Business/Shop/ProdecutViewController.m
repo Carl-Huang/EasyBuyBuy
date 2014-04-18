@@ -75,6 +75,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)initializationInterface
 {
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setRightCustomBarItem:@"home_Icon" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
     if ([OSHelper iOS7]) {
@@ -203,6 +204,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
 }
 
+-(void)removeFootView
+{
+    if (footerView) {
+        [footerView removeFromSuperview];
+        footerView = nil;
+    }
+}
+
+
 -(void)loadData
 {
     page +=1;
@@ -219,6 +229,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
          }
      } failureBlock:^(NSError *error, NSString *responseString) {
          [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         _reloading = NO;
      }];
 }
 
@@ -285,6 +296,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     //5
     //  model should call this when its done loading
     [self.contentTable reloadData];
+    
+    [self removeFootView];
+    [self setFooterView];
+    
     _reloading = NO;
     [footerView refreshLastUpdatedDate];
     [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];

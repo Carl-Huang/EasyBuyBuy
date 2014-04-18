@@ -16,6 +16,8 @@
 #define AskToBuyType        @"AskToBuyType"
 #define UserAvatar          @"UserAvatar"
 #define BuinessModel        @"BuinessModel"
+#define UpdataLocalNotificationStore @"UpdataLocalNotificationStore"
+
 
 #define DefaultFontSize     14
 

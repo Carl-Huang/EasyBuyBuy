@@ -23,8 +23,7 @@
 
 - (void)setRightCustomBarItem:(NSString *)imageName action:(SEL)selector
 {
-    self.navigationItem.rightBarButtonItem = [self customBarItem:imageName action:selector];
-}
+    self.navigationItem.rightBarButtonItem = [self customBarItem:imageName action:selector size:CGSizeMake(25, 25)];}
 
 - (void)setRightCustomBarItem:(NSString *)imageName action:(SEL)selector imageEdgeInsets:(UIEdgeInsets)sets
 {

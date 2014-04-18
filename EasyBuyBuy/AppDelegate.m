@@ -114,8 +114,8 @@
     
     _badge_num = 0;
     
-//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+//     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
 }
 
@@ -137,13 +137,20 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    
 #if TARGET_OS_IPHONE
     [APService handleRemoteNotification:userInfo];
 #endif
-    _badge_num ++;
-    NSLog(@"_badge_num :%d",_badge_num);
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        [self showNotification:userInfo];
+    }
+    
     NSLog(@"%@",userInfo);
     NSString * type = [NSString stringWithFormat:@"%@",userInfo[@"is_system"]];
+    
+
+   
     if ([type isEqualToString:@"0"] ) {
         //商品信息推送
         [_proNotiContainer addObject:userInfo];
@@ -152,7 +159,9 @@
         //系统信息推送
         [_sysNotiContainer addObject:userInfo];
     }
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:_badge_num];
+    //发送消息更新数据
+    [[NSNotificationCenter defaultCenter]postNotificationName:UpdataLocalNotificationStore object:nil];
+    
 }
 
 
@@ -224,4 +233,15 @@
         NSLog(@"Error %d (%@)", [error code], [error localizedDescription]);
     }];
 }
+
+-(void)showNotification:(NSDictionary *)notification
+{
+    NSDictionary * content = notification[@"aps"];
+    
+    UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"Easybuybuy" message:content[@"alert"] delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+    
+    [alertView show];
+    alertView = nil;
+}
+
 @end
