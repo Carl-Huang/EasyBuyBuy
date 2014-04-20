@@ -81,9 +81,11 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setHidden:YES];
+    [autoScrollView startTimer];
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,6 +98,10 @@
     NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 
+-(void)dealloc
+{
+    [autoScrollView cleanAsynCycleView];
+}
 
 #pragma mark - Private Method
 -(void)initializationInterface
@@ -260,40 +266,6 @@
     NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
-}
-
--(void)auction
-{
-    PopupTable * auctionTable = [[PopupTable alloc]initWithNibName:@"PopupTable" bundle:nil];
-    //    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-    
-    __weak ShopMainViewController * weakSelf = self;
-    [auctionTable tableTitle:@"Aucton Type" dataSource:@[@"B2B",@"B2C"] userDefaultKey:nil];
-
-    [auctionTable setSelectedBlock:^(id object,NSInteger index)
-     {
-         NSLog(@"%@",object);
-         if ([object isEqualToString:@"B2B"]) {
-             [weakSelf gotoShopViewControllerWithType:@"2"];
-         }else
-         {
-             [weakSelf gotoShopViewControllerWithType:@"1"];
-         }
-
-     }];
-    
-    auctionTable.view.alpha = 0.0;
-    [UIView animateWithDuration:0.3 animations:^{
-        auctionTable.view.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        if ([myDelegate.window.rootViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController * nav =(UINavigationController *) myDelegate.window.rootViewController;
-            UIViewController * lastController = [nav.viewControllers lastObject];
-            [lastController.view addSubview:auctionTable.view];
-            [lastController addChildViewController:auctionTable];
-        }
-    }];
-    auctionTable = nil;
 }
 
 

@@ -11,6 +11,7 @@
 @interface ShopViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
+@property (weak, nonatomic) IBOutlet UIView *adView;
 @property (strong ,nonatomic) NSString * type;
 
 -(void)setShopViewControllerModel:(NSString *)type;

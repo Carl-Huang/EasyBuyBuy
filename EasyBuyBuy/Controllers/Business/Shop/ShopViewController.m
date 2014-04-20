@@ -16,6 +16,7 @@
 
 #import "OtherLinkView.h"
 #import "ShopMainViewController.h"
+#import "AsynCycleView.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
@@ -29,6 +30,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
     OtherLinkView * linkView;
+    AsynCycleView * autoScrollView;
 }
 @end
 
@@ -52,12 +54,27 @@ static NSString * cellIdentifier = @"cellIdentifier";
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [autoScrollView pauseTimer];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [autoScrollView startTimer];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc
+{
+    [autoScrollView cleanAsynCycleView];
+}
 #pragma mark - Private
 -(void)initializationLocalString
 {
@@ -89,7 +106,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
-    
     CGRect rect = _contentTable.frame;
     if ([OSHelper iPhone5]) {
         rect.size.height +=88;
@@ -97,10 +113,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     rect.size.height -=60;
     _contentTable.contentSize = CGSizeMake(320, rect.size.height);
     _contentTable.frame = rect;
-    
     UINib * cellNib = [UINib nibWithNibName:@"ProductClassifyCell" bundle:[NSBundle bundleForClass:[ProductClassifyCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
-    
     ProductClassifyCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductClassifyCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
     
@@ -109,10 +123,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     pageSize = 20;
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
     //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -125,8 +136,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         _reloading = NO;
     }];
-    
     [self addLinkView];
+    [self addAdvertisementView];
+    
+}
+
+-(void)addAdvertisementView
+{
+    NSInteger height = 100;
+    CGRect rect = CGRectMake(0, 0, 320, height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+    [autoScrollView initializationInterface];
 }
 
 -(void)addLinkView
