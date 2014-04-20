@@ -37,6 +37,8 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     
     BiddingInfo * biddingInfo;
     CGFloat fontSize;
+    BOOL isFetchingDataError;
+    
 }
 @end
 
@@ -124,6 +126,16 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     priceFontSize = cell.biddingPrice.font.pointSize * [GlobalMethod getDefaultFontSize];
     desFontSize = cell.biddingDesc.font.pointSize * [GlobalMethod getDefaultFontSize];
     
+    [self fetchingData];
+    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
+    if (fontSize < 0) {
+        fontSize = DefaultFontSize;
+    }
+}
+
+-(void)fetchingData
+{
+    isFetchingDataError = NO;
     __weak SalePromotionItemViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getBiddingGoodWithParams:@{@"c_cate_id": _object.ID,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
@@ -134,15 +146,16 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
             [weakSelf getGoodImages];
             //2)刷新Content
             [weakSelf updateContent];
+        }else
+        {
+            [weakSelf showAlertViewWithMessage:@"Fetch Data Error"];
+            isFetchingDataError = YES;
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
+        [weakSelf showAlertViewWithMessage:@"Fetch Data Error"];
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
 
-    fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
-    if (fontSize < 0) {
-        fontSize = DefaultFontSize;
-    }
 }
 
 -(void)updateContent
@@ -283,16 +296,23 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0:
-            [self configureClickActionOnFirstSection:indexPath];
-            break;
-        case 1:
-            //Do something you want
-            break;
-        default:
-            break;
+    if (isFetchingDataError) {
+        [self fetchingData];
+        return;
+    }else
+    {
+        switch (indexPath.section) {
+            case 0:
+                [self configureClickActionOnFirstSection:indexPath];
+                break;
+            case 1:
+                //Do something you want
+                break;
+            default:
+                break;
+        }
     }
+    
 }
 
 #pragma mark - Outlet Action

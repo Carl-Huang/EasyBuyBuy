@@ -423,7 +423,6 @@
                 NSArray * array = nil;
                 if (![obj[@"result"] isKindOfClass:[NSNull class]]) {
                     array = [self mapModelProcess:obj[@"result"] withClass:[ChildCategory class]];
-                   
                 }
                  success(array);
             }else
@@ -447,8 +446,14 @@
             if ([statusStr isEqualToString:@"1"]) {
                 
                 NSArray * responseObject = obj[@"result"];
-                NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
-                success(tempArray);
+                if ([responseObject isKindOfClass:[NSNull class]]) {
+                    success(nil);
+                }else
+                {
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
+                    success(tempArray);
+                }
+                
             }else
             {
                 NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
@@ -618,9 +623,14 @@
     [self post:[self mergeURL:address_detail] withParams:params completionBlock:^(id obj) {
         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj && [statusStr isEqualToString:@"1"]) {
-            
-            NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
-            success(array);
+            if ([obj[@"result"] isKindOfClass:[NSNull class]]) {
+                success(nil);
+            }else
+            {
+                NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
+                success(array);
+            }
+           
         }else
         {
             NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
@@ -637,15 +647,19 @@
         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj && [statusStr isEqualToString:@"1"]) {
             
-            
             BiddingInfo * biddingInfo = [[BiddingInfo alloc]init];
             NSArray * responseObject = obj[@"result"];
-            biddingInfo.good = [[self mapModelProcess:responseObject withClass:[BiddingGood class] arrayKey:@"image"]objectAtIndex:0];
-            
-            NSArray * biddingListObj = [[obj[@"result"] valueForKey:@"bidding_list"]objectAtIndex:0];
-            biddingInfo.biddingClients = [self mapModelProcess:biddingListObj withClass:[BiddingClient class]];
-        
-            success(biddingInfo);
+            if ([responseObject isKindOfClass:[NSNull class]]) {
+                success(nil);
+            }else
+            {
+                biddingInfo.good = [[self mapModelProcess:responseObject withClass:[BiddingGood class] arrayKey:@"image"]objectAtIndex:0];
+                
+                NSArray * biddingListObj = [[obj[@"result"] valueForKey:@"bidding_list"]objectAtIndex:0];
+                biddingInfo.biddingClients = [self mapModelProcess:biddingListObj withClass:[BiddingClient class]];
+                
+                success(biddingInfo);
+            }
         }else
         {
             NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];

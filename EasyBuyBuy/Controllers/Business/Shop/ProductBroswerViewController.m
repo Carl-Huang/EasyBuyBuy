@@ -70,7 +70,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if ([object count]) {
+        if (object && [object count]) {
             [products addObjectsFromArray:object];
             [weakSelf.qtmquitView reloadData];
             [weakSelf setFooterView];
@@ -98,7 +98,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (object) {
+        if (object && [object count]) {
             [products addUniqueFromArray:object];
         }
         [weakSelf doneLoadingTableViewData];

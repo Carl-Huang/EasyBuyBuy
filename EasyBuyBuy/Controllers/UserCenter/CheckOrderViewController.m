@@ -144,7 +144,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[HttpService sharedInstance]getAddressDetailWithParams:@{@"id": _orderList.address_id} completionBlock:^(id object) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-            if ([object count]) {
+            if (object && [object count]) {
                 [weakSelf updateDataSourceWithUserDefaultAddress:[object objectAtIndex:0]];
             }
         } failureBlock:^(NSError *error, NSString *responseString) {
