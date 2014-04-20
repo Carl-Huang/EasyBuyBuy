@@ -30,7 +30,7 @@
 #import "AppDelegate.h"
 #import "AsynCycleView.h"
 #import "PopupTable.h"
-@interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
+@interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate>
 {
     UIPageControl * page;
     NSInteger  currentPage;
@@ -321,7 +321,15 @@
     CGRect rect = CGRectMake(0, 64, 320, height);
 
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
+    autoScrollNewsView.delegate = self;
     [autoScrollNewsView initializationInterface];
+}
+
+#pragma mark AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index
+{
+    //TODO:处理点击时间
+    NSLog(@"%d",index);
 }
 
 #pragma mark UIScrollViewDelegate

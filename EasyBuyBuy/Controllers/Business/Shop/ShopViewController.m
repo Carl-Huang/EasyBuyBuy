@@ -228,6 +228,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     _type = type;
 }
+#pragma mark AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index
+{
+    //TODO:处理点击时间
+    NSLog(@"%d",index);
+}
+
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

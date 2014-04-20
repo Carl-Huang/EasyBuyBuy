@@ -8,9 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+
+@protocol AsyCycleViewDelegate <NSObject>
+
+-(void)didClickItemAtIndex:(NSInteger )index;
+
+@end
 @interface AsynCycleView : NSObject
 
 @property (assign ,nonatomic)  BOOL isShouldAutoScroll;
+@property (weak ,nonatomic) id<AsyCycleViewDelegate>  delegate;
+
 
 -(id)initAsynCycleViewWithFrame:(CGRect)rect
                placeHolderImage:(UIImage *)image

@@ -68,17 +68,17 @@
     autoScrollView.backgroundColor = [UIColor clearColor];
     dispatch_async(serialQueue, ^{
         autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-            
             return weakSelf.placeHolderImages[pageIndex];
         };
-        
         autoScrollView.totalPagesCount = ^NSInteger(void){
             return [weakSelf.placeHolderImages count];
         };
     });
     
-    
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
+        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:)]) {
+            [weakSelf.delegate didClickItemAtIndex:pageIndex];
+        }
         NSLog(@"You have Touch %ld ",(long)pageIndex);
     };
     
