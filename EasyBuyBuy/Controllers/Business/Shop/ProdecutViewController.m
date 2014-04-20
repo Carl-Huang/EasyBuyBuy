@@ -95,7 +95,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
     
     page = 1;
-    pageSize = 10;
+    pageSize = 20;
     dataSource = [NSMutableArray array];
     __weak ProdecutViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -218,18 +218,25 @@ static NSString * cellIdentifier = @"cellIdentifier";
     page +=1;
     _reloading = YES;
     __weak ProdecutViewController * weakSelf = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading";
     [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
      {
-         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
          if (object) {
+             hud.labelText = @"Finish";
              [dataSource addUniqueFromArray:object];
              [weakSelf setItemsSelectedStatus];
-             [weakSelf doneLoadingTableViewData];
+         }else
+         {
+            hud.labelText = @"No More Data"; 
          }
+         hud.mode = MBProgressHUDModeText;
+         [hud hide:YES afterDelay:1];
+
+         [weakSelf doneLoadingTableViewData];
      } failureBlock:^(NSError *error, NSString *responseString) {
          [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-         _reloading = NO;
+         [weakSelf doneLoadingTableViewData];
      }];
 }
 
@@ -248,10 +255,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
-    
-    if (![isVip isEqualToString:@"1"]) {
-        [cell.likeBtn setHidden:YES];
-    }
     
     NSURL * imageURL = [NSURL URLWithString:object.image];
     [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
@@ -281,7 +284,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
     //获取当前的模式类型
     NSString * type = [GlobalMethod getUserDefaultWithKey:BuinessModel];
-    if ([type isEqualToString:@"bidding"]) {
+    if (type.integerValue == BiddingBuinessModel) {
         [self gotoSalePromotionItemViewControllerWithObj:object];
     }else
     {

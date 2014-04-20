@@ -10,6 +10,8 @@
 
 @interface AsynCycleView : NSObject
 
+@property (assign ,nonatomic)  BOOL isShouldAutoScroll;
+
 -(id)initAsynCycleViewWithFrame:(CGRect)rect
                placeHolderImage:(UIImage *)image
                  placeHolderNum:(NSInteger)numOfPlaceHoderImages

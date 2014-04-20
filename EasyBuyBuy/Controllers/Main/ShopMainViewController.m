@@ -5,8 +5,11 @@
 //  Created by vedon on 24/2/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
+
 #define MainIconWidth 250
 #define MainIconHeight 250
+#define PageNumer  6
+
 #import "ShopMainViewController.h"
 #import "RegionTableViewController.h"
 #import "LoginViewController.h"
@@ -21,9 +24,12 @@
 #import "AskToBuyViewController.h"
 #import "ShippingViewController.h"
 #import "SearchResultViewController.h"
+#import "NewsViewController.h"
+
 #import "APService.h"
 #import "AppDelegate.h"
-
+#import "AsynCycleView.h"
+#import "PopupTable.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
 {
     UIPageControl * page;
@@ -36,6 +42,10 @@
     
     UIView * maskView;
     AppDelegate * myDelegate;
+    
+    AsynCycleView * autoScrollView;
+    AsynCycleView * autoScrollNewsView;
+    NSInteger contentIconOffsetY;
 }
 @end
 
@@ -67,22 +77,7 @@
     if (user) {
          [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
-    
-    CGRect rect = CGRectMake(0, 44, 320, 580);
-    if ([OSHelper iOS7]) {
-        rect.origin.y = 64;
-    }
-    maskView = [[UIView alloc]initWithFrame:rect];
-    [maskView setBackgroundColor:[UIColor blackColor]];
-    [maskView setAlpha:0.6];
-    UITapGestureRecognizer * maskViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapMaskView)];
-    [maskView addGestureRecognizer:maskViewTapGesture];
-    maskViewTapGesture = nil;
-    [maskView setHidden:YES];
-    
-    myDelegate = [[UIApplication sharedApplication]delegate];
-    
-    [myDelegate.window addSubview:maskView];
+
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -105,20 +100,19 @@
 #pragma mark - Private Method
 -(void)initializationInterface
 {
-    NSInteger contentIconOffsetY = 30;
-    CGSize size = CGSizeMake(320 * 5,400);
+    contentIconOffsetY = 100;
+    CGSize size = CGSizeMake(320 * PageNumer,400);
     if ([OSHelper iPhone5]) {
         size.height = 488;
-        contentIconOffsetY = 60;
     }
 
     currentPage = 0 ;
-    page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, contentIconOffsetY + MainIconHeight + 50, 120, 30)];
-    page.numberOfPages = 5;
+    page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, contentIconOffsetY + MainIconHeight + 20, 120, 30)];
+    page.numberOfPages = PageNumer;
     page.currentPage = currentPage;
     
-    NSArray * images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png"];
-    for (int i =0; i < 5; i++) {
+    NSArray * images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png",@"news.png"];
+    for (int i =0; i < PageNumer; i++) {
         UIImage * image = [UIImage imageNamed:[images objectAtIndex:i]];
         UIImageView * imageView = [[UIImageView alloc]initWithImage:image];
         imageView.userInteractionEnabled = YES;
@@ -144,6 +138,23 @@
     
     _searchTextField.delegate = self;
     _searchTextField.returnKeyType = UIReturnKeySearch;
+    
+    CGRect rect = CGRectMake(0, 44, 320, 580);
+    if ([OSHelper iOS7]) {
+        rect.origin.y = 64;
+    }
+    maskView = [[UIView alloc]initWithFrame:rect];
+    [maskView setBackgroundColor:[UIColor blackColor]];
+    [maskView setAlpha:0.6];
+    UITapGestureRecognizer * maskViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapMaskView)];
+    [maskView addGestureRecognizer:maskViewTapGesture];
+    maskViewTapGesture = nil;
+    [maskView setHidden:YES];
+    myDelegate = [[UIApplication sharedApplication]delegate];
+    [myDelegate.window addSubview:maskView];
+    
+//    [self addAdvertisementView];
+    [self addNewsView];
 }
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
@@ -182,24 +193,26 @@
     switch (tapNumber) {
         case 0:
             //1 : b2c
-            [GlobalMethod setUserDefaultValue:@"1" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"1"];
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2CBuinessModel] key:BuinessModel];
+            [self gotoShopViewControllerWithType:B2CBuinessModel];
             break;
         case 1:
             //2 : b2b
-            [GlobalMethod setUserDefaultValue:@"2" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"2"];
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2BBuinessModel] key:BuinessModel];
+            [self gotoShopViewControllerWithType:B2BBuinessModel];
             break;
         case 2:
-            [GlobalMethod setUserDefaultValue:@"bidding" key:BuinessModel];
-            //用b2c的模式浏览商品，竞价
-            [self gotoShopViewControllerWithType:@"3"];
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",BiddingBuinessModel] key:BuinessModel];
+            [self gotoShopViewControllerWithType:B2CBuinessModel];
             break;
         case 3:
             [self gotoAskToBuyViewController];
             break;
         case 4:
             [self gotoShippingViewController];
+            break;
+        case 5:
+            [self gotoNewsViewController];
             break;
         default:
             break;
@@ -212,10 +225,11 @@
     
     [maskView setHidden:YES];
 }
--(void)gotoShopViewControllerWithType:(NSString *)type
+
+-(void)gotoShopViewControllerWithType:(NSInteger )type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
-    [viewController setShopViewControllerModel:type];
+    [viewController setShopViewControllerModel:[NSString stringWithFormat:@"%d",type]];
     [self push:viewController];
     viewController = nil;
 }
@@ -241,11 +255,75 @@
     viewController = nil;
 }
 
+-(void)gotoNewsViewController
+{
+    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)auction
+{
+    PopupTable * auctionTable = [[PopupTable alloc]initWithNibName:@"PopupTable" bundle:nil];
+    //    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+    
+    __weak ShopMainViewController * weakSelf = self;
+    [auctionTable tableTitle:@"Aucton Type" dataSource:@[@"B2B",@"B2C"] userDefaultKey:nil];
+
+    [auctionTable setSelectedBlock:^(id object,NSInteger index)
+     {
+         NSLog(@"%@",object);
+         if ([object isEqualToString:@"B2B"]) {
+             [weakSelf gotoShopViewControllerWithType:@"2"];
+         }else
+         {
+             [weakSelf gotoShopViewControllerWithType:@"1"];
+         }
+
+     }];
+    
+    auctionTable.view.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        auctionTable.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        if ([myDelegate.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController * nav =(UINavigationController *) myDelegate.window.rootViewController;
+            UIViewController * lastController = [nav.viewControllers lastObject];
+            [lastController.view addSubview:auctionTable.view];
+            [lastController addChildViewController:auctionTable];
+        }
+    }];
+    auctionTable = nil;
+}
+
+
 -(void)getZipCode
 {
     zipCode = [GlobalMethod getRegionCode];
     NSLog(@"Zipcode:%@",zipCode);
 }
+
+-(void)addAdvertisementView
+{
+    NSInteger height = 50;
+    CGRect rect = CGRectMake(0, 480-height, 320, height);
+    if ([OSHelper iPhone5]) {
+        rect.origin.y = 568 - height;
+    }
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+    [autoScrollView setIsShouldAutoScroll:NO];
+    [autoScrollView initializationInterface];
+}
+
+-(void)addNewsView
+{
+    NSInteger height = contentIconOffsetY;
+    CGRect rect = CGRectMake(0, 64, 320, height);
+
+    autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
+    [autoScrollNewsView initializationInterface];
+}
+
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

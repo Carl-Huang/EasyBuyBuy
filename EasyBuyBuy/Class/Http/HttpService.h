@@ -36,6 +36,7 @@
 #define get_bidding_goods           @"get_bidding_goods"
 #define bidding                     @"bidding"
 #define search                      @"search"
+#define subscription                @"subscription"
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
 
@@ -321,5 +322,15 @@
  * @param  pageSize         页大小
  */
 -(void)getSearchResultWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+/*!
+ * 订阅推送
+ *
+ * @param  user_id          用户ID
+ * @param  p_cate_id        父分类
+ * @param  c_cate_id        子分类
+ * @param  type         (1:subscribe,0:unsubscribe)
+ */
+-(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 
 @end

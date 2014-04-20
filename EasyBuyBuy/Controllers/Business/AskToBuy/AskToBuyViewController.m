@@ -212,7 +212,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
     
     
-    NSNumber  *typeNum = [filledContentInfo valueForKey:@"BuinessType"];
+    NSNumber  *typeNum = [filledContentInfo valueForKey:BuinessType];
     NSString * type = nil;
     if (typeNum.integerValue == 0) {
         type = @"0";//卖

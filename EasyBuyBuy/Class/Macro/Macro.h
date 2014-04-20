@@ -5,9 +5,15 @@
 //  Created by vedon on 24/2/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-
+typedef  NS_ENUM(NSInteger, BuinessModelType)
+{
+    B2CBuinessModel = 1,
+    B2BBuinessModel ,
+    BiddingBuinessModel ,
+};
 #ifndef EasyBuyBuy_Macro_h
 #define EasyBuyBuy_Macro_h
+
 
 #define CurrentRegion       @"CurrentRegion"
 #define CurrentLanguage     @"CurrentLanguage"
@@ -17,7 +23,7 @@
 #define UserAvatar          @"UserAvatar"
 #define BuinessModel        @"BuinessModel"
 #define UpdataLocalNotificationStore @"UpdataLocalNotificationStore"
-
+#define BuinessType         @"BuinessType"
 
 #define DefaultFontSize     14
 

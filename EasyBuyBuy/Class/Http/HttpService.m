@@ -111,19 +111,24 @@
                 objc_property_t property = properties[i];
                 NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
                 NSString * keyValue = nil;
+               
                 if ([propertyName isEqualToString:@"ID"]) {
                     keyValue = [NSString stringWithFormat:@"%@",[info valueForKey:@"id"]];
                 }else if ([propertyName isEqualToString:key])
                 {
                     [model setValue:[info valueForKey:propertyName] forKey:key];
+                    continue;
                 }
                 else
                 {
                     keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
                 }
                 
-                if (keyValue) {
+                if (![keyValue isKindOfClass:[NSNull class]]&& ![keyValue isEqualToString:@"<null>"]) {
                     [model setValue:keyValue forKeyPath:propertyName];
+                }else
+                {
+                    [model setValue:@"" forKey:propertyName];
                 }
                 
             }
@@ -698,5 +703,9 @@
     }];
 }
 
+-(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure
+{
+    
+}
 @end
 

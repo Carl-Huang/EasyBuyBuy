@@ -14,6 +14,9 @@
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 
+#import "OtherLinkView.h"
+#import "ShopMainViewController.h"
+
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
 {
@@ -25,6 +28,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSInteger pageSize;
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
+    OtherLinkView * linkView;
 }
 @end
 
@@ -90,6 +94,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iPhone5]) {
         rect.size.height +=88;
     }
+    rect.size.height -=60;
     _contentTable.contentSize = CGSizeMake(320, rect.size.height);
     _contentTable.frame = rect;
     
@@ -101,11 +106,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     
     page = 1;
-    pageSize = 10;
+    pageSize = 20;
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
@@ -117,7 +125,25 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         _reloading = NO;
     }];
+    
+    [self addLinkView];
+}
 
+-(void)addLinkView
+{
+    NSInteger height = 60;
+    CGRect linkViewRect = CGRectMake(0, self.view.bounds.size.height-height, 320, height);
+    if ([OSHelper iPhone5]) {
+        linkViewRect.origin.y = self.view.bounds.size.height - height + 88;
+    }
+    linkView = [[OtherLinkView alloc]initWithFrame:linkViewRect];
+    if (_type.integerValue == B2CBuinessModel) {
+        [linkView initializedInterfaceWithInfo:nil currentTag:0];
+    }else
+    {
+        [linkView initializedInterfaceWithInfo:nil currentTag:1];
+    }
+    [self.view addSubview:linkView];
 }
 
 -(void)createFooterView
@@ -177,16 +203,24 @@ static NSString * cellIdentifier = @"cellIdentifier";
     page +=1;
     _reloading = YES;
     __weak ShopViewController * weakSelf = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading";
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    
         if (object) {
+            hud.labelText = @"Finish";
             [dataSource addUniqueFromArray:object];
-            [weakSelf doneLoadingTableViewData];
+        }else
+        {
+            hud.labelText = @"No More Data";
         }
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1];
+        
+        [weakSelf doneLoadingTableViewData];
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        _reloading = NO;
+        [weakSelf doneLoadingTableViewData];
     }];
 }
 

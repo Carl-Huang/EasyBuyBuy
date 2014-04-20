@@ -231,7 +231,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
 -(void)showTheExpressTable
 {
-    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"PopupTable" bundle:nil];
 //    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
     
     __weak CheckOrderViewController * weakSelf = self;

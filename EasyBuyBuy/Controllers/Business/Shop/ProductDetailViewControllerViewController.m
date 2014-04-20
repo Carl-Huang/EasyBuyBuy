@@ -142,7 +142,6 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     {
         dataSource = @[@"Name:",@"NO.:",@"Prices:",@"Size:",@"Weight:",@"Quality:",@"Color:",@"Region:",@"Pay in :",@"Store:",@"Detail",@""];
     }
-    
 
 }
 

@@ -36,6 +36,8 @@
  **/
 @property (nonatomic , copy) void (^TapActionBlock)(NSInteger pageIndex);
 
+
+@property (assign ,nonatomic) BOOL isShouldAutoScroll;
 -(void)startTimer;
 -(void)stopTimer;
 -(void)refreshContentAtIndex:(NSInteger)index withObject:(UIImageView *)imageView;

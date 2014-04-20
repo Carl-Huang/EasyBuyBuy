@@ -63,20 +63,21 @@
 	
 	[self.view addSubview:qtmquitView];
 	
-    pageSize = 10;
+    pageSize = 20;
     page = 1;
     products = [NSMutableArray array];
     __weak ProductBroswerViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (object) {
+        if ([object count]) {
             [products addObjectsFromArray:object];
             [weakSelf.qtmquitView reloadData];
             [weakSelf setFooterView];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [weakSelf showAlertViewWithMessage:@"Loading failed"];
     }];
     _reloading = NO;
     // Do any additional setup after loading the view from its nib.
@@ -99,11 +100,11 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             [products addUniqueFromArray:object];
-            [weakSelf doneLoadingTableViewData];
         }
+        [weakSelf doneLoadingTableViewData];
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        _reloading = NO;
+        [weakSelf doneLoadingTableViewData];
     }];
     
 }
@@ -158,8 +159,6 @@
         NSURL * imageURL = [NSURL URLWithString:[[productImages objectAtIndex:0] valueForKey:@"image"]];
         
         [cell.photoView setImageWithURL:imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-            UIImage * temp = image;
-            
         }];
         
     }

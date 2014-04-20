@@ -26,7 +26,7 @@
 {
     _pageController.numberOfPages = totalPagesCount();
     NSInteger width = 10*_pageController.numberOfPages;
-    _pageController.frame = CGRectMake((self.bounds.size.width - width)/2, self.bounds.size.height/4*3, width, 30);
+    _pageController.frame = CGRectMake((self.bounds.size.width - width)/2, self.bounds.size.height/5*4, width, 20);
     
     _totalPageCount = totalPagesCount();
     if (_totalPageCount > 0) {
@@ -38,7 +38,8 @@
 - (id)initWithFrame:(CGRect)frame animationDuration:(NSTimeInterval)animationDuration
 {
     self = [self initWithFrame:frame];
-    if (animationDuration > 0.0) {
+    _isShouldAutoScroll = YES;
+    if (animationDuration > 0.0 ) {
         self.animationTimer = [NSTimer scheduledTimerWithTimeInterval:(self.animationDuration = animationDuration)
                                                                target:self
                                                              selector:@selector(animationTimerDidFired:)
@@ -100,6 +101,8 @@
     for (UIImageView *contentView in self.contentViews) {
         contentView.frame = self.bounds;
         contentView.userInteractionEnabled = YES;
+//        contentView.contentMode = UIViewContentModeScaleAspectFit;
+        
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTapAction:)];
         [contentView addGestureRecognizer:tapGesture];
         CGRect rightRect = contentView.frame;
@@ -191,13 +194,14 @@
 
 - (void)animationTimerDidFired:(NSTimer *)timer
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (_totalPageCount != 1) {
-            CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
-            [self.scrollView setContentOffset:newOffset animated:YES];
-        }
-    });
-    
+    if (_isShouldAutoScroll) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (_totalPageCount != 1) {
+                CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
+                [self.scrollView setContentOffset:newOffset animated:YES];
+            }
+        });
+    }
 }
 
 - (void)contentViewTapAction:(UITapGestureRecognizer *)tap

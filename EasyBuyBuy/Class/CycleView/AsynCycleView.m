@@ -39,6 +39,7 @@
 {
     self = [super init];
     if (self) {
+        _isShouldAutoScroll = YES;
         _placeHoderImage = image;
         nPlaceholderImages = numOfPlaceHoderImages;
         cycleViewParentView = parentView;
@@ -62,6 +63,8 @@
     }
     
     autoScrollView = [[CycleScrollView alloc] initWithFrame:cycleViewFrame animationDuration:2];
+    [autoScrollView setIsShouldAutoScroll:_isShouldAutoScroll];
+    
     autoScrollView.backgroundColor = [UIColor clearColor];
     dispatch_async(serialQueue, ^{
         autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){

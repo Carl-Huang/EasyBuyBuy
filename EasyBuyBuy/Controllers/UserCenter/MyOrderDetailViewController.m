@@ -357,7 +357,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     }
     
     
-    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"PopupTable" bundle:nil];
       __weak MyOrderDetailViewController * weakSelf = self;
     [regionTable tableTitle:@"Express" dataSource:tempData userDefaultKey:nil];
     [regionTable setSelectedBlock:^(id object,NSInteger index)

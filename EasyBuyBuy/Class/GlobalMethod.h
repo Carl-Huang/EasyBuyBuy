@@ -19,6 +19,7 @@ typedef enum _ANCHOR
 } ANCHOR;
 #import <Foundation/Foundation.h>
 @class CustomiseTextField;
+@class MBProgressHUD;
 
 @interface GlobalMethod : NSObject
 
@@ -79,4 +80,7 @@ typedef enum _ANCHOR
 +(NSString *)getUserDefaultWithKey:(NSString *)key;
 
 +(NSString *)getRegionCode;
+
++(MBProgressHUD *)showHudWithText:(NSString *)loadingText finishedDes:(NSString *)finishedText noDataDes:(NSString *)noDataText;
+
 @end

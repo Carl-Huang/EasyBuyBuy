@@ -43,7 +43,7 @@
     self.title = @"Upgrade Account";
     
     user = [User getUserFromLocal];
-    
+
     if (![user.isVip isEqualToString:@"1"]) {
         [self configureStore];
         __weak UpgradeViewController * weakSelf = self;
@@ -106,19 +106,22 @@
 
 - (IBAction)upgradeBtnAction:(id)sender {
     NSLog(@"%s",__func__);
+  
     if (_productsRequestFinished) {
-    
         if (![RMStore canMakePayments]) return;
         
         __weak UpgradeViewController * weakSelf = self;
         NSString *productID = [_products objectAtIndex:0];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
         [[RMStore defaultStore] addPayment:productID success:^(SKPaymentTransaction *transaction) {
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             //更新改用户为Vip 用户
             [weakSelf upgradeToVip];
         } failure:^(SKPaymentTransaction *transaction, NSError *error) {
-            
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             if (error.code !=2) {
                 [self showAlertViewWithMessage:@"Payment Transaction Failed"];
@@ -139,6 +142,9 @@
         [[HttpService sharedInstance]upgradeAccountWithParams:@{@"is_vip": @"1",@"user_id":user.user_id} completionBlock:^(BOOL isSuccess) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             if (isSuccess) {
+                
+                user.isVip = @"1";
+                [PersistentStore save];
                 [self showAlertViewWithMessage:@"Upgrade Successfully"];
             }
         } failureBlock:^(NSError *error, NSString *responseString) {

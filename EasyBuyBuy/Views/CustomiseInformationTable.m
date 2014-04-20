@@ -22,6 +22,7 @@
 #import "PopupTable.h"
 #import "CustomiseTableTextfield.h"
 #import "Base64.h"
+#import "User.h"
 
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
@@ -267,7 +268,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 {
     //show the action sheet
     if ([_photos count]>4) {
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"No more than 4 photos" delegate:nil cancelButtonTitle:@"" otherButtonTitles:nil, nil];
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"No more than 4 photos" delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
         [alertView show];
         alertView = nil;
         return;
@@ -476,24 +477,30 @@ static NSString * imageCellIdentifier = @"imageCell";
     //popupItemIndex == -1，表示没有设置弹出
     if (popupItemIndex !=-1 && indexPath.row == 0) {
         __weak CustomiseInformationTable * weakSelf = self;
-        PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+        PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"PopupTable" bundle:nil];
         NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
         
         [regionTable tableTitle:localizedDic[@"viewControllTitle"] dataSource:localizedDic[@"dataSource"] userDefaultKey:nil];
         [regionTable setSelectedBlock:^(id object,NSInteger index)
          {
-             NSLog(@"%@",object);
-
-             [dataSource replaceObjectAtIndex:popupItemIndex withObject:object];
-             [eliminateTheTextfieldItems replaceObjectAtIndex:popupItemIndex withObject:object];
-//             [weakSelf setValue:object forKey:@"buinessType"];
              
-             if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
-                 [tableContentInfo setObject:[NSNumber numberWithInt:index] forKey:@"BuinessType"];
-                 [_tableContentdelegate tableContent:tableContentInfo];
+             if (index == 0) {
+                 User * user = [User getUserFromLocal];
+                 if (![user.isVip isEqualToString:@"1"]) {
+                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"Only Vip can sell" delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+                     [alertView show];
+                     alertView = nil;
+                     return;
+                 }
              }
              
-             
+             NSLog(@"%@",object);
+             [dataSource replaceObjectAtIndex:popupItemIndex withObject:object];
+             [eliminateTheTextfieldItems replaceObjectAtIndex:popupItemIndex withObject:object];
+             if ([_tableContentdelegate respondsToSelector:@selector(tableContent:)]) {
+                 [tableContentInfo setObject:[NSNumber numberWithInt:index] forKey:BuinessType];
+                 [_tableContentdelegate tableContent:tableContentInfo];
+             }
              [weakSelf reloadData];
          }];
         
