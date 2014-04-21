@@ -815,4 +815,22 @@
                  };
     }
 }
+#pragma  mark - NewsViewController
+-(NSDictionary *)NewsViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"News"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"新闻"
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"أخبار"
+                 };
+    }
+}
 @end

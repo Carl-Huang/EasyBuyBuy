@@ -94,12 +94,14 @@
     __weak AsynCycleView * weakSelf =self;
     [self resetThePlaceImages:links];
     
-    for (int i =0; i<[links count]; ++i) {
+    
+    dispatch_apply([links count], concurrentQueue, ^(size_t i) {
         NSString * imgStr = [links objectAtIndex:i];
         if (![imgStr isKindOfClass:[NSNull class]]) {
             [weakSelf getImage:imgStr withIndex:i];
         }
-    }
+    });
+
 }
 
 -(void)resetThePlaceImages:(NSArray *)links

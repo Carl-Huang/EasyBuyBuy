@@ -113,6 +113,7 @@
         if (_totalPageCount == 1) {
             break;
         }
+       
     }
     if (_totalPageCount != 1) {
         [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];
@@ -135,7 +136,6 @@
         self.contentViews = [NSMutableArray array];
     }
     [self.contentViews removeAllObjects];
-    
     if (self.fetchContentViewAtIndex) {
         [self.contentViews addObject:self.fetchContentViewAtIndex(previousPageIndex)];
         [self.contentViews addObject:self.fetchContentViewAtIndex(_currentPageIndex)];
@@ -217,13 +217,6 @@
         [self.contentViews replaceObjectAtIndex:index withObject:imageView];
     }
 }
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
+
 
 @end
