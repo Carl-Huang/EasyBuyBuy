@@ -10,7 +10,7 @@
 #import "User.h"
 #import "Address.h"
 #import "SelectedAddressCell.h"
-
+#import "EditAddressViewController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface SelectedAddressViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -24,6 +24,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     User * loginObj;
     Address * selectedAddress;
     NSMutableDictionary * selectedAddressInfo;
+    
 }
 @end
 
@@ -46,17 +47,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     // Do any additional setup after loading the view from its nib.
 }
 
--(void)viewWillDisappear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
-    _defaultAddress = nil;
-    //设置当前选择的为默认地址
-    [[HttpService sharedInstance]setDefaultAddressWithParams:@{@"user_id":loginObj.user_id,@"id":selectedAddress.ID} completionBlock:^(BOOL isSuccess) {
-        if (isSuccess) {
-            
-        }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
-    }];
+    [self loadAddressList];
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,7 +73,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)initializationInterface
 {
     self.title = viewControllTitle;
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewControoler)];
+    [self setRightCustomBarItem:@"My_Adress_Btn_Add.png" action:@selector(addNewAddress)];
     
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
@@ -96,7 +90,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
-    
+    selectedAddress = _defaultAddress;
+}
+
+-(void)loadAddressList
+{
     page = 1;
     pageSize = 10;
     __weak SelectedAddressViewController * weakSelf = self;
@@ -104,16 +102,23 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * pageSizeStr = [NSString stringWithFormat:@"%d",pageSize];
     loginObj  = [PersistentStore getLastObjectWithType:[User class]];
     if (loginObj) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD * hub = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hub.labelText = @"Fetching Address List";
         [[HttpService sharedInstance]getAddressListWithParams:@{@"user_id": loginObj.user_id,@"page":pageStr,@"pageSize":pageSizeStr} completionBlock:^(id object) {
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            
             if ([object count]) {
                 dataSource = object;
                 [weakSelf setSelectedStatus];
                 [weakSelf.contentTable reloadData];
+            }else
+            {
+                hub.labelText = @"Your address list is empty";
+                [weakSelf showAlertViewWithMessage:@"Please add an address"];
             }
+            [hub hide:YES afterDelay:1.0];
         } failureBlock:^(NSError *error, NSString *responseString) {
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [hub hide:YES afterDelay:1.0];
+            
         }];
     }else
     {
@@ -140,6 +145,34 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     }
 }
+
+-(void)addNewAddress
+{
+    EditAddressViewController * viewController = [[EditAddressViewController alloc]initWithNibName:@"EditAddressViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoParentViewControoler
+{
+    if (selectedAddress) {
+        //设置当前选择的为默认地址
+        [[HttpService sharedInstance]setDefaultAddressWithParams:@{@"user_id":loginObj.user_id,@"id":selectedAddress.ID} completionBlock:^(BOOL isSuccess) {
+            if (isSuccess) {
+                
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            ;
+        }];
+        _defaultAddress = nil;
+        [self popVIewController];
+    }else
+    {
+        [self showAlertViewWithMessage:@"Please Select an address "];
+    }
+   
+}
+
 #pragma mark - UITableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

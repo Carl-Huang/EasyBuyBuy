@@ -796,4 +796,23 @@
                  };
     }
 }
+
+#pragma mark -SelectedAddressViewController
+-(NSDictionary *)SelectedAddressViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"My Address"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"我的地址"
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"عنوان بريدي"
+                 };
+    }
+}
 @end

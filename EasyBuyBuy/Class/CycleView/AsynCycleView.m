@@ -22,7 +22,7 @@
     NSInteger nPlaceholderImages;
     UIView * cycleViewParentView;
     
-    dispatch_queue_t serialQueue;
+    dispatch_queue_t concurrentQueue;
 }
 @property (strong ,nonatomic) NSMutableArray * placeHolderImages;
 @property (strong ,nonatomic) NSMutableArray * networkImages;
@@ -44,7 +44,7 @@
         nPlaceholderImages = numOfPlaceHoderImages;
         cycleViewParentView = parentView;
         cycleViewFrame = rect;
-        serialQueue = dispatch_queue_create("com.vedon.serialQueue", DISPATCH_QUEUE_SERIAL);
+        concurrentQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
     }
     return self;
 }
@@ -66,7 +66,7 @@
     [autoScrollView setIsShouldAutoScroll:_isShouldAutoScroll];
     
     autoScrollView.backgroundColor = [UIColor clearColor];
-    dispatch_async(serialQueue, ^{
+    dispatch_async(concurrentQueue, ^{
         autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
             return weakSelf.placeHolderImages[pageIndex];
         };
@@ -104,7 +104,7 @@
 
 -(void)resetThePlaceImages:(NSArray *)links
 {
-    dispatch_async(serialQueue, ^{
+    dispatch_barrier_async(concurrentQueue, ^{
         __weak AsynCycleView * weakSelf =self;
         if ([links count ] > [weakSelf.placeHolderImages count]) {
             for (int i = [weakSelf.placeHolderImages count]; i < [links count]; i ++) {
@@ -131,17 +131,11 @@
     __weak AsynCycleView * weakSelf = self;
     NSURL * url = [NSURL URLWithString:imgStr];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    
     [manager downloadWithURL:url options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        
         ;
-        
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-    
-        dispatch_async(serialQueue, ^{
-            
+        dispatch_barrier_async(concurrentQueue, ^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 NSLog(@"replace");
                 UIImageView * imageView = nil;
                 imageView = [[UIImageView alloc]initWithImage:image];
@@ -159,15 +153,13 @@
 
 -(void)updateAutoScrollViewItem
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __weak AsynCycleView * weakSelf = self;
-        autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-            return weakSelf.placeHolderImages[pageIndex];
-        };
-        autoScrollView.totalPagesCount = ^NSInteger(void){
-            return [weakSelf.placeHolderImages count];
-        };
-    });
+    __weak AsynCycleView * weakSelf = self;
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return weakSelf.placeHolderImages[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [weakSelf.placeHolderImages count];
+    };
 }
 
 -(void)dealloc

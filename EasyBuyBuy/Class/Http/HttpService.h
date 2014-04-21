@@ -80,6 +80,7 @@
  * @param  phone    收货人电话
  * @param  zip     收货人地区码
  * @param  address  收货人地址
+ * @param  telephone  收货人地址
  */
 -(void)addAddressWithParams:(NSDictionary *)params completionBlock:(void (^)(BOOL))success failureBlock:(void (^)(NSError *, NSString *))failure;
 
@@ -330,7 +331,7 @@
  * @param  c_cate_id        子分类
  * @param  type         (1:subscribe,0:unsubscribe)
  */
--(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 
 
 @end

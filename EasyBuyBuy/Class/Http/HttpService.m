@@ -717,9 +717,21 @@
     }];
 }
 
--(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure
+-(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure
 {
-    
+    [self post:[self mergeURL:subscription] withParams:params completionBlock:^(id obj) {
+        NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+        if ([statusStr isEqualToString:@"1"]) {
+            success(YES);
+        }else
+        {
+            NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+            failure(error,obj[@"result"]);
+        }
+
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
 }
 @end
 

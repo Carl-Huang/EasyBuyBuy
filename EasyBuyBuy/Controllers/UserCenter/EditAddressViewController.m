@@ -101,16 +101,15 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
     NSString * name= [textFieldInfoDic objectForKey:@"0"];
     NSString * phone = [textFieldInfoDic objectForKey:@"2"];
     NSString * address = [textFieldInfoDic objectForKey:@"3"];
-    
+    NSString * telNum = [textFieldInfoDic objectForKey:@"1"];
     
     User * user = [User getUserFromLocal];
     if (user) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        [[HttpService sharedInstance]addAddressWithParams:@{@"user_id":user.user_id,@"zip":@"123",@"name":name,@"phone":phone,@"address":address} completionBlock:^(BOOL isSuccess) {
+        [[HttpService sharedInstance]addAddressWithParams:@{@"user_id":user.user_id,@"zip":@"123",@"name":name,@"phone":phone,@"address":address,@"telephone":telNum} completionBlock:^(BOOL isSuccess) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             if (isSuccess) {
-                
                 [weakSelf popVIewController];
             }
             
