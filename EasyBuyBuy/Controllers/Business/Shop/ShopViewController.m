@@ -19,7 +19,7 @@
 #import "AsynCycleView.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
+@interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     
@@ -146,7 +146,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSInteger height = 100;
     CGRect rect = CGRectMake(0, 0, 320, height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+    autoScrollView.delegate = self;
+    
     [autoScrollView initializationInterface];
+    [autoScrollView updateNetworkImagesLink:@[@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg",@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg" ] containerObject:@[@{@"name":@"vedon"},@{@"name": @"gigi"}]];
     
 }
 
@@ -250,8 +253,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     _buinessType = type;
 }
 #pragma mark AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
+    if (object) {
+        NSLog(@"%@",object);
+    }
     //TODO:处理点击时间
     NSLog(@"%d",index);
 }

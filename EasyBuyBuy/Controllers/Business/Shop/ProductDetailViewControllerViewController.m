@@ -249,7 +249,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
     if ([imagesLink count]) {
-        [autoScrollView updateNetworkImagesLink:imagesLink];
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil];
     }
 }
 

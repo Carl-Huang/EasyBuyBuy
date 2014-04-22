@@ -11,7 +11,6 @@
 #import "CycleScrollView.h"
 #import "HttpService.h"
 #import "SDWebImageManager.h"
-//#include <pthread.h>
 
 @interface AsynCycleView()
 {
@@ -23,10 +22,12 @@
     UIView * cycleViewParentView;
     
     dispatch_queue_t concurrentQueue;
+    
 }
 @property (strong ,nonatomic) NSMutableArray * placeHolderImages;
 @property (strong ,nonatomic) NSMutableArray * networkImages;
 @property (strong ,nonatomic) UIImage * placeHoderImage;
+@property (strong ,nonatomic) NSArray * items;
 @end
 @implementation AsynCycleView
 @synthesize placeHolderImages,networkImages;
@@ -76,8 +77,12 @@
     });
     
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:)]) {
-            [weakSelf.delegate didClickItemAtIndex:pageIndex];
+        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
+            id object = nil;
+            if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
+                object = [weakSelf.items objectAtIndex:pageIndex];
+            }
+            [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
         }
         NSLog(@"You have Touch %ld ",(long)pageIndex);
     };
@@ -85,16 +90,15 @@
     [cycleViewParentView addSubview:autoScrollView];
     cycleViewParentView = nil;
     
-    //    pthread_mutex_init(&imagesLock,NULL);
-    
 }
 
--(void)updateNetworkImagesLink:(NSArray *)links
+-(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
 {
     __weak AsynCycleView * weakSelf =self;
     [self resetThePlaceImages:links];
-    
-    
+    if (containerObj) {
+         _items = [containerObj copy];
+    }
     dispatch_apply([links count], concurrentQueue, ^(size_t i) {
         NSString * imgStr = [links objectAtIndex:i];
         if (![imgStr isKindOfClass:[NSNull class]]) {
@@ -176,6 +180,7 @@
 {
     [autoScrollView stopTimer];
     autoScrollView = nil;
+    _items = nil;
 }
 
 -(void)startTimer

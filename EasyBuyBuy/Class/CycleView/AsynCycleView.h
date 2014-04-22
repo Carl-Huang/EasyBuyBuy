@@ -11,7 +11,7 @@
 
 @protocol AsyCycleViewDelegate <NSObject>
 
--(void)didClickItemAtIndex:(NSInteger )index;
+-(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object;
 
 @end
 @interface AsynCycleView : NSObject
@@ -25,7 +25,7 @@
                  placeHolderNum:(NSInteger)numOfPlaceHoderImages
                           addTo:(UIView *)parentView;
 -(void)initializationInterface;
--(void)updateNetworkImagesLink:(NSArray *)links;
+-(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
 
 -(void)cleanAsynCycleView;
 -(void)pauseTimer;
