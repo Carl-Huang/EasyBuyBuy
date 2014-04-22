@@ -10,6 +10,7 @@
 #import "HttpService.h"
 #import "AllModels.h"
 #import <objc/runtime.h>
+#import "NSNull+OVNatural.h"
 
 @implementation HttpService
 
@@ -291,7 +292,7 @@
     [self post:[self mergeURL:address_list] withParams:params completionBlock:^(id obj) {
         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj && [statusStr isEqualToString:@"1"]) {
-            if (![obj[@"result"] isKindOfClass:[NSNull class]]) {
+            if ([obj[@"result"] count]) {
                 NSArray * addresses = obj[@"result"];
                 if ([addresses count]) {
                     NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
@@ -421,7 +422,7 @@
             NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
             if ([statusStr isEqualToString:@"1"]) {
                 NSArray * array = nil;
-                if (![obj[@"result"] isKindOfClass:[NSNull class]]) {
+                if ([obj[@"result"] count]) {
                     array = [self mapModelProcess:obj[@"result"] withClass:[ChildCategory class]];
                 }
                  success(array);
@@ -446,12 +447,13 @@
             if ([statusStr isEqualToString:@"1"]) {
                 
                 NSArray * responseObject = obj[@"result"];
-                if ([responseObject isKindOfClass:[NSNull class]]) {
-                    success(nil);
-                }else
-                {
+                if ([responseObject count]) {
+                    
                     NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
                     success(tempArray);
+                }else
+                {
+                    success(nil);
                 }
                 
             }else
@@ -623,12 +625,13 @@
     [self post:[self mergeURL:address_detail] withParams:params completionBlock:^(id obj) {
         NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
         if (obj && [statusStr isEqualToString:@"1"]) {
-            if ([obj[@"result"] isKindOfClass:[NSNull class]]) {
-                success(nil);
-            }else
-            {
+            if ([obj[@"result"] count]) {
                 NSArray * array = [self mapModelProcess:obj[@"result"] withClass:[Address class]];
                 success(array);
+                
+            }else
+            {
+                success(nil);
             }
            
         }else
@@ -649,16 +652,16 @@
             
             BiddingInfo * biddingInfo = [[BiddingInfo alloc]init];
             NSArray * responseObject = obj[@"result"];
-            if ([responseObject isKindOfClass:[NSNull class]]) {
-                success(nil);
-            }else
-            {
+            if ([responseObject count]) {
                 biddingInfo.good = [[self mapModelProcess:responseObject withClass:[BiddingGood class] arrayKey:@"image"]objectAtIndex:0];
                 
                 NSArray * biddingListObj = [[obj[@"result"] valueForKey:@"bidding_list"]objectAtIndex:0];
                 biddingInfo.biddingClients = [self mapModelProcess:biddingListObj withClass:[BiddingClient class]];
                 
                 success(biddingInfo);
+            }else
+            {
+                success(nil);
             }
         }else
         {

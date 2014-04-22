@@ -189,9 +189,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
-    
-
-   
 
     selectedExpressIndex = -1;
     remartContent = @"";
@@ -396,34 +393,40 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
 #pragma mark - Outlet Action
 - (IBAction)submitOrderAction:(id)sender {
-    [[PaymentMng sharePaymentMng]configurePaymentSetting];
     
-    
-    User * user = [User getUserFromLocal];
-    if (_isNewOrder) {
-        NSMutableArray * orderProducts = [self assembleOrderProducts];
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
-                                                           options:0
-                                                             error:nil];
-        NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-        
-        //把订单上传到服务器
-        __weak MyOrderDetailViewController * weakSelf =self;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
-         {
-             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-             orderID = [object valueForKey:@"order_id"];
-             [weakSelf paying];
-         } failureBlock:^(NSError *error, NSString *responseString) {
-             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-             [self showAlertViewWithMessage:@"Submit order failed"];
-         }];
-        
+    if (defaultAddress ) {
+        [[PaymentMng sharePaymentMng]configurePaymentSetting];
+        User * user = [User getUserFromLocal];
+        if (_isNewOrder) {
+            NSMutableArray * orderProducts = [self assembleOrderProducts];
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
+                                                               options:0
+                                                                 error:nil];
+            NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+            
+            //把订单上传到服务器
+            __weak MyOrderDetailViewController * weakSelf =self;
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
+             {
+                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                 orderID = [object valueForKey:@"order_id"];
+                 [weakSelf paying];
+             } failureBlock:^(NSError *error, NSString *responseString) {
+                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                 [self showAlertViewWithMessage:@"Submit order failed"];
+             }];
+            
+        }else
+        {
+            [self paying];
+        }
     }else
     {
-        [self paying];
+        [self showAlertViewWithMessage:@"Please selected an address"];
     }
+    
+    
    
     
 }

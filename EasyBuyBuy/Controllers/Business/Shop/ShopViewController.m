@@ -10,7 +10,7 @@
 #import "ProductClassifyCell.h"
 #import "ProdecutViewController.h"
 #import "ParentCategory.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WebCache.h"
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 
@@ -81,11 +81,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
     
-    
     if (localizedDic) {
-        if ([_type isEqualToString:@"3"]) {
+        if (_buinessType == BiddingBuinessModel) {
             viewControllTitle = localizedDic [@"biddingTitle"];
-        }else if([_type isEqualToString:@"2"])
+        }else if(_buinessType == B2BBuinessModel)
         {
             viewControllTitle = localizedDic[@"factoryTitle"];
         }else
@@ -124,8 +123,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
-    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             [dataSource addObjectsFromArray:object];
@@ -147,6 +147,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     CGRect rect = CGRectMake(0, 0, 320, height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     [autoScrollView initializationInterface];
+    
 }
 
 -(void)addLinkView
@@ -157,7 +158,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         linkViewRect.origin.y = self.view.bounds.size.height - height + 88;
     }
     linkView = [[OtherLinkView alloc]initWithFrame:linkViewRect];
-    if (_type.integerValue == B2CBuinessModel) {
+    if (_buinessType == B2CBuinessModel) {
         [linkView initializedInterfaceWithInfo:nil currentTag:0];
     }else
     {
@@ -225,14 +226,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
     __weak ShopViewController * weakSelf = self;
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
-    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": _type,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
     
         if (object) {
             hud.labelText = @"Finish";
             [dataSource addUniqueFromArray:object];
         }else
         {
-            hud.labelText = @"No More Data";
+            hud.labelText = @"Finish Loading";
         }
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1];
@@ -244,9 +245,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }];
 }
 
--(void)setShopViewControllerModel:(NSString *)type
+-(void)setShopViewControllerModel:(BuinessModelType )type
 {
-    _type = type;
+    _buinessType = type;
 }
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index

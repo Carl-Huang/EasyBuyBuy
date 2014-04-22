@@ -148,7 +148,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
             [weakSelf updateContent];
         }else
         {
-            [weakSelf showAlertViewWithMessage:@"Fetch Data Error"];
+            [weakSelf showAlertViewWithMessage:@"No Data"];
             isFetchingDataError = YES;
         }
     } failureBlock:^(NSError *error, NSString *responseString) {

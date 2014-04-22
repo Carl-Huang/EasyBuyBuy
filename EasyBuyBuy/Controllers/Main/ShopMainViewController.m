@@ -232,10 +232,10 @@
     [maskView setHidden:YES];
 }
 
--(void)gotoShopViewControllerWithType:(NSInteger )type
+-(void)gotoShopViewControllerWithType:(BuinessModelType )type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
-    [viewController setShopViewControllerModel:[NSString stringWithFormat:@"%d",type]];
+    [viewController setShopViewControllerModel:type];
     [self push:viewController];
     viewController = nil;
 }

@@ -7,12 +7,11 @@
 //
 
 #import "CommonViewController.h"
-
 @interface ShopViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @property (weak, nonatomic) IBOutlet UIView *adView;
-@property (strong ,nonatomic) NSString * type;
+@property (assign ,nonatomic) BuinessModelType  buinessType;
 
--(void)setShopViewControllerModel:(NSString *)type;
+-(void)setShopViewControllerModel:(BuinessModelType )type;
 @end

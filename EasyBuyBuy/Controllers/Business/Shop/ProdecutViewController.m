@@ -10,7 +10,7 @@
 #import "ProductCell.h"
 #import "ProductBroswerViewController.h"
 #import "ChildCategory.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WebCache.h"
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 #import "User.h"
@@ -63,8 +63,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)initializationLocalString
 {
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
-    
-    
     if (localizedDic) {
         viewControllTitle = localizedDic [@"viewControllTitle"];
     }else
@@ -75,7 +73,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)initializationInterface
 {
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
-    [self setRightCustomBarItem:@"home_Icon" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
     if ([OSHelper iOS7]) {
@@ -152,14 +149,35 @@ static NSString * cellIdentifier = @"cellIdentifier";
     UIButton * btn = (UIButton *)sender;
     NSString * key = [NSString stringWithFormat:@"%d",btn.tag];
     NSString * value = [itemsSelectedStatus valueForKey:key];
+    ChildCategory * object = [dataSource objectAtIndex:btn.tag];
     if ([value isEqualToString:@"1"]) {
+        [self updateFaviroteItem:object withStatus:@"0"];
         [itemsSelectedStatus setObject:@"0" forKey:key];
     }else
     {
+        [self updateFaviroteItem:object withStatus:@"1"];
         [itemsSelectedStatus setObject:@"1" forKey:key];
     }
     [_contentTable reloadData];
     NSLog(@"%d",btn.tag);
+}
+
+-(void)updateFaviroteItem:(ChildCategory *)item withStatus:(NSString *)status
+{
+    User * user = [User getUserFromLocal];
+    __typeof (self) __weak weakSelf =self;
+    if (user) {
+        [[HttpService sharedInstance]subscribetWithParams:@{@"user_id":user.user_id,@"p_cate_id":item.parent_id,@"c_cate_id":item.ID,@"type":status} completionBlock:^(BOOL isSuccess) {
+            if (!isSuccess) {
+                [weakSelf showAlertViewWithMessage:@"Add to Favorite failed"];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [weakSelf showAlertViewWithMessage:@"Add to Favorite failed"];
+        }];
+    }else
+    {
+        [self showAlertViewWithMessage:@"Please login first"];
+    }
 }
 
 -(void)createFooterView
@@ -258,7 +276,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
     
     NSURL * imageURL = [NSURL URLWithString:object.image];
-    [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
+    if (imageURL) {
+         [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
+    }
+   
     cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
     cell.classifyName.text = object.name;
     

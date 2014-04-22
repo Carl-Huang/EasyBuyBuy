@@ -166,9 +166,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }];
         _defaultAddress = nil;
         [self popVIewController];
-    }else
-    {
-        [self showAlertViewWithMessage:@"Please Select an address "];
     }
    
 }

@@ -119,7 +119,6 @@
         [weakSelf showAlertViewWithMessage:@"Invalid Password"];
     }];
     
-    
 }
 
 - (IBAction)registerBtnAction:(id)sender {

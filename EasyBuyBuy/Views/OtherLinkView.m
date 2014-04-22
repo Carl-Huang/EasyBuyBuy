@@ -35,20 +35,35 @@
         [self addSubview:imageView];
         imageView = nil;
         buttons = [NSMutableArray array];
-        NSInteger width = 320 / 5;
+        NSInteger bgWidth = 320 / 5;
+        NSInteger iconWidth = bgWidth / 8 * 7;
+        NSInteger offset = bgWidth / 8  ;
+        
         for (int i =0; i< 5; i++) {
+            //背景
+            UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(i * bgWidth, 0, bgWidth, frame.size.height)];
+            [bgView setBackgroundColor:[UIColor clearColor]];
+            
+            //图标
             LinkBtn * btn = [LinkBtn buttonWithType:UIButtonTypeCustom];
-            [btn setFrame:CGRectMake(i * width, 0, width, frame.size.height)];
+            [btn setFrame:CGRectMake(i * (iconWidth+offset)+offset , offset, iconWidth, iconWidth)];
             btn.tag = i;
             [btn addTarget: self action:@selector(gotoOtherLinkAction:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [bgView addSubview:btn];
             [buttons addObject:btn];
             [self addSubview:btn];
             btn = nil;
+            bgView = nil;
         }
         myDelegate = [[UIApplication sharedApplication]delegate];
         rootNav = (UINavigationController *)myDelegate.window.rootViewController;
-        images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png",@"news.png"];
-        // Initialization code
+        images = @[@"Shop.png",
+                   @"Factory.png",
+                   @"Auction.png",
+                   @"Easy sell&Buy.png",
+                   @"Shipping.png",
+                   @"news.png"];
        
     }
     return self;
@@ -101,9 +116,6 @@
     
     for (int i =0; i< [tempImages count] ; i++) {
         LinkBtn * tempBtn = [buttons objectAtIndex:i];
-//        NSDictionary * dic = [info objectAtIndex:i];        
-//        [tempBtn setTitle:dic[@"title"] forState:UIControlStateNormal];
-//        [tempBtn setLink:dic[@"link"]];
         UIImage * image = [UIImage imageNamed:[tempImages objectAtIndex:i]];
         [tempBtn setBackgroundImage:image forState:UIControlStateNormal];
         
@@ -147,17 +159,6 @@
 
 -(void)gotoShopViewControllerWithType:(NSString *)type
 {
-//    NSArray * viewControllers = rootNav.viewControllers;
-//  
-//    for (UIViewController * vc in viewControllers) {
-//        if ([vc isKindOfClass:[ShopViewController class]]) {
-//            ShopViewController * viewController = vc;
-//            [viewController setShopViewControllerModel:type];
-//            [rootNav popToViewController:vc animated:YES];
-//            break;
-//        }
-//    }
-   
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
     [viewController setShopViewControllerModel:type];
     [rootNav pushViewController:viewController animated:YES];
@@ -191,13 +192,6 @@
     [rootNav pushViewController:viewController animated:YES];
     viewController = nil;
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+
 
 @end
