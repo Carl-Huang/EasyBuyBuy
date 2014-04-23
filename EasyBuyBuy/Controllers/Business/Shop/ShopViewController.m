@@ -119,7 +119,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     
     page = 1;
-    pageSize = 10;
+    pageSize = 20;
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -196,7 +196,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
    
     if (footerView && [footerView superview])
 	{
-        // reset position
         footerView.frame = CGRectMake(0.0f,
                                               height,
                                               _contentTable.frame.size.width,
@@ -204,18 +203,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }else
 	{
         _reloading = NO;
-        // create the footerView
         footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
                               CGRectMake(0.0f, height,
                                          _contentTable.frame.size.width, self.view.bounds.size.height)];
         footerView.delegate = self;
         [_contentTable addSubview:footerView];
     }
-    
-    if (footerView)
-	{
-        [footerView refreshLastUpdatedDate];
-    }
+    [footerView refreshLastUpdatedDate];
+ 
 }
 
 -(void)removeFootView

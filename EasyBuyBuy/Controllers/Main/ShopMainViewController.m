@@ -105,12 +105,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setHidden:YES];
-    [autoScrollNewsView startTimer];
+//    [autoScrollNewsView startTimer];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [autoScrollNewsView pauseTimer];
+//    [autoScrollNewsView pauseTimer];
 }
 
 - (void)didReceiveMemoryWarning
