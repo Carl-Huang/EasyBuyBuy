@@ -30,6 +30,7 @@
 #import "AppDelegate.h"
 #import "AsynCycleView.h"
 #import "PopupTable.h"
+#import "NSMutableArray+AddUniqueObject.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate>
 {
     UIPageControl * page;
@@ -48,6 +49,9 @@
     NSInteger contentIconOffsetY;
     
     NSArray * homePageNews;
+    NSMutableArray * regionData;
+    NSInteger page_Region;
+    NSInteger pageSize_Region;
 }
 @end
 
@@ -80,7 +84,18 @@
          [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
 
-    // Do any additional setup after loading the view from its nib.
+    //预加载region 数据
+    regionData = [NSMutableArray array];
+    page_Region = 1;
+    pageSize_Region = 50;
+    [[HttpService sharedInstance]getResgionDataWithParams:@{@"page":[NSString stringWithFormat:@"%d",page_Region],@"pageSize":[NSString stringWithFormat:@"%d",pageSize_Region]} completionBlock:^(id object) {
+        if (object) {
+            [regionData addUniqueFromArray:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+    }];
+
+    
 }
 
 
@@ -168,7 +183,8 @@
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
 {
     searchContent = searchText;
-    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15"} completionBlock:^(id object) {
+    NSString * zipID  = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentRegion];
+    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15",@"zip_code_id":zipID} completionBlock:^(id object) {
         if (object) {
             finishBlock(object);
         }
@@ -318,6 +334,49 @@
     [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
 }
 
+-(void)fetchRegionDataWithCompletedHandler:(void (^)(BOOL isSuccess))didFinishFetchRegionDataBlock
+{
+    if ([regionData count]==0) {
+        page_Region = 1;
+    }else
+    {
+        page_Region ++;
+    }
+    [[HttpService sharedInstance]getResgionDataWithParams:@{@"page":[NSString stringWithFormat:@"%d",page_Region],@"pageSize":[NSString stringWithFormat:@"%d",pageSize_Region]} completionBlock:^(id object) {
+        if (object) {
+            [regionData addUniqueFromArray:object];
+            didFinishFetchRegionDataBlock(YES);
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        didFinishFetchRegionDataBlock(NO);
+    }];
+}
+
+-(void)showTable
+{
+    if (!regionTable) {
+        regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    }
+    //    NSArray * regionData = [GlobalMethod getRegionTableData];
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+    __weak ShopMainViewController * weakSelf = self;
+    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
+    [regionTable setSelectedBlock:^(id object)
+     {
+         NSLog(@"%@",object);
+         //更新zipCode
+//         [weakSelf getZipCode];
+     }];
+    
+    
+    regionTable.view.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        regionTable.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [self.view addSubview:regionTable.view];
+        [self addChildViewController:regionTable];
+    }];
+}
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
@@ -346,31 +405,27 @@
     NSInteger pageNumber = scrollView.contentOffset.x / 320.0f;
     page.currentPage = pageNumber;
 }
+
+#pragma mark - IBOutlet Action
 - (IBAction)showRegionTable:(id)sender {
     
-    if (!regionTable) {
-        regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    if (![regionData count]) {
+        [self fetchRegionDataWithCompletedHandler:^(BOOL isSuccess) {
+            if(isSuccess)
+            {
+                [self showTable];
+            }else
+            {
+                [self showAlertViewWithMessage:@"Fetch Region Data Error"];
+            }
+        }];
+    }else
+    {
+        [self showTable];
     }
-    NSArray * regionData = [GlobalMethod getRegionTableData];
-    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-    __weak ShopMainViewController * weakSelf = self;
-    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
-    [regionTable setSelectedBlock:^(id object)
-     {
-         NSLog(@"%@",object);
-         //更新zipCode
-         [weakSelf getZipCode];
-     }];
-    
-    
-    regionTable.view.alpha = 0.0;
-    [UIView animateWithDuration:0.3 animations:^{
-        regionTable.view.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        [self.view addSubview:regionTable.view];
-        [self addChildViewController:regionTable];
-    }];
 }
+
+
 
 - (IBAction)showUserCenter:(id)sender {
     

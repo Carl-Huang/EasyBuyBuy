@@ -10,6 +10,8 @@
 
 #import "RegionTableViewController.h"
 #import "GlobalMethod.h"
+#import "Region.h"
+#import "LanguageSelectorMng.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface RegionTableViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -21,6 +23,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     CGFloat fontSize;
     NSString * titleStr;
+    NSString * langauge;
 }
 @end
 
@@ -64,7 +67,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     itemStatus = [NSMutableDictionary dictionary];
     for (int i =0; i < [dataSource count]; ++i) {
-        if (currentSelectedItem != i) {
+        Region * region = [dataSource objectAtIndex:i];
+        if (currentSelectedItem != region.ID.integerValue) {
             [itemStatus setValue:[NSNumber numberWithInt:0] forKey:[NSString stringWithFormat:@"%d",i]];
         }else
         {
@@ -86,6 +90,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTap)];
     [_contentView addGestureRecognizer:tap];
     tap = nil;
+    
+    langauge = [[LanguageSelectorMng shareLanguageMng]currentLanguage];
+    
     
 }
 
@@ -145,44 +152,58 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-       
+    @autoreleasepool {
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            
+        }
+        
+        UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeight) lastItemNumber:[dataSource count]];
+        [cell setBackgroundView:bgView];
+        bgView = nil;
+        
+        NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
+        if ([[itemStatus valueForKey:key] integerValue] == 1) {
+            UIImageView * accesorryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Choose.png"]];
+            cell.accessoryView = accesorryView;
+            accesorryView = nil;
+        }else
+        {
+            cell.accessoryView = nil;
+        }
+        
+        Region * region = [dataSource objectAtIndex:indexPath.row];
+        NSString * contentText = nil;
+        if ([langauge isEqualToString:@"Englist"]) {
+            contentText = region.name_en;
+        }else if ([langauge isEqualToString:@"Chinese"])
+        {
+            contentText = region.name_zh;
+        }else
+        {
+            contentText = region.name_ar;
+        }
+        
+        cell.textLabel.text = contentText;
+        cell.textLabel.font = [UIFont systemFontOfSize: fontSize];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+
     }
-    
-    UIView * bgView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeight) lastItemNumber:[dataSource count]];
-    [cell setBackgroundView:bgView];
-    bgView = nil;
-    
-    NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
-    if ([[itemStatus valueForKey:key] integerValue] == 1) {
-        UIImageView * accesorryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Home_Icon_Choose.png"]];
-        cell.accessoryView = accesorryView;
-        accesorryView = nil;
-    }else
-    {
-        cell.accessoryView = nil;
-    }
-    
-    cell.textLabel.text = [dataSource objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize: fontSize];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString * key = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
-    
+    Region * region = [dataSource objectAtIndex:indexPath.row];
     //总是返回英语的地区名
-    NSArray * englishDataSource = [GlobalMethod getRegionTableDataWithLanguage:@"English"];
-    NSString * englishValue = [englishDataSource objectAtIndex:indexPath.row];
+//    NSArray * englishDataSource = [GlobalMethod getRegionTableDataWithLanguage:@"English"];
+//    NSString * englishValue = [englishDataSource objectAtIndex:indexPath.row];
     if (_selectedBlock) {
-        _selectedBlock(englishValue);
+        _selectedBlock(region.zip_code);
         _selectedBlock = nil;
     }
-    englishDataSource = nil;
     
     
     for (int i =0; i < [dataSource count]; ++i) {
@@ -191,7 +212,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         }
     }
     if ([[itemStatus valueForKey:key] integerValue] == 1) {
-//       [itemStatus setValue:[NSNumber numberWithInteger:0] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+
     }else
     {
         [itemStatus setValue:[NSNumber numberWithInteger:1] forKey:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
@@ -199,7 +220,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [tableView reloadData];
     
     if (userDefaultKey) {
-        [[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithInteger:indexPath.row] forKey:userDefaultKey];
+        [[NSUserDefaults standardUserDefaults]setObject:region.ID forKey:userDefaultKey];
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
     

@@ -324,6 +324,7 @@
  * @param  keyword          搜索关键字
  * @param  page             页码
  * @param  pageSize         页大小
+ * @param  zip_code_id       地区码
  */
 -(void)getSearchResultWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 /*!

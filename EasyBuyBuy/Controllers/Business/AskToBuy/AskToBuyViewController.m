@@ -9,7 +9,6 @@
 #define MinerCellHeigth 25
 #define PhotoAreaHeight 80
 
-#import "RegionTableViewController.h"
 #import "AskToBuyViewController.h"
 #import "CustomiseInformationTable.h"
 #import "CustomiseActionSheet.h"

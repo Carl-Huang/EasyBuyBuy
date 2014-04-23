@@ -14,4 +14,5 @@
 
 
 -(NSDictionary *)getLocalizedStringWithObject:(id)invoke container:(NSArray *)container;
+-(NSString *)currentLanguage;
 @end
