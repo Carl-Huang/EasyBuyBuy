@@ -76,9 +76,10 @@
                     }else
                     {
                         keyValue =[NSString stringWithFormat:@"%@",[info valueForKey:propertyName]];
+                        if ([keyValue isEqualToString:@"<null>"]) {
+                            keyValue = @"";
+                        }
                     }
-                    
-                    
                     if (keyValue) {
                         [model setValue:keyValue forKeyPath:propertyName];
                     }
@@ -706,8 +707,14 @@
             if ([statusStr isEqualToString:@"1"]) {
                 
                 NSArray * responseObject = obj[@"result"];
-                NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
-                success(tempArray);
+                if ([responseObject count]) {
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Good class] arrayKey:@"image"];
+                    success(tempArray);
+                }else
+                {
+                    success (nil);
+                }
+                
             }else
             {
                 NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
@@ -736,5 +743,86 @@
         failure(error,responseString);
     }];
 }
+
+-(void)getResgionDataWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:area_list] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                
+                NSArray * responseObject = obj[@"result"];
+                if ([responseObject count]) {
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[Region class]];
+                    success(tempArray);
+                }else
+                {
+                    success (nil);
+                }
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+        
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getNewsListWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:news_list] withParams:params completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                
+                NSArray * responseObject = obj[@"result"];
+                if ([responseObject count]) {
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[news class] arrayKey:@"image"];
+                    success(tempArray);
+                }else
+                {
+                    success(nil);
+                }
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+        
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];
+}
+
+-(void)getHomePageNewsWithCompletionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:home_page_news_list] withParams:nil completionBlock:^(id obj) {
+        if (obj) {
+            NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+            if ([statusStr isEqualToString:@"1"]) {
+                
+                NSArray * responseObject = obj[@"result"];
+                if ([responseObject count]) {
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[news class] arrayKey:@"image"];
+                    success(tempArray);
+                }else
+                {
+                    success (nil);
+                }
+                
+            }else
+            {
+                NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                failure(error,obj[@"result"]);
+            }
+        }
+        
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        failure(error,responseString);
+    }];}
 @end
 

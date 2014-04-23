@@ -14,14 +14,13 @@
 
 @interface AsynCycleView()
 {
-    pthread_mutex_t imagesLock;
     CycleScrollView * autoScrollView;
     
     CGRect cycleViewFrame;
     NSInteger nPlaceholderImages;
     UIView * cycleViewParentView;
-    
     dispatch_queue_t concurrentQueue;
+    SDWebImageManager *manager;
     
 }
 @property (strong ,nonatomic) NSMutableArray * placeHolderImages;
@@ -42,10 +41,18 @@
     if (self) {
         _isShouldAutoScroll = YES;
         _placeHoderImage = image;
-        nPlaceholderImages = numOfPlaceHoderImages;
+        if (numOfPlaceHoderImages == 0) {
+            nPlaceholderImages = 1;
+        }else
+        {
+           nPlaceholderImages = numOfPlaceHoderImages; 
+        }
+        
         cycleViewParentView = parentView;
         cycleViewFrame = rect;
         concurrentQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+        
+        [self initializationInterface];
     }
     return self;
 }
@@ -84,26 +91,26 @@
             }
             [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
         }
-        NSLog(@"You have Touch %ld ",(long)pageIndex);
     };
     
     [cycleViewParentView addSubview:autoScrollView];
-    cycleViewParentView = nil;
-    
+    cycleViewParentView = nil;   
 }
 
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
 {
-    __weak AsynCycleView * weakSelf =self;
-    [self resetThePlaceImages:links];
-    if (containerObj) {
-         _items = [containerObj copy];
-    }
-    dispatch_apply([links count], concurrentQueue, ^(size_t i) {
-        NSString * imgStr = [links objectAtIndex:i];
-        if (![imgStr isKindOfClass:[NSNull class]]) {
-            [weakSelf getImage:imgStr withIndex:i];
+    dispatch_async(concurrentQueue, ^{
+        __weak AsynCycleView * weakSelf =self;
+        [self resetThePlaceImages:links];
+        if (containerObj) {
+            _items = [containerObj copy];
         }
+        dispatch_apply([links count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
+            NSString * imgStr = [links objectAtIndex:i];
+            if (![imgStr isKindOfClass:[NSNull class]]) {
+                [weakSelf getImage:imgStr withIndex:i];
+            }
+        });
     });
 
 }
@@ -136,7 +143,8 @@
 {
     __weak AsynCycleView * weakSelf = self;
     NSURL * url = [NSURL URLWithString:imgStr];
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+
+    manager = [SDWebImageManager sharedManager];
     [manager downloadWithURL:url options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         ;
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -179,6 +187,7 @@
 -(void)cleanAsynCycleView
 {
     [autoScrollView stopTimer];
+    [manager cancelAll];
     autoScrollView = nil;
     _items = nil;
 }

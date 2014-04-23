@@ -19,4 +19,6 @@
 #import "GoodListSingleObj.h"
 #import "ShippingType.h"
 #import "BiddingInfo.h"
+#import "Region.h"
+#import "news.h"
 #endif

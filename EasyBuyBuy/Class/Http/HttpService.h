@@ -37,6 +37,9 @@
 #define bidding                     @"bidding"
 #define search                      @"search"
 #define subscription                @"subscription"
+#define area_list                   @"area_list"
+#define news_list                   @"news_list"
+#define home_page_news_list         @"home_page_news_list"
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
 
@@ -332,6 +335,23 @@
  * @param  type         (1:subscribe,0:unsubscribe)
  */
 -(void)subscribetWithParams:(NSDictionary *)params  completionBlock:(void (^)(BOOL object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
-
-
+/*!
+ * 获取地区列表
+ *
+ * @param  page
+ * @param  pageSize
+ */
+-(void)getResgionDataWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+/*!
+ * 获取新闻列表
+ *
+ * @param  page
+ * @param  pageSize
+ */
+-(void)getNewsListWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+/*!
+ * 获取首页新闻列表
+ *
+ */
+-(void)getHomePageNewsWithCompletionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

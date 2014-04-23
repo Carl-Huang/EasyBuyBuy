@@ -151,6 +151,8 @@
 		4EB74CDF19055698008A285A /* NSNull+OVNatural.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB74CDE19055698008A285A /* NSNull+OVNatural.m */; };
 		4EB7D73518EAEDFB00F787B3 /* SelectedAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */; };
 		4EB7D73618EAEDFB00F787B3 /* SelectedAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */; };
+		4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC291907636E00CA2C52 /* Region.m */; };
+		4EB7FC2D1907645000CA2C52 /* news.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC2C1907645000CA2C52 /* news.m */; };
 		4EB88ECF18F588A5001C2AA5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB88ECE18F588A5001C2AA5 /* User.m */; };
 		4EB8FF5018F2D54300A13709 /* ShippingType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8FF4F18F2D54300A13709 /* ShippingType.m */; };
 		4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB8FF5218F2F92700A13709 /* OrderProductListViewController.m */; };
@@ -508,6 +510,10 @@
 		4EB7D73218EAEDFB00F787B3 /* SelectedAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressCell.h; sourceTree = "<group>"; };
 		4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressCell.m; sourceTree = "<group>"; };
 		4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressCell.xib; sourceTree = "<group>"; };
+		4EB7FC281907636E00CA2C52 /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
+		4EB7FC291907636E00CA2C52 /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
+		4EB7FC2B1907645000CA2C52 /* news.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = news.h; sourceTree = "<group>"; };
+		4EB7FC2C1907645000CA2C52 /* news.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = news.m; sourceTree = "<group>"; };
 		4EB88ECD18F588A5001C2AA5 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		4EB88ECE18F588A5001C2AA5 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		4EB8FF4E18F2D54300A13709 /* ShippingType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingType.h; sourceTree = "<group>"; };
@@ -1040,6 +1046,10 @@
 				4EB422F718F5313F00DF2053 /* BiddingGood.m */,
 				4EB422F918F5314800DF2053 /* BiddingClient.h */,
 				4EB422FA18F5314800DF2053 /* BiddingClient.m */,
+				4EB7FC281907636E00CA2C52 /* Region.h */,
+				4EB7FC291907636E00CA2C52 /* Region.m */,
+				4EB7FC2B1907645000CA2C52 /* news.h */,
+				4EB7FC2C1907645000CA2C52 /* news.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1759,6 +1769,7 @@
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
 				4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */,
 				4EBC497018E9ADAA00481F8E /* EGORefreshTableHeaderView.m in Sources */,
+				4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */,
 				4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,
 				4EC207AF18C57754003708D6 /* NSString+MD5_32.m in Sources */,
@@ -1780,6 +1791,7 @@
 				4E11215F18EA687200B2F39E /* CustomiseTableTextfield.m in Sources */,
 				4EAC791B18C4D0AE0022ECDD /* GlobalMethod.m in Sources */,
 				4EBC495D18E9A15A00481F8E /* ChildCategory.m in Sources */,
+				4EB7FC2D1907645000CA2C52 /* news.m in Sources */,
 				4E082051190123BD00D9C2A2 /* NewsViewController.m in Sources */,
 				4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,

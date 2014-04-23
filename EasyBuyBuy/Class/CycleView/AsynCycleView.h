@@ -19,13 +19,27 @@
 @property (assign ,nonatomic)  BOOL isShouldAutoScroll;
 @property (weak ,nonatomic) id<AsyCycleViewDelegate>  delegate;
 
-
+/*!
+ * 初始化自动滚动
+ *
+ * @param  rect                     大小
+ * @param  PlaceHolderImage         PlaceHoder 图片
+ * @param  numOfPlaceHoderImages    PlaceHodlerImage 的数量，默认为1
+ * @param  ParentView               第四个参数是需要添加的view
+ */
 -(id)initAsynCycleViewWithFrame:(CGRect)rect
                placeHolderImage:(UIImage *)image
                  placeHolderNum:(NSInteger)numOfPlaceHoderImages
                           addTo:(UIView *)parentView;
--(void)initializationInterface;
+
+/*!
+ * 初始化自动滚动
+ *
+ * @param  ImagesLink              包含图片连接的数组
+ * @param  containerObject         点击对应图片，返回的对象。这里需要containerObject 的顺序和 ImageLink 的一样。
+ */
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
+
 
 -(void)cleanAsynCycleView;
 -(void)pauseTimer;

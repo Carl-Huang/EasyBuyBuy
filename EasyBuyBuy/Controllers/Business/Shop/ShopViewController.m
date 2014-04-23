@@ -98,7 +98,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     
     self.title = viewControllTitle;
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
     
     
@@ -141,14 +141,19 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
 }
 
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)addAdvertisementView
 {
     NSInteger height = 100;
     CGRect rect = CGRectMake(0, 0, 320, height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollView.delegate = self;
-    
-    [autoScrollView initializationInterface];
+
     [autoScrollView updateNetworkImagesLink:@[@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg",@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg" ] containerObject:@[@{@"name":@"vedon"},@{@"name": @"gigi"}]];
     
 }
@@ -275,17 +280,20 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
+    @autoreleasepool {
+        ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
+        
+        NSURL * imageURL = [NSURL URLWithString:object.image];
+        [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
+        
+        cell.classifyName.text = object.name;
+        cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return  cell;
+    }
     
-    NSURL * imageURL = [NSURL URLWithString:object.image];
-    [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
-
-    cell.classifyName.text = object.name;
-    cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
-
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return  cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

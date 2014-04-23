@@ -91,7 +91,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     NSInteger height = 100;
     CGRect rect = CGRectMake(0, 0, 320, height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
-    [autoScrollView initializationInterface];
+   
 }
 
 #pragma mark - Table

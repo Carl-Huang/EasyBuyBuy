@@ -284,7 +284,6 @@
     }
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     [autoScrollView setIsShouldAutoScroll:NO];
-    [autoScrollView initializationInterface];
 }
 
 -(void)addNewsView
@@ -294,12 +293,14 @@
 
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollNewsView.delegate = self;
-    [autoScrollNewsView initializationInterface];
 }
 
 #pragma mark AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
+    if (object) {
+        NSLog(@"%@",object);
+    }
     //TODO:处理点击时间
     NSLog(@"%d",index);
 }

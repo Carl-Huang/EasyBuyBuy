@@ -154,7 +154,6 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     CGRect rect = _productImageScrollView.bounds;
     
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:3 addTo:_productImageScrollView];
-    [autoScrollView initializationInterface];
     //fetch the product images form internet
     [self getGoodImages];
     
