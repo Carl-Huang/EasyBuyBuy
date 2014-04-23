@@ -260,17 +260,19 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1001) {
-        for (int i =0; i< [[itemSelectedStatus allKeys]count]; i++) {
-            NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",i]];
-            if ([value isEqualToString:@"1"]) {
-                Car * object = [dataSource objectAtIndex:i];
-                [PersistentStore deleteObje:object];
-                
+    if (alertView.tag == 1001) {
+        if (buttonIndex == 1) {
+            for (int i =0; i< [[itemSelectedStatus allKeys]count]; i++) {
+                NSString * value = [itemSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",i]];
+                if ([value isEqualToString:@"1"]) {
+                    Car * object = [dataSource objectAtIndex:i];
+                    [PersistentStore deleteObje:object];
+                }
             }
+            dataSource = [PersistentStore getAllObjectWithType:[Car class]];
+            [_contentTable reloadData];
         }
-        dataSource = [PersistentStore getAllObjectWithType:[Car class]];
-        [_contentTable reloadData];
+      
     }
 }
 

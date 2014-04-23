@@ -109,7 +109,7 @@
 - (void)showAlertViewWithMessage:(NSString *)message withDelegate:(id)delegate tag:(NSInteger)tag
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:message delegate:delegate cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:message delegate:delegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"Confirm", nil];
         [alertView show];
         alertView.tag = tag;
         alertView = nil;

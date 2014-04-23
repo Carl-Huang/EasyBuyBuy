@@ -2,6 +2,7 @@
 # platform :ios, "6.0"
 
 target "EasyBuyBuy" do
+pod 'DZWebBrowser', '~> 0.0.1'
 pod 'RMStore', '~> 0.4.2'
 pod 'CargoBay', '~> 2.0.3'
 pod 'SDWebImage', '~> 3.6'

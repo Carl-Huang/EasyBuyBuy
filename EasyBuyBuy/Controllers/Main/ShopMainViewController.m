@@ -182,28 +182,25 @@
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
 {
+    MBProgressHUD * hub = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hub.labelText = @"Searching";
+    
     searchContent = searchText;
     NSString * zipID  = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentRegion];
     [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15",@"zip_code_id":zipID} completionBlock:^(id object) {
         if (object) {
             finishBlock(object);
+        }else
+        {
+            hub.labelText = @"No Data";
         }
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [hub hide:YES afterDelay:1.0];
     } failureBlock:^(NSError *error, NSString *responseString) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        hub.labelText = @"Error";
+        [hub hide:YES afterDelay:1.0];
     }];
 
 }
-
--(void)reloadSearchWithPage:(NSInteger)page
-{
-    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":@"",@"page":@"",@"pageSize":@""} completionBlock:^(id object) {
-        ;
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
-    }];
-}
-
 
 -(void)tapAction:(UITapGestureRecognizer *)tap
 {
@@ -457,9 +454,7 @@
         [textField resignFirstResponder];
         if ([textField.text length]) {
             __weak ShopMainViewController * weakSelf = self;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
-                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
                 [weakSelf gotoSearchResultViewControllerWithData:objects];
                 
             }];
