@@ -31,6 +31,9 @@
 #import "AsynCycleView.h"
 #import "PopupTable.h"
 #import "NSMutableArray+AddUniqueObject.h"
+#import "news.h"
+#import "NewsDetailViewController.h"
+
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate>
 {
     UIPageControl * page;
@@ -102,7 +105,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setHidden:YES];
-    [autoScrollView startTimer];
+    [autoScrollNewsView startTimer];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [autoScrollNewsView pauseTimer];
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,7 +125,7 @@
 
 -(void)dealloc
 {
-    [autoScrollView cleanAsynCycleView];
+    [autoScrollNewsView cleanAsynCycleView];
 }
 
 #pragma mark - Private Method
@@ -325,10 +333,10 @@
 -(void)refreshNewContent
 {
     NSMutableArray * imagesLink = [NSMutableArray array];
-    for (NSDictionary * imageInfo in homePageNews) {
-        [imagesLink addObject:[imageInfo valueForKey:@"image"]];
+    for (news * newsOjb in homePageNews) {
+        [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
+    [autoScrollNewsView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
 }
 
 -(void)fetchRegionDataWithCompletedHandler:(void (^)(BOOL isSuccess))didFinishFetchRegionDataBlock
@@ -356,7 +364,7 @@
     }
     //    NSArray * regionData = [GlobalMethod getRegionTableData];
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-    __weak ShopMainViewController * weakSelf = self;
+//    __weak ShopMainViewController * weakSelf = self;
     [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
     [regionTable setSelectedBlock:^(id object)
      {
@@ -381,7 +389,10 @@
         NSLog(@"%@",object);
     }
     //TODO:处理点击时间
-    NSLog(@"%d",index);
+    NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+    [viewController setNewsObj:object];
+    [self push:viewController];
+    viewController = nil;
 }
 
 #pragma mark UIScrollViewDelegate

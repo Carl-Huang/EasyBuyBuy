@@ -61,7 +61,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)initializationInterface
 {
-    self.title = viewControllTitle;
+    self.title = _newsObj.title;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
@@ -79,16 +79,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     _contentTable.frame = rect;
     
     
-    UINib * cellNib = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
-    [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+//    UINib * cellNib = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
+//    [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     
     UINib * newsContentNib = [UINib nibWithNibName:@"NewsDetailDesCell" bundle:[NSBundle bundleForClass:[NewsDetailDesCell class]]];
     [_contentTable registerNib:newsContentNib forCellReuseIdentifier:newsContentIdentifier];
-//    [self refreshNewContent];
-//    
-//    if (_newsObj) {
-//        dataSource = @[_newsObj.title,_newsObj.content];
-//    }
+    [self refreshNewContent];
+    
+    if (_newsObj) {
+        dataSource = @[_newsObj.title,_newsObj.content];
+    }
 }
 
 -(void)addAdvertisementView
@@ -139,13 +139,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        DefaultDescriptionCellTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
         
         UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 40)];
         [cell setBackgroundView:bgView];
         bgView = nil;
-        cell.contentTitle.text = @"新闻标题:";
-        cell.content.text = [dataSource objectAtIndex:0];
+        
+        cell.textLabel.text =[dataSource objectAtIndex:0];
         return cell;
     }else
     {
@@ -155,7 +158,24 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         bgView = nil;
         
         [cell.contentDes loadHTMLString:[dataSource objectAtIndex:1] baseURL:nil];
+        
         return cell;
     }
+}
+
+-(NSString *)getImageUrl:(NSString *)searchStr
+{
+    NSError * error;
+    NSRegularExpression * regex = [[NSRegularExpression alloc]initWithPattern:@"/\\S*\\d.jpg" options:NSRegularExpressionAllowCommentsAndWhitespace error:&error];
+    NSArray * compomentArray =[regex matchesInString:searchStr options:NSMatchingReportProgress range:NSMakeRange(0, [searchStr length])];
+    
+    if ([compomentArray count]) {
+        for (NSTextCheckingResult * checktStr in compomentArray) {
+            NSRange range = [checktStr rangeAtIndex:0];
+            return [searchStr substringWithRange:range];
+        }
+        return searchStr;
+    }
+    return  nil;
 }
 @end

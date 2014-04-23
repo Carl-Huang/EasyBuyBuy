@@ -119,7 +119,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     
     page = 1;
-    pageSize = 20;
+    pageSize = 10;
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

@@ -5,7 +5,7 @@
 //  Created by vedon on 18/4/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
-#define CellHeigth 68
+#define CellHeigth 45
 
 #import "NewsViewController.h"
 #import "NewsCell.h"
@@ -94,17 +94,18 @@ static NSString * cellIdentifier = @"cellidentifier";
     pageSize = 15;
     dataSource = [NSMutableArray array];
     __typeof (self) __weak weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             [dataSource addUniqueFromArray: object];
             [weakSelf setFooterView];
+            [weakSelf.contentTable reloadData];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-        ;
+         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
-    [dataSource addObjectsFromArray:@[@"1",@"2"]];
-    [weakSelf setFooterView];
-    
+
 }
 
 -(void)setFooterView{
@@ -230,15 +231,25 @@ static NSString * cellIdentifier = @"cellidentifier";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NewsCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth) lastItemNumber:[dataSource count]];
-    [cell setBackgroundView:bgImageView];
-    bgImageView = nil;
+    
+    if ([dataSource count]==1) {
+        UIView * bgImageView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth)];
+        [cell setBackgroundView:bgImageView];
+        bgImageView = nil;
+    }else
+    {
+        UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth) lastItemNumber:[dataSource count]];
+        [cell setBackgroundView:bgImageView];
+        bgImageView = nil;
+    }
+    
+    news * object = [dataSource objectAtIndex:indexPath.row];
+    cell.newsTitle.text = object.title;
 
-    cell.newsTitle.text = @"hello";
-    cell.newsContentDes.text = @"hello news";
     
     cell.newsTitle.font = [UIFont systemFontOfSize:fontSize+2];
-    cell.newsContentDes.font = [UIFont systemFontOfSize:fontSize];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
