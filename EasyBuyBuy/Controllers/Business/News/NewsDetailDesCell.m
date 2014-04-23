@@ -26,4 +26,20 @@
     // Configure the view for the selected state
 }
 
+-(void)awakeFromNib
+{
+    CGRect rect = self.frame;
+    if ([OSHelper iPhone5]) {
+        rect.size.height = 280;
+    }else
+        rect.size.height = 200;
+    
+    self.frame = rect;
+    rect.size.height -=20;
+    rect.size.width  -=20;
+    rect.origin.x = 10;
+    rect.origin.y = 10;
+    self.contentDes.frame = rect;
+}
+
 @end

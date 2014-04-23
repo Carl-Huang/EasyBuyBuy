@@ -10,13 +10,21 @@
 #import "NewsViewController.h"
 #import "NewsCell.h"
 #import "NewsDetailViewController.h"
+#import "news.h"
+#import "EGORefreshTableFooterView.h"
+#import "NSMutableArray+AddUniqueObject.h"
+
 static NSString * cellIdentifier = @"cellidentifier";
-@interface NewsViewController ()
+@interface NewsViewController ()<EGORefreshTableDelegate>
 {
     NSString * viewControllTitle;
     CGFloat fontSize;
-    
-    NSArray * dataSource;
+    NSInteger originalTableHeight;
+    NSMutableArray * dataSource;
+    NSInteger page;
+    NSInteger pageSize;
+    EGORefreshTableFooterView * footerView;
+    BOOL                        _reloading;
 }
 @end
 
@@ -71,8 +79,9 @@ static NSString * cellIdentifier = @"cellidentifier";
         rect.size.height +=88;
     }
     _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     _contentTable.frame = rect;
+    originalTableHeight = rect.size.height;
+    
     UINib * cellNib = [UINib nibWithNibName:@"NewsCell" bundle:[NSBundle bundleForClass:[NewsCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
   
@@ -81,7 +90,130 @@ static NSString * cellIdentifier = @"cellidentifier";
         fontSize = DefaultFontSize;
     }
     
-    dataSource = @[@"1",@"2"];
+    page = 1;
+    pageSize = 15;
+    dataSource = [NSMutableArray array];
+    __typeof (self) __weak weakSelf = self;
+    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        if (object) {
+            [dataSource addUniqueFromArray: object];
+            [weakSelf setFooterView];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+    [dataSource addObjectsFromArray:@[@"1",@"2"]];
+    [weakSelf setFooterView];
+    
+}
+
+-(void)setFooterView{
+    
+    
+    NSInteger tableHeight = [dataSource count] * CellHeigth;
+    
+    CGRect rect = _contentTable.frame;
+    if (tableHeight > originalTableHeight) {
+        rect.size.height = originalTableHeight;
+        CGFloat height = MAX(_contentTable.contentSize.height, _contentTable.frame.size.height);
+        
+        if (footerView && [footerView superview])
+        {
+            // reset position
+            footerView.frame = CGRectMake(0.0f,
+                                          height,
+                                          _contentTable.frame.size.width,
+                                          self.view.bounds.size.height);
+        }else
+        {
+            _reloading = NO;
+            // create the footerView
+            footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                          CGRectMake(0.0f, height,
+                                     _contentTable.frame.size.width, self.view.bounds.size.height)];
+            footerView.delegate = self;
+            [_contentTable addSubview:footerView];
+        }
+        
+        if (footerView)
+        {
+            [footerView refreshLastUpdatedDate];
+        }
+    }else
+    {
+        rect.size.height =tableHeight;
+    }
+     _contentTable.frame = rect;
+    
+}
+
+-(void)removeFootView
+{
+    if (footerView) {
+        [footerView removeFromSuperview];
+        footerView = nil;
+    }
+}
+-(void)loadData
+{
+    page +=1;
+    _reloading = YES;
+    
+    __typeof (self) __weak weakSelf = self;
+    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        
+        if (object) {
+            [dataSource addUniqueFromArray:object];
+        }
+        [weakSelf doneLoadingTableViewData];
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [weakSelf doneLoadingTableViewData];
+    }];
+}
+
+#pragma mark - FooterView
+
+- (void)doneLoadingTableViewData{
+    //5
+    //  model should call this when its done loading
+    [self.contentTable reloadData];
+    
+    [self removeFootView];
+    [self setFooterView];
+    
+    _reloading = NO;
+    [footerView refreshLastUpdatedDate];
+    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
+    
+}
+
+-(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
+{
+    return _reloading;
+}
+- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
+{
+	[self loadData];
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+	if (footerView)
+	{
+        [footerView egoRefreshScrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	if (footerView)
+	{
+        [footerView egoRefreshScrollViewDidEndDragging:scrollView];
+    }
+	
+}
+- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
+{
+	return [NSDate date]; // should return date data source was last changed
 }
 
 #pragma mark - Table
@@ -113,7 +245,9 @@ static NSString * cellIdentifier = @"cellidentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    news * object = [dataSource objectAtIndex:indexPath.row];
     NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+    [viewController setNewsObj:object];
     [self push:viewController];
     viewControllTitle = nil;
 }

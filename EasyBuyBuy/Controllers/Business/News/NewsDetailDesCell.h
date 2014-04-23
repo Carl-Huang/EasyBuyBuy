@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface NewsDetailDesCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UITextView *contentDes;
+@property (weak, nonatomic) IBOutlet UIWebView *contentDes;
+
 
 @end

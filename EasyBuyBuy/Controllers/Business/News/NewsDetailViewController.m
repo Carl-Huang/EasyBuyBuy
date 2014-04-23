@@ -10,6 +10,8 @@
 #import "AsynCycleView.h"
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "NewsDetailDesCell.h"
+#import "news.h"
+
 static NSString * cellIdentifier = @"cellidentifier";
 static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
@@ -82,8 +84,11 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     
     UINib * newsContentNib = [UINib nibWithNibName:@"NewsDetailDesCell" bundle:[NSBundle bundleForClass:[NewsDetailDesCell class]]];
     [_contentTable registerNib:newsContentNib forCellReuseIdentifier:newsContentIdentifier];
-    
-    dataSource = @[@"1",@"2"];
+//    [self refreshNewContent];
+//    
+//    if (_newsObj) {
+//        dataSource = @[_newsObj.title,_newsObj.content];
+//    }
 }
 
 -(void)addAdvertisementView
@@ -94,6 +99,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
    
 }
 
+
+-(void)refreshNewContent
+{
+    NSArray * images = [_newsObj.image copy];
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (NSDictionary * imageInfo in images) {
+        [imagesLink addObject:[imageInfo valueForKey:@"image"]];
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:images];
+}
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -110,7 +125,15 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     if (indexPath.section == 0) {
         return 40;
     }else
-        return 200;
+    {
+        if ([OSHelper iPhone5]) {
+            return  280;
+        }else
+        {
+            return 200;
+        }
+    }
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,17 +145,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         [cell setBackgroundView:bgView];
         bgView = nil;
         cell.contentTitle.text = @"新闻标题:";
-        cell.content.text = @"easy buybuy";
+        cell.content.text = [dataSource objectAtIndex:0];
         return cell;
     }else
     {
         NewsDetailDesCell * cell = [tableView dequeueReusableCellWithIdentifier:newsContentIdentifier];
-        
-        UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, 200)];
+        UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, cell.frame.size.height)];
         [cell setBackgroundView:bgView];
         bgView = nil;
         
-        cell.contentDes.text = @"新闻内容";
+        [cell.contentDes loadHTMLString:[dataSource objectAtIndex:1] baseURL:nil];
         return cell;
     }
 }

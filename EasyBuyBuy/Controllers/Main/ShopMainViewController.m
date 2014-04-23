@@ -46,6 +46,8 @@
     AsynCycleView * autoScrollView;
     AsynCycleView * autoScrollNewsView;
     NSInteger contentIconOffsetY;
+    
+    NSArray * homePageNews;
 }
 @end
 
@@ -284,6 +286,7 @@
     }
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     [autoScrollView setIsShouldAutoScroll:NO];
+    
 }
 
 -(void)addNewsView
@@ -293,6 +296,26 @@
 
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollNewsView.delegate = self;
+    
+    __typeof (self) __weak weakSelf = self;
+    [[HttpService sharedInstance]getHomePageNewsWithCompletionBlock:^(id object) {
+        if (object) {
+            homePageNews = object;
+            [weakSelf refreshNewContent];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        ;
+    }];
+
+}
+
+-(void)refreshNewContent
+{
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (NSDictionary * imageInfo in homePageNews) {
+        [imagesLink addObject:[imageInfo valueForKey:@"image"]];
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
 }
 
 #pragma mark AsynViewDelegate
