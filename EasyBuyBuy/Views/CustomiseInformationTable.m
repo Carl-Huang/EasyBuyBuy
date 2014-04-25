@@ -27,7 +27,7 @@
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
 
-@interface CustomiseInformationTable ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface CustomiseInformationTable ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 {
     NSMutableArray * dataSource;
     NSMutableArray * eliminateTheTextfieldItems;
@@ -485,13 +485,13 @@ static NSString * imageCellIdentifier = @"imageCell";
          {
              
              if (index == 0) {
-                 User * user = [User getUserFromLocal];
-                 if (![user.isVip isEqualToString:@"1"]) {
-                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"Only Vip can sell" delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+//                 User * user = [User getUserFromLocal];
+//                 if (![user.isVip isEqualToString:@"1"]) {
+                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"Download the vip version of Easybuybuy ,go to download now?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Confirm", nil];
                      [alertView show];
                      alertView = nil;
                      return;
-                 }
+//                 }
              }
              
              NSLog(@"%@",object);
@@ -570,5 +570,11 @@ static NSString * imageCellIdentifier = @"imageCell";
     // Drawing code
 }
 */
-
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 1)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"VIPVersionURL"]];
+    }
+}
 @end

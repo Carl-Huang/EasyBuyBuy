@@ -27,4 +27,8 @@ typedef  NS_ENUM(NSInteger, BuinessModelType)
 #define CarType             @"cartype"
 #define DefaultFontSize     14
 
+
+//收费版本的URL
+#define VIPVersionURL       @""
+
 #endif

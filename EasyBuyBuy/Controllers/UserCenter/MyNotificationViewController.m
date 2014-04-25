@@ -20,7 +20,7 @@
 #import "AppDelegate.h"
 
 static NSString * cellIdentifier        = @"cellIdentifier";
-@interface MyNotificationViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+@interface MyNotificationViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     
@@ -284,12 +284,13 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 }
 
 - (IBAction)systemNotiBtnAction:(id)sender {
-    _contentScrollView.scrollEnabled = YES;
-    [self resetProductNotiButtonStatus:NO];
-    isScrollViewShouldScroll = NO;
-     [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
-    _contentScrollView.scrollEnabled = NO;
-    NSLog(@"%s",__func__);
+    [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
+//    _contentScrollView.scrollEnabled = YES;
+//    [self resetProductNotiButtonStatus:NO];
+//    isScrollViewShouldScroll = NO;
+//     [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+//    _contentScrollView.scrollEnabled = NO;
+//    NSLog(@"%s",__func__);
 }
 
 
@@ -342,5 +343,18 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 //         NSLog(@"%s",__func__);
 //    }
 //}
+
+#pragma mark - UIAlertView
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == 1001)
+    {
+        if(buttonIndex == 1)
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"VIPVersionURL"]];
+        }
+        
+    }
+}
 
 @end

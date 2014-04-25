@@ -33,8 +33,9 @@
 #import "NSMutableArray+AddUniqueObject.h"
 #import "news.h"
 #import "NewsDetailViewController.h"
+#import "AppDelegate.h"
 
-@interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate>
+@interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate,UIAlertViewDelegate>
 {
     UIPageControl * page;
     NSInteger  currentPage;
@@ -279,6 +280,7 @@
 
 -(void)gotoShippingViewController
 {
+    
     ShippingViewController * viewController = [[ShippingViewController alloc]initWithNibName:@"ShippingViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
@@ -286,9 +288,10 @@
 
 -(void)gotoNewsViewController
 {
-    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
-    [self push:viewController];
-    viewController = nil;
+        [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
+//    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
+//    [self push:viewController];
+//    viewController = nil;
 }
 
 
@@ -485,6 +488,19 @@
     [viewController searchTableWithResult:data];
     [self push:viewController];
     viewController = nil;
+}
+
+#pragma mark - UIAlertView
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == 1001)
+    {
+        if(buttonIndex == 1)
+        {
+              [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"VIPVersionURL"]];
+        }
+      
+    }
 }
 
 @end
