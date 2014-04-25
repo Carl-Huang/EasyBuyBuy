@@ -559,6 +559,8 @@
                  @"viewControllTitle": @"Shopping Car",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
+                 @"b2cBtn":@"B2C",
+                 @"b2bBtn":@"B2B"
                  };
     }else if ([language isEqualToString:@"Chinese"])
     {
@@ -566,6 +568,8 @@
                  @"viewControllTitle": @"购物车",
                  @"confirmBtn":@"确定",
                  @"costDesc":@"总价:",
+                 @"b2cBtn":@"B2C",
+                 @"b2bBtn":@"B2B"
                  };
     }else
     {
@@ -573,6 +577,8 @@
                  @"viewControllTitle": @"Shopping Car",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
+                 @"b2cBtn":@"B2C",
+                 @"b2bBtn":@"B2B"
                  };
     }
 }

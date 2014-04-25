@@ -17,4 +17,6 @@
 - (IBAction)confirmBtnAction:(id)sender;
 - (IBAction)b2cBtnAction:(id)sender;
 - (IBAction)b2bBtnAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *b2cBtn;
+@property (weak, nonatomic) IBOutlet UIButton *b2bBtn;
 @end

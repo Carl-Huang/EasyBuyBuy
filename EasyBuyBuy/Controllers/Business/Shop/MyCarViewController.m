@@ -75,6 +75,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
         viewControllTitle = localizedDic [@"viewControllTitle"];
         [_confirmBtn setTitle:localizedDic [@"confirmBtn"] forState:UIControlStateNormal];
         _costDesc.text = localizedDic [@"costDesc"];
+        [_b2bBtn setTitle:localizedDic[@"b2bBtn"] forState:UIControlStateNormal];
+        [_b2cBtn setTitle:localizedDic[@"b2cBtn"] forState:UIControlStateNormal];
     }
 }
 
@@ -89,6 +91,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         CGRect rect = _contentScrollView.frame;
         rect.size.height += 88;
         _contentScrollView.frame = rect;
+         [_contentScrollView setContentSize:CGSizeMake(640, rect.size.height)];
     }
     b2cTable = [[UITableView alloc]initWithFrame:_contentScrollView.bounds];
     b2cTable.delegate = self;
@@ -115,7 +118,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     [_contentScrollView addSubview:b2cTable];
     [_contentScrollView addSubview:b2bTable];
-    [_contentScrollView setContentSize:CGSizeMake(640, _contentScrollView.frame.size.height)];
+   
     
     UINib * cellNib = [UINib nibWithNibName:@"MyCarCell" bundle:[NSBundle bundleForClass:[MyCarCell class]]];
     [b2cTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
@@ -160,9 +163,19 @@ static NSString * cellIdentifier = @"cellIdentifier";
         type = typeStr.integerValue;
         if(type == B2BBuinessModel)
         {
+            [_b2bBtn setSelected:YES];
             CGRect rect = _contentScrollView.frame;
             rect.origin.x = 320;
             [_contentScrollView scrollRectToVisible:rect animated:YES];
+            [_b2bBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_b2cBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+
+        }else
+        {
+            [_b2cBtn setSelected:YES];
+            [_b2cBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_b2bBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+
         }
     }
     
@@ -261,7 +274,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
                     
                 }
             }
-
         }else
         {
             for (int i =0; i < [[b2bItemSelectedStatus allKeys]count]; ++ i) {
@@ -283,43 +295,25 @@ static NSString * cellIdentifier = @"cellIdentifier";
     {
         [self showAlertViewWithMessage:@"You have to login first"];
     }
-   
-    //Fetch the products user selected
-//    User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
-//    if (loginObj) {
-//        NSMutableArray * selectedProducts = [NSMutableArray array];
-//        
-//        for (int i =0; i < [[itemSelectedStatus allKeys]count]; ++ i) {
-//            NSString * key = [NSString stringWithFormat:@"%d",i];
-//            NSString * value = [itemSelectedStatus valueForKey:key];
-//            Car * object = [b2cDataSource objectAtIndex:i];
-//            if ([value isEqualToString:@"1"]) {
-//                [selectedProducts addObject:object];
-//                
-//            }
-//        }
-//        if ([selectedProducts count]==0) {
-//            [self showAlertViewWithMessage:@"You have to choose one product at least"];
-//            return;
-//        }
-//        
-//        MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
-//        [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES orderDetail:nil];
-//        [self push:viewController];
-//        viewController = nil;
-//    }else
-//    {
-//        [self showAlertViewWithMessage:@"You have to login first"];
-//    }
 }
 
 - (IBAction)b2cBtnAction:(id)sender {
     type = B2CBuinessModel;
+    [_b2cBtn setSelected:YES];
+    [_b2bBtn setSelected:NO];
+    [_contentScrollView scrollRectToVisible:CGRectMake(0, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+    [_b2cBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_b2bBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     
 }
 
 - (IBAction)b2bBtnAction:(id)sender {
     type = B2BBuinessModel;
+    [_b2bBtn setSelected:YES];
+    [_b2cBtn setSelected:NO];
+     [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+    [_b2bBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_b2cBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 }
 
 #pragma mark - Table

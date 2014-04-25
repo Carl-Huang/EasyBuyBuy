@@ -7,9 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyCarViewController">
             <connections>
+                <outlet property="b2bBtn" destination="e3o-5b-FFQ" id="d0d-Y7-Ptg"/>
+                <outlet property="b2cBtn" destination="188-qY-rXM" id="QdQ-qK-NVQ"/>
                 <outlet property="confirmBtn" destination="txF-ae-Dao" id="HDo-DV-LUX"/>
                 <outlet property="contentScrollView" destination="0Qe-o1-kMT" id="RI2-OG-JA2"/>
-                <outlet property="contentTable" destination="kLF-46-K1J" id="wTX-Ss-Ata"/>
                 <outlet property="costDesc" destination="QNY-di-YPu" id="3Tw-2b-MH6"/>
                 <outlet property="costLabel" destination="kO7-HP-ox5" id="5Uu-yq-LjF"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -62,18 +63,7 @@
                         </view>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="0Qe-o1-kMT">
                             <rect key="frame" x="0.0" y="43" width="320" height="318"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <subviews>
-                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kLF-46-K1J">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="319"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="dataSource" destination="-1" id="B76-87-M0u"/>
-                                        <outlet property="delegate" destination="-1" id="u3b-Ft-AHM"/>
-                                    </connections>
-                                </tableView>
-                            </subviews>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </scrollView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

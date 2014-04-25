@@ -103,7 +103,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     dataSource = [NSMutableArray array];
     __weak ProdecutViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
     {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
@@ -117,7 +117,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self createFooterView];
     
     
-   
+   //@"user_id":user.user_id
 }
 
 -(void)setItemsSelectedStatus
@@ -249,7 +249,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     __weak ProdecutViewController * weakSelf = self;
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
      {
          if (object) {
              hud.labelText = @"Finish";
@@ -267,6 +267,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
          [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
          [weakSelf doneLoadingTableViewData];
      }];
+    //@"user_id":user.user_id
 }
 
 
