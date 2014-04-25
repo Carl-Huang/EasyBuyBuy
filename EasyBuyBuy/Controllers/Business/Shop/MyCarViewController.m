@@ -271,7 +271,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
                 Car * object = [b2cDataSource objectAtIndex:i];
                 if ([value isEqualToString:@"1"]) {
                     [selectedProducts addObject:object];
-                    
                 }
             }
         }else
@@ -286,11 +285,16 @@ static NSString * cellIdentifier = @"cellIdentifier";
                 }
             }
         }
+        
+        if ([selectedProducts count] == 0) {
+            [self showAlertViewWithMessage:@"Please select product"];
+            return;
+        }
         MyOrderDetailViewController * viewController = [[MyOrderDetailViewController alloc]initWithNibName:@"MyOrderDetailViewController" bundle:nil];
         [viewController orderDetailWithProduct:selectedProducts isNewOrder:YES orderDetail:nil];
         [self push:viewController];
         viewController = nil;
-        
+        selectedProducts = nil;
     }else
     {
         [self showAlertViewWithMessage:@"You have to login first"];
