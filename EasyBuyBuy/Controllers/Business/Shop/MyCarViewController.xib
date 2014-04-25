@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyCarViewController">
             <connections>
                 <outlet property="confirmBtn" destination="txF-ae-Dao" id="HDo-DV-LUX"/>
+                <outlet property="contentScrollView" destination="0Qe-o1-kMT" id="RI2-OG-JA2"/>
                 <outlet property="contentTable" destination="kLF-46-K1J" id="wTX-Ss-Ata"/>
                 <outlet property="costDesc" destination="QNY-di-YPu" id="3Tw-2b-MH6"/>
                 <outlet property="costLabel" destination="kO7-HP-ox5" id="5Uu-yq-LjF"/>
@@ -27,15 +28,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="361"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kLF-46-K1J">
-                            <rect key="frame" x="0.0" y="43" width="320" height="319"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="B76-87-M0u"/>
-                                <outlet property="delegate" destination="-1" id="u3b-Ft-AHM"/>
-                            </connections>
-                        </tableView>
                         <view contentMode="scaleToFill" id="99D-RC-GXa">
                             <rect key="frame" x="0.0" y="1" width="320" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -48,6 +40,9 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <state key="selected" backgroundImage="My Notification_Btn01.png"/>
+                                    <connections>
+                                        <action selector="b2cBtnAction:" destination="-1" eventType="touchUpInside" id="Y7m-6M-Nia"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="e3o-5b-FFQ">
                                     <rect key="frame" x="160" y="0.0" width="160" height="43"/>
@@ -58,10 +53,28 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <state key="selected" backgroundImage="My Notification_Btn01.png"/>
+                                    <connections>
+                                        <action selector="b2bBtnAction:" destination="-1" eventType="touchUpInside" id="ijq-3T-aeA"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="0Qe-o1-kMT">
+                            <rect key="frame" x="0.0" y="43" width="320" height="318"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <subviews>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kLF-46-K1J">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="319"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-1" id="B76-87-M0u"/>
+                                        <outlet property="delegate" destination="-1" id="u3b-Ft-AHM"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                        </scrollView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

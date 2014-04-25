@@ -24,7 +24,7 @@ typedef  NS_ENUM(NSInteger, BuinessModelType)
 #define BuinessModel        @"BuinessModel"
 #define UpdataLocalNotificationStore @"UpdataLocalNotificationStore"
 #define BuinessType         @"BuinessType"
-
+#define CarType             @"cartype"
 #define DefaultFontSize     14
 
 #endif
