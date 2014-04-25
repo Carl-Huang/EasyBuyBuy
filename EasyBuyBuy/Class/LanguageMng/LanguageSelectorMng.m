@@ -181,21 +181,21 @@
     {
         return @{@"viewControllTitle": @"UserCenter"
                  ,@"upperDataSource":@[@"My order",@"My Address",@"Account Security",@"My Shopping Car",@"My notification"]
-                 ,@"bottomDataSource":@[@"Upgrade My Account",@"Language",@"About us",@""]
+                 ,@"bottomDataSource":@[@"Language",@"About us",@""]
                  ,@"localizedFooterView":@[@"Font",@"Small",@"Middle",@"Big"],
                  @"logoutBtn":@"Logout"};
     }else if ([language isEqualToString:@"Chinese"])
     {
         return @{@"viewControllTitle": @"用户中心"
                  ,@"upperDataSource":@[@"我的订单",@"我的地址",@"账号安全",@"我的购物车",@"我的通知"]
-                 ,@"bottomDataSource":@[@"账号升级",@"语言",@"关于我们",@""]
+                 ,@"bottomDataSource":@[@"语言",@"关于我们",@""]
                  ,@"localizedFooterView":@[@"字体",@"小",@"中",@"大"],
                  @"logoutBtn":@"退出"};
     }else
     {
         return @{@"viewControllTitle": @"مركز المستعمل"
                  ,@"upperDataSource":@[@"قائمة الطلبات",@"عنوان بريدي",@"الأمن حساب",@"بلدي الإخطارات",@"سلة التسوق"]
-                 ,@"bottomDataSource":@[@"ترقية الحساب",@"لغة",@"من نحن ",@""]
+                 ,@"bottomDataSource":@[@"لغة",@"من نحن ",@""]
                  ,@"localizedFooterView":@[@"محرف",@"صغير",@"متوسط",@"كبير"],
                  @"logoutBtn":@"تسجيل الخروج"};
     }
