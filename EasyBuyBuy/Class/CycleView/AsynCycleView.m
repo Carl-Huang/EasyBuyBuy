@@ -99,20 +99,10 @@
 
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
 {
-    dispatch_async(concurrentQueue, ^{
-        __weak AsynCycleView * weakSelf =self;
-        [self resetThePlaceImages:links];
-        if (containerObj) {
-            _items = [containerObj copy];
-        }
-        dispatch_apply([links count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
-            NSString * imgStr = [links objectAtIndex:i];
-            if (![imgStr isKindOfClass:[NSNull class]]) {
-                [weakSelf getImage:imgStr withIndex:i];
-            }
-        });
-    });
-
+    [self resetThePlaceImages:links];
+    if (containerObj) {
+        _items = [containerObj copy];
+    }
 }
 
 -(void)resetThePlaceImages:(NSArray *)links
@@ -132,10 +122,19 @@
                 [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
             }
         }
-        autoScrollView.totalPagesCount = ^NSInteger(void){
-            return [weakSelf.placeHolderImages count];
-        };
-
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            autoScrollView.totalPagesCount = ^NSInteger(void){
+                return [weakSelf.placeHolderImages count];
+            };
+        });
+        
+        dispatch_apply([links count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
+            NSString * imgStr = [links objectAtIndex:i];
+            if (![imgStr isKindOfClass:[NSNull class]]) {
+                [weakSelf getImage:imgStr withIndex:i];
+            }
+        });
     });
 }
 

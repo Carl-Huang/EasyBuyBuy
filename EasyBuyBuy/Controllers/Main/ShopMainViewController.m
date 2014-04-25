@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
-#define MainIconWidth 250
-#define MainIconHeight 250
+#define MainIconWidth 230
+#define MainIconHeight 230
 #define PageNumer  6
 
 #import "ShopMainViewController.h"
@@ -131,7 +131,7 @@
 #pragma mark - Private Method
 -(void)initializationInterface
 {
-    contentIconOffsetY = 100;
+    contentIconOffsetY = 120;
     CGSize size = CGSizeMake(320 * PageNumer,400);
     if ([OSHelper iPhone5]) {
         size.height = 488;
@@ -313,7 +313,7 @@
 -(void)addNewsView
 {
     NSInteger height = contentIconOffsetY;
-    CGRect rect = CGRectMake(0, 64, 320, height);
+    CGRect rect = CGRectMake(0, 64, 320, 120);
 
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollNewsView.delegate = self;

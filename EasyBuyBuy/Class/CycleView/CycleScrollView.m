@@ -102,7 +102,7 @@
     for (UIImageView *contentView in self.contentViews) {
         contentView.frame = self.bounds;
         contentView.userInteractionEnabled = YES;
-//        contentView.contentMode = UIViewContentModeScaleAspectFit;
+        contentView.contentMode = UIViewContentModeScaleAspectFit;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTapAction:)];
         [contentView addGestureRecognizer:tapGesture];

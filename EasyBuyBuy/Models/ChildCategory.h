@@ -29,4 +29,5 @@
 @property (strong ,nonatomic) NSString * update_time;
 @property (strong ,nonatomic) NSString * is_delete;
 @property (strong ,nonatomic) NSString * parent_name;
+@property (strong ,nonatomic) NSString * isSubscription;
 @end

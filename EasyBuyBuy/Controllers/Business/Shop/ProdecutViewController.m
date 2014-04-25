@@ -31,6 +31,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
     NSString                  *  isVip;
+    User * user;
 }
 @end
 
@@ -91,12 +92,18 @@ static NSString * cellIdentifier = @"cellIdentifier";
     ProductCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
     
+    
+    isVip = NO;
+    user = [User getUserFromLocal];
+    if (user) {
+        isVip = user.isVip;
+    }
     page = 1;
     pageSize = 20;
     dataSource = [NSMutableArray array];
     __weak ProdecutViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
     {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
@@ -110,18 +117,22 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self createFooterView];
     
     
-    isVip = NO;
-    User * user = [User getUserFromLocal];
-    if (user) {
-        isVip = user.isVip;
-    }
+   
 }
 
 -(void)setItemsSelectedStatus
 {
     itemsSelectedStatus = [NSMutableDictionary dictionary];
     for (int i = 0; i < [dataSource count]; ++ i) {
-        [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",i]];
+        ChildCategory * object = [dataSource objectAtIndex:i];
+        if ([object.isSubscription isEqualToString:@"1"]) {
+            //订阅
+            [itemsSelectedStatus setValue:@"1" forKeyPath:[NSString stringWithFormat:@"%d",i]];
+        }else
+        {
+            [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",i]];
+        }
+        
     }
 }
 
@@ -164,7 +175,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)updateFaviroteItem:(ChildCategory *)item withStatus:(NSString *)status
 {
-    User * user = [User getUserFromLocal];
     __typeof (self) __weak weakSelf =self;
     if (user) {
         [[HttpService sharedInstance]subscribetWithParams:@{@"user_id":user.user_id,@"p_cate_id":item.parent_id,@"c_cate_id":item.ID,@"type":status} completionBlock:^(BOOL isSuccess) {
@@ -233,12 +243,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)loadData
 {
+    
     page +=1;
     _reloading = YES;
     __weak ProdecutViewController * weakSelf = self;
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
      {
          if (object) {
              hud.labelText = @"Finish";

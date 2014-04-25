@@ -70,7 +70,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
             
             }
         }
-        
         if ([selectedProducts count]==0) {
             [self showAlertViewWithMessage:@"You have to choose one product at least"];
             return;
@@ -84,9 +83,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     {
         [self showAlertViewWithMessage:@"You have to login first"];
     }
-    
-    
-    
 }
 
 #pragma mark - Private
@@ -101,7 +97,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [_confirmBtn setTitle:localizedDic [@"confirmBtn"] forState:UIControlStateNormal];
         _costDesc.text = localizedDic [@"costDesc"];
     }
-
 }
 
 -(void)initializationInterface
@@ -166,27 +161,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * key = [NSString stringWithFormat:@"%d",tag];
     NSString * value = [itemSelectedStatus valueForKey:key];
     Car * object = [dataSource objectAtIndex:tag];
-    
-//    for (int i=0; i< [[itemSelectedStatus allKeys]count]; i++) {
-//        NSString * key = [NSString stringWithFormat:@"%d",i];
-//        NSString * value = [itemSelectedStatus valueForKey:key];
-//        if ([value isEqualToString:@"1"]) {
-//            if (!previousSelectedType) {
-//                previousSelectedType = object.model;
-//            }
-//        }
-//    }
-//    if (!previousSelectedType) {
-//        previousSelectedType = object.model;
-//    }else
-//    {
-//        if (![object.model isEqualToString:previousSelectedType]) {
-//            [self showAlertViewWithMessage:@"The product you choose is not the same type with the previous one"];
-//            return;
-//        }
-//    }
-    
-
     if ([value isEqualToString:@"1"]) {
         
         

@@ -160,6 +160,7 @@
  * @param  p_cate_id        父分类ID
  * @param  page             页
  * @param  pageSize         每页大小
+ * @param  user_id          用户ID
  */
 -(void)getChildCategoriesWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 

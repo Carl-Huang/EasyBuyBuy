@@ -149,9 +149,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)addAdvertisementView
 {
-    NSInteger height = 100;
-    CGRect rect = CGRectMake(0, 0, 320, height);
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+    CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
     autoScrollView.delegate = self;
 
     [autoScrollView updateNetworkImagesLink:@[@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg",@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg" ] containerObject:@[@{@"name":@"vedon"},@{@"name": @"gigi"}]];
