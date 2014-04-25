@@ -485,13 +485,14 @@ static NSString * imageCellIdentifier = @"imageCell";
          {
              
              if (index == 0) {
-//                 User * user = [User getUserFromLocal];
-//                 if (![user.isVip isEqualToString:@"1"]) {
-                     UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"Download the vip version of Easybuybuy ,go to download now?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Confirm", nil];
-                     [alertView show];
-                     alertView = nil;
-                     return;
-//                 }
+#ifdef IS_VIP_Version
+                 
+#else
+                 UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"Download the vip version of Easybuybuy ,go to download now?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Confirm", nil];
+                 [alertView show];
+                 alertView = nil;
+                 return;
+#endif
              }
              
              NSLog(@"%@",object);

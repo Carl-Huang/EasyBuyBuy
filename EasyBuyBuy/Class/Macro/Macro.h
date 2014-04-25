@@ -31,4 +31,6 @@ typedef  NS_ENUM(NSInteger, BuinessModelType)
 //收费版本的URL
 #define VIPVersionURL       @""
 
+#define IS_VIP_Version      0
+
 #endif

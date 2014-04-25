@@ -288,10 +288,14 @@
 
 -(void)gotoNewsViewController
 {
-        [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
-//    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
-//    [self push:viewController];
-//    viewController = nil;
+#ifdef IS_VIP_Version
+    [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
+#else
+    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+
+#endif
 }
 
 
