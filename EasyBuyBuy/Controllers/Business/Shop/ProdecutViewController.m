@@ -103,7 +103,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     dataSource = [NSMutableArray array];
     __weak ProdecutViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
     {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
@@ -117,7 +117,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self createFooterView];
     
     
-   //@"user_id":user.user_id
+   //
 }
 
 -(void)setItemsSelectedStatus
@@ -162,24 +162,25 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * value = [itemsSelectedStatus valueForKey:key];
     ChildCategory * object = [dataSource objectAtIndex:btn.tag];
     if ([value isEqualToString:@"1"]) {
-        [self updateFaviroteItem:object withStatus:@"0"];
-        [itemsSelectedStatus setObject:@"0" forKey:key];
+        [self updateFaviroteItem:object withStatus:@"0" key:key];
     }else
     {
-        [self updateFaviroteItem:object withStatus:@"1"];
-        [itemsSelectedStatus setObject:@"1" forKey:key];
+        [self updateFaviroteItem:object withStatus:@"1" key:key];
     }
-    [_contentTable reloadData];
-    NSLog(@"%d",btn.tag);
 }
 
--(void)updateFaviroteItem:(ChildCategory *)item withStatus:(NSString *)status
+-(void)updateFaviroteItem:(ChildCategory *)item withStatus:(NSString *)status key:(NSString *)key
 {
     __typeof (self) __weak weakSelf =self;
     if (user) {
         [[HttpService sharedInstance]subscribetWithParams:@{@"user_id":user.user_id,@"p_cate_id":item.parent_id,@"c_cate_id":item.ID,@"type":status} completionBlock:^(BOOL isSuccess) {
             if (!isSuccess) {
                 [weakSelf showAlertViewWithMessage:@"Add to Favorite failed"];
+                
+            }else
+            {
+                [itemsSelectedStatus setObject:status forKey:key];
+                [weakSelf.contentTable reloadData];
             }
         } failureBlock:^(NSError *error, NSString *responseString) {
             [weakSelf showAlertViewWithMessage:@"Add to Favorite failed"];
@@ -249,7 +250,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     __weak ProdecutViewController * weakSelf = self;
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object)
+    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
      {
          if (object) {
              hud.labelText = @"Finish";
@@ -267,7 +268,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
          [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
          [weakSelf doneLoadingTableViewData];
      }];
-    //@"user_id":user.user_id
 }
 
 

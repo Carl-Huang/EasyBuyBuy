@@ -485,7 +485,7 @@ static NSString * imageCellIdentifier = @"imageCell";
          {
              
              if (index == 0) {
-#ifdef IS_VIP_Version
+#if IS_VIP_Version
                  
 #else
                  UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:@"Download the vip version of Easybuybuy ,go to download now?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Confirm", nil];

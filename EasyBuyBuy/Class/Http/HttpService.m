@@ -806,9 +806,9 @@
     }];
 }
 
--(void)getHomePageNewsWithCompletionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+-(void)getHomePageNewsWithParam:(NSDictionary *)param CompletionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error, NSString * responseString))failure
 {
-    [self post:[self mergeURL:home_page_news_list] withParams:nil completionBlock:^(id obj) {
+    [self post:[self mergeURL:home_page_news_list] withParams:param completionBlock:^(id obj) {
         if (obj) {
             NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
             if ([statusStr isEqualToString:@"1"]) {
@@ -821,7 +821,6 @@
                 {
                     success (nil);
                 }
-                
             }else
             {
                 NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
@@ -831,6 +830,11 @@
         
     } failureBlock:^(NSError *error, NSString *responseString) {
         failure(error,responseString);
-    }];}
+    }];
+}
+-(void)fetchAdParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    
+}
 @end
 

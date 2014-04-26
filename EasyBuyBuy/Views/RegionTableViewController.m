@@ -91,7 +91,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentView addGestureRecognizer:tap];
     tap = nil;
     
-    langauge = [[LanguageSelectorMng shareLanguageMng]currentLanguage];
+    langauge = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
     
     
 }
@@ -175,9 +175,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
         
         Region * region = [dataSource objectAtIndex:indexPath.row];
         NSString * contentText = nil;
-        if ([langauge isEqualToString:@"Englist"]) {
+        if (langauge.integerValue == English) {
             contentText = region.name_en;
-        }else if ([langauge isEqualToString:@"Chinese"])
+        }else if (langauge.integerValue == Chinese)
         {
             contentText = region.name_zh;
         }else

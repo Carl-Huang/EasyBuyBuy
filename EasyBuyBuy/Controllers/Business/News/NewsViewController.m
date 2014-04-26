@@ -13,6 +13,7 @@
 #import "news.h"
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
+#import "AppDelegate.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
 @interface NewsViewController ()<EGORefreshTableDelegate>
@@ -25,6 +26,7 @@ static NSString * cellIdentifier = @"cellidentifier";
     NSInteger pageSize;
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
+    AppDelegate * myDelegate;
 }
 @end
 
@@ -89,13 +91,14 @@ static NSString * cellIdentifier = @"cellidentifier";
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
-    
+    myDelegate = [[UIApplication sharedApplication]delegate];
     page = 1;
     pageSize = 15;
     dataSource = [NSMutableArray array];
     __typeof (self) __weak weakSelf = self;
+
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             [dataSource addUniqueFromArray: object];
@@ -161,7 +164,7 @@ static NSString * cellIdentifier = @"cellidentifier";
     _reloading = YES;
     
     __typeof (self) __weak weakSelf = self;
-    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} completionBlock:^(id object) {
         
         if (object) {
             [dataSource addUniqueFromArray:object];

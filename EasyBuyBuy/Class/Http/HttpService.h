@@ -40,6 +40,7 @@
 #define area_list                   @"area_list"
 #define news_list                   @"news_list"
 #define home_page_news_list         @"home_page_news_list"
+#define advertisement_list          @"advertisement_list"
 @interface HttpService : AFHttp
 + (HttpService *)sharedInstance;
 
@@ -347,6 +348,7 @@
 /*!
  * 获取新闻列表
  *
+ * @param language 1(1:Chinese,2:English,3:Arabic),
  * @param  page
  * @param  pageSize
  */
@@ -354,6 +356,13 @@
 /*!
  * 获取首页新闻列表
  *
+ * @param language  (1:Chinese,2:English,3:Arabic)
  */
--(void)getHomePageNewsWithCompletionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)getHomePageNewsWithParam:(NSDictionary *)param CompletionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error, NSString * responseString))failure;
+/*!
+ * 获取广告
+ *
+ * @param business_model  (1:b2c,2b2b)
+ */
+-(void)fetchAdParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

@@ -285,15 +285,16 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 
 - (IBAction)systemNotiBtnAction:(id)sender {
     
-#ifdef IS_VIP_Version
-    [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
-#else
+    NSLog(@"%s",__func__);
+#if IS_VIP_Version
     _contentScrollView.scrollEnabled = YES;
     [self resetProductNotiButtonStatus:NO];
     isScrollViewShouldScroll = NO;
     [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
     _contentScrollView.scrollEnabled = NO;
-    NSLog(@"%s",__func__);
+    
+#else
+     [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
 
 #endif
     

@@ -288,13 +288,14 @@
 
 -(void)gotoNewsViewController
 {
-#ifdef IS_VIP_Version
-    [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
-#else
+#if IS_VIP_Version
     NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
     [self push:viewController];
     viewController = nil;
-
+   
+#else
+    
+     [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
 #endif
 }
 
@@ -326,12 +327,12 @@
     autoScrollNewsView.delegate = self;
     
     __typeof (self) __weak weakSelf = self;
-    [[HttpService sharedInstance]getHomePageNewsWithCompletionBlock:^(id object) {
+    [[HttpService sharedInstance]getHomePageNewsWithParam:@{@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} CompletionBlock:^(id object) {
         if (object) {
             homePageNews = object;
             [weakSelf refreshNewContent];
         }
-    } failureBlock:^(NSError *error, NSString *responseString) {
+    } failureBlock:^(NSError *error, NSString * responseString) {
         ;
     }];
 

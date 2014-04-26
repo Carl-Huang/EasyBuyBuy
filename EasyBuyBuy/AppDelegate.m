@@ -39,12 +39,9 @@
     
     //Nav bar
     [self custonNavigationBar];
-
-    //In app Purchase
-//    [self initializeInAppPurchaseSetting];
     
     //Language
-     NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
+    NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     if (!language) {
         //The default language 
         [[NSUserDefaults standardUserDefaults]setObject:@"English" forKey:CurrentLanguage];

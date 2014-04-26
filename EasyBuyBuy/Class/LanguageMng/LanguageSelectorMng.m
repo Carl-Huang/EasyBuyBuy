@@ -33,6 +33,31 @@
     return  [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
 }
 
+-(NSString *)currentLanguageType
+{
+    
+    NSString * languageType = nil;
+    NSString * langauge = [self currentLanguage];
+    if (langauge == nil) {
+        languageType = [NSString stringWithFormat:@"%d",English];
+    }else
+    {
+        if([langauge isEqualToString:@"English"])
+        {
+            languageType = [NSString stringWithFormat:@"%d",English];
+        }else if([langauge isEqualToString:@"Chinese"])
+        {
+            languageType = [NSString stringWithFormat:@"%d",Chinese];
+        }else
+            
+        {
+            languageType = [NSString stringWithFormat:@"%d",Arabic];
+        }
+    }
+    return  languageType;
+}
+
+
 -(NSDictionary *)getLocalizedStringWithObject:(id)invoke container:(NSArray *)container
 {
     NSString * name = NSStringFromClass([invoke class]);
