@@ -155,12 +155,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
     autoScrollView.delegate = self;
     
-//    [autoScrollView updateNetworkImagesLink:@[@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg",@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg" ] containerObject:@[@{@"name":@"vedon"},@{@"name": @"gigi"}]];
-    
-    
     //Fetching the Ad form server
     __typeof(self) __weak weakSelf = self;
-    [[HttpService sharedInstance]fetchAdParams:@{@"business_model":[GlobalMethod getUserDefaultWithKey:BuinessModel]} completionBlock:^(id object) {
+    NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+    if ([buinesseType isEqualToString:[NSString stringWithFormat:@"%d",BiddingBuinessModel]]) {
+        buinesseType = [NSString stringWithFormat:@"%d",B2CBuinessModel];
+    }
+    [[HttpService sharedInstance]fetchAdParams:@{@"business_model":buinesseType} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
         }
