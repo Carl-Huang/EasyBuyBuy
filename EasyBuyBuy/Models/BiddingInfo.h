@@ -10,7 +10,7 @@
 #import "BiddingClient.h"
 #import "BiddingGood.h"
 
-@interface BiddingInfo : JSONModel
+@interface BiddingInfo : Model
 @property (strong ,nonatomic)BiddingGood * good;
 @property (strong ,nonatomic)NSArray * biddingClients;
 

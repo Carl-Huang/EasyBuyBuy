@@ -16,7 +16,7 @@
  update_time: null
  is_delete: "0"
  */
-@interface ParentCategory : JSONModel
+@interface ParentCategory : Model
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * name;
 @property (strong ,nonatomic) NSString * business_model;

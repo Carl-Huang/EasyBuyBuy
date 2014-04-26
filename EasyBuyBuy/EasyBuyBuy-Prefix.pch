@@ -19,6 +19,7 @@
     #import "MBProgressHUD.h"
     #import "HWSDK.h"
     #import "Macro.h"
+    #import "Model.h"
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif

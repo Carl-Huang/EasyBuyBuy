@@ -155,6 +155,7 @@
 		4EB7D859190B5B22006DECB2 /* AdDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D857190B5B22006DECB2 /* AdDetailViewController.m */; };
 		4EB7D85A190B5B22006DECB2 /* AdDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D858190B5B22006DECB2 /* AdDetailViewController.xib */; };
 		4EB7D85C190B98AB006DECB2 /* LevelTwoBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D85B190B98AB006DECB2 /* LevelTwoBg.png */; };
+		4EB7D85F190C03C9006DECB2 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D85E190C03C9006DECB2 /* Model.m */; };
 		4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC291907636E00CA2C52 /* Region.m */; };
 		4EB7FC2D1907645000CA2C52 /* news.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC2C1907645000CA2C52 /* news.m */; };
 		4EB88ECF18F588A5001C2AA5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB88ECE18F588A5001C2AA5 /* User.m */; };
@@ -521,6 +522,8 @@
 		4EB7D857190B5B22006DECB2 /* AdDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdDetailViewController.m; sourceTree = "<group>"; };
 		4EB7D858190B5B22006DECB2 /* AdDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdDetailViewController.xib; sourceTree = "<group>"; };
 		4EB7D85B190B98AB006DECB2 /* LevelTwoBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LevelTwoBg.png; sourceTree = "<group>"; };
+		4EB7D85D190C03C9006DECB2 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		4EB7D85E190C03C9006DECB2 /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		4EB7FC281907636E00CA2C52 /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
 		4EB7FC291907636E00CA2C52 /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
 		4EB7FC2B1907645000CA2C52 /* news.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = news.h; sourceTree = "<group>"; };
@@ -1138,6 +1141,8 @@
 				4EB88ECE18F588A5001C2AA5 /* User.m */,
 				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
 				4EB6F61618EDA4FD00D4C9C1 /* Car.m */,
+				4EB7D85D190C03C9006DECB2 /* Model.h */,
+				4EB7D85E190C03C9006DECB2 /* Model.m */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -1814,6 +1819,7 @@
 				4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,
 				4EC207AF18C57754003708D6 /* NSString+MD5_32.m in Sources */,
+				4EB7D85F190C03C9006DECB2 /* Model.m in Sources */,
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
 				4EC90BBA18E41C10007969F5 /* HttpService.m in Sources */,
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Good : JSONModel
+@interface Good : Model
 /*
  id: "1"
  c_cate_id: "1"

@@ -73,11 +73,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(void)dealloc
-{
-    [autoScrollView cleanAsynCycleView];
-}
 #pragma mark - Private
 -(void)initializationLocalString
 {

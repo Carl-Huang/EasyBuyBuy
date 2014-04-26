@@ -44,4 +44,5 @@
 -(void)cleanAsynCycleView;
 -(void)pauseTimer;
 -(void)startTimer;
+-(void)cancelOperation;
 @end

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ShippingType : JSONModel
+@interface ShippingType : Model
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * business_model;
 @property (strong ,nonatomic) NSString * type;

@@ -69,6 +69,7 @@
         [self addSubview:self.scrollView];
         self.currentPageIndex = 0;
         
+        
         _pageController = [[UIPageControl alloc]initWithFrame:CGRectMake(self.bounds.size.width/2 - 50, self.bounds.size.height/4*3, 100, 30)];
         _pageController.currentPageIndicatorTintColor = [UIColor redColor];
         _pageController.pageIndicatorTintColor        = [UIColor darkGrayColor];
@@ -108,12 +109,14 @@
         [tempImageView addGestureRecognizer:tapGesture];
         CGRect rightRect = tempImageView.frame;
         rightRect.origin = CGPointMake(CGRectGetWidth(self.scrollView.frame) * (counter ++), 0);
+        
         tempImageView.frame = rightRect;
         [self.scrollView addSubview:tempImageView];
         tempImageView = nil;
         if (_totalPageCount == 1) {
             break;
         }
+       
     }
     if (_totalPageCount != 1) {
         [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];

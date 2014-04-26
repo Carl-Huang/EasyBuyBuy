@@ -127,6 +127,7 @@
             autoScrollView.totalPagesCount = ^NSInteger(void){
                 return [weakSelf.placeHolderImages count];
             };
+            
         });
         
         dispatch_apply([internalLinks count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
@@ -135,12 +136,14 @@
                 [weakSelf getImage:imgStr withIndex:i];
             }
         });
-//        for (int i =0; i< [internalLinks count];i++) {
-//            NSString * imgStr  = [internalLinks objectAtIndex: i];
-//            if (![imgStr isKindOfClass:[NSNull class]]) {
-//                [weakSelf getImage:imgStr withIndex:i];
-//            }
-//        }
+
+//       for (int i =0; i< [internalLinks count];i++) {
+//           NSString * imgStr  = [internalLinks objectAtIndex: i];
+//           if (![imgStr isKindOfClass:[NSNull class]]) {
+//               [weakSelf getImage:imgStr withIndex:i];
+//           }
+//       }
+
         
         
     });
@@ -150,25 +153,32 @@
 {
     __weak AsynCycleView * weakSelf = self;
     NSURL * url = [NSURL URLWithString:imgStr];
-
     manager = [SDWebImageManager sharedManager];
     [manager downloadWithURL:url options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         ;
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
-        dispatch_barrier_async(concurrentQueue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"replace");
-                UIImageView * imageView = nil;
-                imageView = [[UIImageView alloc]initWithImage:image];
-                if (imageView) {
-                    
-                    [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
-                    [weakSelf updateAutoScrollViewItem];
-                }
-                imageView = nil;
+        if([manager isRunning])
+        {
+            dispatch_barrier_async(concurrentQueue, ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"replace");
+                    UIImageView * imageView = nil;
+                    imageView = [[UIImageView alloc]initWithImage:image];
+                    if (imageView) {
+                        
+                        [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
+                        [weakSelf updateAutoScrollViewItem];
+                    }
+                    imageView = nil;
+                });
             });
-        });
 
+        }else
+            
+        {
+            NSLog(@"Not running");
+        }
+       
     }];
 }
 
@@ -208,5 +218,12 @@
 -(void)pauseTimer
 {
     [autoScrollView stopTimer];
+}
+
+-(void)cancelOperation
+{
+    if (manager) {
+        [manager cancelAll];
+    }
 }
 @end
