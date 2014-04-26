@@ -151,6 +151,9 @@
 		4EB74CDF19055698008A285A /* NSNull+OVNatural.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB74CDE19055698008A285A /* NSNull+OVNatural.m */; };
 		4EB7D73518EAEDFB00F787B3 /* SelectedAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */; };
 		4EB7D73618EAEDFB00F787B3 /* SelectedAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */; };
+		4EB7D853190B520A006DECB2 /* AdObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D852190B520A006DECB2 /* AdObject.m */; };
+		4EB7D859190B5B22006DECB2 /* AdDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D857190B5B22006DECB2 /* AdDetailViewController.m */; };
+		4EB7D85A190B5B22006DECB2 /* AdDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB7D858190B5B22006DECB2 /* AdDetailViewController.xib */; };
 		4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC291907636E00CA2C52 /* Region.m */; };
 		4EB7FC2D1907645000CA2C52 /* news.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC2C1907645000CA2C52 /* news.m */; };
 		4EB88ECF18F588A5001C2AA5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB88ECE18F588A5001C2AA5 /* User.m */; };
@@ -510,6 +513,12 @@
 		4EB7D73218EAEDFB00F787B3 /* SelectedAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedAddressCell.h; sourceTree = "<group>"; };
 		4EB7D73318EAEDFB00F787B3 /* SelectedAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedAddressCell.m; sourceTree = "<group>"; };
 		4EB7D73418EAEDFB00F787B3 /* SelectedAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedAddressCell.xib; sourceTree = "<group>"; };
+		4EB7D851190B520A006DECB2 /* AdObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdObject.h; sourceTree = "<group>"; };
+		4EB7D852190B520A006DECB2 /* AdObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdObject.m; sourceTree = "<group>"; };
+		4EB7D854190B528B006DECB2 /* URLHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLHeader.h; sourceTree = "<group>"; };
+		4EB7D856190B5B22006DECB2 /* AdDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdDetailViewController.h; sourceTree = "<group>"; };
+		4EB7D857190B5B22006DECB2 /* AdDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdDetailViewController.m; sourceTree = "<group>"; };
+		4EB7D858190B5B22006DECB2 /* AdDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdDetailViewController.xib; sourceTree = "<group>"; };
 		4EB7FC281907636E00CA2C52 /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
 		4EB7FC291907636E00CA2C52 /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
 		4EB7FC2B1907645000CA2C52 /* news.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = news.h; sourceTree = "<group>"; };
@@ -823,6 +832,7 @@
 		4EAE460F18C6EE510089B843 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				4EB7D855190B5B22006DECB2 /* Ad */,
 				4E08204D190123AF00D9C2A2 /* News */,
 				4EAE461E18C6EE510089B843 /* Shop */,
 				4EAE461118C6EE510089B843 /* Sale Promotion */,
@@ -1016,11 +1026,7 @@
 		4EB1AE4818BB1AFC0033364F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
-				4EB88ECD18F588A5001C2AA5 /* User.h */,
-				4EB88ECE18F588A5001C2AA5 /* User.m */,
-				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
-				4EB6F61618EDA4FD00D4C9C1 /* Car.m */,
+				4EB7D84D190B51DB006DECB2 /* CoreData */,
 				4EC90B8F18E40E00007969F5 /* AllModels.h */,
 				4EC90BBB18E41F29007969F5 /* Login.h */,
 				4EC90BBC18E41F29007969F5 /* Login.m */,
@@ -1050,6 +1056,8 @@
 				4EB7FC291907636E00CA2C52 /* Region.m */,
 				4EB7FC2B1907645000CA2C52 /* news.h */,
 				4EB7FC2C1907645000CA2C52 /* news.m */,
+				4EB7D851190B520A006DECB2 /* AdObject.h */,
+				4EB7D852190B520A006DECB2 /* AdObject.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1118,6 +1126,28 @@
 				4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */,
 			);
 			path = EGOResource;
+			sourceTree = "<group>";
+		};
+		4EB7D84D190B51DB006DECB2 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
+				4EB88ECD18F588A5001C2AA5 /* User.h */,
+				4EB88ECE18F588A5001C2AA5 /* User.m */,
+				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
+				4EB6F61618EDA4FD00D4C9C1 /* Car.m */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		4EB7D855190B5B22006DECB2 /* Ad */ = {
+			isa = PBXGroup;
+			children = (
+				4EB7D856190B5B22006DECB2 /* AdDetailViewController.h */,
+				4EB7D857190B5B22006DECB2 /* AdDetailViewController.m */,
+				4EB7D858190B5B22006DECB2 /* AdDetailViewController.xib */,
+			);
+			path = Ad;
 			sourceTree = "<group>";
 		};
 		4EB9705118E085EE001F52D8 /* PayPalMobile */ = {
@@ -1242,6 +1272,7 @@
 				4EC90B9918E40ECA007969F5 /* AFHttp.m */,
 				4EC90BB818E41C10007969F5 /* HttpService.h */,
 				4EC90BB918E41C10007969F5 /* HttpService.m */,
+				4EB7D854190B528B006DECB2 /* URLHeader.h */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -1570,6 +1601,7 @@
 				4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */,
 				4EAE463E18C6EE520089B843 /* SalePromotionItemViewController.xib in Resources */,
 				4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */,
+				4EB7D85A190B5B22006DECB2 /* AdDetailViewController.xib in Resources */,
 				C33EEC5F189667B200A26971 /* Red Apple_Bg@2x.png in Resources */,
 				C33EEC71189667B200A26971 /* Verification_Btn_Confirm@2x.png in Resources */,
 				C33EEC37189667B200A26971 /* Arrow_G@2x.png in Resources */,
@@ -1778,6 +1810,7 @@
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,
 				4EB6D9FF18E1B3D300985F0B /* PaymentMng.m in Sources */,
 				4EC90BB018E40ECA007969F5 /* LanguageSelectorMng.m in Sources */,
+				4EB7D859190B5B22006DECB2 /* AdDetailViewController.m in Sources */,
 				4EB46AF218E7D2A5008F8BED /* SelectedAddressViewController.m in Sources */,
 				4EC207AE18C57754003708D6 /* NSDate+Utils.m in Sources */,
 				4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */,
@@ -1825,6 +1858,7 @@
 				4EC207B118C57754003708D6 /* OSHelper.m in Sources */,
 				4EBC497318E9ADAA00481F8E /* TMQuiltViewCell.m in Sources */,
 				4EC207B418C57754003708D6 /* UIViewController+BarItem.m in Sources */,
+				4EB7D853190B520A006DECB2 /* AdObject.m in Sources */,
 				4E870DCA18DA8B3E00596D7E /* FontSizeTableViewCell.m in Sources */,
 				4EAF48AB18BB77870038575F /* MyOrderViewController.m in Sources */,
 				4EC207B318C57754003708D6 /* UIImage+Util.m in Sources */,

@@ -17,6 +17,8 @@
 #import "OtherLinkView.h"
 #import "ShopMainViewController.h"
 #import "AsynCycleView.h"
+#import "AdObject.h"
+#import "AdDetailViewController.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate>
@@ -152,9 +154,20 @@ static NSString * cellIdentifier = @"cellIdentifier";
     CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
     autoScrollView.delegate = self;
-
-    [autoScrollView updateNetworkImagesLink:@[@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg",@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg" ] containerObject:@[@{@"name":@"vedon"},@{@"name": @"gigi"}]];
     
+//    [autoScrollView updateNetworkImagesLink:@[@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg",@"http://carl888.w84.mc-test.com/uploads/goods_13977939064900.jpg" ] containerObject:@[@{@"name":@"vedon"},@{@"name": @"gigi"}]];
+    
+    
+    //Fetching the Ad form server
+    __typeof(self) __weak weakSelf = self;
+    [[HttpService sharedInstance]fetchAdParams:@{@"business_model":[GlobalMethod getUserDefaultWithKey:BuinessModel]} completionBlock:^(id object) {
+        if (object) {
+            [weakSelf refreshAdContent:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        NSLog(@"%@",error.description);
+    }];
+
 }
 
 -(void)addLinkView
@@ -251,14 +264,26 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     _buinessType = type;
 }
+
+-(void)refreshAdContent:(NSArray *)objects
+{
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (AdObject * news in objects) {
+        if([news.image count])
+        {
+            [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+        }
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+}
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
     if (object) {
-        NSLog(@"%@",object);
+        AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
+        [viewController setAdObj:object];
+        [self push:viewController];
     }
-    //TODO:处理点击时间
-    NSLog(@"%d",index);
 }
 
 #pragma mark - Table

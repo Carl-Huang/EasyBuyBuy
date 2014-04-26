@@ -10,6 +10,7 @@ typedef  NS_ENUM(NSInteger, BuinessModelType)
     B2CBuinessModel = 1,
     B2BBuinessModel ,
     BiddingBuinessModel ,
+    InvalidBuinessModel,
 };
 
 typedef NS_ENUM (NSInteger ,Language)

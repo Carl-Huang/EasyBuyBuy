@@ -21,4 +21,5 @@
 #import "BiddingInfo.h"
 #import "Region.h"
 #import "news.h"
+#import "AdObject.h"
 #endif

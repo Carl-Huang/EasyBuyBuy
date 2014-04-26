@@ -144,7 +144,7 @@
     NSURL * url = [NSURL URLWithString:imgStr];
 
     manager = [SDWebImageManager sharedManager];
-    [manager downloadWithURL:url options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [manager downloadWithURL:url options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         ;
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
         dispatch_barrier_async(concurrentQueue, ^{
