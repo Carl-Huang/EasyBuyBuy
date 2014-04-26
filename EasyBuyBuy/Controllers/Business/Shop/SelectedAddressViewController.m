@@ -115,9 +115,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
                 hub.labelText = @"Your address list is empty";
                 [weakSelf showAlertViewWithMessage:@"Please add an address"];
             }
-            [hub hide:YES afterDelay:1.0];
+            [hub hide:YES afterDelay:0.5];
         } failureBlock:^(NSError *error, NSString *responseString) {
-            [hub hide:YES afterDelay:1.0];
+            [hub hide:YES afterDelay:0.5];
             
         }];
     }else

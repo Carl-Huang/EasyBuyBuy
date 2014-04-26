@@ -74,7 +74,7 @@
 {
     LinkBtn * btn = sender;
     NSInteger tagIndex = btn.tag;
-    if (tagIndex == _currentTag) {
+    if (tagIndex >= _currentTag) {
         tagIndex ++;
     }
     switch (tagIndex) {

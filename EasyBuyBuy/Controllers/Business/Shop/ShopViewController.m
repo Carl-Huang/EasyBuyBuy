@@ -252,7 +252,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
             hud.labelText = @"Finish Loading";
         }
         hud.mode = MBProgressHUDModeText;
-        [hud hide:YES afterDelay:1];
+        [hud hide:YES afterDelay:0.5];
         
         [weakSelf doneLoadingTableViewData];
     } failureBlock:^(NSError *error, NSString *responseString) {

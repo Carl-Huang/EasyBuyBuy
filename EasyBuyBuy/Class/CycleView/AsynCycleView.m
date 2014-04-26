@@ -22,6 +22,8 @@
     dispatch_queue_t concurrentQueue;
     SDWebImageManager *manager;
     
+    NSArray * internalLinks;
+    
 }
 @property (strong ,nonatomic) NSMutableArray * placeHolderImages;
 @property (strong ,nonatomic) NSMutableArray * networkImages;
@@ -47,11 +49,9 @@
         {
            nPlaceholderImages = numOfPlaceHoderImages; 
         }
-        
         cycleViewParentView = parentView;
         cycleViewFrame = rect;
         concurrentQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
-        
         [self initializationInterface];
     }
     return self;
@@ -107,6 +107,7 @@
 
 -(void)resetThePlaceImages:(NSArray *)links
 {
+    internalLinks = [links copy];
     dispatch_barrier_async(concurrentQueue, ^{
         __weak AsynCycleView * weakSelf =self;
         if ([links count ] > [weakSelf.placeHolderImages count]) {
@@ -115,7 +116,6 @@
                 [weakSelf.placeHolderImages addObject:tempImageView];
                 tempImageView = nil;
             }
-            
         }else
         {
             for (int i = [weakSelf.placeHolderImages count]; i > [links count]; i --) {
@@ -129,7 +129,7 @@
             };
         });
         
-        dispatch_apply([links count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
+        dispatch_apply([internalLinks count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
             NSString * imgStr = [links objectAtIndex:i];
             if (![imgStr isKindOfClass:[NSNull class]]) {
                 [weakSelf getImage:imgStr withIndex:i];
@@ -166,13 +166,16 @@
 
 -(void)updateAutoScrollViewItem
 {
-    __weak AsynCycleView * weakSelf = self;
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return weakSelf.placeHolderImages[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [weakSelf.placeHolderImages count];
-    };
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __weak AsynCycleView * weakSelf = self;
+        autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+            return weakSelf.placeHolderImages[pageIndex];
+        };
+        autoScrollView.totalPagesCount = ^NSInteger(void){
+            return [weakSelf.placeHolderImages count];
+        };
+    });
+   
 }
 
 -(void)dealloc

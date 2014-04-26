@@ -124,9 +124,7 @@
         [_scrollView setContentOffset:CGPointMake(0, 0)];
         _scrollView.scrollEnabled = NO;
     }
-    
-    
-    
+
 }
 
 - (void)setScrollViewContentDataSource

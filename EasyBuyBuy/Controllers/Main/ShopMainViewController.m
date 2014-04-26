@@ -203,10 +203,10 @@
         {
             hub.labelText = @"No Data";
         }
-        [hub hide:YES afterDelay:1.0];
+        [hub hide:YES afterDelay:0.5];
     } failureBlock:^(NSError *error, NSString *responseString) {
         hub.labelText = @"Error";
-        [hub hide:YES afterDelay:1.0];
+        [hub hide:YES afterDelay:0.5];
     }];
 
 }
