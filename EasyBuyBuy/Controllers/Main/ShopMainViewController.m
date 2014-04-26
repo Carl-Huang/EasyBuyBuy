@@ -220,6 +220,16 @@
 
 -(void)configureTapAction:(NSInteger)tapNumber
 {
+    if(tapNumber == 3 || tapNumber == 4 || tapNumber == 5)
+    {
+        if(![GlobalMethod isLogin])
+        {
+            [self showAlertViewWithMessage:@"Please login first"];
+            return;
+        }
+    }
+    
+    
     switch (tapNumber) {
         case 0:
             //1 : b2c
@@ -288,15 +298,16 @@
 
 -(void)gotoNewsViewController
 {
+
 #if IS_VIP_Version
-    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
-    [self push:viewController];
-    viewController = nil;
-   
+        NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
+        [self push:viewController];
+        viewController = nil;
 #else
-    
-     [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
+        
+        [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
 #endif
+
 }
 
 

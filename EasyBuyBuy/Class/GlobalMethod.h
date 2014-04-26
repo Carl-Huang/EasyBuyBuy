@@ -83,4 +83,6 @@ typedef enum _ANCHOR
 
 +(MBProgressHUD *)showHudWithText:(NSString *)loadingText finishedDes:(NSString *)finishedText noDataDes:(NSString *)noDataText;
 
++(BOOL)isLogin;
+
 @end

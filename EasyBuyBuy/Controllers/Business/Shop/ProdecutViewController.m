@@ -84,7 +84,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
         rect.size.height +=88;
         _contentTable.frame = rect;
     }
-    
+    [_contentTable setBackgroundView:nil];
+    [_contentTable setBackgroundColor:[UIColor clearColor]];
     
     UINib * cellNib = [UINib nibWithNibName:@"ProductCell" bundle:[NSBundle bundleForClass:[ProductCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];

@@ -11,6 +11,7 @@
 #import "GlobalMethod.h"
 #import "CustomiseTextField.h"
 #import "parseCSV.h"
+#import "User.h"
 
 @implementation GlobalMethod
 +(void)anchor:(UIView*)obj to:(ANCHOR)anchor withOffset:(CGPoint)offset
@@ -458,6 +459,15 @@
     NSString    *uuidString = (NSString*)CFBridgingRelease(CFUUIDCreateString(nil, uuidObj));
     CFRelease(uuidObj);
     return uuidString;
+}
+
++(BOOL)isLogin
+{
+    User * user = [User getUserFromLocal];
+    if (user) {
+        return  YES;
+    }
+    return  NO;
 }
 
 @end

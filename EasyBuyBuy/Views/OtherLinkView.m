@@ -80,18 +80,18 @@
     switch (tagIndex) {
         case 0:
             //1 : b2c
-            [GlobalMethod setUserDefaultValue:@"1" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"1"];
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2CBuinessModel] key:BuinessModel];
+            [self gotoShopViewControllerWithType:B2CBuinessModel];
             break;
         case 1:
             //2 : b2b
-            [GlobalMethod setUserDefaultValue:@"2" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"2"];
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2BBuinessModel] key:BuinessModel];
+            [self gotoShopViewControllerWithType:B2BBuinessModel];
             break;
         case 2:
-            [GlobalMethod setUserDefaultValue:@"bidding" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"1"];
-            
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",BiddingBuinessModel] key:BuinessModel];
+            [self gotoShopViewControllerWithType:B2CBuinessModel];
+
             break;
         case 3:
             [self gotoAskToBuyViewController];
@@ -113,51 +113,21 @@
     _currentTag = currentTagIndex;
     NSMutableArray * tempImages = [images mutableCopy];
     [tempImages removeObjectAtIndex:_currentTag];
-    
-    for (int i =0; i< [tempImages count] ; i++) {
+    int j = 0;
+    for (int i =0; i< [buttons count] ; i++,j++) {
         LinkBtn * tempBtn = [buttons objectAtIndex:i];
-        UIImage * image = [UIImage imageNamed:[tempImages objectAtIndex:i]];
+        if (i == _currentTag) {
+            j ++;
+        }
+        UIImage * image = [UIImage imageNamed:[images objectAtIndex:j]];
+        
         [tempBtn setBackgroundImage:image forState:UIControlStateNormal];
         
     }
 }
 
 
--(void)configureTapAction:(NSInteger)tapNumber
-{
-    switch (tapNumber) {
-        case 0:
-            //1 : b2c
-            [GlobalMethod setUserDefaultValue:@"1" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"1"];
-            break;
-        case 1:
-            //2 : b2b
-            [GlobalMethod setUserDefaultValue:@"2" key:BuinessModel];
-            [self gotoShopViewControllerWithType:@"2"];
-            break;
-        case 2:
-            [GlobalMethod setUserDefaultValue:@"bidding" key:BuinessModel];
-             [self gotoShopViewControllerWithType:@"1"];
-            
-            break;
-        case 3:
-            [self gotoAskToBuyViewController];
-            break;
-        case 4:
-            [self gotoShippingViewController];
-            break;
-        case 5:
-            [self gotoNewsViewController];
-            break;
-        default:
-            break;
-    }
-}
-
-
-
--(void)gotoShopViewControllerWithType:(NSString *)type
+-(void)gotoShopViewControllerWithType:(BuinessModelType)type
 {
     ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
     [viewController setShopViewControllerModel:type];
