@@ -9,8 +9,8 @@
 #import "AppDelegate.h"
 #import "ShopMainViewController.h"
 #import "PayPalMobile.h"
-#import "CargoBay.h"
 
+#import "SDURLCache.h"
 #import "APService.h"
 @implementation AppDelegate
 
@@ -21,6 +21,9 @@
     _badge_num = 0;
     _sysNotiContainer = [NSMutableArray array];
     _proNotiContainer = [NSMutableArray array];
+    
+
+    
     NSDictionary *remoteNotif = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
     
     //Accept push notification when app is not open
@@ -40,6 +43,12 @@
     //Nav bar
     [self custonNavigationBar];
     
+    //Cache
+    SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
+                                                         diskCapacity:1024*1024*5 // 5MB disk cache
+                                                             diskPath:[SDURLCache defaultCachePath]];
+    [NSURLCache setSharedURLCache:urlCache];
+    
     //Language
     NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
     if (!language) {
@@ -52,11 +61,8 @@
     [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW",
                                                            PayPalEnvironmentSandbox : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW"}];
     
-    
-    
-    [self getProduct];
-    
-    
+
+
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -71,20 +77,6 @@
 }
 
 
--(void)getProduct
-{
-    NSArray *identifiers = @[
-                             @"com.helloworld.easybuybuy.Vip"
-                             ];
-    
-    [[CargoBay sharedManager] productsWithIdentifiers:[NSSet setWithArray:identifiers]
-                                              success:^(NSArray *products, NSArray *invalidIdentifiers) {
-                                                  NSLog(@"Products: %@", products);
-                                                  NSLog(@"Invalid Identifiers: %@", invalidIdentifiers);
-                                              } failure:^(NSError *error) {
-                                                  NSLog(@"Error: %@", error);
-                                              }];
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -195,41 +187,6 @@
     
 }
 
-#pragma  mark - In App Purchase
-//Payment Queue Observation
--(void)initializeInAppPurchaseSetting
-{
-    [[CargoBay sharedManager] setPaymentQueueUpdatedTransactionsBlock:^(SKPaymentQueue *queue, NSArray *transactions) {
-        NSLog(@"Updated Transactions: %@", transactions);
-        for (SKPaymentTransaction *transaction in transactions) {
-            switch (transaction.transactionState) {
-                    // Call the appropriate custom method.
-                case SKPaymentTransactionStatePurchased:
-                    [self paymentVerification:transaction];
-                    break;
-                case SKPaymentTransactionStateFailed:
-                    
-                    break;
-                case SKPaymentTransactionStateRestored:
-                    
-                default:
-                    break;
-            }
-        }
-    }];
-    
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[CargoBay sharedManager]];
-}
-
-
--(void)paymentVerification:(SKPaymentTransaction *)transaction
-{
-    [[CargoBay sharedManager] verifyTransaction:transaction password:nil success:^(NSDictionary *receipt) {
-        NSLog(@"Receipt: %@", receipt);
-    } failure:^(NSError *error) {
-        NSLog(@"Error %d (%@)", [error code], [error localizedDescription]);
-    }];
-}
 
 -(void)showNotification:(NSDictionary *)notification
 {
@@ -240,5 +197,6 @@
     [alertView show];
     alertView = nil;
 }
+
 
 @end

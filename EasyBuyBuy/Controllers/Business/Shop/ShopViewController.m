@@ -19,9 +19,10 @@
 #import "AsynCycleView.h"
 #import "AdObject.h"
 #import "AdDetailViewController.h"
+#import "AFURLRequestSerialization.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate>
+@interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate,NSURLConnectionDelegate>
 {
     NSString * viewControllTitle;
     
@@ -141,6 +142,24 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self addLinkView];
     [self addAdvertisementView];
     
+//    NSMutableURLRequest * request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:@"http://carl888.w84.mc-test.com/uploads/cate_13974740706351.png"]];
+//    [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
+//    
+//    AFURLConnectionOperation * conOperation = [[AFURLConnectionOperation alloc]initWithRequest:request];
+//    [conOperation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
+//        NSCachedURLResponse *memOnlyCachedResponse =
+//        [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response
+//                                                 data:cachedResponse.data
+//                                             userInfo:cachedResponse.userInfo
+//                                        storagePolicy:NSURLCacheStorageAllowedInMemoryOnly];
+//        return memOnlyCachedResponse;
+//    }];
+//    
+//    [conOperation setCompletionBlock:^{
+//        UIImage * image = [[UIImage alloc]initWithData:conOperation.responseData];
+//        NSLog(@"%@",image);
+//    }];
+//    [conOperation start];
 }
 
 -(void)gotoParentViewController
@@ -376,5 +395,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 	return [NSDate date]; // should return date data source was last changed
 }
 
-
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse
+{
+    NSCachedURLResponse *memOnlyCachedResponse =
+    [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response
+                                             data:cachedResponse.data
+                                         userInfo:cachedResponse.userInfo
+                                    storagePolicy:NSURLCacheStorageAllowedInMemoryOnly];
+    return memOnlyCachedResponse;
+}
 @end

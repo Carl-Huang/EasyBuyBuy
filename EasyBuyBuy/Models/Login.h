@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Login : NSObject
+@interface Login : JSONModel
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * account;
 @property (strong ,nonatomic) NSString * phone;

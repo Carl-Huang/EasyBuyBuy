@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GoodListSingleObj : NSObject
+@interface GoodListSingleObj : JSONModel
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * goods_id;
 @property (strong ,nonatomic) NSString * goods_price;

@@ -69,7 +69,6 @@
         [self addSubview:self.scrollView];
         self.currentPageIndex = 0;
         
-        
         _pageController = [[UIPageControl alloc]initWithFrame:CGRectMake(self.bounds.size.width/2 - 50, self.bounds.size.height/4*3, 100, 30)];
         _pageController.currentPageIndicatorTintColor = [UIColor redColor];
         _pageController.pageIndicatorTintColor        = [UIColor darkGrayColor];
@@ -100,21 +99,21 @@
     
     NSInteger counter = 0;
     for (UIImageView *contentView in self.contentViews) {
-        contentView.frame = self.bounds;
-        contentView.userInteractionEnabled = YES;
+        UIImageView * tempImageView = [[UIImageView alloc]initWithImage:contentView.image];
+        tempImageView.frame = self.bounds;
+        tempImageView.userInteractionEnabled = YES;
 //        contentView.contentMode = UIViewContentModeScaleAspectFit;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTapAction:)];
-        [contentView addGestureRecognizer:tapGesture];
-        CGRect rightRect = contentView.frame;
+        [tempImageView addGestureRecognizer:tapGesture];
+        CGRect rightRect = tempImageView.frame;
         rightRect.origin = CGPointMake(CGRectGetWidth(self.scrollView.frame) * (counter ++), 0);
-        
-        contentView.frame = rightRect;
-        [self.scrollView addSubview:contentView];
+        tempImageView.frame = rightRect;
+        [self.scrollView addSubview:tempImageView];
+        tempImageView = nil;
         if (_totalPageCount == 1) {
             break;
         }
-       
     }
     if (_totalPageCount != 1) {
         [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];

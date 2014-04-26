@@ -18,7 +18,7 @@
  order_time: "2014-04-04 18:47:46"
  remark: null
  */
-@interface MyOrderList : NSObject
+@interface MyOrderList : JSONModel
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * user_id;
 @property (strong ,nonatomic) NSString * address_id;

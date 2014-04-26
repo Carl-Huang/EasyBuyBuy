@@ -99,6 +99,7 @@
         if (object ) {
             Login * loginObj  = object;
             User * user = [User MR_createEntity];
+
             user.account    = loginObj.account;
             user.password   = loginObj.password;
             user.user_id    = loginObj.ID;

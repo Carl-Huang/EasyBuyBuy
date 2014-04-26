@@ -118,7 +118,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     [_contentScrollView addSubview:b2cTable];
     [_contentScrollView addSubview:b2bTable];
-   
+    _contentScrollView.scrollEnabled = NO;
     
     UINib * cellNib = [UINib nibWithNibName:@"MyCarCell" bundle:[NSBundle bundleForClass:[MyCarCell class]]];
     [b2cTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
@@ -305,9 +305,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     type = B2CBuinessModel;
     [_b2cBtn setSelected:YES];
     [_b2bBtn setSelected:NO];
+    _contentScrollView.scrollEnabled = YES;
     [_contentScrollView scrollRectToVisible:CGRectMake(0, 0, 320, _contentScrollView.frame.size.height) animated:YES];
     [_b2cBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_b2bBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    _contentScrollView.scrollEnabled = NO;
     
 }
 
@@ -315,9 +317,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     type = B2BBuinessModel;
     [_b2bBtn setSelected:YES];
     [_b2cBtn setSelected:NO];
+    _contentScrollView.scrollEnabled = YES;
      [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
     [_b2bBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_b2cBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    _contentScrollView.scrollEnabled = NO;
 }
 
 #pragma mark - Table

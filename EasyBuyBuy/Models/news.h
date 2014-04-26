@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface news : NSObject
+@interface news : JSONModel
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * title;
 @property (strong ,nonatomic) NSString * content;

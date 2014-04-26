@@ -130,11 +130,19 @@
         });
         
         dispatch_apply([internalLinks count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
-            NSString * imgStr = [links objectAtIndex:i];
+            NSString * imgStr = [internalLinks objectAtIndex:i];
             if (![imgStr isKindOfClass:[NSNull class]]) {
                 [weakSelf getImage:imgStr withIndex:i];
             }
         });
+//        for (int i =0; i< [internalLinks count];i++) {
+//            NSString * imgStr  = [internalLinks objectAtIndex: i];
+//            if (![imgStr isKindOfClass:[NSNull class]]) {
+//                [weakSelf getImage:imgStr withIndex:i];
+//            }
+//        }
+        
+        
     });
 }
 
@@ -166,16 +174,14 @@
 
 -(void)updateAutoScrollViewItem
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        __weak AsynCycleView * weakSelf = self;
-        autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-            return weakSelf.placeHolderImages[pageIndex];
-        };
-        autoScrollView.totalPagesCount = ^NSInteger(void){
-            return [weakSelf.placeHolderImages count];
-        };
-    });
-   
+    __weak AsynCycleView * weakSelf = self;
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return weakSelf.placeHolderImages[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [weakSelf.placeHolderImages count];
+    };
+
 }
 
 -(void)dealloc

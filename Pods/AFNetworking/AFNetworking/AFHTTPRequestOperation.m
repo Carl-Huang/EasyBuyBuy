@@ -60,7 +60,6 @@ static dispatch_group_t http_request_operation_completion_group() {
     if (!self) {
         return nil;
     }
-
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
     return self;

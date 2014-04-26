@@ -1,6 +1,6 @@
 #include "Pods-EasyBuyBuy-RMStore.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/RMStore" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/Base64nl" "${PODS_ROOT}/Headers/CargoBay" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/MagicalRecord" "${PODS_ROOT}/Headers/RMStore" "${PODS_ROOT}/Headers/SDWebImage" ${PODS_EASYBUYBUY_RMSTORE_HEADER_SEARCH_PATHS}
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/RMStore" "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/Base64nl" "${PODS_ROOT}/Headers/CargoBay" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/MagicalRecord" "${PODS_ROOT}/Headers/RMStore" "${PODS_ROOT}/Headers/SDURLCache" "${PODS_ROOT}/Headers/SDWebImage" ${PODS_EASYBUYBUY_RMSTORE_HEADER_SEARCH_PATHS}
 LIBRARY_SEARCH_PATHS = ${PODS_EASYBUYBUY_RMSTORE_LIBRARY_SEARCH_PATHS}
 OTHER_LDFLAGS = -ObjC ${PODS_EASYBUYBUY_RMSTORE_OTHER_LDFLAGS}
 PODS_ROOT = ${SRCROOT}
