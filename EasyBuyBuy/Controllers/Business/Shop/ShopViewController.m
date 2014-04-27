@@ -20,6 +20,8 @@
 #import "AdObject.h"
 #import "AdDetailViewController.h"
 #import "AFURLRequestSerialization.h"
+#import "Parent_Category_Shop.h"
+#import "Parent_Category_Factory.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate,NSURLConnectionDelegate>
@@ -121,11 +123,25 @@ static NSString * cellIdentifier = @"cellIdentifier";
     dataSource = [NSMutableArray array];
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
+    NSArray * localCacheData = nil;
+    if (_buinessType == B2CBuinessModel) {
+        localCacheData = [Parent_Category_Shop MR_findAll];
+    }else
+    {
+        localCacheData = [Parent_Category_Factory MR_findAll];
+    }
+     if ([localCacheData count]) {
+        [dataSource addObjectsFromArray:localCacheData];
+    }
+
     //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [ParentCategory saveToLocalWithObject:object type:_buinessType];
+            });
+            [dataSource removeAllObjects];
             [dataSource addObjectsFromArray:object];
             [weakSelf.contentTable reloadData];
             [weakSelf setFooterView];
@@ -136,25 +152,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }];
     [self addLinkView];
     [self addAdvertisementView];
-    
-//    NSMutableURLRequest * request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:@"http://carl888.w84.mc-test.com/uploads/cate_13974740706351.png"]];
-//    [request setCachePolicy:NSURLRequestReturnCacheDataElseLoad];
-//    
-//    AFURLConnectionOperation * conOperation = [[AFURLConnectionOperation alloc]initWithRequest:request];
-//    [conOperation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
-//        NSCachedURLResponse *memOnlyCachedResponse =
-//        [[NSCachedURLResponse alloc] initWithResponse:cachedResponse.response
-//                                                 data:cachedResponse.data
-//                                             userInfo:cachedResponse.userInfo
-//                                        storagePolicy:NSURLCacheStorageAllowedInMemoryOnly];
-//        return memOnlyCachedResponse;
-//    }];
-//    
-//    [conOperation setCompletionBlock:^{
-//        UIImage * image = [[UIImage alloc]initWithData:conOperation.responseData];
-//        NSLog(@"%@",image);
-//    }];
-//    [conOperation start];
+
 }
 
 -(void)gotoParentViewController

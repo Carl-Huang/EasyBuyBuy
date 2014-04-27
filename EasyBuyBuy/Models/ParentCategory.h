@@ -24,5 +24,5 @@
 @property (strong ,nonatomic) NSString * update_time;
 @property (strong ,nonatomic) NSString * is_delete;
 @property (strong ,nonatomic) NSString * image;
-
++(void)saveToLocalWithObject:(NSArray *)parentCategories type:(BuinessModelType)type;
 @end

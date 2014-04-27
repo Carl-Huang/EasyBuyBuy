@@ -98,24 +98,28 @@ static NSString * cellIdentifier = @"cellIdentifier";
     user = [User getUserFromLocal];
     if (user) {
         isVip = user.isVip;
-    }
-    page = 1;
-    pageSize = 20;
-    dataSource = [NSMutableArray array];
-    __weak ProdecutViewController * weakSelf = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
+        page = 1;
+        pageSize = 20;
+        dataSource = [NSMutableArray array];
+        __weak ProdecutViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
+         {
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+             if (object) {
+                 [dataSource addObjectsFromArray:object];
+                 [weakSelf setItemsSelectedStatus];
+                 [weakSelf.contentTable reloadData];
+             }
+         } failureBlock:^(NSError *error, NSString *responseString) {
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         }];
+        [self createFooterView];
+    }else
     {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (object) {
-            [dataSource addObjectsFromArray:object];
-            [weakSelf setItemsSelectedStatus];
-            [weakSelf.contentTable reloadData];
-        }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-    }];
-    [self createFooterView];
+        [self showAlertViewWithMessage:@"Please login first"];
+    }
+    
     
     
    //
