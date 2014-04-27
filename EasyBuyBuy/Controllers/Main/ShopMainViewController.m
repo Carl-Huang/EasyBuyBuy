@@ -182,7 +182,7 @@
     [maskView addGestureRecognizer:maskViewTapGesture];
     maskViewTapGesture = nil;
     [maskView setHidden:YES];
-    myDelegate = [[UIApplication sharedApplication]delegate];
+    myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:maskView];
     
 //    [self addAdvertisementView];
@@ -404,14 +404,14 @@
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
-    if (object) {
-        NSLog(@"%@",object);
+    if([GlobalMethod isNetworkOk])
+    {
+        NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+        [viewController setNewsObj:object];
+        [self push:viewController];
+        viewController = nil;
     }
-    //TODO:处理点击时间
-    NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
-    [viewController setNewsObj:object];
-    [self push:viewController];
-    viewController = nil;
+    
 }
 
 #pragma mark UIScrollViewDelegate

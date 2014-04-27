@@ -13,7 +13,6 @@
 #import "UIImageView+WebCache.h"
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
-
 #import "OtherLinkView.h"
 #import "ShopMainViewController.h"
 #import "AsynCycleView.h"
@@ -22,6 +21,7 @@
 #import "AFURLRequestSerialization.h"
 #import "Parent_Category_Shop.h"
 #import "Parent_Category_Factory.h"
+
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate,NSURLConnectionDelegate>
@@ -36,6 +36,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     BOOL                        _reloading;
     OtherLinkView * linkView;
     AsynCycleView * autoScrollView;
+
 }
 @end
 
@@ -121,8 +122,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     page = 1;
     pageSize = 20;
     dataSource = [NSMutableArray array];
-    __weak ShopViewController * weakSelf = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSArray * localCacheData = nil;
     if (_buinessType == B2CBuinessModel) {
         localCacheData = [Parent_Category_Shop MR_findAll];
@@ -133,7 +132,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
      if ([localCacheData count]) {
         [dataSource addObjectsFromArray:localCacheData];
     }
-
+    __weak ShopViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -292,18 +292,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
-    NSLog(@"%s",__FUNCTION__);
-    if (object) {
-        if ([[NSThread currentThread]isMainThread]) {
-            NSLog(@"main thread");
-        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
+    if ([GlobalMethod isNetworkOk]) {
+        if (object) {
             AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
             [viewController setAdObj:object];
             [self push:viewController];
             viewController =  nil;
-//        });
-        
+        }
     }
 }
 
@@ -338,33 +333,35 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
     [self gotoProdecutViewControllerWithObject:object];
 }
 
--(void)gotoProdecutViewControllerWithObject:(ParentCategory *)object
+-(void)gotoProdecutViewControllerWithObject:(id)object
 {
     ProdecutViewController * viewController = [[ProdecutViewController alloc]initWithNibName:@"ProdecutViewController" bundle:nil];
-    viewController.title = object.name;
-    [viewController setParentID:object.ID];
+    viewController.title = [object valueForKey:@"name"];
+    if ([GlobalMethod isNetworkOk]) {
+        [viewController setParentID:[object valueForKey:@"ID"]];
+    }else
+    {
+        [viewController setParentID:[object valueForKey:@"pc_id"]];
+    }
+    
     [self push:viewController];
     viewController = nil;
 }
 
 #pragma mark - FooterView
-
 - (void)doneLoadingTableViewData{
-    //5
     //  model should call this when its done loading
     [self.contentTable reloadData];
-    
     [self removeFootView];
     [self setFooterView];
-    
     _reloading = NO;
     [footerView refreshLastUpdatedDate];
     [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
-    
 }
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
@@ -375,15 +372,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
 	[self loadData];
 }
-
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 	if (footerView)
 	{
         [footerView egoRefreshScrollViewDidScroll:scrollView];
     }
 }
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	if (footerView)
 	{

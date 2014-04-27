@@ -843,12 +843,12 @@
 		4EAE460F18C6EE510089B843 /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				4E08204D190123AF00D9C2A2 /* News */,
 				4EAE461E18C6EE510089B843 /* Shop&Factory */,
 				4EAE461118C6EE510089B843 /* Sale Promotion */,
 				4EAE461018C6EE510089B843 /* AskToBuy */,
 				4EB9964218D7F5D3001EA448 /* Shipping */,
 				4EB7D855190B5B22006DECB2 /* Ad */,
+				4E08204D190123AF00D9C2A2 /* News */,
 			);
 			path = Business;
 			sourceTree = "<group>";

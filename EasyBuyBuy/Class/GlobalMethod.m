@@ -470,5 +470,22 @@
     return  NO;
 }
 
++(BOOL)isNetworkOk
+{
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:NetWorkStatus]) {
+        return  YES;
+    }
+    [self showAlertViewWithMessage:@"Please Check your network"];
+    return  NO;
+}
+
++(void)showAlertViewWithMessage:(NSString *)message
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:message delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+        [alertView show];
+        alertView = nil;
+    });
+}
 @end
 

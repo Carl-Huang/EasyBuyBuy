@@ -12,56 +12,25 @@
 
 #import "SDURLCache.h"
 #import "APService.h"
-@implementation AppDelegate
+#import "AFNetworkReachabilityManager.h"
+@interface AppDelegate()
+{
+    SDURLCache *urlCache;
+    AFNetworkReachabilityManager * reachbilityMng;
+}
+@end
 
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSLog(@"%s",__func__);
-    _badge_num = 0;
-    _sysNotiContainer = [NSMutableArray array];
-    _proNotiContainer = [NSMutableArray array];
-    
-
-    
     NSDictionary *remoteNotif = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
     
     //Accept push notification when app is not open
     if (remoteNotif) {
         [self application:application didReceiveRemoteNotification:remoteNotif];
     }
-    
-    
-#if TARGET_OS_IPHONE
-    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-    [APService setupWithOption:launchOptions];
-#endif
-    
-    //MagicalRecord
-    [MagicalRecord setupCoreDataStackWithStoreNamed:@"EasyBuybuy.sqlite"];
-    
-    //Nav bar
-    [self custonNavigationBar];
-    
-    //Cache
-    SDURLCache *urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
-                                                         diskCapacity:1024*1024*5 // 5MB disk cache
-                                                             diskPath:[SDURLCache defaultCachePath]];
-    [NSURLCache setSharedURLCache:urlCache];
-    
-    //Language
-    NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
-    if (!language) {
-        //The default language 
-        [[NSUserDefaults standardUserDefaults]setObject:@"English" forKey:CurrentLanguage];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-    }
-    
-    //Paypal
-    [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW",
-                                                           PayPalEnvironmentSandbox : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW"}];
-    
-
+    [self configureAppEnviroment:launchOptions];
 
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -86,12 +55,14 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [reachbilityMng stopMonitoring];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    [reachbilityMng startMonitoring];
     NSLog(@"%d",application.applicationIconBadgeNumber);
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
@@ -120,8 +91,7 @@
      [APService registerDeviceToken:deviceToken];
 #endif
     NSLog(@"%@",NSStringFromSelector(_cmd));
-   
-    
+
 }
 
 
@@ -135,12 +105,8 @@
     if (application.applicationState == UIApplicationStateActive) {
         [self showNotification:userInfo];
     }
-    
     NSLog(@"%@",userInfo);
     NSString * type = [NSString stringWithFormat:@"%@",userInfo[@"is_system"]];
-    
-
-   
     if ([type isEqualToString:@"0"] ) {
         //商品信息推送
         [_proNotiContainer addObject:userInfo];
@@ -155,8 +121,6 @@
 }
 
 
-
-
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     NSLog(@"%s",__func__);
@@ -168,8 +132,71 @@
     
 }
 
-
+-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    [urlCache removeAllCachedResponses];
+}
 #pragma mark - Private
+-(void)configureAppEnviroment:(NSDictionary *)launchOptions
+{
+    _badge_num = 0;
+    _sysNotiContainer = [NSMutableArray array];
+    _proNotiContainer = [NSMutableArray array];
+    
+    
+#if TARGET_OS_IPHONE
+
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    [APService setupWithOption:launchOptions];
+#endif
+    
+    //MagicalRecord
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"EasyBuybuy.sqlite"];
+    
+    //Nav bar
+    [self custonNavigationBar];
+    
+    //Cache
+    urlCache = [[SDURLCache alloc] initWithMemoryCapacity:1024*1024   // 1MB mem cache
+                                             diskCapacity:1024*1024*5 // 5MB disk cache
+                                                 diskPath:[SDURLCache defaultCachePath]];
+    [NSURLCache setSharedURLCache:urlCache];
+    
+    //Language
+    NSString * language = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentLanguage];
+    if (!language) {
+        //The default language
+        [[NSUserDefaults standardUserDefaults]setObject:@"English" forKey:CurrentLanguage];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
+    
+    //Paypal
+    [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW",
+                                                           PayPalEnvironmentSandbox : @"ASC05BDD5Urrq-V_hiJediprY8m4UaY_fNU0FWZqMug8m9W4_gm77PHzPhfW"}];
+    
+    //Network monitoring
+    reachbilityMng = [AFNetworkReachabilityManager sharedManager];
+    [reachbilityMng startMonitoring];
+    __typeof(self) __weak weakSelf = self;
+    __block BOOL isGetNetworkStatus=  NO;
+    [reachbilityMng setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (status == AFNetworkReachabilityStatusNotReachable) {
+            if(!isGetNetworkStatus)
+            {
+                [weakSelf showAlertViewWithMessage:@"No Network"];
+                [[NSUserDefaults standardUserDefaults]setBool:NO forKey:NetWorkStatus];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                isGetNetworkStatus = YES;
+            }
+        }else
+        {
+            NSLog(@"Connection ok");
+            [[NSUserDefaults standardUserDefaults]setBool:YES forKey:NetWorkStatus];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+        }
+    }];
+}
+
 - (void)custonNavigationBar
 {
     
@@ -199,5 +226,14 @@
     alertView = nil;
 }
 
+
+- (void)showAlertViewWithMessage:(NSString *)message
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Hint" message:message delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+        [alertView show];
+        alertView = nil;
+    });
+}
 
 @end

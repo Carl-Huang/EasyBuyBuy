@@ -10,8 +10,11 @@
 #import "HWSDK_Constants.h"
 #import "OneWayAlertView.h"
 #import <objc/runtime.h>
-@interface CommonViewController ()
 
+@interface CommonViewController ()
+{
+
+}
 @end
 
 @implementation CommonViewController
@@ -75,6 +78,7 @@
         }
     }
 #endif
+    
 //    self.wantsFullScreenLayout = NO;
 
     
