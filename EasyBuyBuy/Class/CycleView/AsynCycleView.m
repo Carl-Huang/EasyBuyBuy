@@ -154,7 +154,7 @@
     __weak AsynCycleView * weakSelf = self;
     NSURL * url = [NSURL URLWithString:imgStr];
     manager = [SDWebImageManager sharedManager];
-    [manager downloadWithURL:url options:SDWebImageRefreshCached progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [manager downloadWithURL:url options:SDWebImageCacheMemoryOnly progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         ;
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
         if([manager isRunning])
@@ -174,7 +174,6 @@
             });
 
         }else
-            
         {
             NSLog(@"Not running");
         }
@@ -217,7 +216,7 @@
 
 -(void)pauseTimer
 {
-    [autoScrollView stopTimer];
+    [autoScrollView pauseTimer];
 }
 
 -(void)cancelOperation

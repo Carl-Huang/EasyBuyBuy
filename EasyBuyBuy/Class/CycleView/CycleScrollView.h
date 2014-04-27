@@ -40,5 +40,6 @@
 @property (assign ,nonatomic) BOOL isShouldAutoScroll;
 -(void)startTimer;
 -(void)stopTimer;
+-(void)pauseTimer;
 -(void)refreshContentAtIndex:(NSInteger)index withObject:(UIImageView *)imageView;
 @end

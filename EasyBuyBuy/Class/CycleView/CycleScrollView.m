@@ -83,12 +83,20 @@
 
 -(void)stopTimer
 {
-    [self.animationTimer pauseTimer];
+    if ([self.animationTimer isValid]) {
+        [self.animationTimer invalidate];
+        self.animationTimer  =  nil;
+    }
 }
 
 -(void)startTimer
 {
     [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
+}
+
+-(void)pauseTimer
+{
+    [self.animationTimer pauseTimer];
 }
 #pragma mark - Private
 

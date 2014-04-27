@@ -43,6 +43,12 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
