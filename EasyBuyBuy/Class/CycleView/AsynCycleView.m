@@ -18,7 +18,7 @@
     
     CGRect cycleViewFrame;
     NSInteger nPlaceholderImages;
-    UIView * cycleViewParentView;
+    __weak UIView * cycleViewParentView;
     dispatch_queue_t concurrentQueue;
     SDWebImageManager *manager;
     
@@ -72,16 +72,14 @@
     
     autoScrollView = [[CycleScrollView alloc] initWithFrame:cycleViewFrame animationDuration:2];
     [autoScrollView setIsShouldAutoScroll:_isShouldAutoScroll];
-    
     autoScrollView.backgroundColor = [UIColor clearColor];
-    dispatch_async(concurrentQueue, ^{
-        autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-            return weakSelf.placeHolderImages[pageIndex];
-        };
-        autoScrollView.totalPagesCount = ^NSInteger(void){
-            return [weakSelf.placeHolderImages count];
-        };
-    });
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return weakSelf.placeHolderImages[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [weakSelf.placeHolderImages count];
+    };
+
     
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
         if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
@@ -89,7 +87,10 @@
             if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
                 object = [weakSelf.items objectAtIndex:pageIndex];
             }
-            [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
+            });
+            
         }
     };
     
@@ -108,44 +109,43 @@
 -(void)resetThePlaceImages:(NSArray *)links
 {
     internalLinks = [links copy];
-    dispatch_barrier_async(concurrentQueue, ^{
+//    dispatch_barrier_async(concurrentQueue, ^{
+    
         __weak AsynCycleView * weakSelf =self;
-        if ([links count ] > [weakSelf.placeHolderImages count]) {
-            for (int i = [weakSelf.placeHolderImages count]; i < [links count]; i ++) {
-                UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
-                [weakSelf.placeHolderImages addObject:tempImageView];
-                tempImageView = nil;
-            }
-        }else
-        {
-            for (int i = [weakSelf.placeHolderImages count]; i > [links count]; i --) {
-                [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
-            }
-        }
-        
         dispatch_async(dispatch_get_main_queue(), ^{
+            if ([links count ] > [weakSelf.placeHolderImages count]) {
+                for (int i = [weakSelf.placeHolderImages count]; i < [links count]; i ++) {
+                    UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
+                    [weakSelf.placeHolderImages addObject:tempImageView];
+                    tempImageView = nil;
+                }
+            }else
+            {
+                for (int i = [weakSelf.placeHolderImages count]; i > [links count]; i --) {
+                    [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
+                }
+            }
+            
             autoScrollView.totalPagesCount = ^NSInteger(void){
                 return [weakSelf.placeHolderImages count];
             };
             
-        });
-        
-        dispatch_apply([internalLinks count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
-            NSString * imgStr = [internalLinks objectAtIndex:i];
-            if (![imgStr isKindOfClass:[NSNull class]]) {
-                [weakSelf getImage:imgStr withIndex:i];
+            
+            for (int i =0; i< [internalLinks count];i++) {
+                NSString * imgStr  = [internalLinks objectAtIndex: i];
+                if (![imgStr isKindOfClass:[NSNull class]]) {
+                    [weakSelf getImage:imgStr withIndex:i];
+                }
             }
-        });
-
-//       for (int i =0; i< [internalLinks count];i++) {
-//           NSString * imgStr  = [internalLinks objectAtIndex: i];
-//           if (![imgStr isKindOfClass:[NSNull class]]) {
-//               [weakSelf getImage:imgStr withIndex:i];
-//           }
-//       }
-
+//        });
         
-        
+//        dispatch_apply([internalLinks count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
+//            NSString * imgStr = [internalLinks objectAtIndex:i];
+//            if (![imgStr isKindOfClass:[NSNull class]]) {
+//                [weakSelf getImage:imgStr withIndex:i];
+//            }
+//        });
+
     });
 }
 
@@ -175,7 +175,7 @@
 
         }else
         {
-            NSLog(@"Not running");
+            NSLog(@"SDWebImageManager Not running");
         }
        
     }];
@@ -206,6 +206,7 @@
     [autoScrollView stopTimer];
     [manager cancelAll];
     autoScrollView = nil;
+    internalLinks = nil;
     _items = nil;
 }
 

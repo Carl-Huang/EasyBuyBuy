@@ -77,7 +77,7 @@
 }
 
 
-- (void)popVIewController
+- (void)popViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
 }

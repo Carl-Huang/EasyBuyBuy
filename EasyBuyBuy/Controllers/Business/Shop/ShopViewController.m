@@ -294,10 +294,18 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
+    NSLog(@"%s",__FUNCTION__);
     if (object) {
-        AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
-        [viewController setAdObj:object];
-        [self push:viewController];
+        if ([[NSThread currentThread]isMainThread]) {
+            NSLog(@"main thread");
+        }
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
+            [viewController setAdObj:object];
+            [self push:viewController];
+            viewController =  nil;
+//        });
+        
     }
 }
 

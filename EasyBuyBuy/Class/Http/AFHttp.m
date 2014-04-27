@@ -98,7 +98,9 @@
 - (void)post:(NSString *)url withParams:(NSDictionary *)params completionBlock:(void (^)(id obj))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure
 {
     [_manager POST:[[self class] urlEncode:url] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+#if DebugVersion
         NSLog(@"%@",responseObject);
+#endif
         if(success)
             success(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
