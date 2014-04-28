@@ -93,9 +93,8 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)addAdvertisementView
 {
-    NSInteger height = 100;
-    CGRect rect = CGRectMake(0, 0, 320, height);
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+    CGRect rect = CGRectMake(0, 0, 320, _adView.frame.size.height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
    
 }
 

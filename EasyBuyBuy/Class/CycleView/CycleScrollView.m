@@ -45,8 +45,9 @@
                                                              selector:@selector(animationTimerDidFired:)
                                                              userInfo:nil
                                                               repeats:YES];
-        [[NSRunLoop currentRunLoop]addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
+//        [[NSRunLoop currentRunLoop]addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
         [self.animationTimer pauseTimer];
+        
     }
     return self;
 }
@@ -198,7 +199,6 @@
     if (_totalPageCount != 1) {
         [scrollView setContentOffset:CGPointMake(CGRectGetWidth(scrollView.frame), 0) animated:YES];
     }
-    
 }
 
 - (void)animationTimerDidFired:(NSTimer *)timer

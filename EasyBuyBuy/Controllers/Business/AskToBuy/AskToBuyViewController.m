@@ -21,10 +21,13 @@
 #import "AppDelegate.h"
 #import "User.h"
 
+#import "AsynCycleView.h"
+#import "AdObject.h"
+
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
 
-@interface AskToBuyViewController ()<TableContentDataDelegate,UIAlertViewDelegate>
+@interface AskToBuyViewController ()<TableContentDataDelegate,UIAlertViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     TouchLocationView *locationHelperView;
@@ -33,6 +36,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     NSArray * eliminateTheTextfieldItems;
     NSMutableArray * mustFillItems;
     NSDictionary * filledContentInfo;
+    AsynCycleView * autoScrollView;
 }
 @end
 
@@ -47,6 +51,11 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
     return self;
 }
+-(void)loadView
+{
+    [super loadView];
+    [self ConfigureLinkViewSetting];
+}
 
 - (void)viewDidLoad
 {
@@ -58,11 +67,15 @@ static NSString * imageCellIdentifier = @"imageCell";
     // Do any additional setup after loading the view from its nib.
 }
 
-
--(void)loadView
+-(void)viewWillDisappear:(BOOL)animated
 {
-    [super loadView];
-    [self ConfigureLinkViewSetting];
+    [autoScrollView pauseTimer];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [autoScrollView startTimer];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,7 +104,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(void)initializationInterface
 {
     self.title = viewControllTitle;
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
     
     
@@ -121,9 +134,56 @@ static NSString * imageCellIdentifier = @"imageCell";
 
     table.tableContentdelegate = self;
     [table setTakeBtnIndex:9];
-    
- 
+    [self addAdvertisementView];
 }
+
+-(void)addAdvertisementView
+{
+    CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
+    autoScrollView.delegate = self;
+    
+    //Fetching the Ad form server
+    __typeof(self) __weak weakSelf = self;
+    NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+
+    
+    [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
+        if (object) {
+            [weakSelf refreshAdContent:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        NSLog(@"%@",error.description);
+    }];
+   
+}
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)refreshAdContent:(NSArray *)objects
+{
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (AdObject * news in objects) {
+        if([news.image count])
+        {
+            [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+        }
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+}
+#pragma mark AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+{
+    if ([GlobalMethod isNetworkOk]) {
+        if (object) {
+            
+        }
+    }
+}
+
 #pragma mark - Outlet Action
 - (IBAction)publicBtnAction:(id)sender {
     //Check the must filled content is fill or not

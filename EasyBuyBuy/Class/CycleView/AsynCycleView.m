@@ -73,12 +73,18 @@
     autoScrollView = [[CycleScrollView alloc] initWithFrame:cycleViewFrame animationDuration:2];
     [autoScrollView setIsShouldAutoScroll:_isShouldAutoScroll];
     autoScrollView.backgroundColor = [UIColor clearColor];
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return weakSelf.placeHolderImages[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [weakSelf.placeHolderImages count];
-    };
+    
+    
+    dispatch_barrier_async(concurrentQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+                return weakSelf.placeHolderImages[pageIndex];
+            };
+            autoScrollView.totalPagesCount = ^NSInteger(void){
+                return [weakSelf.placeHolderImages count];
+            };
+        });
+    });
 
     
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
@@ -87,8 +93,11 @@
             if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
                 object = [weakSelf.items objectAtIndex:pageIndex];
             }
+            
             dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf pauseTimer];
                 [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
+                [weakSelf startTimer];
             });
             
         }
@@ -109,8 +118,7 @@
 -(void)resetThePlaceImages:(NSArray *)links
 {
     internalLinks = [links copy];
-//    dispatch_barrier_async(concurrentQueue, ^{
-    
+    dispatch_barrier_async(concurrentQueue, ^{
         __weak AsynCycleView * weakSelf =self;
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([links count ] > [weakSelf.placeHolderImages count]) {
@@ -137,15 +145,8 @@
                     [weakSelf getImage:imgStr withIndex:i];
                 }
             }
-//        });
-        
-//        dispatch_apply([internalLinks count], dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
-//            NSString * imgStr = [internalLinks objectAtIndex:i];
-//            if (![imgStr isKindOfClass:[NSNull class]]) {
-//                [weakSelf getImage:imgStr withIndex:i];
-//            }
-//        });
 
+        });
     });
 }
 
@@ -162,6 +163,8 @@
             dispatch_barrier_async(concurrentQueue, ^{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSLog(@"replace");
+                    
+                    [weakSelf pauseTimer];
                     UIImageView * imageView = nil;
                     imageView = [[UIImageView alloc]initWithImage:image];
                     if (imageView) {
@@ -169,6 +172,7 @@
                         [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
                         [weakSelf updateAutoScrollViewItem];
                     }
+                    [weakSelf startTimer];
                     imageView = nil;
                 });
             });

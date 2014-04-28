@@ -34,6 +34,7 @@
 #import "news.h"
 #import "NewsDetailViewController.h"
 #import "AppDelegate.h"
+#import "AdObject.h"
 
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate,UIAlertViewDelegate>
 {
@@ -98,15 +99,23 @@
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
     }];
-
     
+    __typeof(self) __weak weakSelf = self;
+    [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
+        if (object) {
+            [weakSelf refreshAdContent:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        NSLog(@"%@",error.description);
+    }];
+
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setHidden:YES];
-//    [autoScrollNewsView startTimer];
+    [autoScrollNewsView startTimer];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -127,6 +136,7 @@
 -(void)dealloc
 {
     [autoScrollNewsView cleanAsynCycleView];
+    [autoScrollView cleanAsynCycleView];
 }
 
 #pragma mark - Private Method
@@ -185,7 +195,7 @@
     myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:maskView];
     
-//    [self addAdvertisementView];
+    [self addAdvertisementView];
     [self addNewsView];
 }
 
@@ -229,7 +239,6 @@
         }
     }
     
-    
     switch (tapNumber) {
         case 0:
             //1 : b2c
@@ -246,12 +255,15 @@
             [self gotoShopViewControllerWithType:BiddingBuinessModel];
             break;
         case 3:
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",EasySellOrBuyModel] key:BuinessModel];
             [self gotoAskToBuyViewController];
             break;
         case 4:
+             [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",ShippingModel] key:BuinessModel];
             [self gotoShippingViewController];
             break;
         case 5:
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",NewsModel] key:BuinessModel];
             [self gotoNewsViewController];
             break;
         default:
@@ -319,11 +331,9 @@
 
 -(void)addAdvertisementView
 {
-    NSInteger height = 50;
-    CGRect rect = CGRectMake(0, 480-height, 320, height);
-    if ([OSHelper iPhone5]) {
-        rect.origin.y = 568 - height;
-    }
+    NSInteger height = 80;
+    CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
+
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     [autoScrollView setIsShouldAutoScroll:NO];
     
@@ -331,7 +341,6 @@
 
 -(void)addNewsView
 {
-    NSInteger height = contentIconOffsetY;
     CGRect rect = CGRectMake(0, 64, 320, 120);
 
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
@@ -401,15 +410,31 @@
         [self addChildViewController:regionTable];
     }];
 }
+
+-(void)refreshAdContent:(NSArray *)objects
+{
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (AdObject * news in objects) {
+        if([news.image count])
+        {
+            [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+        }
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+}
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
     if([GlobalMethod isNetworkOk])
     {
-        NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
-        [viewController setNewsObj:object];
-        [self push:viewController];
-        viewController = nil;
+        if(object)
+        {
+            NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+            [viewController setNewsObj:object];
+            [self push:viewController];
+            viewController = nil;
+        }
+        
     }
     
 }
@@ -469,7 +494,6 @@
         [self.navigationController pushViewController:loginViewController animated:YES];
         loginViewController = nil;
     }
-    
 }
 
 #pragma mark - Search

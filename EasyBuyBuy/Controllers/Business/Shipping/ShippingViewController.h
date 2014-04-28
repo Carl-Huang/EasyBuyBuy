@@ -12,5 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *publicBtn;
+@property (weak, nonatomic) IBOutlet UIView *adView;
 - (IBAction)publicBtnAction:(id)sender;
 @end

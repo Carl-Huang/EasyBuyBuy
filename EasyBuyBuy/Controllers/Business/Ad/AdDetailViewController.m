@@ -99,8 +99,8 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)addAdvertisementView
 {
-    CGRect rect = CGRectMake(0, 0, 320, _adView.frame.size.height);
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+    CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
    
 }
 
@@ -132,10 +132,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }else
     {
         if ([OSHelper iPhone5]) {
-            return  220;
+            return  260;
         }else
         {
-            return 140;
+            return 180;
         }
     }
     
@@ -158,6 +158,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }else
     {
         NewsDetailDesCell * cell = [tableView dequeueReusableCellWithIdentifier:newsContentIdentifier];
+
         UIView * bgView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, cell.frame.size.height)];
         [cell setBackgroundView:bgView];
         bgView = nil;

@@ -14,9 +14,10 @@
 #import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 #import "AppDelegate.h"
+#import "AsynCycleView.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
-@interface NewsViewController ()<EGORefreshTableDelegate>
+@interface NewsViewController ()<EGORefreshTableDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     CGFloat fontSize;
@@ -27,6 +28,7 @@ static NSString * cellIdentifier = @"cellidentifier";
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
     AppDelegate * myDelegate;
+    AsynCycleView * autoScrollView;
 }
 @end
 
@@ -57,7 +59,17 @@ static NSString * cellIdentifier = @"cellidentifier";
    
     // Do any additional setup after loading the view from its nib.
 }
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
+    [autoScrollView pauseTimer];
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [autoScrollView startTimer];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -77,7 +89,7 @@ static NSString * cellIdentifier = @"cellidentifier";
 -(void)initializationInterface
 {
     self.title = viewControllTitle;
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
     
     if ([OSHelper iOS7]) {
@@ -115,7 +127,30 @@ static NSString * cellIdentifier = @"cellidentifier";
     } failureBlock:^(NSError *error, NSString *responseString) {
          [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
+    
+    [self addAdvertisementView];
+}
 
+-(void)addAdvertisementView
+{
+    CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
+    autoScrollView.delegate = self;
+    
+    //Fetching the Ad form server
+    __typeof(self) __weak weakSelf = self;
+    NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+    if ([buinesseType isEqualToString:[NSString stringWithFormat:@"%d",BiddingBuinessModel]]) {
+        buinesseType = [NSString stringWithFormat:@"%d",B2CBuinessModel];
+    }
+    [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
+        if (object) {
+            
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        NSLog(@"%@",error.description);
+    }];
+    
 }
 
 -(void)setFooterView{
@@ -186,6 +221,25 @@ static NSString * cellIdentifier = @"cellidentifier";
     [GlobalMethod setUserDefaultValue:@"5" key:CurrentLinkTag];
  
 }
+
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+{
+    if ([GlobalMethod isNetworkOk]) {
+        if (object) {
+            
+        }
+    }
+}
+
+
+
 #pragma mark - FooterView
 
 - (void)doneLoadingTableViewData{

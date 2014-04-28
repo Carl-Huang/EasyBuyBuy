@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AskToBuyViewController">
             <connections>
+                <outlet property="adView" destination="qg4-gg-Qtr" id="eIV-RQ-FXx"/>
                 <outlet property="containerView" destination="mWD-5P-16h" id="abJ-hy-nsH"/>
                 <outlet property="contentTable" destination="bCr-PP-ZO6" id="xhq-aL-Ga4"/>
                 <outlet property="publicBtn" destination="Kux-PI-BR0" id="n3B-4w-ln9"/>
@@ -19,11 +20,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="mWD-5P-16h">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="304"/>
+                    <rect key="frame" x="0.0" y="126" width="320" height="178"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bCr-PP-ZO6">
-                            <rect key="frame" x="10" y="5" width="300" height="304"/>
+                            <rect key="frame" x="10" y="5" width="300" height="203"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </tableView>
@@ -52,6 +53,11 @@
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="qg4-gg-Qtr">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

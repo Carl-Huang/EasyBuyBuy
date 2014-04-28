@@ -11,4 +11,5 @@
 @interface NewsViewController : CommonViewController
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 
+@property (weak, nonatomic) IBOutlet UIView *adView;
 @end

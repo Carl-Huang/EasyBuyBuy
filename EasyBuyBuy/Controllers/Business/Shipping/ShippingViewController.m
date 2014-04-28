@@ -11,8 +11,9 @@
 #import "TouchLocationView.h"
 #import "User.h"
 #import "NSArray+DictionaryObj.h"
-
-@interface ShippingViewController ()<TableContentDataDelegate,UIAlertViewDelegate>
+#import "AsynCycleView.h"
+#import "AdObject.h"
+@interface ShippingViewController ()<TableContentDataDelegate,UIAlertViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     NSArray * dataSource;
@@ -22,6 +23,7 @@
     TouchLocationView * locationHelperView;
     NSMutableArray * mustFillItems;
     NSDictionary * filledContentInfo;
+    AsynCycleView * autoScrollView;
 }
 @end
 
@@ -49,11 +51,24 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [autoScrollView pauseTimer];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [autoScrollView startTimer];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma  mark - Private Method
 -(void)initializationLocalString
 {
     
@@ -71,7 +86,7 @@
 {
 
     self.title = viewControllTitle;
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
 
     mustFillItems = [NSMutableArray array];
@@ -95,7 +110,7 @@
         willShowPopTableIndex:-1
              noSeperatorRange:NSMakeRange(~0, 0)];
     table.tableContentdelegate = self;
-
+    [self addAdvertisementView];
 }
 
 -(void)tableContent:(NSDictionary *)info
@@ -106,6 +121,56 @@
     }
     filledContentInfo = [info copy];
 }
+
+-(void)addAdvertisementView
+{
+    CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
+    autoScrollView.delegate = self;
+    
+    //Fetching the Ad form server
+    __typeof(self) __weak weakSelf = self;
+    NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+    
+    [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
+        if (object) {
+            [weakSelf refreshAdContent:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        NSLog(@"%@",error.description);
+    }];
+
+    
+}
+
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)refreshAdContent:(NSArray *)objects
+{
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (AdObject * news in objects) {
+        if([news.image count])
+        {
+            [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+        }
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+}
+#pragma mark AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+{
+    if ([GlobalMethod isNetworkOk]) {
+        if (object) {
+
+        }
+    }
+}
+
+#pragma  mark - Outlet Action
 - (IBAction)publicBtnAction:(id)sender {
     User * user = [User getUserFromLocal];
     if (user) {

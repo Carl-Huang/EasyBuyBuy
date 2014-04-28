@@ -329,7 +329,7 @@
 /*!
  * 获取广告
  *
- * @param business_model  (1:b2c,2b2b)
+ * @param type  (1: Shop, 2: Factory, 3: Auction, 4: Sell&Buy, 5: Shipping, 6: Home)
  */
 -(void)fetchAdParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

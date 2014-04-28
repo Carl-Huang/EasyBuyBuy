@@ -177,10 +177,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     //Fetching the Ad form server
     __typeof(self) __weak weakSelf = self;
     NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
-    if ([buinesseType isEqualToString:[NSString stringWithFormat:@"%d",BiddingBuinessModel]]) {
-        buinesseType = [NSString stringWithFormat:@"%d",B2CBuinessModel];
-    }
-    [[HttpService sharedInstance]fetchAdParams:@{@"business_model":buinesseType} completionBlock:^(id object) {
+
+    [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
         }
