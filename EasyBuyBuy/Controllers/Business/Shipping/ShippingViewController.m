@@ -36,6 +36,11 @@
     return self;
 }
 
+-(void)loadView
+{
+    [super loadView];
+    [self ConfigureLinkViewSetting];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -203,6 +208,11 @@
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
+}
+
+-(void)ConfigureLinkViewSetting
+{
+    [GlobalMethod setUserDefaultValue:@"4" key:CurrentLinkTag];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

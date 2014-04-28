@@ -132,10 +132,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }else
     {
         if ([OSHelper iPhone5]) {
-            return  280;
+            return  220;
         }else
         {
-            return 200;
+            return 140;
         }
     }
     

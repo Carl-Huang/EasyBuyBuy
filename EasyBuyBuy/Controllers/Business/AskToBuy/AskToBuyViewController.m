@@ -58,6 +58,13 @@ static NSString * imageCellIdentifier = @"imageCell";
     // Do any additional setup after loading the view from its nib.
 }
 
+
+-(void)loadView
+{
+    [super loadView];
+    [self ConfigureLinkViewSetting];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -302,6 +309,11 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
 }
 
+
+-(void)ConfigureLinkViewSetting
+{
+    [GlobalMethod setUserDefaultValue:@"4" key:CurrentLinkTag];
+}
 /*
  @"dataSource":@[@"*Sale or Purchase:",
  @"*First Name:",

@@ -10,11 +10,12 @@
 #import "HWSDK_Constants.h"
 #import "OneWayAlertView.h"
 #import <objc/runtime.h>
-
+#import "OtherLinkView.h"
 @interface CommonViewController ()
 {
-
+    NSOperationQueue * failedRequestQueue;
 }
+@property (strong ,nonatomic) NSMutableArray * failedRequests;
 @end
 
 @implementation CommonViewController
@@ -28,6 +29,7 @@
     return self;
 }
 
+#pragma mark - Hijack
 +(void)load
 {
     static dispatch_once_t onceToken;
@@ -78,10 +80,19 @@
         }
     }
 #endif
+    failedRequestQueue = [[NSOperationQueue alloc]init];
+    _failedRequests = [NSMutableArray array];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
+    NSString * tag = [GlobalMethod getUserDefaultWithKey:CurrentLinkTag];
+    if (tag.integerValue != -1) {
+        [self addLinkView:tag.integerValue];
+    }
     
-//    self.wantsFullScreenLayout = NO;
+}
 
-    
+-(void)viewWillAppear:(BOOL)animated
+{
+  
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -100,7 +111,42 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 #pragma mark - Instance Methods
+-(void)setFailedBlock:(FailedRequestCompletedBlock)failedBlock
+{
+    _failedBlock = [failedBlock copy];
+}
+
+-(void)networkStatusHandle:(NSNotification *)notification
+{
+    AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
+    if (status != AFNetworkReachabilityStatusNotReachable || status !=AFNetworkReachabilityStatusUnknown) {
+        //TODO:Ok ,do something cool :]
+
+        
+    }
+}
+
+-(void)addLinkView:(NSInteger)tag
+{
+    NSInteger height = 60;
+    CGRect linkViewRect = CGRectMake(0, self.view.bounds.size.height-height, 320, height);
+    if([OSHelper iPhone5])
+    {
+        linkViewRect.origin.y +=88;
+    }
+    OtherLinkView * linkView = [[OtherLinkView alloc]initWithFrame:linkViewRect];
+    [linkView setBackgroundColor:[UIColor redColor]];
+    [linkView initializedInterfaceWithInfo:nil currentTag:tag];
+
+    [self.view addSubview:linkView];
+}
+
+#pragma mark - Utility
 - (void)showAlertViewWithMessage:(NSString *)message
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -131,5 +177,4 @@
     }];
     alertView = nil;
 }
-
 @end

@@ -243,7 +243,7 @@
             break;
         case 2:
             [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",BiddingBuinessModel] key:BuinessModel];
-            [self gotoShopViewControllerWithType:B2CBuinessModel];
+            [self gotoShopViewControllerWithType:BiddingBuinessModel];
             break;
         case 3:
             [self gotoAskToBuyViewController];

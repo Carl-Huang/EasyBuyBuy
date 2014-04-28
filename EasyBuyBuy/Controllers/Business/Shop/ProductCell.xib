@@ -41,7 +41,7 @@
                         <state key="normal" image="Shop_Icon_Like_G.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <state key="selected" image="Shop_Icon_Like_R.png"/>
+                        <state key="selected" image="Shop_Icon_Like_Full.png"/>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -57,7 +57,7 @@
     <resources>
         <image name="Arrow_R.png" width="18" height="18"/>
         <image name="Red Apple_Frame_Product.png" width="124" height="124"/>
+        <image name="Shop_Icon_Like_Full.png" width="25" height="25"/>
         <image name="Shop_Icon_Like_G.png" width="25" height="25"/>
-        <image name="Shop_Icon_Like_R.png" width="25" height="25"/>
     </resources>
 </document>

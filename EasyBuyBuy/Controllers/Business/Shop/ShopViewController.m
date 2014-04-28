@@ -50,7 +50,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     return self;
 }
-
+-(void)loadView
+{
+    [super loadView];
+    [self ConfigureLinkViewSetting];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -62,14 +66,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     [autoScrollView pauseTimer];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:YES];
     [autoScrollView startTimer];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -81,6 +86,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
 
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    
     
     if (localizedDic) {
         if (_buinessType == BiddingBuinessModel) {
@@ -123,11 +129,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
     pageSize = 20;
     dataSource = [NSMutableArray array];
     NSArray * localCacheData = nil;
-    if (_buinessType == B2CBuinessModel) {
-        localCacheData = [Parent_Category_Shop MR_findAll];
+    
+    
+    if (_buinessType == B2BBuinessModel) {
+        localCacheData = [Parent_Category_Factory MR_findAll];
     }else
     {
-        localCacheData = [Parent_Category_Factory MR_findAll];
+        localCacheData = [Parent_Category_Shop MR_findAll];
     }
      if ([localCacheData count]) {
         [dataSource addObjectsFromArray:localCacheData];
@@ -135,7 +143,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     __weak ShopViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
-    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType==BiddingBuinessModel?B2CBuinessModel:_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         if (object) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -150,7 +158,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         _reloading = NO;
     }];
-    [self addLinkView];
     [self addAdvertisementView];
 
 }
@@ -183,21 +190,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 }
 
--(void)addLinkView
+-(void)ConfigureLinkViewSetting
 {
-    NSInteger height = 60;
-    CGRect linkViewRect = CGRectMake(0, self.view.bounds.size.height-height, 320, height);
-    if ([OSHelper iPhone5]) {
-        linkViewRect.origin.y = self.view.bounds.size.height - height + 88;
-    }
-    linkView = [[OtherLinkView alloc]initWithFrame:linkViewRect];
     if (_buinessType == B2CBuinessModel) {
-        [linkView initializedInterfaceWithInfo:nil currentTag:0];
+        [GlobalMethod setUserDefaultValue:@"0" key:CurrentLinkTag];
+    }else if(_buinessType == B2BBuinessModel)
+    {
+        [GlobalMethod setUserDefaultValue:@"1" key:CurrentLinkTag];
     }else
     {
-        [linkView initializedInterfaceWithInfo:nil currentTag:1];
+        [GlobalMethod setUserDefaultValue:@"2" key:CurrentLinkTag];
     }
-    [self.view addSubview:linkView];
 }
 
 -(void)createFooterView

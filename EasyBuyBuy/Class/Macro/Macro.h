@@ -35,6 +35,9 @@ typedef NS_ENUM (NSInteger ,Language)
 #define BuinessType                     @"BuinessType"
 #define CarType                         @"cartype"
 #define NetWorkStatus                   @"NetWorkStatus"
+#define NetWorkConnectionNoti           @"NetWorkConnectionNoti"
+#define CurrentLinkTag                  @"CurrentLinkTag"
+
 #define DefaultFontSize         14
 #define DebugVersion            0
 

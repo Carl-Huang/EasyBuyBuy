@@ -184,6 +184,7 @@
             if(!isGetNetworkStatus)
             {
                 [weakSelf showAlertViewWithMessage:@"No Network"];
+                [[NSNotificationCenter defaultCenter]postNotificationName:NetWorkConnectionNoti object:[NSNumber numberWithInteger:status]];
                 [[NSUserDefaults standardUserDefaults]setBool:NO forKey:NetWorkStatus];
                 [[NSUserDefaults standardUserDefaults]synchronize];
                 isGetNetworkStatus = YES;
@@ -191,10 +192,13 @@
         }else
         {
             NSLog(@"Connection ok");
+            [[NSNotificationCenter defaultCenter]postNotificationName:NetWorkConnectionNoti object:[NSNumber numberWithInteger:status]];
             [[NSUserDefaults standardUserDefaults]setBool:YES forKey:NetWorkStatus];
             [[NSUserDefaults standardUserDefaults]synchronize];
         }
     }];
+    
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
 }
 
 - (void)custonNavigationBar

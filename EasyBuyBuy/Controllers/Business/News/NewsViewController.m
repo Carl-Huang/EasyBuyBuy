@@ -41,6 +41,13 @@ static NSString * cellIdentifier = @"cellidentifier";
     return self;
 }
 
+-(void)loadView
+{
+    [super loadView];
+    [self ConfigureLinkViewSetting];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -174,7 +181,11 @@ static NSString * cellIdentifier = @"cellidentifier";
         [weakSelf doneLoadingTableViewData];
     }];
 }
-
+-(void)ConfigureLinkViewSetting
+{
+    [GlobalMethod setUserDefaultValue:@"5" key:CurrentLinkTag];
+ 
+}
 #pragma mark - FooterView
 
 - (void)doneLoadingTableViewData{
