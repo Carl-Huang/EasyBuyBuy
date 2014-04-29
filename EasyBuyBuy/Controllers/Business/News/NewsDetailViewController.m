@@ -61,7 +61,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)initializationInterface
 {
-    self.title = _newsObj.title;
+    self.title = [_newsObj valueForKey:@"title"];
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
@@ -87,7 +87,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [self refreshNewContent];
     
     if (_newsObj) {
-        dataSource = @[_newsObj.title,_newsObj.content];
+        dataSource = @[[_newsObj valueForKey:@"title"],[_newsObj valueForKey:@"content"]];
     }
 }
 
@@ -101,12 +101,14 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)refreshNewContent
 {
-    NSArray * images = [_newsObj.image copy];
+    NSArray * images = [[_newsObj valueForKey:@"image"]copy];
     NSMutableArray * imagesLink = [NSMutableArray array];
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:images];
+    [autoScrollView updateImagesLink:imagesLink targetObject:_newsObj completedBlock:^(id object) {
+        ;
+    }];
 }
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

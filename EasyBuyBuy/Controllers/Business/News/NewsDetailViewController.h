@@ -7,9 +7,8 @@
 //
 
 #import "CommonViewController.h"
-@class news;
 @interface NewsDetailViewController : CommonViewController
-@property (strong ,nonatomic) news * newsObj;
+@property (strong ,nonatomic) id  newsObj;
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @end

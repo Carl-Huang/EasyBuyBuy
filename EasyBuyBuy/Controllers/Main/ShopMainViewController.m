@@ -35,6 +35,8 @@
 #import "NewsDetailViewController.h"
 #import "AppDelegate.h"
 #import "AdObject.h"
+#import "Scroll_Item.h"
+#import "Scroll_Item_Info.h"
 
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate,UIAlertViewDelegate>
 {
@@ -327,10 +329,14 @@
 {
     NSInteger height = 80;
     CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
-
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollView.delegate = self;
+
+    //Fetch the data in local
+    [self fetchAdFromLocal];
+    
     __typeof(self) __weak weakSelf = self;
+    //update the local data via the internet
     [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
@@ -405,6 +411,42 @@
 
 -(void)refreshAdContent:(NSArray *)objects
 {
+    
+    for(AdObject * object in objects)
+    {
+        BOOL isShouldAdd = YES;
+         NSArray * scrollItems = [Scroll_Item MR_findAll];
+        for (Scroll_Item * tempObj in scrollItems) {
+            if ([tempObj.itemID isEqualToString:object.ID]) {
+                isShouldAdd = NO;
+                break;
+            }
+        }
+        if(isShouldAdd)
+        {
+            Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
+            scrollItem.itemID   =object.ID;
+            
+            Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+            itemInfo.itemID     = object.ID;
+            itemInfo.language   = object.language;
+            itemInfo.title      = object.title;
+            itemInfo.status     = object.status;
+            itemInfo.type       = object.type;
+            itemInfo.update_time = object.update_time;
+            itemInfo.add_time   = object.add_time;
+            itemInfo.content    = object.content;
+            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+            itemInfo.image      = arrayData;
+            scrollItem.item     = itemInfo;
+            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+                ;
+            }];
+        }
+      
+    }
+    
+    
     NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
         NSMutableArray * imagesLink = [NSMutableArray array];
         for (AdObject * news in objects) {
@@ -431,6 +473,33 @@
     [workingQueue addOperation:operation];
     
 }
+
+-(void)fetchAdFromLocal
+{
+    NSArray * scrollItems = [Scroll_Item MR_findAll];
+    //    for (Scroll_Item * object in scrollItems) {
+    //        [PersistentStore deleteObje:object];
+    //    }
+
+    if([scrollItems count])
+    {
+        NSMutableArray * localImages = [NSMutableArray array];
+        for (Scroll_Item * object in scrollItems) {
+            //        [PersistentStore deleteObje:object];
+            NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.image];
+            for (UIImage * img in array) {
+                if([img isKindOfClass:[UIImage class]])
+                {
+                    [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                }
+                break;
+            }
+        }
+        if ([localImages count]) {
+            [autoScrollView setScrollViewImages:localImages];
+        }
+    }
+}
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
@@ -443,9 +512,7 @@
             [self push:viewController];
             viewController = nil;
         }
-        
     }
-    
 }
 
 #pragma mark UIScrollViewDelegate

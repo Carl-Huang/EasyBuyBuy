@@ -26,5 +26,6 @@
 @property (strong ,nonatomic) NSString * add_time;
 @property (strong ,nonatomic) NSString * update_time;
 @property (strong ,nonatomic) NSArray  * image;
-
+@property (strong ,nonatomic) NSString  * status;
+@property (strong ,nonatomic) NSString  * type;
 @end

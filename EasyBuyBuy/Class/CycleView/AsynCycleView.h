@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+typedef void (^CompletedBlock) (id object);
 @protocol AsyCycleViewDelegate <NSObject>
 
 -(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object;
@@ -40,6 +40,8 @@
  */
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
 
+-(void)updateImagesLink:(NSArray *)links targetObject:(id)object completedBlock:(CompletedBlock) block;
+-(void)setScrollViewImages:(NSArray *)images;
 
 -(void)cleanAsynCycleView;
 -(void)pauseTimer;
