@@ -111,6 +111,8 @@
 		4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */; };
 		4EB3E9A418EC5A8400CDEE19 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */; };
 		4EB3E9A518EC5A8400CDEE19 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */; };
+		4EB409ED190F8026000950D7 /* Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB409EC190F8026000950D7 /* Scroll_Item_Info.m */; };
+		4EB409F0190F8026000950D7 /* Scroll_Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB409EF190F8026000950D7 /* Scroll_Item.m */; };
 		4EB4229518F50F6F00DF2053 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4229418F50F6F00DF2053 /* logo.png */; };
 		4EB422F118F51E6900DF2053 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */; };
 		4EB422F218F51E6900DF2053 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB422F018F51E6900DF2053 /* SearchResultViewController.xib */; };
@@ -458,6 +460,10 @@
 		4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
 		4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
+		4EB409EB190F8026000950D7 /* Scroll_Item_Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item_Info.h; sourceTree = "<group>"; };
+		4EB409EC190F8026000950D7 /* Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item_Info.m; sourceTree = "<group>"; };
+		4EB409EE190F8026000950D7 /* Scroll_Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item.h; sourceTree = "<group>"; };
+		4EB409EF190F8026000950D7 /* Scroll_Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item.m; sourceTree = "<group>"; };
 		4EB4229418F50F6F00DF2053 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		4EB422EE18F51E6900DF2053 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
@@ -1146,6 +1152,10 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
+				4EB409EE190F8026000950D7 /* Scroll_Item.h */,
+				4EB409EF190F8026000950D7 /* Scroll_Item.m */,
+				4EB409EB190F8026000950D7 /* Scroll_Item_Info.h */,
+				4EB409EC190F8026000950D7 /* Scroll_Item_Info.m */,
 				4EB88ECD18F588A5001C2AA5 /* User.h */,
 				4EB88ECE18F588A5001C2AA5 /* User.m */,
 				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
@@ -1847,6 +1857,7 @@
 				4E13E86218ED3F7E00183DAA /* RemartCell.m in Sources */,
 				4EBC496F18E9ADAA00481F8E /* EGORefreshTableFooterView.m in Sources */,
 				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
+				4EB409ED190F8026000950D7 /* Scroll_Item_Info.m in Sources */,
 				4EC90BAC18E40ECA007969F5 /* CycleScrollView.m in Sources */,
 				4EAE465018C6EE520089B843 /* ShopViewController.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
@@ -1859,6 +1870,7 @@
 				4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
+				4EB409F0190F8026000950D7 /* Scroll_Item.m in Sources */,
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
 				4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */,
 				4EC90BAB18E40ECA007969F5 /* AsynCycleView.m in Sources */,

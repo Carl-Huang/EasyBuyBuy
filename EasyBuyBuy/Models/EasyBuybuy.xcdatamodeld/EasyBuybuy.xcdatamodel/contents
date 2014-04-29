@@ -33,6 +33,24 @@
         <attribute name="pc_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="update_time" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Scroll_Item" representedClassName="Scroll_Item" syncable="YES">
+        <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="itemID" attributeType="String" syncable="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Scroll_Item_Info" inverseName="itemInfo" inverseEntity="Scroll_Item_Info" syncable="YES"/>
+    </entity>
+    <entity name="Scroll_Item_Info" representedClassName="Scroll_Item_Info" syncable="YES">
+        <attribute name="add_time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="itemID" attributeType="String" syncable="YES"/>
+        <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="update_time" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="itemInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Scroll_Item" inverseName="item" inverseEntity="Scroll_Item" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="account" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,9 +62,11 @@
         <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Car" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="User" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Parent_Category_Factory" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Parent_Category_Shop" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Car" positionX="-0" positionY="171" width="128" height="240"/>
+        <element name="Parent_Category_Factory" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Parent_Category_Shop" positionX="-207" positionY="201" width="128" height="150"/>
+        <element name="User" positionX="-279" positionY="0" width="128" height="165"/>
+        <element name="Scroll_Item" positionX="144" positionY="264" width="128" height="103"/>
+        <element name="Scroll_Item_Info" positionX="232" positionY="27" width="128" height="178"/>
     </elements>
 </model>

@@ -29,7 +29,10 @@ static NSString * cellIdentifier = @"cellidentifier";
     BOOL                        _reloading;
     AppDelegate * myDelegate;
     AsynCycleView * autoScrollView;
+    
+    NSArray * homePageNews;
 }
+
 @end
 
 @implementation NewsViewController
@@ -139,18 +142,23 @@ static NSString * cellIdentifier = @"cellidentifier";
     
     //Fetching the Ad form server
     __typeof(self) __weak weakSelf = self;
-    NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
-    if ([buinesseType isEqualToString:[NSString stringWithFormat:@"%d",BiddingBuinessModel]]) {
-        buinesseType = [NSString stringWithFormat:@"%d",B2CBuinessModel];
-    }
-    [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
+    [[HttpService sharedInstance]getHomePageNewsWithParam:@{@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} CompletionBlock:^(id object) {
         if (object) {
-            
+            homePageNews = object;
+            [weakSelf refreshNewContent];
         }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        NSLog(@"%@",error.description);
+    } failureBlock:^(NSError *error, NSString * responseString) {
+        ;
     }];
-    
+}
+
+-(void)refreshNewContent
+{
+    NSMutableArray * imagesLink = [NSMutableArray array];
+    for (news * newsOjb in homePageNews) {
+        [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
+    }
+    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
 }
 
 -(void)setFooterView{
@@ -231,10 +239,16 @@ static NSString * cellIdentifier = @"cellidentifier";
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
-    if ([GlobalMethod isNetworkOk]) {
-        if (object) {
-            
+    if([GlobalMethod isNetworkOk])
+    {
+        if(object)
+        {
+            NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+            [viewController setNewsObj:object];
+            [self push:viewController];
+            viewController = nil;
         }
+        
     }
 }
 

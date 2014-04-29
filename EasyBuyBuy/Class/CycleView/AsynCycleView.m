@@ -21,7 +21,6 @@
     __weak UIView * cycleViewParentView;
     dispatch_queue_t concurrentQueue;
     SDWebImageManager *manager;
-    
     NSArray * internalLinks;
     
 }
@@ -77,32 +76,31 @@
     
     dispatch_barrier_async(concurrentQueue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-                return weakSelf.placeHolderImages[pageIndex];
-            };
             autoScrollView.totalPagesCount = ^NSInteger(void){
                 return [weakSelf.placeHolderImages count];
             };
+            autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+                return weakSelf.placeHolderImages[pageIndex];
+            };
+            
+            
+            autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
+                if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
+                    id object = nil;
+                    if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
+                        object = [weakSelf.items objectAtIndex:pageIndex];
+                    }
+                    [weakSelf pauseTimer];
+                    [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
+                    [weakSelf startTimer];
+                }
+            };
+            
+
         });
+        
     });
 
-    
-    autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
-            id object = nil;
-            if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
-                object = [weakSelf.items objectAtIndex:pageIndex];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf pauseTimer];
-                [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
-                [weakSelf startTimer];
-            });
-            
-        }
-    };
-    
     [cycleViewParentView addSubview:autoScrollView];
     cycleViewParentView = nil;   
 }
@@ -133,11 +131,9 @@
                     [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
                 }
             }
-            
             autoScrollView.totalPagesCount = ^NSInteger(void){
                 return [weakSelf.placeHolderImages count];
             };
-            
             
             for (int i =0; i< [internalLinks count];i++) {
                 NSString * imgStr  = [internalLinks objectAtIndex: i];
@@ -168,10 +164,9 @@
                     UIImageView * imageView = nil;
                     imageView = [[UIImageView alloc]initWithImage:image];
                     if (imageView) {
-                        
                         [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
-                        [weakSelf updateAutoScrollViewItem];
                     }
+                    [weakSelf updateAutoScrollViewItem];
                     [weakSelf startTimer];
                     imageView = nil;
                 });
@@ -188,9 +183,6 @@
 -(void)updateAutoScrollViewItem
 {
     __weak AsynCycleView * weakSelf = self;
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return weakSelf.placeHolderImages[pageIndex];
-    };
     autoScrollView.totalPagesCount = ^NSInteger(void){
         return [weakSelf.placeHolderImages count];
     };

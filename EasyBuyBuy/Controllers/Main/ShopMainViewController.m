@@ -57,6 +57,8 @@
     NSMutableArray * regionData;
     NSInteger page_Region;
     NSInteger pageSize_Region;
+    
+    NSOperationQueue * workingQueue;
 }
 @end
 
@@ -99,23 +101,15 @@
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
     }];
-    
-    __typeof(self) __weak weakSelf = self;
-    [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
-        if (object) {
-            [weakSelf refreshAdContent:object];
-        }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        NSLog(@"%@",error.description);
-    }];
 
+    workingQueue = [[NSOperationQueue alloc]init];
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setHidden:YES];
-    [autoScrollNewsView startTimer];
+//    [autoScrollNewsView startTimer];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -335,8 +329,15 @@
     CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
 
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
-    [autoScrollView setIsShouldAutoScroll:NO];
-    
+    autoScrollView.delegate = self;
+    __typeof(self) __weak weakSelf = self;
+    [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
+        if (object) {
+            [weakSelf refreshAdContent:object];
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        NSLog(@"%@",error.description);
+    }];
 }
 
 -(void)addNewsView
@@ -355,17 +356,8 @@
     } failureBlock:^(NSError *error, NSString * responseString) {
         ;
     }];
-
 }
 
--(void)refreshNewContent
-{
-    NSMutableArray * imagesLink = [NSMutableArray array];
-    for (news * newsOjb in homePageNews) {
-        [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
-    }
-    [autoScrollNewsView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
-}
 
 -(void)fetchRegionDataWithCompletedHandler:(void (^)(BOOL isSuccess))didFinishFetchRegionDataBlock
 {
@@ -413,14 +405,31 @@
 
 -(void)refreshAdContent:(NSArray *)objects
 {
-    NSMutableArray * imagesLink = [NSMutableArray array];
-    for (AdObject * news in objects) {
-        if([news.image count])
-        {
-            [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+    NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSMutableArray * imagesLink = [NSMutableArray array];
+        for (AdObject * news in objects) {
+            if([news.image count])
+            {
+                [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+            }
         }
-    }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    }];
+    [workingQueue addOperation:operation];
+}
+
+-(void)refreshNewContent
+{
+    NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+        NSMutableArray * imagesLink = [NSMutableArray array];
+        for (news * newsOjb in homePageNews) {
+            [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
+        }
+        [autoScrollNewsView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
+        
+    }];
+    [workingQueue addOperation:operation];
+    
 }
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
