@@ -1,16 +1,16 @@
 //
-//  Scroll_Item_Info.m
+//  News_Scroll_Item_Info.m
 //  EasyBuyBuy
 //
 //  Created by vedon on 29/4/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
-#import "Scroll_Item_Info.h"
-#import "Scroll_Item.h"
+#import "News_Scroll_Item_Info.h"
+#import "News_Scroll_item.h"
 
 
-@implementation Scroll_Item_Info
+@implementation News_Scroll_Item_Info
 
 @dynamic add_time;
 @dynamic content;
@@ -21,6 +21,6 @@
 @dynamic title;
 @dynamic type;
 @dynamic update_time;
-@dynamic itemInfo;
+@dynamic newsInfo;
 
 @end

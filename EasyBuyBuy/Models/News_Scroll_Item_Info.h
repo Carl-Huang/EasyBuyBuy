@@ -1,5 +1,5 @@
 //
-//  Scroll_Item_Info.h
+//  News_Scroll_Item_Info.h
 //  EasyBuyBuy
 //
 //  Created by vedon on 29/4/14.
@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Scroll_Item;
+@class News_Scroll_item;
 
-@interface Scroll_Item_Info : NSManagedObject
+@interface News_Scroll_Item_Info : NSManagedObject
 
 @property (nonatomic, retain) NSString * add_time;
 @property (nonatomic, retain) NSString * content;
@@ -22,6 +22,6 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * update_time;
-@property (nonatomic, retain) Scroll_Item *itemInfo;
+@property (nonatomic, retain) News_Scroll_item *newsInfo;
 
 @end

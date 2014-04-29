@@ -11,6 +11,9 @@
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "NewsDetailDesCell.h"
 #import "news.h"
+#import "News_Scroll_item.h"
+#import "News_Scroll_Item_Info.h"
+
 
 static NSString * cellIdentifier = @"cellidentifier";
 static NSString * newsContentIdentifier = @"newsContentIdentifier";
@@ -106,8 +109,23 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    [autoScrollView updateImagesLink:imagesLink targetObject:_newsObj completedBlock:^(id object) {
-        ;
+    [autoScrollView updateImagesLink:imagesLink targetObject:_newsObj completedBlock:^(id images) {
+        //Finish Download
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString * targetID = [_newsObj valueForKey:@"ID"];
+            //Fetch the data in local
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                NSArray * scrollItems = [News_Scroll_item MR_findAllInContext:localContext];
+                for (News_Scroll_item * object in scrollItems) {
+                    if([object.itemID isEqualToString:targetID])
+                    {
+                        NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
+                        object.item.image = data;
+                        break;
+                    }
+                }
+            }];
+        });
     }];
 }
 #pragma mark - Table

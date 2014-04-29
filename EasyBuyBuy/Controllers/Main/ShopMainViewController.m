@@ -37,6 +37,9 @@
 #import "AdObject.h"
 #import "Scroll_Item.h"
 #import "Scroll_Item_Info.h"
+#import "News_Scroll_item.h"
+#import "News_Scroll_Item_Info.h"
+#import "AdDetailViewController.h"
 
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate,UIAlertViewDelegate>
 {
@@ -331,7 +334,7 @@
     CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
      autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollView.delegate = self;
-
+    
     //Fetch the data in local
     [self fetchAdFromLocal];
     
@@ -353,11 +356,14 @@
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollNewsView.delegate = self;
     
+    //Fetch the data in local
+    [self fetchNewsFromLocal];
+    
     __typeof (self) __weak weakSelf = self;
     [[HttpService sharedInstance]getHomePageNewsWithParam:@{@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} CompletionBlock:^(id object) {
         if (object) {
             homePageNews = object;
-            [weakSelf refreshNewContent];
+            [weakSelf refreshNewContent:object];
         }
     } failureBlock:^(NSError *error, NSString * responseString) {
         ;
@@ -446,7 +452,6 @@
       
     }
     
-    
     NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
         NSMutableArray * imagesLink = [NSMutableArray array];
         for (AdObject * news in objects) {
@@ -460,8 +465,40 @@
     [workingQueue addOperation:operation];
 }
 
--(void)refreshNewContent
+-(void)refreshNewContent:(NSArray *)objects
 {
+    for(news * object in objects)
+    {
+        BOOL isShouldAdd = YES;
+        NSArray * scrollItems = [News_Scroll_item MR_findAll];
+        for (News_Scroll_item * tempObj in scrollItems) {
+            if ([tempObj.itemID isEqualToString:object.ID]) {
+                isShouldAdd = NO;
+                break;
+            }
+        }
+        if(isShouldAdd)
+        {
+            News_Scroll_item * scrollItem = [News_Scroll_item MR_createEntity];
+            scrollItem.itemID   =object.ID;
+            
+            News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
+            itemInfo.itemID     = object.ID;
+            itemInfo.language   = object.language;
+            itemInfo.title      = object.title;
+            itemInfo.update_time = object.update_time;
+            itemInfo.add_time   = object.add_time;
+            itemInfo.content    = object.content;
+            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+            itemInfo.image      = arrayData;
+            scrollItem.item     = itemInfo;
+            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+                ;
+            }];
+        }
+        
+    }
+    
     NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
         NSMutableArray * imagesLink = [NSMutableArray array];
         for (news * newsOjb in homePageNews) {
@@ -477,10 +514,6 @@
 -(void)fetchAdFromLocal
 {
     NSArray * scrollItems = [Scroll_Item MR_findAll];
-    //    for (Scroll_Item * object in scrollItems) {
-    //        [PersistentStore deleteObje:object];
-    //    }
-
     if([scrollItems count])
     {
         NSMutableArray * localImages = [NSMutableArray array];
@@ -500,17 +533,49 @@
         }
     }
 }
+
+-(void)fetchNewsFromLocal
+{
+    
+    NSArray * scrollItems = [News_Scroll_item MR_findAll];
+    if([scrollItems count])
+    {
+        NSMutableArray * localImages = [NSMutableArray array];
+        for (News_Scroll_item * object in scrollItems) {
+            //        [PersistentStore deleteObje:object];
+            NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.image];
+            for (UIImage * img in array) {
+                if([img isKindOfClass:[UIImage class]])
+                {
+                    [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                }
+                break;
+            }
+        }
+        if ([localImages count]) {
+            [autoScrollNewsView setScrollViewImages:localImages];
+        }
+    }
+
+}
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
     if([GlobalMethod isNetworkOk])
     {
-        if(object)
+        if([object isKindOfClass:[news class]])
         {
             NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
             [viewController setNewsObj:object];
             [self push:viewController];
             viewController = nil;
+        }else
+        {
+            AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
+            [viewController setAdObj:object];
+            [self push:viewController];
+            viewController = nil;
+            
         }
     }
 }

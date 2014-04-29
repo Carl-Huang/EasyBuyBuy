@@ -96,6 +96,10 @@
 		4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */; };
 		4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */; };
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
+		4EB24E76190FCF9C00E98ECE /* Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB24E75190FCF9C00E98ECE /* Scroll_Item_Info.m */; };
+		4EB24E7C190FCF9C00E98ECE /* Scroll_Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB24E7B190FCF9C00E98ECE /* Scroll_Item.m */; };
+		4EB24E82190FD01F00E98ECE /* News_Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB24E81190FD01F00E98ECE /* News_Scroll_Item_Info.m */; };
+		4EB24E85190FD01F00E98ECE /* News_Scroll_item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB24E84190FD01F00E98ECE /* News_Scroll_item.m */; };
 		4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB30D9D18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m */; };
 		4EB30DA018DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB30D9E18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib */; };
 		4EB335B718D744090012EA06 /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335B618D744090012EA06 /* ImageTableViewCell.xib */; };
@@ -111,8 +115,6 @@
 		4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */; };
 		4EB3E9A418EC5A8400CDEE19 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */; };
 		4EB3E9A518EC5A8400CDEE19 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */; };
-		4EB409ED190F8026000950D7 /* Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB409EC190F8026000950D7 /* Scroll_Item_Info.m */; };
-		4EB409F0190F8026000950D7 /* Scroll_Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB409EF190F8026000950D7 /* Scroll_Item.m */; };
 		4EB4229518F50F6F00DF2053 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4229418F50F6F00DF2053 /* logo.png */; };
 		4EB422F118F51E6900DF2053 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */; };
 		4EB422F218F51E6900DF2053 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB422F018F51E6900DF2053 /* SearchResultViewController.xib */; };
@@ -443,6 +445,14 @@
 		4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionTableViewController.m; sourceTree = "<group>"; };
 		4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegionTableViewController.xib; sourceTree = "<group>"; };
 		4EB1AE6318BB2ABD0033364F /* EasyBuybuy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyBuybuy.xcdatamodel; sourceTree = "<group>"; };
+		4EB24E74190FCF9C00E98ECE /* Scroll_Item_Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item_Info.h; sourceTree = "<group>"; };
+		4EB24E75190FCF9C00E98ECE /* Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item_Info.m; sourceTree = "<group>"; };
+		4EB24E7A190FCF9C00E98ECE /* Scroll_Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item.h; sourceTree = "<group>"; };
+		4EB24E7B190FCF9C00E98ECE /* Scroll_Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item.m; sourceTree = "<group>"; };
+		4EB24E80190FD01F00E98ECE /* News_Scroll_Item_Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = News_Scroll_Item_Info.h; sourceTree = "<group>"; };
+		4EB24E81190FD01F00E98ECE /* News_Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News_Scroll_Item_Info.m; sourceTree = "<group>"; };
+		4EB24E83190FD01F00E98ECE /* News_Scroll_item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = News_Scroll_item.h; sourceTree = "<group>"; };
+		4EB24E84190FD01F00E98ECE /* News_Scroll_item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News_Scroll_item.m; sourceTree = "<group>"; };
 		4EB30D9C18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderUserInfoTableViewCell.h; sourceTree = "<group>"; };
 		4EB30D9D18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderUserInfoTableViewCell.m; sourceTree = "<group>"; };
 		4EB30D9E18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderUserInfoTableViewCell.xib; sourceTree = "<group>"; };
@@ -460,10 +470,6 @@
 		4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
 		4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
-		4EB409EB190F8026000950D7 /* Scroll_Item_Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item_Info.h; sourceTree = "<group>"; };
-		4EB409EC190F8026000950D7 /* Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item_Info.m; sourceTree = "<group>"; };
-		4EB409EE190F8026000950D7 /* Scroll_Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item.h; sourceTree = "<group>"; };
-		4EB409EF190F8026000950D7 /* Scroll_Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item.m; sourceTree = "<group>"; };
 		4EB4229418F50F6F00DF2053 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		4EB422EE18F51E6900DF2053 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
@@ -1152,10 +1158,14 @@
 			isa = PBXGroup;
 			children = (
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
-				4EB409EE190F8026000950D7 /* Scroll_Item.h */,
-				4EB409EF190F8026000950D7 /* Scroll_Item.m */,
-				4EB409EB190F8026000950D7 /* Scroll_Item_Info.h */,
-				4EB409EC190F8026000950D7 /* Scroll_Item_Info.m */,
+				4EB24E83190FD01F00E98ECE /* News_Scroll_item.h */,
+				4EB24E84190FD01F00E98ECE /* News_Scroll_item.m */,
+				4EB24E80190FD01F00E98ECE /* News_Scroll_Item_Info.h */,
+				4EB24E81190FD01F00E98ECE /* News_Scroll_Item_Info.m */,
+				4EB24E7A190FCF9C00E98ECE /* Scroll_Item.h */,
+				4EB24E7B190FCF9C00E98ECE /* Scroll_Item.m */,
+				4EB24E74190FCF9C00E98ECE /* Scroll_Item_Info.h */,
+				4EB24E75190FCF9C00E98ECE /* Scroll_Item_Info.m */,
 				4EB88ECD18F588A5001C2AA5 /* User.h */,
 				4EB88ECE18F588A5001C2AA5 /* User.m */,
 				4EB6F61518EDA4FD00D4C9C1 /* Car.h */,
@@ -1843,6 +1853,7 @@
 				4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */,
 				4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,
+				4EB24E7C190FCF9C00E98ECE /* Scroll_Item.m in Sources */,
 				4EC207AF18C57754003708D6 /* NSString+MD5_32.m in Sources */,
 				4EB7D85F190C03C9006DECB2 /* Model.m in Sources */,
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
@@ -1857,7 +1868,6 @@
 				4E13E86218ED3F7E00183DAA /* RemartCell.m in Sources */,
 				4EBC496F18E9ADAA00481F8E /* EGORefreshTableFooterView.m in Sources */,
 				4EB5FFC218BC6F810064B22C /* EditAddressCell.m in Sources */,
-				4EB409ED190F8026000950D7 /* Scroll_Item_Info.m in Sources */,
 				4EC90BAC18E40ECA007969F5 /* CycleScrollView.m in Sources */,
 				4EAE465018C6EE520089B843 /* ShopViewController.m in Sources */,
 				5F00238918BD99A900100CBF /* SecurityViewController.m in Sources */,
@@ -1870,7 +1880,6 @@
 				4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
-				4EB409F0190F8026000950D7 /* Scroll_Item.m in Sources */,
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
 				4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */,
 				4EC90BAB18E40ECA007969F5 /* AsynCycleView.m in Sources */,
@@ -1912,6 +1921,8 @@
 				4EC207B518C57754003708D6 /* VersionManager.m in Sources */,
 				4EC207AD18C57754003708D6 /* IO.m in Sources */,
 				4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */,
+				4EB24E76190FCF9C00E98ECE /* Scroll_Item_Info.m in Sources */,
+				4EB24E82190FD01F00E98ECE /* News_Scroll_Item_Info.m in Sources */,
 				4EAE464718C6EE520089B843 /* ProductBroswerViewController.m in Sources */,
 				4EC207AB18C57754003708D6 /* CommonViewController.m in Sources */,
 				4EB6F61718EDA4FD00D4C9C1 /* Car.m in Sources */,
@@ -1934,6 +1945,7 @@
 				4EBB68BE1903967F0073DE48 /* LinkBtn.m in Sources */,
 				4EF1F54118EE63120047254B /* YMDPickerView.m in Sources */,
 				4EAE463D18C6EE520089B843 /* SalePromotionItemViewController.m in Sources */,
+				4EB24E85190FD01F00E98ECE /* News_Scroll_item.m in Sources */,
 				4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */,
 				4EAE464D18C6EE520089B843 /* ProductDetailViewControllerViewController.m in Sources */,
 				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,

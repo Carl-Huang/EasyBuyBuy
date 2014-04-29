@@ -11,6 +11,8 @@
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "NewsDetailDesCell.h"
 #import "AdObject.h"
+#import "Scroll_Item.h"
+#import "Scroll_Item_Info.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
 static NSString * newsContentIdentifier = @"newsContentIdentifier";
@@ -67,7 +69,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)initializationInterface
 {
-    self.title = _adObj.title;
+    self.title = [_adObj valueForKey:@"title"];
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
@@ -93,7 +95,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [self refreshNewContent];
     
     if (_adObj) {
-        dataSource = @[_adObj.title,_adObj.content];
+        dataSource = @[[_adObj valueForKey:@"title"],[_adObj valueForKey:@"content"]];
     }
 }
 
@@ -107,12 +109,31 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)refreshNewContent
 {
-    NSArray * images = [_adObj.image copy];
+    NSArray * images = [[_adObj valueForKey:@"image"]copy];
     NSMutableArray * imagesLink = [NSMutableArray array];
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:images];
+    [autoScrollView updateImagesLink:imagesLink targetObject:_adObj completedBlock:^(id images) {
+        //Finish Download
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString * targetID = [_adObj valueForKey:@"ID"];
+            //Fetch the data in local
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                NSArray * scrollItems = [Scroll_Item MR_findAllInContext:localContext];
+                for (Scroll_Item * object in scrollItems) {
+                    if([object.itemID isEqualToString:targetID])
+                    {
+                        NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
+                        object.item.image = data;
+                        break;
+                    }
+                }
+            }];
+        });
+    }];
+
+//    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:images];
 }
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

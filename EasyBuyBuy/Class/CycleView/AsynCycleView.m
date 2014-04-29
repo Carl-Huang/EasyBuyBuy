@@ -11,8 +11,6 @@
 #import "CycleScrollView.h"
 #import "HttpService.h"
 #import "SDWebImageManager.h"
-#import "Scroll_Item.h"
-#import "Scroll_Item_Info.h"
 
 @interface AsynCycleView()
 {
@@ -87,7 +85,7 @@
     autoScrollView.backgroundColor = [UIColor clearColor];
     
     
-    dispatch_barrier_async(concurrentQueue, ^{
+//    dispatch_barrier_async(concurrentQueue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             autoScrollView.totalPagesCount = ^NSInteger(void){
                 return [weakSelf.placeHolderImages count];
@@ -111,7 +109,7 @@
 
         });
         
-    });
+//    });
 
     [cycleViewParentView addSubview:autoScrollView];
     cycleViewParentView = nil;   
@@ -197,6 +195,20 @@
 }
 
 #pragma  mark - Private method
+-(void)cachingData
+{
+    if(downItemCount == [_downloadedImages count])
+    {
+        if(_internalBlock)
+        {
+            _internalBlock(self.downloadedImages);
+            _internalBlock = nil;
+        }
+        
+    }
+}
+
+
 -(void)resetThePlaceImages:(NSArray *)links
 {
     internalLinks = [links copy];
@@ -267,27 +279,7 @@
 
 -(void)updateAutoScrollViewItem
 {
-
-    if(downItemCount == [_downloadedImages count])
-    {
-        //Finish Download
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString * targetID = [targetObject valueForKey:@"ID"];
-            //Fetch the data in local
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                NSArray * scrollItems = [Scroll_Item MR_findAllInContext:localContext];
-                for (Scroll_Item * object in scrollItems) {
-                    if([object.itemID isEqualToString:targetID])
-                    {
-                        NSData * data = [NSKeyedArchiver archivedDataWithRootObject:self.downloadedImages];
-                        object.item.image = data;
-                        break;
-                    }
-                }
-            }];
-
-        });
-    }
+    [self cachingData];
     __weak AsynCycleView * weakSelf = self;
     autoScrollView.totalPagesCount = ^NSInteger(void){
         return [weakSelf.placeHolderImages count];

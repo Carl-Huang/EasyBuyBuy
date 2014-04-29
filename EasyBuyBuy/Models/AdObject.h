@@ -17,7 +17,7 @@
  update_time: null
  -image: [
  */
-@interface AdObject : Model
+@interface AdObject : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * business_model;
 @property (strong ,nonatomic) NSString * title;
