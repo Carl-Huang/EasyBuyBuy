@@ -475,7 +475,6 @@
     if ([[NSUserDefaults standardUserDefaults]boolForKey:NetWorkStatus]) {
         return  YES;
     }
-    [self showAlertViewWithMessage:@"Please Check your network"];
     return  NO;
 }
 

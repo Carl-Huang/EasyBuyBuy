@@ -27,6 +27,7 @@
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="itemID" attributeType="String" syncable="YES"/>
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="previousImg" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -63,6 +64,7 @@
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="itemID" attributeType="String" syncable="YES"/>
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="previouseImg" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -81,12 +83,12 @@
     </entity>
     <elements>
         <element name="Car" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="News_Scroll_item" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="News_Scroll_Item_Info" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Parent_Category_Factory" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Parent_Category_Shop" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Scroll_Item" positionX="0" positionY="0" width="0" height="0"/>
         <element name="Scroll_Item_Info" positionX="0" positionY="0" width="0" height="0"/>
         <element name="User" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="News_Scroll_item" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="News_Scroll_Item_Info" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

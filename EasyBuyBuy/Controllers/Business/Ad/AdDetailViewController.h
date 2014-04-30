@@ -9,7 +9,8 @@
 #import "CommonViewController.h"
 @class AdObject;
 @interface AdDetailViewController : CommonViewController
-@property (strong ,nonatomic) id  adObj;
+@property (strong ,nonatomic) AdObject * adObj;
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
+-(void)initializationContentWithObj:(id)object;
 @end

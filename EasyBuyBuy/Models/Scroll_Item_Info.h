@@ -2,7 +2,7 @@
 //  Scroll_Item_Info.h
 //  EasyBuyBuy
 //
-//  Created by vedon on 29/4/14.
+//  Created by vedon on 30/4/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * update_time;
+@property (nonatomic, retain) NSData * previouseImg;
 @property (nonatomic, retain) Scroll_Item *itemInfo;
 
 @end

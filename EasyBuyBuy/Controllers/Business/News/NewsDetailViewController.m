@@ -24,6 +24,8 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     AsynCycleView * autoScrollView;
     
     NSArray * dataSource;
+    NSArray * cacheImgs;
+    BOOL isCacheData;
 }
 @end
 
@@ -52,6 +54,34 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma  mark - Public
+-(void)initializationContentWithObj:(id)object
+{
+    if([object isKindOfClass:[News_Scroll_item class]])
+    {
+        isCacheData = YES;
+        News_Scroll_item * tmpObj = object;
+        _newsObj = [[news alloc]init];
+        _newsObj.ID = tmpObj.itemID;
+        _newsObj.content = tmpObj.item.content;
+        _newsObj.language = tmpObj.item.language;
+        _newsObj.add_time = tmpObj.item.add_time;
+        _newsObj.update_time = tmpObj.item.update_time;
+        _newsObj.title = tmpObj.item.title;
+        
+        NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:tmpObj.item.image];
+        _newsObj.image = array;
+        
+        cacheImgs = [NSKeyedUnarchiver unarchiveObjectWithData:tmpObj.item.previousImg];
+    }else
+    {
+        isCacheData = NO;
+        _newsObj = object;
+        cacheImgs = nil;
+    }
+    
+}
+
 #pragma  mark - Private
 -(void)initializationLocalString
 {
@@ -68,7 +98,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
-    [self addAdvertisementView];
+    
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
@@ -87,14 +117,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     
     UINib * newsContentNib = [UINib nibWithNibName:@"NewsDetailDesCell" bundle:[NSBundle bundleForClass:[NewsDetailDesCell class]]];
     [_contentTable registerNib:newsContentNib forCellReuseIdentifier:newsContentIdentifier];
-    [self refreshNewContent];
     
+    
+    [self addNewsView];
+    [self refreshNewContent];
     if (_newsObj) {
         dataSource = @[[_newsObj valueForKey:@"title"],[_newsObj valueForKey:@"content"]];
     }
 }
 
--(void)addAdvertisementView
+-(void)addNewsView
 {
     CGRect rect = CGRectMake(0, 0, 320, _adView.frame.size.height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
@@ -109,24 +141,43 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    [autoScrollView updateImagesLink:imagesLink targetObject:_newsObj completedBlock:^(id images) {
-        //Finish Download
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString * targetID = [_newsObj valueForKey:@"ID"];
-            //Fetch the data in local
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                NSArray * scrollItems = [News_Scroll_item MR_findAllInContext:localContext];
-                for (News_Scroll_item * object in scrollItems) {
-                    if([object.itemID isEqualToString:targetID])
-                    {
-                        NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
-                        object.item.image = data;
-                        break;
+    if([GlobalMethod isNetworkOk])
+    {
+        [autoScrollView updateImagesLink:imagesLink targetObject:_newsObj completedBlock:^(id images) {
+            //Finish Download
+#if ISUseCacheData
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString * targetID = [_newsObj valueForKey:@"ID"];
+                //Fetch the data in local
+                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                    NSArray * scrollItems = [News_Scroll_item MR_findAllInContext:localContext];
+                    for (News_Scroll_item * object in scrollItems) {
+                        if([object.itemID isEqualToString:targetID])
+                        {
+                            NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
+                            object.item.previousImg = data;
+                            break;
+                        }
                     }
-                }
-            }];
-        });
-    }];
+                }];
+            });
+#endif
+        }];
+ 
+    }else
+    {
+        //No network ,prompt the user kindly
+        if([cacheImgs count])
+        {
+            NSMutableArray * imageViews = [NSMutableArray array];
+            for (UIImage * temImg in cacheImgs) {
+                [imageViews  addObject:[[UIImageView alloc] initWithImage:temImg]];
+            }
+            [autoScrollView setScrollViewImages:imageViews];
+        }
+       
+        [self showAlertViewWithMessage:@"No Network"];
+    }
 }
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
