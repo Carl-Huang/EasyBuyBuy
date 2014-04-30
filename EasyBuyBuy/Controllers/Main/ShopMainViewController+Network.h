@@ -9,9 +9,13 @@
 #import "ShopMainViewController.h"
 
 @interface ShopMainViewController (Network)
+{
+
+}
+-(void)networkStatusHandle:(NSNotification *)notification;
+
 -(void)fetchAdvertisementViewData;
 -(void)fetchNewsViewData;
-
 -(void)updateNewsContent;
 -(void)updateAdContent;
 @end

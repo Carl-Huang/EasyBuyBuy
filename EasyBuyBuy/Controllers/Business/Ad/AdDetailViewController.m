@@ -157,22 +157,25 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         [autoScrollView updateImagesLink:imagesLink targetObject:_adObj completedBlock:^(id images) {
             //Finish Download
 #if ISUseCacheData
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSString * targetID = [_adObj valueForKey:@"ID"];
-                //Fetch the data in local
-                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                    NSArray * scrollItems = [Scroll_Item MR_findAllInContext:localContext];
-                    for (Scroll_Item * object in scrollItems) {
-                        if([object.itemID isEqualToString:targetID])
-                        {
-                            NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
-                            object.item.previouseImg = data;
-                            [CDToOB updateAd:object.item withObj:_adObj];
-                            break;
+            if([images count])
+            {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSString * targetID = [_adObj valueForKey:@"ID"];
+                    //Fetch the data in local
+                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                        NSArray * scrollItems = [Scroll_Item MR_findAllInContext:localContext];
+                        for (Scroll_Item * object in scrollItems) {
+                            if([object.itemID isEqualToString:targetID])
+                            {
+                                NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
+                                object.item.previouseImg = data;
+                                [CDToOB updateAd:object.item withObj:_adObj];
+                                break;
+                            }
                         }
-                    }
-                }];
-            });
+                    }];
+                });
+            }
 #endif
         }];
     }else

@@ -148,9 +148,9 @@
              [weakSelf pauseTimer];
              [self.placeHolderImages removeAllObjects];
              [self.placeHolderImages addObjectsFromArray:images];
-             [weakSelf startTimer];
-             
+
              [weakSelf updateAutoScrollView];
+            [weakSelf startTimer];
          });
          
      });

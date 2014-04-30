@@ -69,7 +69,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self initializationInterface];
+    
     
     //Convert CSV to Plist
 //    NSBundle *mainBundle = [NSBundle mainBundle];
@@ -96,6 +96,10 @@
     }];
 
     workingQueue = [[NSOperationQueue alloc]init];
+    _failedRequestOper = [NSMutableArray array];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
+    
+    [self initializationInterface];
 }
 
 

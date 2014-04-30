@@ -17,7 +17,14 @@
     //Fetch the data in local
     [self fetchAdFromLocal];
 #endif
-    [self startFetchAdData];
+    if ([GlobalMethod isNetworkOk]) {
+        [self startFetchAdData];
+    }else
+    {
+        NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(startFetchAdData) object:nil];
+        [self.failedRequestOper addObject:opera];
+    }
+    
 }
 
 -(void)startFetchAdData
@@ -34,6 +41,7 @@
         NSLog(@"%@",error.description);
         dispatch_group_leave(weakSelf.refresh_data_group);
     }];
+
 }
 
 #pragma mark - 获取新闻信息
@@ -43,8 +51,14 @@
      //Fetch the data in local
     [self fetchNewsFromLocal];
 #endif
-    [self startFetchNewsData];
     
+    if ([GlobalMethod isNetworkOk]) {
+        [self startFetchNewsData];
+    }else
+    {
+         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(startFetchNewsData) object:nil];
+        [self.failedRequestOper addObject:opera];
+    }
 }
 
 -(void)startFetchNewsData
@@ -62,118 +76,122 @@
 
 -(void)refreshAdContent:(NSArray *)objects
 {
-     __typeof(self) __weak weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __typeof(self) __weak weakSelf = self;
 #if ISUseCacheData
-    for(AdObject * object in objects)
-    {
-        BOOL isShouldAdd = YES;
-        NSArray * scrollItems = [Scroll_Item MR_findAll];
-        Scroll_Item * adItem = nil;
-        for (Scroll_Item * tempObj in scrollItems) {
-            if ([tempObj.itemID isEqualToString:object.ID]) {
-                adItem = tempObj;
-                isShouldAdd = NO;
-                break;
+        for(AdObject * object in objects)
+        {
+            BOOL isShouldAdd = YES;
+            NSArray * scrollItems = [Scroll_Item MR_findAll];
+            Scroll_Item * adItem = nil;
+            for (Scroll_Item * tempObj in scrollItems) {
+                if ([tempObj.itemID isEqualToString:object.ID]) {
+                    adItem = tempObj;
+                    isShouldAdd = NO;
+                    break;
+                }
             }
-        }
-        if(isShouldAdd)
-        {
-            Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
-            scrollItem.itemID   =object.ID;
-            
-            Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
-            itemInfo.itemID     = object.ID;
-            itemInfo.language   = object.language;
-            itemInfo.title      = object.title;
-            itemInfo.status     = object.status;
-            itemInfo.type       = object.type;
-            itemInfo.update_time = object.update_time;
-            itemInfo.add_time   = object.add_time;
-            itemInfo.content    = object.content;
-            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
-            itemInfo.image      = arrayData;
-            scrollItem.item     = itemInfo;
-           
-        }else
-        {
-            [CDToOB updateAd:adItem.item withObj:object];
-        }
-        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-            ;
-        }];
-        
-    }
-#endif
-    [weakSelf.autoScrollView setInternalGroup:weakSelf.refresh_data_group];
-    NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSMutableArray * imagesLink = [NSMutableArray array];
-        for (AdObject * news in objects) {
-            if([news.image count])
+            if(isShouldAdd)
             {
-                [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+                Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
+                scrollItem.itemID   =object.ID;
+                
+                Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+                itemInfo.itemID     = object.ID;
+                itemInfo.language   = object.language;
+                itemInfo.title      = object.title;
+                itemInfo.status     = object.status;
+                itemInfo.type       = object.type;
+                itemInfo.update_time = object.update_time;
+                itemInfo.add_time   = object.add_time;
+                itemInfo.content    = object.content;
+                NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+                itemInfo.image      = arrayData;
+                scrollItem.item     = itemInfo;
+                
+            }else
+            {
+                [CDToOB updateAd:adItem.item withObj:object];
             }
+            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+                ;
+            }];
+            
         }
-        [weakSelf.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
-    }];
-    [weakSelf.workingQueue addOperation:operation];
+#endif
+        [weakSelf.autoScrollView setInternalGroup:weakSelf.refresh_data_group];
+        NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+            NSMutableArray * imagesLink = [NSMutableArray array];
+            for (AdObject * news in objects) {
+                if([news.image count])
+                {
+                    [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
+                }
+            }
+            [weakSelf.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+        }];
+        [weakSelf.workingQueue addOperation:operation];
+    });
+  
 }
 
 -(void)refreshNewContent:(NSArray *)objects
 {
-    __typeof(self) __weak weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __typeof(self) __weak weakSelf = self;
 #if ISUseCacheData
-    for(news * object in objects)
-    {
-        BOOL isShouldAdd = YES;
-        NSArray * scrollItems = [News_Scroll_item MR_findAll];
-        News_Scroll_item * newItems = nil;
-        for (News_Scroll_item * tempObj in scrollItems) {
-            if ([tempObj.itemID isEqualToString:object.ID]) {
-                isShouldAdd = NO;
-                newItems =tempObj;
-                break;
+        for(news * object in objects)
+        {
+            BOOL isShouldAdd = YES;
+            NSArray * scrollItems = [News_Scroll_item MR_findAll];
+            News_Scroll_item * newItems = nil;
+            for (News_Scroll_item * tempObj in scrollItems) {
+                if ([tempObj.itemID isEqualToString:object.ID]) {
+                    isShouldAdd = NO;
+                    newItems =tempObj;
+                    break;
+                }
             }
-        }
-        if(isShouldAdd)
-        {
-            News_Scroll_item * scrollItem = [News_Scroll_item MR_createEntity];
-            scrollItem.itemID   =object.ID;
-            
-            News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
-            itemInfo.itemID     = object.ID;
-            itemInfo.language   = object.language;
-            itemInfo.title      = object.title;
-            itemInfo.update_time = object.update_time;
-            itemInfo.add_time   = object.add_time;
-            itemInfo.content    = object.content;
-            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
-            itemInfo.image      = arrayData;
-            scrollItem.item     = itemInfo;
-           
-        }else
-        {
-            [CDToOB updateNews:newItems.item withObj:object];
-        }
-        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-            if(!success)
+            if(isShouldAdd)
             {
-                NSLog(@"%@",error.description);
+                News_Scroll_item * scrollItem = [News_Scroll_item MR_createEntity];
+                scrollItem.itemID   =object.ID;
+                
+                News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
+                itemInfo.itemID     = object.ID;
+                itemInfo.language   = object.language;
+                itemInfo.title      = object.title;
+                itemInfo.update_time = object.update_time;
+                itemInfo.add_time   = object.add_time;
+                itemInfo.content    = object.content;
+                NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+                itemInfo.image      = arrayData;
+                scrollItem.item     = itemInfo;
+                
+            }else
+            {
+                [CDToOB updateNews:newItems.item withObj:object];
             }
-        }];
-        
-    }
-#endif
-    [weakSelf.autoScrollNewsView setInternalGroup:weakSelf.refresh_data_group];
-    NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
-        NSMutableArray * imagesLink = [NSMutableArray array];
-        for (news * newsOjb in objects) {
-            [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
+            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+                if(!success)
+                {
+                    NSLog(@"%@",error.description);
+                }
+            }];
+            
         }
-        [weakSelf.autoScrollNewsView updateNetworkImagesLink:imagesLink containerObject:objects];
-        
-    }];
-    [weakSelf.workingQueue addOperation:operation];
-    
+#endif
+        [weakSelf.autoScrollNewsView setInternalGroup:weakSelf.refresh_data_group];
+        NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+            NSMutableArray * imagesLink = [NSMutableArray array];
+            for (news * newsOjb in objects) {
+                [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
+            }
+            [weakSelf.autoScrollNewsView updateNetworkImagesLink:imagesLink containerObject:objects];
+            
+        }];
+        [weakSelf.workingQueue addOperation:operation];
+    });
 }
 
 
@@ -217,7 +235,6 @@
         {
             NSMutableArray * localImages = [NSMutableArray array];
             for (News_Scroll_item * object in scrollItems) {
-                //        [PersistentStore deleteObje:object];
                 NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previousImg];
                 for (UIImage * img in array) {
                     if([img isKindOfClass:[UIImage class]])
@@ -319,6 +336,16 @@
         }];
         
     }
-    
+}
+
+
+-(void)networkStatusHandle:(NSNotification *)notification
+{
+    AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
+    if (status != AFNetworkReachabilityStatusNotReachable && status !=AFNetworkReachabilityStatusUnknown) {
+        //TODO:Ok ,do something cool :]
+        
+        [self.workingQueue addOperations:self.failedRequestOper waitUntilFinished:NO];
+    }
 }
 @end

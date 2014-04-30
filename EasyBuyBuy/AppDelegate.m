@@ -177,6 +177,13 @@
     //Network monitoring
     reachbilityMng = [AFNetworkReachabilityManager sharedManager];
     [reachbilityMng startMonitoring];
+    if (![reachbilityMng isReachable]) {
+        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:NetWorkStatus];
+    }else
+    {
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:NetWorkStatus];
+    }
+    
     __typeof(self) __weak weakSelf = self;
     __block BOOL isGetNetworkStatus=  NO;
     [reachbilityMng setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -191,11 +198,12 @@
             }
         }else
         {
-            NSLog(@"Connection ok");
             [[NSNotificationCenter defaultCenter]postNotificationName:NetWorkConnectionNoti object:[NSNumber numberWithInteger:status]];
             [[NSUserDefaults standardUserDefaults]setBool:YES forKey:NetWorkStatus];
             [[NSUserDefaults standardUserDefaults]synchronize];
+            isGetNetworkStatus = YES;
         }
+
     }];
     
     [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];

@@ -13,11 +13,9 @@
 #import "OtherLinkView.h"
 @interface CommonViewController ()
 {
-    NSOperationQueue * failedRequestQueue;
     OtherLinkView * linkView;
-    
 }
-@property (strong ,nonatomic) NSMutableArray * failedRequests;
+
 @end
 
 @implementation CommonViewController
@@ -82,9 +80,8 @@
         }
     }
 #endif
-    failedRequestQueue = [[NSOperationQueue alloc]init];
-    _failedRequests = [NSMutableArray array];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
+    
+    
     NSString * tag = [GlobalMethod getUserDefaultWithKey:CurrentLinkTag];
     if (tag.integerValue != -1) {
         [self addLinkView:tag.integerValue];
@@ -122,20 +119,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 #pragma mark - Instance Methods
--(void)setFailedBlock:(FailedRequestCompletedBlock)failedBlock
-{
-    _failedBlock = [failedBlock copy];
-}
 
--(void)networkStatusHandle:(NSNotification *)notification
-{
-    AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
-    if (status != AFNetworkReachabilityStatusNotReachable || status !=AFNetworkReachabilityStatusUnknown) {
-        //TODO:Ok ,do something cool :]
-
-        
-    }
-}
 
 -(void)addLinkView:(NSInteger)tag
 {
