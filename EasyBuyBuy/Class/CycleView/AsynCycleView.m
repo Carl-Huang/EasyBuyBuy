@@ -88,13 +88,8 @@
     
     dispatch_barrier_async(concurrentQueue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            autoScrollView.totalPagesCount = ^NSInteger(void){
-                return [weakSelf.placeHolderImages count];
-            };
-            autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-                return weakSelf.placeHolderImages[pageIndex];
-            };
             
+            [weakSelf updateAutoScrollView];
             
             autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
                 if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
@@ -155,12 +150,7 @@
              [self.placeHolderImages addObjectsFromArray:images];
              [weakSelf startTimer];
              
-             autoScrollView.totalPagesCount = ^NSInteger(void){
-                 return [weakSelf.placeHolderImages count];
-             };
-             autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-                 return weakSelf.placeHolderImages[pageIndex];
-             };
+             [weakSelf updateAutoScrollView];
          });
          
      });
@@ -205,6 +195,17 @@
 }
 
 #pragma  mark - Private method
+-(void)updateAutoScrollView
+{
+    __weak AsynCycleView * weakSelf = self;
+    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+        return weakSelf.placeHolderImages[pageIndex];
+    };
+    autoScrollView.totalPagesCount = ^NSInteger(void){
+        return [weakSelf.placeHolderImages count];
+    };
+}
+
 -(void)cachingData
 {
     if(downItemCount == [_downloadedImages count])
@@ -241,13 +242,7 @@
                     [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
                 }
             }
-            autoScrollView.totalPagesCount = ^NSInteger(void){
-                return [weakSelf.placeHolderImages count];
-            };
-            autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-                return weakSelf.placeHolderImages[pageIndex];
-            };
-            
+            [weakSelf updateAutoScrollView];
             [weakSelf startTimer];
             for (int i =0; i< [internalLinks count];i++) {
                 NSString * imgStr  = [internalLinks objectAtIndex: i];

@@ -72,11 +72,11 @@
     [self initializationInterface];
     
     //Convert CSV to Plist
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    NSString *filePath = [mainBundle pathForResource:@"国家地区"
-                                              ofType:@"csv"];
-    [GlobalMethod convertCVSTOPlist:filePath];
-    [self getZipCode];
+//    NSBundle *mainBundle = [NSBundle mainBundle];
+//    NSString *filePath = [mainBundle pathForResource:@"国家地区"
+//                                              ofType:@"csv"];
+//    [GlobalMethod convertCVSTOPlist:filePath];
+//    [self getZipCode];
     reloadPage = 1;
     
     User * user = [User getUserFromLocal];
