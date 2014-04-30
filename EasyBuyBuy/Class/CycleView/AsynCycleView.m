@@ -69,6 +69,7 @@
 #pragma mark - Public Method
 -(void)initializationInterface
 {
+    NSLog(@"%s",__func__);
     __weak AsynCycleView * weakSelf =self;
     
     for (int i =0; i<nPlaceholderImages; ++i) {
@@ -145,12 +146,15 @@
 
 -(void)setScrollViewImages:(NSArray *)images
 {
+    NSLog(@"%s",__func__);
     __weak AsynCycleView * weakSelf = self;
      dispatch_barrier_async(concurrentQueue, ^{
          dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf pauseTimer];
              [self.placeHolderImages removeAllObjects];
              [self.placeHolderImages addObjectsFromArray:images];
-    
+             [weakSelf startTimer];
+             
              autoScrollView.totalPagesCount = ^NSInteger(void){
                  return [weakSelf.placeHolderImages count];
              };
@@ -217,6 +221,8 @@
 
 -(void)resetThePlaceImages:(NSArray *)links
 {
+    
+    NSLog(@"%s",__func__);
     internalLinks = [links copy];
     dispatch_barrier_async(concurrentQueue, ^{
         __weak AsynCycleView * weakSelf =self;

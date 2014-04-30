@@ -9,6 +9,8 @@
 #import "ShopMainViewController+Network.h"
 #import "CDToOB.h"
 @implementation ShopMainViewController (Network)
+
+#pragma mark - 获取广告信息
 -(void)fetchAdvertisementViewData
 {
 #if ISUseCacheData
@@ -34,6 +36,7 @@
     }];
 }
 
+#pragma mark - 获取新闻信息
 -(void)fetchNewsViewData
 {
 #if ISUseCacheData
@@ -65,8 +68,10 @@
     {
         BOOL isShouldAdd = YES;
         NSArray * scrollItems = [Scroll_Item MR_findAll];
+        Scroll_Item * adItem = nil;
         for (Scroll_Item * tempObj in scrollItems) {
             if ([tempObj.itemID isEqualToString:object.ID]) {
+                adItem = tempObj;
                 isShouldAdd = NO;
                 break;
             }
@@ -88,10 +93,14 @@
             NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
             itemInfo.image      = arrayData;
             scrollItem.item     = itemInfo;
-            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-                ;
-            }];
+           
+        }else
+        {
+            [CDToOB updateAd:adItem.item withObj:object];
         }
+        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+            ;
+        }];
         
     }
 #endif
@@ -117,9 +126,11 @@
     {
         BOOL isShouldAdd = YES;
         NSArray * scrollItems = [News_Scroll_item MR_findAll];
+        News_Scroll_item * newItems = nil;
         for (News_Scroll_item * tempObj in scrollItems) {
             if ([tempObj.itemID isEqualToString:object.ID]) {
                 isShouldAdd = NO;
+                newItems =tempObj;
                 break;
             }
         }
@@ -138,13 +149,17 @@
             NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
             itemInfo.image      = arrayData;
             scrollItem.item     = itemInfo;
-            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-                if(!success)
-                {
-                    NSLog(@"%@",error.description);
-                }
-            }];
+           
+        }else
+        {
+            [CDToOB updateNews:newItems.item withObj:object];
         }
+        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+            if(!success)
+            {
+                NSLog(@"%@",error.description);
+            }
+        }];
         
     }
 #endif
@@ -191,6 +206,8 @@
     [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
 }
 
+
+#pragma mark - Network Checking
 -(void)fetchNewsFromLocal
 {
      __typeof(self) __weak weakSelf = self;
