@@ -189,6 +189,7 @@
     
     [self addAdvertisementView];
     [self addNewsView];
+    
     dispatch_group_notify(refresh_data_group, group_queue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -293,7 +294,6 @@
 
     autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
     autoScrollNewsView.delegate = self;
-
     [self fetchNewsViewData];
 }
 

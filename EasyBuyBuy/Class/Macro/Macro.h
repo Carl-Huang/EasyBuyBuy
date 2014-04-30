@@ -48,5 +48,5 @@ typedef NS_ENUM (NSInteger ,Language)
 //收费版本的URL
 #define VIPVersionURL                   @""
 #define IS_VIP_Version          1
-#define ISUseCacheData          0
+#define ISUseCacheData          1
 #endif

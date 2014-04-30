@@ -19,6 +19,7 @@
 		4E0EA587191089AC009CE6D2 /* News_Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA586191089AC009CE6D2 /* News_Scroll_Item_Info.m */; };
 		4E0EA58A191093FA009CE6D2 /* Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA589191093FA009CE6D2 /* Scroll_Item_Info.m */; };
 		4E0EA5901910A6F7009CE6D2 /* ShopMainViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */; };
+		4E0EA5931910C35D009CE6D2 /* CDToOB.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA5921910C35D009CE6D2 /* CDToOB.m */; };
 		4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FA07118F04F3900FE466A /* MyOrderList.m */; };
 		4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215918EA642F00B2F39E /* PopupTable.m */; };
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
@@ -332,6 +333,8 @@
 		4E0EA589191093FA009CE6D2 /* Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item_Info.m; sourceTree = "<group>"; };
 		4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShopMainViewController+Network.h"; sourceTree = "<group>"; };
 		4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShopMainViewController+Network.m"; sourceTree = "<group>"; };
+		4E0EA5911910C35D009CE6D2 /* CDToOB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDToOB.h; sourceTree = "<group>"; };
+		4E0EA5921910C35D009CE6D2 /* CDToOB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDToOB.m; sourceTree = "<group>"; };
 		4E0FA07018F04F3900FE466A /* MyOrderList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderList.h; sourceTree = "<group>"; };
 		4E0FA07118F04F3900FE466A /* MyOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderList.m; sourceTree = "<group>"; };
 		4E11215818EA642F00B2F39E /* PopupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupTable.h; sourceTree = "<group>"; };
@@ -1050,6 +1053,8 @@
 				4EAC791A18C4D0AE0022ECDD /* GlobalMethod.m */,
 				4EB6D9FD18E1B3D300985F0B /* PaymentMng.h */,
 				4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */,
+				4E0EA5911910C35D009CE6D2 /* CDToOB.h */,
+				4E0EA5921910C35D009CE6D2 /* CDToOB.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -1862,6 +1867,7 @@
 				4EB24E7C190FCF9C00E98ECE /* Scroll_Item.m in Sources */,
 				4EC207AF18C57754003708D6 /* NSString+MD5_32.m in Sources */,
 				4EB7D85F190C03C9006DECB2 /* Model.m in Sources */,
+				4E0EA5931910C35D009CE6D2 /* CDToOB.m in Sources */,
 				4E632CCB18C4580D006DD458 /* ShopMainViewController.m in Sources */,
 				4EC90BBA18E41C10007969F5 /* HttpService.m in Sources */,
 				5F00238E18BD9BF400100CBF /* SecurityCell.m in Sources */,

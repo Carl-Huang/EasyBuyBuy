@@ -13,6 +13,7 @@
 #import "AdObject.h"
 #import "Scroll_Item.h"
 #import "Scroll_Item_Info.h"
+#import "CDToOB.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
 static NSString * newsContentIdentifier = @"newsContentIdentifier";
@@ -166,6 +167,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
                         {
                             NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
                             object.item.previouseImg = data;
+                            [CDToOB updateAd:object.item withObj:_adObj];
                             break;
                         }
                     }

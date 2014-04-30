@@ -84,8 +84,6 @@ static NSString * cellIdentifier = @"cell";
     }
     
     
-   
-    
     UINib * cellNib = [UINib nibWithNibName:@"OrderCell" bundle:[NSBundle bundleForClass:[OrderCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     if ([OSHelper iOS7]) {

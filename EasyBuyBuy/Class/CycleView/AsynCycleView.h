@@ -18,7 +18,7 @@ typedef void (^CompletedBlock) (id object);
 
 @property (assign ,nonatomic)  BOOL isShouldAutoScroll;
 @property (weak ,nonatomic) id<AsyCycleViewDelegate>  delegate;
-
+@property (strong ,nonatomic) dispatch_group_t internalGroup;
 /*!
  * 初始化自动滚动
  *

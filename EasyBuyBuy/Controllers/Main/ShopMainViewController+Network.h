@@ -11,4 +11,7 @@
 @interface ShopMainViewController (Network)
 -(void)fetchAdvertisementViewData;
 -(void)fetchNewsViewData;
+
+-(void)updateNewsContent;
+-(void)updateAdContent;
 @end
