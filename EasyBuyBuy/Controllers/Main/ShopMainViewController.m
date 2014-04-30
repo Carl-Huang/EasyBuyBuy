@@ -64,6 +64,8 @@
     NSInteger pageSize_Region;
     
     NSOperationQueue * workingQueue;
+    dispatch_group_t  refresh_data_group;
+    dispatch_queue_t  group_queue;
 }
 @end
 
@@ -194,8 +196,21 @@
     myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:maskView];
     
+    refresh_data_group = dispatch_group_create();
+    group_queue = dispatch_queue_create("com.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [self addAdvertisementView];
     [self addNewsView];
+    dispatch_group_notify(refresh_data_group, group_queue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+        
+    });
+    
+    
 }
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
@@ -277,51 +292,6 @@
     [maskView setHidden:YES];
 }
 
--(void)gotoShopViewControllerWithType:(BuinessModelType )type
-{
-    ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
-    [viewController setShopViewControllerModel:type];
-    [self push:viewController];
-    viewController = nil;
-}
-
--(void)gotoSalePromotionViewController
-{
-    SalePromotionViewController * viewController = [[SalePromotionViewController alloc]initWithNibName:@"SalePromotionViewController" bundle:nil];
-    [self push:viewController];
-    viewController = nil;
-}
-
--(void)gotoAskToBuyViewController
-{
-    AskToBuyViewController * viewController = [[AskToBuyViewController alloc]initWithNibName:@"AskToBuyViewController" bundle:nil];
-    [self push:viewController];
-    viewController = nil;
-}
-
--(void)gotoShippingViewController
-{
-    
-    ShippingViewController * viewController = [[ShippingViewController alloc]initWithNibName:@"ShippingViewController" bundle:nil];
-    [self push:viewController];
-    viewController = nil;
-}
-
--(void)gotoNewsViewController
-{
-
-#if IS_VIP_Version
-        NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
-        [self push:viewController];
-        viewController = nil;
-#else
-        
-        [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
-#endif
-
-}
-
-
 -(void)getZipCode
 {
     zipCode = [GlobalMethod getRegionCode];
@@ -340,14 +310,17 @@
     [self fetchAdFromLocal];
 #endif
     
+    dispatch_group_enter(refresh_data_group);
     __typeof(self) __weak weakSelf = self;
     //update the local data via the internet
     [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
         }
+        dispatch_group_leave(refresh_data_group);
     } failureBlock:^(NSError *error, NSString *responseString) {
         NSLog(@"%@",error.description);
+        dispatch_group_leave(refresh_data_group);
     }];
 }
 
@@ -364,14 +337,16 @@
     [self fetchNewsFromLocal];
 #endif
     
+    dispatch_group_enter(refresh_data_group);
     __typeof (self) __weak weakSelf = self;
     [[HttpService sharedInstance]getHomePageNewsWithParam:@{@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} CompletionBlock:^(id object) {
         if (object) {
             homePageNews = object;
             [weakSelf refreshNewContent:object];
         }
+        dispatch_group_leave(refresh_data_group);
     } failureBlock:^(NSError *error, NSString * responseString) {
-        ;
+        dispatch_group_leave(refresh_data_group);
     }];
 }
 
@@ -680,6 +655,51 @@
     return YES;
 }
 
+#pragma  mark - ViewControllers
+-(void)gotoShopViewControllerWithType:(BuinessModelType )type
+{
+    ShopViewController * viewController = [[ShopViewController alloc]initWithNibName:@"ShopViewController" bundle:nil];
+    [viewController setShopViewControllerModel:type];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoSalePromotionViewController
+{
+    SalePromotionViewController * viewController = [[SalePromotionViewController alloc]initWithNibName:@"SalePromotionViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoAskToBuyViewController
+{
+    AskToBuyViewController * viewController = [[AskToBuyViewController alloc]initWithNibName:@"AskToBuyViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoShippingViewController
+{
+    
+    ShippingViewController * viewController = [[ShippingViewController alloc]initWithNibName:@"ShippingViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+}
+
+-(void)gotoNewsViewController
+{
+    
+#if IS_VIP_Version
+    NewsViewController * viewController = [[NewsViewController alloc]initWithNibName:@"NewsViewController" bundle:nil];
+    [self push:viewController];
+    viewController = nil;
+#else
+    
+    [self showAlertViewWithMessage:@"Download the vip version of Easybuybuy ,go to download now?" withDelegate:self tag:1001];
+#endif
+    
+}
+
 -(void)gotoSearchResultViewControllerWithData:(NSArray *)data
 {
     SearchResultViewController * viewController = [[SearchResultViewController alloc]initWithNibName:@"SearchResultViewController" bundle:nil];
@@ -687,6 +707,7 @@
     [self push:viewController];
     viewController = nil;
 }
+
 
 #pragma mark - UIAlertView
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

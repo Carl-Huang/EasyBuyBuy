@@ -18,6 +18,7 @@
 		4E08AC4018F67E82007967B9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */; };
 		4E0EA587191089AC009CE6D2 /* News_Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA586191089AC009CE6D2 /* News_Scroll_Item_Info.m */; };
 		4E0EA58A191093FA009CE6D2 /* Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA589191093FA009CE6D2 /* Scroll_Item_Info.m */; };
+		4E0EA5901910A6F7009CE6D2 /* ShopMainViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */; };
 		4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FA07118F04F3900FE466A /* MyOrderList.m */; };
 		4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215918EA642F00B2F39E /* PopupTable.m */; };
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
@@ -329,6 +330,8 @@
 		4E0EA586191089AC009CE6D2 /* News_Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News_Scroll_Item_Info.m; sourceTree = "<group>"; };
 		4E0EA588191093FA009CE6D2 /* Scroll_Item_Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item_Info.h; sourceTree = "<group>"; };
 		4E0EA589191093FA009CE6D2 /* Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item_Info.m; sourceTree = "<group>"; };
+		4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShopMainViewController+Network.h"; sourceTree = "<group>"; };
+		4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShopMainViewController+Network.m"; sourceTree = "<group>"; };
 		4E0FA07018F04F3900FE466A /* MyOrderList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderList.h; sourceTree = "<group>"; };
 		4E0FA07118F04F3900FE466A /* MyOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderList.m; sourceTree = "<group>"; };
 		4E11215818EA642F00B2F39E /* PopupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupTable.h; sourceTree = "<group>"; };
@@ -846,6 +849,8 @@
 			children = (
 				4E632CC818C4580D006DD458 /* ShopMainViewController.h */,
 				4E632CC918C4580D006DD458 /* ShopMainViewController.m */,
+				4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */,
+				4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */,
 				4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */,
 				4EB422EE18F51E6900DF2053 /* SearchResultViewController.h */,
 				4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */,
@@ -1843,6 +1848,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E0EA5901910A6F7009CE6D2 /* ShopMainViewController+Network.m in Sources */,
 				4EB88ECF18F588A5001C2AA5 /* User.m in Sources */,
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
 				4EB4A6A41904FD2200606A39 /* NewsCell.m in Sources */,
