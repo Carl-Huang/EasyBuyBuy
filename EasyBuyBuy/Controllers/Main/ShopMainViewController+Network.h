@@ -9,5 +9,6 @@
 #import "ShopMainViewController.h"
 
 @interface ShopMainViewController (Network)
-
+-(void)fetchAdvertisementViewData;
+-(void)fetchNewsViewData;
 @end
