@@ -140,6 +140,7 @@ static NSString * cellIdentifier = @"cell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     
     MyOrderList * orderInfo = [dataSource objectAtIndex:indexPath.row];
     if ([orderInfo.status isEqualToString:@"1"]) {

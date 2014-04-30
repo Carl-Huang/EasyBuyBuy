@@ -66,7 +66,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
+    [super viewWillDisappear:animated];
     [autoScrollView pauseTimer];
 }
 
@@ -334,6 +334,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     
     ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
     [self gotoProdecutViewControllerWithObject:object];

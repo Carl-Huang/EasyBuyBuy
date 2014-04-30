@@ -342,7 +342,7 @@
     }];
 }
 
-#pragma mark AsynViewDelegate
+#pragma mark - AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
 {
 
@@ -363,7 +363,7 @@
 
 }
 
-#pragma mark UIScrollViewDelegate
+#pragma mark - UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 //    NSLog(@"%f",scrollView.contentOffset.x);

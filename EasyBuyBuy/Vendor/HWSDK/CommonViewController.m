@@ -14,6 +14,8 @@
 @interface CommonViewController ()
 {
     NSOperationQueue * failedRequestQueue;
+    OtherLinkView * linkView;
+    
 }
 @property (strong ,nonatomic) NSMutableArray * failedRequests;
 @end
@@ -90,9 +92,13 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void)viewWillDisappear:(BOOL)animated
 {
-  
+    [super viewWillDisappear:animated];
+//    NSString * tag = [GlobalMethod getUserDefaultWithKey:CurrentLinkTag];
+//    if (tag.integerValue != -1) {
+//        [linkView removeFromSuperview];
+//    }
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -139,7 +145,7 @@
     {
         linkViewRect.origin.y +=88;
     }
-    OtherLinkView * linkView = [[OtherLinkView alloc]initWithFrame:linkViewRect];
+    linkView = [[OtherLinkView alloc]initWithFrame:linkViewRect];
     [linkView setBackgroundColor:[UIColor redColor]];
     [linkView initializedInterfaceWithInfo:nil currentTag:tag];
 

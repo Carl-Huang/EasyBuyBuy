@@ -40,6 +40,12 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     return self;
 }
 
+-(void)loadView
+{
+    [super loadView];
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
