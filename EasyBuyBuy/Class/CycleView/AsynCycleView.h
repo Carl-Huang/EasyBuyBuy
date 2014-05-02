@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 typedef void (^CompletedBlock) (id object);
 @protocol AsyCycleViewDelegate <NSObject>
 

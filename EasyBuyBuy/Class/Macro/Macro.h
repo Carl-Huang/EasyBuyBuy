@@ -24,6 +24,7 @@ typedef NS_ENUM (NSInteger ,Language)
     Arabic,
 };
 
+
 #ifndef EasyBuyBuy_Macro_h
 #define EasyBuyBuy_Macro_h
 

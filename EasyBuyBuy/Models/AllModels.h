@@ -22,4 +22,5 @@
 #import "Region.h"
 #import "news.h"
 #import "AdObject.h"
+#import "NotiObj.h"
 #endif

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Good : Model
+@interface Good : NSObject
 /*
  id: "1"
  c_cate_id: "1"

@@ -16,29 +16,35 @@
 #define SystemTableType        2
 
 #import "MyNotificationViewController.h"
+#import "MyNotificationViewController+Network.h"
 #import "NotificationCell.h"
 #import "AppDelegate.h"
+#import "User.h"
+
 
 static NSString * cellIdentifier        = @"cellIdentifier";
 @interface MyNotificationViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
     
-    NSMutableArray * systemNotiDataSource;
-    NSMutableArray * productNotiDataSource;
-    
     BOOL isScrollViewShouldScroll;
     NSInteger currentPage;
     
     CGFloat fontSize;
     AppDelegate * myDelegate;
+    
+    NSInteger productPage;
+    NSInteger productPageSize;
+    NSInteger systemPage;
+    NSInteger systemPageSize;
+    
 }
 @property (strong ,nonatomic) UITableView * productNotiTable;
 @property (strong ,nonatomic) UITableView * systemNotiTable;
 @end
 
 @implementation MyNotificationViewController
-@synthesize productNotiTable,systemNotiTable;
+@synthesize productNotiTable,systemNotiTable,productNotiDataSource,systemNotiDataSource;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,13 +60,69 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
-    // Do any additional setup after loading the view from its nib.
+    
+    _workingQueue        = [[NSOperationQueue alloc]init];
+    _refresh_data_group  = dispatch_group_create();
+    _group_queue         = dispatch_queue_create("com.vedon.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
+    _runningOperations  = [NSMutableArray array];
+    
+    systemNotiDataSource        = [NSMutableArray array];
+    _systemNotiFetchParmsInfo   = [NSMutableDictionary dictionary];
+    productNotiDataSource       = [NSMutableArray array];
+    _productNotiFetchParmsInfo  = [NSMutableDictionary dictionary];
+    
+    productPage         = 1;
+    productPageSize     = 15;
+    systemPage          = 1;
+    systemPageSize      = 15;
+    
+    //Assemble the request params ,aka :user_id,is_vip,is_system,page,pageSize;
+    //Here we go!
+    User * user = [User getUserFromLocal];
+    if(user)
+    {
+        [_systemNotiFetchParmsInfo setValue:user.user_id forKey:@"user_id"];
+        [_systemNotiFetchParmsInfo setValue:user.isVip forKey:@"is_vip"];
+        [_systemNotiFetchParmsInfo setValue:@"1" forKey:@"is_system"];
+        [_systemNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
+        [_systemNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPageSize] forKey:@"pageSize"];
+        
+        
+        [_productNotiFetchParmsInfo setValue:user.user_id forKey:@"user_id"];
+        [_productNotiFetchParmsInfo setValue:user.isVip forKey:@"is_vip"];
+        [_productNotiFetchParmsInfo setValue:@"0" forKey:@"is_system"];
+        [_productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
+        [_productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPageSize] forKey:@"pageSize"];
+        
+        __typeof(self) __weak weakSelf =self;
+        [self fetchingSystemNotificationWithCompletedBlock:^{
+            systemPage +=1;
+            [weakSelf.systemNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
+        }];
+        
+        [self fetchingProductNotificationWithCompletedBlock:^{
+            productPage +=1;
+            [weakSelf.productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",productPage] forKey:@"page"];
+        }];
+    }else
+    {
+        //TODO:User must login first ,but not login .Error throw here!
+    }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Public
+-(void)reloadContent
+{
+    [productNotiTable reloadData];
+    [systemNotiTable reloadData];
 }
 
 #pragma mark - Private
@@ -78,7 +140,8 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 
 -(void)initializationInterface
 {
-    [self enterNormalModel];
+//    [self enterNormalModel];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     self.title = viewControllTitle;
     
     CGRect rect = CGRectMake(0, 0, 320, 371);
@@ -134,16 +197,7 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     
     [_productNotiBtn.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
     [_systemNotiBtn.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
-    
-    myDelegate = [[UIApplication sharedApplication]delegate];
-    //TODO:Fetch the Data from the Internet
-    
-    
-    productNotiDataSource = myDelegate.proNotiContainer;
-    systemNotiDataSource  = myDelegate.sysNotiContainer;
-    
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataDataSource) name:UpdataLocalNotificationStore object:nil];
-    
+
 }
 
 -(void)dealloc
@@ -207,8 +261,6 @@ static NSString * cellIdentifier        = @"cellIdentifier";
         }
         [productNotiTable deleteRowsAtIndexPaths:productDeletedItems withRowAnimation:UITableViewRowAnimationFade];
     }
-    
-
     
     NSArray * systemDeletedItems = [systemNotiTable indexPathsForSelectedRows];
     if ([systemDeletedItems count]) {

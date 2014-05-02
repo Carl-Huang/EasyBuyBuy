@@ -109,6 +109,8 @@
 		4EB335C218D74B090012EA06 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C118D74B090012EA06 /* CoreMedia.framework */; };
 		4EB335C418D74B220012EA06 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB335C318D74B220012EA06 /* AssetsLibrary.framework */; };
 		4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */; };
+		4EB345171913620900F10742 /* NotiObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB345161913620900F10742 /* NotiObj.m */; };
+		4EB3451A1913630E00F10742 /* MyNotificationViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */; };
 		4EB3E99E18EC5A8400CDEE19 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99618EC5A8400CDEE19 /* blackArrow.png */; };
 		4EB3E99F18EC5A8400CDEE19 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */; };
 		4EB3E9A018EC5A8400CDEE19 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99818EC5A8400CDEE19 /* blueArrow.png */; };
@@ -468,6 +470,10 @@
 		4EB335C118D74B090012EA06 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4EB335C318D74B220012EA06 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = My_Adress_Btn_Add_black.png; sourceTree = "<group>"; };
+		4EB345151913620900F10742 /* NotiObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiObj.h; sourceTree = "<group>"; };
+		4EB345161913620900F10742 /* NotiObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiObj.m; sourceTree = "<group>"; };
+		4EB345181913630E00F10742 /* MyNotificationViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyNotificationViewController+Network.h"; sourceTree = "<group>"; };
+		4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyNotificationViewController+Network.m"; sourceTree = "<group>"; };
 		4EB3E99618EC5A8400CDEE19 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
 		4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
 		4EB3E99818EC5A8400CDEE19 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
@@ -1003,9 +1009,7 @@
 				5F00238B18BD9BF400100CBF /* SecurityCell.h */,
 				5F00238C18BD9BF400100CBF /* SecurityCell.m */,
 				5F00238D18BD9BF400100CBF /* SecurityCell.xib */,
-				5F00239018BDA0AF00100CBF /* MyNotificationViewController.h */,
-				5F00239118BDA0AF00100CBF /* MyNotificationViewController.m */,
-				5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */,
+				4EB3451B1913632300F10742 /* Notification Center */,
 				5F00239518BDB03500100CBF /* NotificationCell.h */,
 				5F00239618BDB03500100CBF /* NotificationCell.m */,
 				5F00239818BDB04200100CBF /* NotificationCell.xib */,
@@ -1094,6 +1098,8 @@
 				4EB7FC2C1907645000CA2C52 /* news.m */,
 				4EB7D851190B520A006DECB2 /* AdObject.h */,
 				4EB7D852190B520A006DECB2 /* AdObject.m */,
+				4EB345151913620900F10742 /* NotiObj.h */,
+				4EB345161913620900F10742 /* NotiObj.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1147,6 +1153,18 @@
 				4EAE460F18C6EE510089B843 /* Business */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		4EB3451B1913632300F10742 /* Notification Center */ = {
+			isa = PBXGroup;
+			children = (
+				5F00239018BDA0AF00100CBF /* MyNotificationViewController.h */,
+				5F00239118BDA0AF00100CBF /* MyNotificationViewController.m */,
+				5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */,
+				4EB345181913630E00F10742 /* MyNotificationViewController+Network.h */,
+				4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */,
+			);
+			name = "Notification Center";
 			sourceTree = "<group>";
 		};
 		4EB3E99518EC5A8400CDEE19 /* EGOResource */ = {
@@ -1963,6 +1981,7 @@
 				4EB5FFBE18BC6D060064B22C /* EditAddressViewController.m in Sources */,
 				4E137F7118EC089600F99123 /* NSArray+DictionaryObj.m in Sources */,
 				4EBB68B919038EFC0073DE48 /* OtherLinkView.m in Sources */,
+				4EB3451A1913630E00F10742 /* MyNotificationViewController+Network.m in Sources */,
 				4EAD1DA318F0DBEF009B3AD0 /* GoodListSingleObj.m in Sources */,
 				4EAC790E18C4BB870022ECDD /* CarView.m in Sources */,
 				5F00239318BDA0AF00100CBF /* MyNotificationViewController.m in Sources */,
@@ -1977,6 +1996,7 @@
 				4EAE464918C6EE520089B843 /* ProductCell.m in Sources */,
 				4EBC497218E9ADAA00481F8E /* TMQuiltView.m in Sources */,
 				4EAE463F18C6EE520089B843 /* SalePromotionViewController.m in Sources */,
+				4EB345171913620900F10742 /* NotiObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

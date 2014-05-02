@@ -26,7 +26,7 @@
  last_time: "2014-04-09 14:57:45"
  upgrade_time: "2014-02-24 17:29:46"
  */
-@interface BiddingClient : Model
+@interface BiddingClient : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * goods_id;
 @property (strong ,nonatomic) NSString * c_cate_id;

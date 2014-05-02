@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ShippingType : Model
+@interface ShippingType : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * business_model;
 @property (strong ,nonatomic) NSString * type;

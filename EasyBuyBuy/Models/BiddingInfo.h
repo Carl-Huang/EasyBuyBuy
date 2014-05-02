@@ -10,7 +10,7 @@
 #import "BiddingClient.h"
 #import "BiddingGood.h"
 
-@interface BiddingInfo : Model
+@interface BiddingInfo : NSObject
 @property (strong ,nonatomic)BiddingGood * good;
 @property (strong ,nonatomic)NSArray * biddingClients;
 

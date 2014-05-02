@@ -69,6 +69,7 @@
 -(void)initializationInterface
 {
     __weak AsynCycleView * weakSelf =self;
+    
     for (int i =0; i<nPlaceholderImages; ++i) {
         if (placeHolderImages == nil) {
             placeHolderImages = [NSMutableArray array];
@@ -230,12 +231,21 @@
             }
             [weakSelf configureCycleViewContent];
             [weakSelf startTimer];
-            for (int i =0; i< [internalLinks count];i++) {
-                NSString * imgStr  = [internalLinks objectAtIndex: i];
-                if (![imgStr isKindOfClass:[NSNull class]]) {
-                    [weakSelf getImage:imgStr withIndex:i];
+            
+            //Thx to the link ,I choose the block enumbertation to perform selector
+            //http://nshipster.com/enumerators/
+            [internalLinks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                
+                if (![obj isKindOfClass:[NSNull class]]) {
+                    [weakSelf getImage:obj withIndex:idx];
                 }
-            }
+            }];
+//            for (int i =0; i< [internalLinks count];i++) {
+//                NSString * imgStr  = [internalLinks objectAtIndex: i];
+//                if (![imgStr isKindOfClass:[NSNull class]]) {
+//                    [weakSelf getImage:imgStr withIndex:i];
+//                }
+//            }
 
         });
     });

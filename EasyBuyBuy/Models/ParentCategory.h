@@ -16,7 +16,7 @@
  update_time: null
  is_delete: "0"
  */
-@interface ParentCategory : Model
+@interface ParentCategory : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * name;
 @property (strong ,nonatomic) NSString * business_model;

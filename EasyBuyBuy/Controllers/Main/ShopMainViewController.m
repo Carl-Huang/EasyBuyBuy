@@ -317,7 +317,7 @@
     [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
     [regionTable setSelectedBlock:^(id object)
      {
-         NSLog(@"%@",object);
+         NSLog(@"Regioin :%@",object);
          //更新zipCode
 //         [weakSelf getZipCode];
      }];

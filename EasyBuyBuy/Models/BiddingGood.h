@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BiddingGood : Model
+@interface BiddingGood : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * c_cate_id;
 @property (strong ,nonatomic) NSString * p_cate_id;

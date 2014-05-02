@@ -23,7 +23,7 @@
  "verification_code" = 212720;
 
  */
-@interface Register : Model
+@interface Register : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * account;
 @property (strong ,nonatomic) NSString * avatar;

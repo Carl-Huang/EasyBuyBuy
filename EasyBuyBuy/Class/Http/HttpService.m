@@ -868,7 +868,7 @@
                 
                 NSArray * responseObject = obj[@"result"];
                 if ([responseObject count]) {
-                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[AdObject class] arrayKey:@"image"];
+                    NSArray * tempArray = [self mapModelProcess:responseObject withClass:[NotiObj class]];
                     success(tempArray);
                 }else
                 {

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GoodListSingleObj : Model
+@interface GoodListSingleObj : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * goods_id;
 @property (strong ,nonatomic) NSString * goods_price;

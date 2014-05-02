@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Region : Model
+@interface Region : NSObject
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * zip_code;
 @property (strong ,nonatomic) NSString * name_zh;
