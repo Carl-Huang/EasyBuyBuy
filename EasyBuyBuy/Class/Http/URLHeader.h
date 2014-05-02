@@ -43,5 +43,6 @@
 #define news_list                   @"news_list"
 #define home_page_news_list         @"home_page_news_list"
 #define advertisement_list          @"advertisement_list"
+#define user_push_list              @"user_push_list"
 
 #endif

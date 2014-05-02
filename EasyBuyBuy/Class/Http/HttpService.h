@@ -332,4 +332,15 @@
  * @param type  (1: Shop, 2: Factory, 3: Auction, 4: Sell&Buy, 5: Shipping, 6: Home)
  */
 -(void)fetchAdParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取推送信息
+ * @param user_id   用户ID
+ * @param is_vip    (1:yes,0:no)
+ * @param is_system (1:yes,0:no)
+ * @param page      页
+ * @param pageSize  页大小
+ */
+-(void)fetchNotificationWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 @end

@@ -70,15 +70,7 @@
 {
     [super viewDidLoad];
     
-    
-    //Convert CSV to Plist
-//    NSBundle *mainBundle = [NSBundle mainBundle];
-//    NSString *filePath = [mainBundle pathForResource:@"国家地区"
-//                                              ofType:@"csv"];
-//    [GlobalMethod convertCVSTOPlist:filePath];
-//    [self getZipCode];
     reloadPage = 1;
-    
     User * user = [User getUserFromLocal];
     if (user) {
          [APService setAlias:user.user_id callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
@@ -97,9 +89,8 @@
 
     workingQueue        = [[NSOperationQueue alloc]init];
     refresh_data_group  = dispatch_group_create();
-    group_queue         = dispatch_queue_create("com.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
+    group_queue         = dispatch_queue_create("com.vedon.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
     _runningOperations  = [NSMutableArray array];
-    
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
     
@@ -119,12 +110,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
-    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
-}
-
 -(void)dealloc
 {
+    //We register for the notification of observing the internet status.
+    //So we must remove it when we did not need it
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     [autoScrollNewsView cleanAsynCycleView];
     [autoScrollView cleanAsynCycleView];
@@ -342,6 +331,21 @@
         [self addChildViewController:regionTable];
     }];
 }
+-(void)CSVToPlist
+{
+    //Convert CSV to Plist
+    //    NSBundle *mainBundle = [NSBundle mainBundle];
+    //    NSString *filePath = [mainBundle pathForResource:@"国家地区"
+    //                                              ofType:@"csv"];
+    //    [GlobalMethod convertCVSTOPlist:filePath];
+    //    [self getZipCode];
+}
+
+#pragma  mark - Remote Notification
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
+}
+
 
 #pragma mark - AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
@@ -389,8 +393,6 @@
         [self showTable];
     }
 }
-
-
 
 - (IBAction)showUserCenter:(id)sender {
     
