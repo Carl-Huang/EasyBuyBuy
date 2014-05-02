@@ -341,6 +341,9 @@
  * @param page      页
  * @param pageSize  页大小
  */
--(void)fetchNotificationWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+-(void)fetchSysNotificationWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+-(void)fetchProductNotificationWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 
 @end

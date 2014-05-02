@@ -18,11 +18,14 @@
 #import "MyNotificationViewController.h"
 #import "MyNotificationViewController+Network.h"
 #import "NotificationCell.h"
+#import "NotiProductCell.h"
 #import "AppDelegate.h"
 #import "User.h"
 #import "NotiObj.h"
+#import "Good.h"
 
-static NSString * cellIdentifier        = @"cellIdentifier";
+static NSString * cellIdentifier_product        = @"cellIdentifier_product";
+static NSString * cellIdentifier_system        = @"cellIdentifier_system";
 @interface MyNotificationViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate>
 {
     NSString * viewControllTitle;
@@ -174,18 +177,25 @@ static NSString * cellIdentifier        = @"cellIdentifier";
     [_contentScrollView addSubview:productNotiTable];
     [_contentScrollView addSubview:systemNotiTable];
     
-    UINib * cellNib = [UINib nibWithNibName:@"NotificationCell" bundle:[NSBundle bundleForClass:[NotificationCell class]]];
+    UINib * cellNib_System = [UINib nibWithNibName:@"NotificationCell" bundle:[NSBundle bundleForClass:[NotificationCell class]]];
+     UINib * cellNib_Product = [UINib nibWithNibName:@"NotiProductCell" bundle:[NSBundle bundleForClass:[NotiProductCell class]]];
+    
+    [productNotiTable registerNib:cellNib_Product forCellReuseIdentifier:cellIdentifier_product];
+    
+    [systemNotiTable registerNib:cellNib_System forCellReuseIdentifier:cellIdentifier_system];
+
+    
     if ([OSHelper iOS7]) {
         productNotiTable.separatorInset = UIEdgeInsetsZero;
         systemNotiTable.separatorInset = UIEdgeInsetsZero;
     }
-    [productNotiTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+   
     [productNotiTable setBackgroundColor:[UIColor clearColor]];
     [productNotiTable setBackgroundView:nil];
     [productNotiTable setTag:ProductTableType];
     
     
-    [systemNotiTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
+    
     [systemNotiTable setBackgroundColor:[UIColor clearColor]];
     [systemNotiTable setBackgroundView:nil];
     [systemNotiTable setTag:SystemTableType];
@@ -377,19 +387,31 @@ static NSString * cellIdentifier        = @"cellIdentifier";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100.0f;
+    if (tableView.tag == ProductTableType) {
+       return  80.0f;
+    }else
+    {
+        return 45.0f;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NotificationCell  * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     if (tableView.tag == ProductTableType) {
-        cell.notiTitle.text = @"商品";
+         NotiProductCell  * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier_product];
+        Good * object = [productNotiDataSource objectAtIndex:indexPath.row];
+        cell.cellTitle.text = object.name;
+        cell.cellContent.text = object.description;
+        return cell;
     }else
     {
-        cell.notiTitle.text = @"系统";
+        NotificationCell  * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier_system];
+        NotiObj * object = [systemNotiDataSource objectAtIndex:indexPath.row];
+        cell.notiTitle.text = object.content;
+        return cell;
     }
-    return cell;
+
 }
 
 #pragma mark - UIScrollView

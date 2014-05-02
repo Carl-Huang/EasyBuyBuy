@@ -42,7 +42,7 @@
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         });
         __weak __typeof(self) weakSelf =self;
-        [[HttpService sharedInstance]fetchNotificationWithParams:self.productNotiFetchParmsInfo completionBlock:^(id object) {
+        [[HttpService sharedInstance]fetchProductNotificationWithParams:self.productNotiFetchParmsInfo completionBlock:^(id object) {
             dispatch_group_leave(weakSelf.refresh_data_group);
             if (object) {
                 [weakSelf updateProductContent:object];
@@ -92,7 +92,7 @@
         });
 
         __weak __typeof(self) weakSelf =self;
-        [[HttpService sharedInstance]fetchNotificationWithParams:self.systemNotiFetchParmsInfo completionBlock:^(id object) {
+        [[HttpService sharedInstance]fetchSysNotificationWithParams:self.systemNotiFetchParmsInfo completionBlock:^(id object) {
             dispatch_group_leave(weakSelf.refresh_data_group);
             if (object) {
                 [weakSelf updateSysContent:object];

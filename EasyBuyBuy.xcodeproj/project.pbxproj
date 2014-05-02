@@ -111,6 +111,8 @@
 		4EB335C618D74EFB0012EA06 /* My_Adress_Btn_Add_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB335C518D74EFB0012EA06 /* My_Adress_Btn_Add_black.png */; };
 		4EB345171913620900F10742 /* NotiObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB345161913620900F10742 /* NotiObj.m */; };
 		4EB3451A1913630E00F10742 /* MyNotificationViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */; };
+		4EB3451F191388F600F10742 /* NotiProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB3451E191388F600F10742 /* NotiProductCell.m */; };
+		4EB345211913892100F10742 /* NotiProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB345201913892100F10742 /* NotiProductCell.xib */; };
 		4EB3E99E18EC5A8400CDEE19 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99618EC5A8400CDEE19 /* blackArrow.png */; };
 		4EB3E99F18EC5A8400CDEE19 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */; };
 		4EB3E9A018EC5A8400CDEE19 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99818EC5A8400CDEE19 /* blueArrow.png */; };
@@ -474,6 +476,9 @@
 		4EB345161913620900F10742 /* NotiObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiObj.m; sourceTree = "<group>"; };
 		4EB345181913630E00F10742 /* MyNotificationViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyNotificationViewController+Network.h"; sourceTree = "<group>"; };
 		4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyNotificationViewController+Network.m"; sourceTree = "<group>"; };
+		4EB3451D191388F600F10742 /* NotiProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiProductCell.h; sourceTree = "<group>"; };
+		4EB3451E191388F600F10742 /* NotiProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiProductCell.m; sourceTree = "<group>"; };
+		4EB345201913892100F10742 /* NotiProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotiProductCell.xib; sourceTree = "<group>"; };
 		4EB3E99618EC5A8400CDEE19 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
 		4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
 		4EB3E99818EC5A8400CDEE19 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
@@ -856,11 +861,7 @@
 		4E632CC718C4580D006DD458 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				4E632CC818C4580D006DD458 /* ShopMainViewController.h */,
-				4E632CC918C4580D006DD458 /* ShopMainViewController.m */,
-				4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */,
-				4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */,
-				4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */,
+				4EB3451C1913883B00F10742 /* ShopMainViewController */,
 				4EB422EE18F51E6900DF2053 /* SearchResultViewController.h */,
 				4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */,
 				4EB422F018F51E6900DF2053 /* SearchResultViewController.xib */,
@@ -1010,9 +1011,6 @@
 				5F00238C18BD9BF400100CBF /* SecurityCell.m */,
 				5F00238D18BD9BF400100CBF /* SecurityCell.xib */,
 				4EB3451B1913632300F10742 /* Notification Center */,
-				5F00239518BDB03500100CBF /* NotificationCell.h */,
-				5F00239618BDB03500100CBF /* NotificationCell.m */,
-				5F00239818BDB04200100CBF /* NotificationCell.xib */,
 				4E632CBD18C44E1A006DD458 /* UpgradeViewController.h */,
 				4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */,
 				4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */,
@@ -1163,8 +1161,26 @@
 				5F00239218BDA0AF00100CBF /* MyNotificationViewController.xib */,
 				4EB345181913630E00F10742 /* MyNotificationViewController+Network.h */,
 				4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */,
+				5F00239518BDB03500100CBF /* NotificationCell.h */,
+				5F00239618BDB03500100CBF /* NotificationCell.m */,
+				5F00239818BDB04200100CBF /* NotificationCell.xib */,
+				4EB3451D191388F600F10742 /* NotiProductCell.h */,
+				4EB3451E191388F600F10742 /* NotiProductCell.m */,
+				4EB345201913892100F10742 /* NotiProductCell.xib */,
 			);
 			name = "Notification Center";
+			sourceTree = "<group>";
+		};
+		4EB3451C1913883B00F10742 /* ShopMainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */,
+				4E632CC818C4580D006DD458 /* ShopMainViewController.h */,
+				4E632CC918C4580D006DD458 /* ShopMainViewController.m */,
+				4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */,
+				4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */,
+			);
+			name = ShopMainViewController;
 			sourceTree = "<group>";
 		};
 		4EB3E99518EC5A8400CDEE19 /* EGOResource */ = {
@@ -1752,6 +1768,7 @@
 				4E1EA35518E71B350012BAEC /* Easy sell&Buy.png in Resources */,
 				C33EEC45189667B200A26971 /* Home_Icon_User@2x.png in Resources */,
 				C33EEC61189667B200A26971 /* Red Apple_Point_G@2x.png in Resources */,
+				4EB345211913892100F10742 /* NotiProductCell.xib in Resources */,
 				4E1EA35718E71B350012BAEC /* Shipping.png in Resources */,
 				4EAE465118C6EE520089B843 /* ShopViewController.xib in Resources */,
 				4EAE463C18C6EE520089B843 /* BiddingPopupView.xib in Resources */,
@@ -1871,6 +1888,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EB3451F191388F600F10742 /* NotiProductCell.m in Sources */,
 				4E0EA5901910A6F7009CE6D2 /* ShopMainViewController+Network.m in Sources */,
 				4EB88ECF18F588A5001C2AA5 /* User.m in Sources */,
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
