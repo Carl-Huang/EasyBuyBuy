@@ -95,8 +95,12 @@
     } failureBlock:^(NSError *error, NSString *responseString) {
     }];
 
-    workingQueue = [[NSOperationQueue alloc]init];
-    _failedRequestOper = [NSMutableArray array];
+    workingQueue        = [[NSOperationQueue alloc]init];
+    refresh_data_group  = dispatch_group_create();
+    group_queue         = dispatch_queue_create("com.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
+    _runningOperations  = [NSMutableArray array];
+    
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
     
     [self initializationInterface];
@@ -105,13 +109,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
     [self.navigationController.navigationBar setHidden:YES];
-//    [autoScrollNewsView startTimer];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-//    [autoScrollNewsView pauseTimer];
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,6 +125,7 @@
 
 -(void)dealloc
 {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
     [autoScrollNewsView cleanAsynCycleView];
     [autoScrollView cleanAsynCycleView];
 }
@@ -185,9 +185,6 @@
     [maskView setHidden:YES];
     myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:maskView];
-    
-    refresh_data_group = dispatch_group_create();
-    group_queue = dispatch_queue_create("com.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -325,7 +322,7 @@
     if (!regionTable) {
         regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
     }
-    //    NSArray * regionData = [GlobalMethod getRegionTableData];
+//    NSArray * regionData = [GlobalMethod getRegionTableData];
     NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
 //    __weak ShopMainViewController * weakSelf = self;
     [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
@@ -368,18 +365,6 @@
 }
 
 #pragma mark - UIScrollViewDelegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-//    NSLog(@"%f",scrollView.contentOffset.x);
-//    NSArray * imageViews = scrollView.subviews;
-//    for (int i =0; i < [imageViews count]; ++ i) {
-//        UIImageView * tempImageView = [imageViews objectAtIndex:i];
-//        if (tempImageView.tag == page.currentPage) {
-//
-//        }
-//    }
-}
-
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     NSInteger pageNumber = scrollView.contentOffset.x / 320.0f;

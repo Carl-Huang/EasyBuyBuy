@@ -8,6 +8,7 @@
 
 #import "ShopMainViewController+Network.h"
 #import "CDToOB.h"
+
 @implementation ShopMainViewController (Network)
 
 #pragma mark - 获取广告信息
@@ -18,11 +19,15 @@
     [self fetchAdFromLocal];
 #endif
     if ([GlobalMethod isNetworkOk]) {
-        [self startFetchAdData];
+        
+        NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
+            [self startFetchAdData];
+        }];
+        [self.workingQueue addOperation:blockOper];
     }else
     {
         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(startFetchAdData) object:nil];
-        [self.failedRequestOper addObject:opera];
+        [self.runningOperations addObject:opera];
     }
     
 }
@@ -49,7 +54,11 @@
 {
 #if ISUseCacheData
      //Fetch the data in local
-    [self fetchNewsFromLocal];
+    NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
+        [self fetchNewsFromLocal];
+    }];
+    [self.workingQueue addOperation:blockOper];
+
 #endif
     
     if ([GlobalMethod isNetworkOk]) {
@@ -57,7 +66,7 @@
     }else
     {
          NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(startFetchNewsData) object:nil];
-        [self.failedRequestOper addObject:opera];
+        [self.runningOperations addObject:opera];
     }
 }
 
@@ -331,10 +340,8 @@
             }else
             {
                 //Save the remote data to local .
-                
             }
         }];
-        
     }
 }
 
@@ -344,8 +351,10 @@
     AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
     if (status != AFNetworkReachabilityStatusNotReachable && status !=AFNetworkReachabilityStatusUnknown) {
         //TODO:Ok ,do something cool :]
-        
-        [self.workingQueue addOperations:self.failedRequestOper waitUntilFinished:NO];
+        if ([self.runningOperations count]) {
+             [self.workingQueue addOperations:self.runningOperations waitUntilFinished:NO];
+            [self.runningOperations removeAllObjects];
+        }
     }
 }
 @end

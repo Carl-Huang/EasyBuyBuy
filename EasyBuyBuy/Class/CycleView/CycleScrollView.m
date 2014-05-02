@@ -45,9 +45,8 @@
                                                              selector:@selector(animationTimerDidFired:)
                                                              userInfo:nil
                                                               repeats:YES];
-//        [[NSRunLoop currentRunLoop]addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
+        [[NSRunLoop currentRunLoop]addTimer:self.animationTimer forMode:NSRunLoopCommonModes];
         [self.animationTimer pauseTimer];
-        
     }
     return self;
 }

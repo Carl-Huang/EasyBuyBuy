@@ -38,6 +38,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     AsynCycleView * autoScrollView;
 
 }
+@property (strong ,nonatomic) NSOperationQueue * workingQueue;
+@property (strong ,nonatomic) dispatch_group_t  refresh_data_group;
+@property (strong ,nonatomic) dispatch_queue_t  group_queue;
 @end
 
 @implementation ShopViewController
@@ -140,26 +143,20 @@ static NSString * cellIdentifier = @"cellIdentifier";
      if ([localCacheData count]) {
         [dataSource addObjectsFromArray:localCacheData];
     }
-    __weak ShopViewController * weakSelf = self;
+    
+    
+    _workingQueue        = [[NSOperationQueue alloc]init];
+    _refresh_data_group  = dispatch_group_create();
+    _group_queue         = dispatch_queue_create("com.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
-    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType==BiddingBuinessModel?B2CBuinessModel:_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (object) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-                [ParentCategory saveToLocalWithObject:object type:_buinessType];
-            });
-            [dataSource removeAllObjects];
-            [dataSource addObjectsFromArray:object];
-            [weakSelf.contentTable reloadData];
-            [weakSelf setFooterView];
-        }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        _reloading = NO;
-    }];
+    [self fetchContentData];
     [self addAdvertisementView];
-
+    dispatch_group_notify(_refresh_data_group, _group_queue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    });
 }
 
 -(void)gotoParentViewController
@@ -170,19 +167,22 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)addAdvertisementView
 {
+
     CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
     autoScrollView.delegate = self;
     
     //Fetching the Ad form server
+    dispatch_group_enter(_refresh_data_group);
     __typeof(self) __weak weakSelf = self;
     NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
-
     [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
         }
+        dispatch_group_leave(_refresh_data_group);
     } failureBlock:^(NSError *error, NSString *responseString) {
+        dispatch_group_leave(_refresh_data_group);
         NSLog(@"%@",error.description);
     }];
 
@@ -247,6 +247,28 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
 }
 
+-(void)fetchContentData
+{
+    dispatch_group_enter(_refresh_data_group);
+     __weak ShopViewController * weakSelf = self;
+    //_type ：1 为 b2c  2 为 b2b ，3 为 竞价
+    [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",_buinessType==BiddingBuinessModel?B2CBuinessModel:_buinessType],@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+        if (object) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [ParentCategory saveToLocalWithObject:object type:_buinessType];
+            });
+            [dataSource removeAllObjects];
+            [dataSource addObjectsFromArray:object];
+            [weakSelf.contentTable reloadData];
+            [weakSelf setFooterView];
+            
+        }
+        dispatch_group_leave(_refresh_data_group);
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        dispatch_group_leave(_refresh_data_group);
+        _reloading = NO;
+    }];
+}
 
 -(void)loadData
 {
@@ -321,8 +343,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
         ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
         
         NSURL * imageURL = [NSURL URLWithString:object.image];
-        [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
-        
+        if (imageURL) {
+             [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
+        }
         cell.classifyName.text = object.name;
         cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
         

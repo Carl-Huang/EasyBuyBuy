@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
+#define InvalidValue -1
+#define ScrollDutation 1.5
 
 #import "AsynCycleView.h"
 #import "CycleScrollView.h"
@@ -18,8 +20,8 @@
     
     CGRect cycleViewFrame;
     NSInteger nPlaceholderImages;
-    __weak UIView * cycleViewParentView;
-    dispatch_queue_t concurrentQueue;
+    __weak UIView * _cycleViewParentView;
+    dispatch_queue_t _serialQueue;
     SDWebImageManager *manager;
     
     
@@ -48,16 +50,13 @@
     if (self) {
         _isShouldAutoScroll = YES;
         _placeHoderImage = image;
-        downItemCount = -1;
-        if (numOfPlaceHoderImages == 0) {
-            nPlaceholderImages = 1;
-        }else
-        {
-           nPlaceholderImages = numOfPlaceHoderImages; 
-        }
-        cycleViewParentView = parentView;
+        nPlaceholderImages = (numOfPlaceHoderImages ==0?1:numOfPlaceHoderImages);
+        _cycleViewParentView = parentView;
         cycleViewFrame = rect;
-        concurrentQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+        
+        
+        downItemCount = InvalidValue;
+        _serialQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_SERIAL);
         _downloadedImages = [NSMutableArray array];
         [self initializationInterface];
 
@@ -69,9 +68,7 @@
 #pragma mark - Public Method
 -(void)initializationInterface
 {
-    NSLog(@"%s",__func__);
     __weak AsynCycleView * weakSelf =self;
-    
     for (int i =0; i<nPlaceholderImages; ++i) {
         if (placeHolderImages == nil) {
             placeHolderImages = [NSMutableArray array];
@@ -81,39 +78,30 @@
         tempImageView = nil;
     }
     
-    autoScrollView = [[CycleScrollView alloc] initWithFrame:cycleViewFrame animationDuration:2];
+    autoScrollView = [[CycleScrollView alloc] initWithFrame:cycleViewFrame animationDuration:ScrollDutation];
     [autoScrollView setIsShouldAutoScroll:_isShouldAutoScroll];
     autoScrollView.backgroundColor = [UIColor clearColor];
     
+    [weakSelf configureCycleViewContent];
     
-    dispatch_barrier_async(concurrentQueue, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [weakSelf updateAutoScrollView];
-            
-            autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-                if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
-                    id object = nil;
-                    if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
-                        object = [weakSelf.items objectAtIndex:pageIndex];
-                    }
-                    [weakSelf pauseTimer];
-                    [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
-                    [weakSelf startTimer];
-                }
-            };
-            [cycleViewParentView addSubview:autoScrollView];
-            cycleViewParentView = nil;
-        });
-    
-    });
-
-   
+    autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
+        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
+            id object = nil;
+            if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
+                object = [weakSelf.items objectAtIndex:pageIndex];
+            }
+            [weakSelf pauseTimer];
+            [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
+            [weakSelf startTimer];
+        }
+    };
+    [_cycleViewParentView addSubview:autoScrollView];
+    _cycleViewParentView = nil;
 }
 
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
 {
-     dispatch_barrier_async(concurrentQueue, ^{
+     dispatch_barrier_async(_serialQueue, ^{
          if([links count])
          {
              downItemCount = [links count];
@@ -127,35 +115,6 @@
    
 }
 
-
--(void)updateImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj  
-{
-    if([links count])
-    {
-        [self resetThePlaceImages:links];
-    }
-    if (containerObj) {
-        _items = [containerObj copy];
-    }
-}
-
--(void)setScrollViewImages:(NSArray *)images
-{
-    NSLog(@"%s",__func__);
-    __weak AsynCycleView * weakSelf = self;
-     dispatch_barrier_async(concurrentQueue, ^{
-         dispatch_async(dispatch_get_main_queue(), ^{
-             [weakSelf pauseTimer];
-             [self.placeHolderImages removeAllObjects];
-             [self.placeHolderImages addObjectsFromArray:images];
-
-             [weakSelf updateAutoScrollView];
-            [weakSelf startTimer];
-         });
-         
-     });
-}
-
 -(void)updateImagesLink:(NSArray *)links targetObject:(id)object completedBlock:(CompletedBlock) block
 {
     if(block)
@@ -166,6 +125,35 @@
     downItemCount = [links count];
     [self updateImagesLink:links containerObject:nil];
 }
+
+-(void)updateImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
+{
+    if([links count])
+    {
+        [self resetThePlaceImages:links];
+    }
+    if (containerObj) {
+        _items = [containerObj copy];
+    }
+}
+
+
+-(void)setScrollViewImages:(NSArray *)images
+{
+    __weak AsynCycleView * weakSelf = self;
+     dispatch_barrier_async(_serialQueue, ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf pauseTimer];
+             [self.placeHolderImages removeAllObjects];
+             [self.placeHolderImages addObjectsFromArray:images];
+
+             [weakSelf configureCycleViewContent];
+            [weakSelf startTimer];
+         });
+         
+     });
+}
+
 
 
 -(void)cleanAsynCycleView
@@ -195,7 +183,7 @@
 }
 
 #pragma  mark - Private method
--(void)updateAutoScrollView
+-(void)configureCycleViewContent
 {
     __weak AsynCycleView * weakSelf = self;
     autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
@@ -222,10 +210,8 @@
 
 -(void)resetThePlaceImages:(NSArray *)links
 {
-    
-    NSLog(@"%s",__func__);
     internalLinks = [links copy];
-    dispatch_barrier_async(concurrentQueue, ^{
+    dispatch_barrier_async(_serialQueue, ^{
         __weak AsynCycleView * weakSelf =self;
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -242,7 +228,7 @@
                     [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
                 }
             }
-            [weakSelf updateAutoScrollView];
+            [weakSelf configureCycleViewContent];
             [weakSelf startTimer];
             for (int i =0; i< [internalLinks count];i++) {
                 NSString * imgStr  = [internalLinks objectAtIndex: i];
@@ -268,10 +254,9 @@
             
             if (image) {
                 [weakSelf.downloadedImages addObject:image];
-                dispatch_barrier_async(concurrentQueue, ^{
+                dispatch_barrier_async(_serialQueue, ^{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSLog(@"replace");
-                        
                         [weakSelf pauseTimer];
                         UIImageView * imageView = nil;
                         imageView = [[UIImageView alloc]initWithImage:image];
@@ -299,7 +284,9 @@
 
 -(void)updateAutoScrollViewItem
 {
+#if ISUseCacheData
     [self cachingData];
+#endif
     
     if(downItemCount == [_downloadedImages count])
     {
