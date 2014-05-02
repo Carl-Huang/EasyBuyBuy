@@ -16,4 +16,6 @@
 -(void)fetchNewsViewData;
 -(void)updateNewsContent;
 -(void)updateAdContent;
+
+-(void)networkStatusHandle:(NSNotification *)notification;
 @end

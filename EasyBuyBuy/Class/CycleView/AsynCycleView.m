@@ -303,6 +303,7 @@
         if(self.internalGroup)
         {
             dispatch_group_leave(self.internalGroup);
+            self.internalGroup = nil;
         }
     }
     __weak AsynCycleView * weakSelf = self;

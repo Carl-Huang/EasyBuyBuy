@@ -20,7 +20,7 @@
 #import "NotificationCell.h"
 #import "AppDelegate.h"
 #import "User.h"
-
+#import "NotiObj.h"
 
 static NSString * cellIdentifier        = @"cellIdentifier";
 @interface MyNotificationViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate>
@@ -94,21 +94,31 @@ static NSString * cellIdentifier        = @"cellIdentifier";
         [_productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
         [_productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPageSize] forKey:@"pageSize"];
         
+        
         __typeof(self) __weak weakSelf =self;
+         dispatch_group_enter(self.refresh_data_group);
         [self fetchingSystemNotificationWithCompletedBlock:^{
             systemPage +=1;
             [weakSelf.systemNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
         }];
         
+         dispatch_group_enter(self.refresh_data_group);
         [self fetchingProductNotificationWithCompletedBlock:^{
             productPage +=1;
             [weakSelf.productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",productPage] forKey:@"page"];
         }];
+        
+        dispatch_group_notify(_refresh_data_group, _group_queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+            });
+        });
     }else
     {
         //TODO:User must login first ,but not login .Error throw here!
     }
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
     
 }
 

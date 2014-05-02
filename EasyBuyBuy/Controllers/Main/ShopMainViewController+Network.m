@@ -35,16 +35,16 @@
 -(void)startFetchAdData
 {
     __typeof(self) __weak weakSelf = self;
-    dispatch_group_enter(weakSelf.refresh_data_group);
     //update the local data via the internet
     [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
         }
-        
     } failureBlock:^(NSError *error, NSString *responseString) {
         NSLog(@"%@",error.description);
-        dispatch_group_leave(weakSelf.refresh_data_group);
+        if (weakSelf.refresh_data_group) {
+            dispatch_group_leave(weakSelf.refresh_data_group);
+        }
     }];
 
 }
@@ -73,13 +73,16 @@
 -(void)startFetchNewsData
 {
     __typeof(self) __weak weakSelf = self;
-    dispatch_group_enter(weakSelf.refresh_data_group);
+    
     [[HttpService sharedInstance]getHomePageNewsWithParam:@{@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} CompletionBlock:^(id object) {
         if (object) {
             [weakSelf refreshNewContent:object];
         }
     } failureBlock:^(NSError *error, NSString * responseString) {
-        dispatch_group_leave(weakSelf.refresh_data_group);
+        if (weakSelf.refresh_data_group) {
+            dispatch_group_leave(weakSelf.refresh_data_group);
+        }
+        
     }];
 }
 
