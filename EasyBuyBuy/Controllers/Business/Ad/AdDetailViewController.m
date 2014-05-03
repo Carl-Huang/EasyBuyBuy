@@ -7,7 +7,6 @@
 //
 
 #import "AdDetailViewController.h"
-#import "AsynCycleView.h"
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "NewsDetailDesCell.h"
 #import "AdObject.h"
@@ -26,6 +25,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     NSArray * dataSource;
     NSArray * cacheImgs;
     BOOL isCacheData;
+    CompletedBlock _completedBlock;
     
 }
 @end
@@ -56,8 +56,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [autoScrollView cleanAsynCycleView];
-    autoScrollView = nil;
+   
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,7 +67,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 
 #pragma  mark - Public
--(void)initializationContentWithObj:(id)object
+-(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if([object isKindOfClass:[Scroll_Item class]])
     {
@@ -92,7 +91,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         _adObj = object;
         cacheImgs = nil;
     }
-
+    if (compltedBlock) {
+        _completedBlock = [compltedBlock copy];
+    }
 }
 #pragma  mark - Private
 -(void)initializationLocalString
@@ -107,7 +108,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(void)initializationInterface
 {
     self.title = [_adObj valueForKey:@"title"];
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
 
     if ([OSHelper iOS7]) {
@@ -192,6 +193,17 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }
 
 }
+
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
+    if (_completedBlock) {
+        _completedBlock (nil);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

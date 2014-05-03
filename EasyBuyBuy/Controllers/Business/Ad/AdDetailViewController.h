@@ -7,10 +7,12 @@
 //
 
 #import "CommonViewController.h"
+#import "AsynCycleView.h"
+
 @class AdObject;
 @interface AdDetailViewController : CommonViewController
 @property (strong ,nonatomic) AdObject * adObj;
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
--(void)initializationContentWithObj:(id)object;
+-(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)compltedBlock;
 @end

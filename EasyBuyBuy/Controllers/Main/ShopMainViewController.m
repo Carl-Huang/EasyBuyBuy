@@ -379,7 +379,7 @@
     }else if([object isKindOfClass:[AdObject class]] || [object isKindOfClass:[Scroll_Item class]])
     {
         AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
-        [viewController initializationContentWithObj:object];
+        [viewController initializationContentWithObj:object completedBlock:compltedBlock];
         [self push:viewController];
         viewController = nil;
         
