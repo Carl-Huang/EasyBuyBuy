@@ -1174,9 +1174,9 @@
 		4EB3451C1913883B00F10742 /* ShopMainViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */,
 				4E632CC818C4580D006DD458 /* ShopMainViewController.h */,
 				4E632CC918C4580D006DD458 /* ShopMainViewController.m */,
+				4E632CCA18C4580D006DD458 /* ShopMainViewController.xib */,
 				4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */,
 				4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */,
 			);

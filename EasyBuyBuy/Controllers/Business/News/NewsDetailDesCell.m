@@ -30,9 +30,9 @@
 {
     CGRect rect = self.frame;
     if ([OSHelper iPhone5]) {
-        rect.size.height = 260;
+        rect.size.height = 310;
     }else
-        rect.size.height = 180;
+        rect.size.height = 230;
     
     self.frame = rect;
     rect.size.height -=20;

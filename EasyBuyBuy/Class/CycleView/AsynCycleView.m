@@ -102,18 +102,17 @@
 
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
 {
-     dispatch_barrier_async(_serialQueue, ^{
-         if([links count])
-         {
-             downItemCount = [links count];
-             [self resetThePlaceImages:links];
-         }
-         if (containerObj) {
-             _items  = nil;
-             _items = [containerObj copy];
-         }
-     });
-   
+    [self pauseTimer];
+     if([links count])
+     {
+         downItemCount = [links count];
+         [self resetThePlaceImages:links];
+     }
+     if (containerObj) {
+         _items  = nil;
+         _items = [containerObj copy];
+     }
+
 }
 
 -(void)updateImagesLink:(NSArray *)links targetObject:(id)object completedBlock:(CompletedBlock) block
@@ -144,14 +143,10 @@
     __weak AsynCycleView * weakSelf = self;
      dispatch_barrier_async(_serialQueue, ^{
          dispatch_async(dispatch_get_main_queue(), ^{
-             [weakSelf pauseTimer];
              [self.placeHolderImages removeAllObjects];
              [self.placeHolderImages addObjectsFromArray:images];
-
              [weakSelf configureCycleViewContent];
-            [weakSelf startTimer];
          });
-         
      });
 }
 
@@ -159,11 +154,13 @@
 
 -(void)cleanAsynCycleView
 {
-    [autoScrollView stopTimer];
     [manager cancelAll];
+    [autoScrollView stopTimer];
+    [placeHolderImages removeAllObjects];
     autoScrollView = nil;
     internalLinks = nil;
     _items = nil;
+    _serialQueue = nil;
 }
 
 -(void)startTimer
@@ -186,13 +183,18 @@
 #pragma  mark - Private method
 -(void)configureCycleViewContent
 {
-    __weak AsynCycleView * weakSelf = self;
-    autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-        return weakSelf.placeHolderImages[pageIndex];
-    };
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [weakSelf.placeHolderImages count];
-    };
+    dispatch_async(_serialQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __weak AsynCycleView * weakSelf = self;
+            autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+                return weakSelf.placeHolderImages[pageIndex];
+            };
+            autoScrollView.totalPagesCount = ^NSInteger(void){
+                return [weakSelf.placeHolderImages count];
+            };
+        });
+    });
+    
 }
 
 -(void)cachingData
@@ -204,7 +206,6 @@
             _internalBlock(self.downloadedImages);
             _internalBlock = nil;
         }
-        
     }
 }
 
@@ -216,7 +217,6 @@
         __weak AsynCycleView * weakSelf =self;
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [weakSelf pauseTimer];
             if ([internalLinks count ] > [weakSelf.placeHolderImages count]) {
                 for (int i = [weakSelf.placeHolderImages count]; i < [internalLinks count]; i ++) {
                     UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
@@ -230,23 +230,15 @@
                 }
             }
             [weakSelf configureCycleViewContent];
-            [weakSelf startTimer];
-            
-            //Thx to the link ,I choose the block enumbertation to perform selector
-            //http://nshipster.com/enumerators/
             [internalLinks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 
                 if (![obj isKindOfClass:[NSNull class]]) {
-                    [weakSelf getImage:obj withIndex:idx];
+                    //Must be excute in main thread ,because you do not excute ,something wrong happened.
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf getImage:obj withIndex:idx];
+                    });
                 }
             }];
-//            for (int i =0; i< [internalLinks count];i++) {
-//                NSString * imgStr  = [internalLinks objectAtIndex: i];
-//                if (![imgStr isKindOfClass:[NSNull class]]) {
-//                    [weakSelf getImage:imgStr withIndex:i];
-//                }
-//            }
-
         });
     });
 }
@@ -267,15 +259,12 @@
                 dispatch_barrier_async(_serialQueue, ^{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSLog(@"replace");
-                        [weakSelf pauseTimer];
                         UIImageView * imageView = nil;
                         imageView = [[UIImageView alloc]initWithImage:image];
                         if (imageView) {
                             [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
                             [weakSelf updateAutoScrollViewItem];
                         }
-                        
-                        [weakSelf startTimer];
                         imageView = nil;
                     });
                 });
@@ -306,10 +295,7 @@
             self.internalGroup = nil;
         }
     }
-    __weak AsynCycleView * weakSelf = self;
-    autoScrollView.totalPagesCount = ^NSInteger(void){
-        return [weakSelf.placeHolderImages count];
-    };
+    [self configureCycleViewContent];
 
 }
 
@@ -319,5 +305,11 @@
         [autoScrollView stopTimer];
         autoScrollView = nil;
     }
+    [manager cancelAll];
+    autoScrollView = nil;
+    internalLinks = nil;
+    _serialQueue = nil;
+    _items = nil;
+
 }
 @end

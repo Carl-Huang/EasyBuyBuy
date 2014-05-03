@@ -146,9 +146,17 @@
     }
     [self.contentViews removeAllObjects];
     if (self.fetchContentViewAtIndex) {
-        [self.contentViews addObject:self.fetchContentViewAtIndex(previousPageIndex)];
-        [self.contentViews addObject:self.fetchContentViewAtIndex(_currentPageIndex)];
-        [self.contentViews addObject:self.fetchContentViewAtIndex(rearPageIndex)];
+        @autoreleasepool {
+            id obj1 = self.fetchContentViewAtIndex(previousPageIndex);
+            id obj2 = self.fetchContentViewAtIndex(_currentPageIndex);
+            id obj3 = self.fetchContentViewAtIndex(rearPageIndex);
+            if (obj1 && obj2 && obj3) {
+                [self.contentViews addObject:self.fetchContentViewAtIndex(previousPageIndex)];
+                [self.contentViews addObject:self.fetchContentViewAtIndex(_currentPageIndex)];
+                [self.contentViews addObject:self.fetchContentViewAtIndex(rearPageIndex)];
+            }
+        }
+       
     }
 }
 

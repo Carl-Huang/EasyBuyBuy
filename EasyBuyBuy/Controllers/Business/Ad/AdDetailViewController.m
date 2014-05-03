@@ -140,7 +140,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(void)addAdvertisementView
 {
     CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
    
 }
 
@@ -210,10 +210,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }else
     {
         if ([OSHelper iPhone5]) {
-            return  260;
+            return  300;
         }else
         {
-            return 180;
+            return 220;
         }
     }
     

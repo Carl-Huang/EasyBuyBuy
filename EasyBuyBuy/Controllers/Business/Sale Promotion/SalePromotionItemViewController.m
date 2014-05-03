@@ -116,7 +116,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     
     //autoScrollview configuration
     CGRect rect = _productBorswerContanier.bounds;
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:3 addTo:_productBorswerContanier];
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:1 addTo:_productBorswerContanier];
 
 
     

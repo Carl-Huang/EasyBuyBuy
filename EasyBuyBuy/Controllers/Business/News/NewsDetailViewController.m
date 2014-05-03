@@ -61,12 +61,6 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [autoScrollView cleanAsynCycleView];
-    autoScrollView = nil;
-}
-
 #pragma  mark - Public
 -(void)initializationContentWithObj:(id)object
 {
@@ -108,7 +102,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(void)initializationInterface
 {
     self.title = [_newsObj valueForKey:@"title"];
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
     
     
@@ -142,7 +136,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(void)addNewsView
 {
     CGRect rect = CGRectMake(0, 0, 320, _adView.frame.size.height);
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
    
 }
 
@@ -196,6 +190,14 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         [self showAlertViewWithMessage:@"No Network"];
     }
 }
+
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -214,10 +216,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }else
     {
         if ([OSHelper iPhone5]) {
-            return  280;
+            return  310;
         }else
         {
-            return 200;
+            return 230;
         }
     }
     

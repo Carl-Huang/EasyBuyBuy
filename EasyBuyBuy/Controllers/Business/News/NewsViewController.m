@@ -137,7 +137,7 @@ static NSString * cellIdentifier = @"cellidentifier";
 -(void)addAdvertisementView
 {
     CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
-    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.adView];
+    autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
     autoScrollView.delegate = self;
     
     //Fetching the Ad form server

@@ -187,6 +187,24 @@
         });
         
     });
+    CATransition* transition = [CATransition animation];
+    transition.startProgress = 0;
+    transition.endProgress = 1.0;
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
+    transition.duration = 1.0;
+    // Add the transition animation to both layers
+    UIImageView * imageView1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shop.png"]];
+    UIImageView * imageView2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shipping.png"]];
+    [imageView1 setFrame:CGRectMake(0, 0, 50, 50)];
+    [imageView2 setFrame:CGRectMake(50, 0, 50, 50)];
+    
+    [imageView1.layer addAnimation:transition forKey:@"transition"];
+    [imageView2.layer addAnimation:transition forKey:@"transition"];
+    // Finally, change the visibility of the layers.
+    imageView1.hidden = YES;
+    imageView2.hidden = NO;
+
 }
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
@@ -274,7 +292,7 @@
 {
     NSInteger height = 80;
     CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
-     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:3 addTo:self.view];
+     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.view];
     autoScrollView.delegate = self;
     [self fetchAdvertisementViewData];
 }
@@ -283,7 +301,7 @@
 {
     CGRect rect = CGRectMake(0, 64, 320, 120);
 
-    autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:3 addTo:self.view];
+    autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:1 addTo:self.view];
     autoScrollNewsView.delegate = self;
     [self fetchNewsViewData];
 }
