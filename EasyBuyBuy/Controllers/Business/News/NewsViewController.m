@@ -237,7 +237,7 @@ static NSString * cellIdentifier = @"cellidentifier";
 }
 
 #pragma mark AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if([GlobalMethod isNetworkOk])
     {

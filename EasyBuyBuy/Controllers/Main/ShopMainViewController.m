@@ -367,13 +367,13 @@
 
 
 #pragma mark - AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
 
     if([object isKindOfClass:[news class]] || [object isKindOfClass:[News_Scroll_item class]])
     {
         NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
-        [viewController initializationContentWithObj:object];
+        [viewController initializationContentWithObj:object completedBlock:compltedBlock];
         [self push:viewController];
         viewController = nil;
     }else if([object isKindOfClass:[AdObject class]] || [object isKindOfClass:[Scroll_Item class]])

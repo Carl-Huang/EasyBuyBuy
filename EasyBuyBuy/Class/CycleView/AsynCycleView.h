@@ -10,7 +10,7 @@
 typedef void (^CompletedBlock) (id object);
 @protocol AsyCycleViewDelegate <NSObject>
 
--(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object;
+-(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock;
 
 @end
 @interface AsynCycleView : NSObject

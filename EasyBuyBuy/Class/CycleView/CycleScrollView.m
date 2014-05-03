@@ -29,7 +29,7 @@
     _pageController.frame = CGRectMake((self.bounds.size.width - width)/2, self.bounds.size.height/5*4, width, 20);
     
     _totalPageCount = totalPagesCount();
-    if (_totalPageCount > 0) {
+    if (_totalPageCount >= 1) {
         [self configContentViews];
         [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
     }

@@ -160,6 +160,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(void)gotoParentViewController
 {
     [autoScrollView cleanAsynCycleView];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -175,7 +176,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
 }
 #pragma mark AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if ([GlobalMethod isNetworkOk]) {
         if (object) {

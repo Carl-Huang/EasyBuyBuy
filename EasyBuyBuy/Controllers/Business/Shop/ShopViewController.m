@@ -313,7 +313,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
 }
 #pragma mark AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if ([GlobalMethod isNetworkOk]) {
         if (object) {

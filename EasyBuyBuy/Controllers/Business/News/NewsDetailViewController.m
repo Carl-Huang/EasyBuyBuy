@@ -7,7 +7,6 @@
 //
 
 #import "NewsDetailViewController.h"
-#import "AsynCycleView.h"
 #import "DefaultDescriptionCellTableViewCell.h"
 #import "NewsDetailDesCell.h"
 #import "news.h"
@@ -26,7 +25,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     NSArray * dataSource;
     NSArray * cacheImgs;
     BOOL isCacheData;
+    CompletedBlock _completedBlock;
 }
+
 @end
 
 @implementation NewsDetailViewController
@@ -62,7 +63,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 }
 
 #pragma  mark - Public
--(void)initializationContentWithObj:(id)object
+-(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)completedBlock
 {
     if([object isKindOfClass:[News_Scroll_item class]])
     {
@@ -86,7 +87,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         _newsObj = object;
         cacheImgs = nil;
     }
-    
+    if (completedBlock) {
+        _completedBlock = [completedBlock copy];
+    }
 }
 
 #pragma  mark - Private
@@ -195,6 +198,8 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
+    _completedBlock(nil);
+    _completedBlock = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

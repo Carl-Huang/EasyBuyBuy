@@ -86,14 +86,16 @@
     [weakSelf configureCycleViewContent];
     
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
-        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:)]) {
+        if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:completedBlock:)]) {
             id object = nil;
             if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
                 object = [weakSelf.items objectAtIndex:pageIndex];
             }
             [weakSelf pauseTimer];
-            [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object];
-            [weakSelf startTimer];
+            [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object completedBlock:^(id object) {
+                [weakSelf startTimer];
+            }];
+            
         }
     };
     [_cycleViewParentView addSubview:autoScrollView];
@@ -149,8 +151,6 @@
          });
      });
 }
-
-
 
 -(void)cleanAsynCycleView
 {
