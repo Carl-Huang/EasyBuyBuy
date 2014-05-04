@@ -38,9 +38,10 @@ typedef void (^CompletedBlock) (id object);
  * @param  containerObject         点击对应图片，返回的对象。这里需要containerObject 的顺序和 ImageLink 的一样。
  */
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
+-(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj  completedBlock:(CompletedBlock)cacheImgBlock;
 
--(void)updateImagesLink:(NSArray *)links targetObject:(id)object completedBlock:(CompletedBlock) block;
--(void)updateImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
+-(void)updateImagesLink:(NSArray *)links targetObjects:(NSArray *)objects completedBlock:(CompletedBlock) block;
+
 -(void)setFetchLocalFlag:(NSString *)flag type:(Class)type;
 -(void)setScrollViewImages:(NSArray *)images;
 

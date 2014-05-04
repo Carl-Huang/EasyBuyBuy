@@ -13,10 +13,6 @@
 #import "CycleScrollView.h"
 #import "HttpService.h"
 #import "SDWebImageManager.h"
-//#import "Scroll_Item_Info.h"
-//#import "Scroll_Item.h"
-//#import "News_Scroll_item.h"
-//#import "News_Scroll_Item_Info.h"
 
 @interface AsynCycleView()
 {
@@ -41,8 +37,11 @@
 @property (strong ,nonatomic) NSArray * items;
 @property (strong ,nonatomic) NSArray * localItems;
 
-@property (strong ,nonatomic) CompletedBlock  internalBlock;
+@property (strong ,nonatomic) CompletedBlock  finishedDownloadImgsBlock;
 @property (strong ,nonatomic) NSMutableArray * downloadedImages;
+
+@property (strong ,nonatomic) CompletedBlock  finishedLoadingFirImgsBlock;
+@property (strong ,nonatomic) NSMutableDictionary * downloadFirImagesInfo;
 @end
 @implementation AsynCycleView
 @synthesize placeHolderImages,networkImages;
@@ -60,13 +59,13 @@
         nPlaceholderImages = (numOfPlaceHoderImages ==0?1:numOfPlaceHoderImages);
         _cycleViewParentView = parentView;
         cycleViewFrame = rect;
-        
-        
-        downItemCount = InvalidValue;
-        _serialQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_SERIAL);
+        downItemCount   = InvalidValue;
+        _serialQueue    = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_SERIAL);
         _downloadedImages = [NSMutableArray array];
-        [self initializationInterface];
+        _finishedLoadingFirImgsBlock    = nil;
+        _finishedDownloadImgsBlock      = nil;
         _flag = nil;
+        [self initializationInterface];
     }
     return self;
 }
@@ -109,7 +108,7 @@
     _cycleViewParentView = nil;
 }
 
--(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
+-(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj  completedBlock:(CompletedBlock)cacheImgBlock
 {
     [self pauseTimer];
      if([links count])
@@ -121,31 +120,47 @@
          _items  = nil;
          _items = [containerObj copy];
      }
-
-}
-
--(void)updateImagesLink:(NSArray *)links targetObject:(id)object completedBlock:(CompletedBlock) block
-{
-    if(block)
-    {
-        _internalBlock = [block copy];
+    if (cacheImgBlock) {
+        _finishedLoadingFirImgsBlock = [cacheImgBlock copy];
+        _downloadFirImagesInfo = [NSMutableDictionary dictionaryWithCapacity:downItemCount];
     }
-    targetObject = object;
-    downItemCount = [links count];
-    [self updateImagesLink:links containerObject:nil];
+
 }
 
--(void)updateImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
+-(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
 {
+    [self pauseTimer];
     if([links count])
     {
+        downItemCount = [links count];
         [self resetThePlaceImages:links];
     }
     if (containerObj) {
-        _localItems = [containerObj copy];
+        _items  = nil;
+        _items = [containerObj copy];
+    }
+
+}
+
+
+-(void)updateImagesLink:(NSArray *)links targetObjects:(NSArray *)containerObj completedBlock:(CompletedBlock) block
+{
+    if(block)
+    {
+        _finishedDownloadImgsBlock = [block copy];
+    }
+    [self pauseTimer];
+    if([links count])
+    {
+        downItemCount = [links count];
+        [self resetThePlaceImages:links];
+    }
+    if (containerObj) {
+        _items  = nil;
         _items = [containerObj copy];
     }
 }
+
 
 
 -(void)setScrollViewImages:(NSArray *)images
@@ -216,10 +231,17 @@
 {
     if(downItemCount == [_downloadedImages count])
     {
-        if(_internalBlock)
+        //_finishedDownloadImgsBlock use to download single object's total images
+        if(_finishedDownloadImgsBlock)
         {
-            _internalBlock(self.downloadedImages);
-            _internalBlock = nil;
+            _finishedDownloadImgsBlock(self.downloadedImages);
+            _finishedDownloadImgsBlock = nil;
+        }
+        
+        //_finishedLoadingFirImgsBlock use to download mutiple objects' first image
+        if (_finishedLoadingFirImgsBlock) {
+            _finishedLoadingFirImgsBlock(self.downloadFirImagesInfo);
+            _finishedLoadingFirImgsBlock = nil;
         }
     }
 }
@@ -268,9 +290,9 @@
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
         if([manager isRunning])
         {
-            
             if (image) {
                 [weakSelf.downloadedImages addObject:image];
+                [weakSelf.downloadFirImagesInfo setObject:image forKey:[_items[index] valueForKey:@"ID"]];
                 dispatch_barrier_async(_serialQueue, ^{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSLog(@"replace");

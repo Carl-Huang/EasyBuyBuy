@@ -153,7 +153,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }
     if([GlobalMethod isNetworkOk])
     {
-        [autoScrollView updateImagesLink:imagesLink targetObject:_newsObj completedBlock:^(id images) {
+        [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
             //Finish Download
 #if ISUseCacheData
             if([images count])
