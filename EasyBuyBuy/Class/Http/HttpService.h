@@ -345,5 +345,9 @@
 
 -(void)fetchProductNotificationWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 
-
+/*!
+ * 根据商品ID 获取商品详情
+ * @param goods_id   商品ID
+ */
+-(void)getProductDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
 @end

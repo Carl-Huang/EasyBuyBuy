@@ -34,7 +34,10 @@
 @property (strong ,nonatomic) dispatch_group_t  refresh_data_group;
 @property (strong ,nonatomic) dispatch_queue_t  group_queue;
 
+@property (strong ,nonatomic) NSString * currentTag;
+
 - (IBAction)productNotiBtnAction:(id)sender;
 - (IBAction)systemNotiBtnAction:(id)sender;
 -(void)reloadContent;
+-(void)refreshDataSource;
 @end

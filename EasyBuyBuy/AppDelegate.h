@@ -12,6 +12,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (assign, nonatomic) NSInteger badge_num;
-@property (strong, nonatomic) NSMutableArray * sysNotiContainer;
-@property (strong, nonatomic) NSMutableArray * proNotiContainer;
+
 @end

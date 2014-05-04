@@ -149,7 +149,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 {
 
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
-    
+    [self.navigationController.navigationBar setHidden:NO];
     //CycleScrollView configuration
     CGRect rect = _productImageScrollView.bounds;
     
@@ -204,7 +204,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     contentScrollViewRect.size.height = resizeRect.size.height;
     
 
-    productInfoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 320, 400) style:UITableViewStylePlain];
+    productInfoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, _contentScrollView.frame.size.width, 400) style:UITableViewStylePlain];
     productInfoTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     [productInfoTable setBackgroundView:nil];
     [productInfoTable setBackgroundColor:[UIColor clearColor]];

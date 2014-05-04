@@ -7,7 +7,7 @@
 //
 
 #import "MyNotificationViewController+Network.h"
-
+#import "NSMutableArray+AddUniqueObject.h"
 @implementation MyNotificationViewController (Network)
 
 #pragma  mark Product Notification
@@ -56,7 +56,7 @@
 
 -(void)updateProductContent:(id)object
 {
-    [self.productNotiDataSource addObjectsFromArray:object];
+    [self.productNotiDataSource addUniqueFromArray:object];
     [self reloadContent];
 }
 
@@ -106,7 +106,7 @@
 
 -(void)updateSysContent:(id)object
 {
-    [self.systemNotiDataSource addObjectsFromArray:object];
+    [self.systemNotiDataSource addUniqueFromArray:object];
     [self reloadContent];
 }
 #pragma  mark - Network statsu

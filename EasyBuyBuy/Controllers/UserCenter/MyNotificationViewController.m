@@ -17,6 +17,7 @@
 
 #import "MyNotificationViewController.h"
 #import "MyNotificationViewController+Network.h"
+#import "ProductDetailViewControllerViewController.h"
 #import "NotificationCell.h"
 #import "NotiProductCell.h"
 #import "AppDelegate.h"
@@ -97,25 +98,8 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
         [_productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
         [_productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPageSize] forKey:@"pageSize"];
         
+        [self refreshDataSource];
         
-        __typeof(self) __weak weakSelf =self;
-         dispatch_group_enter(self.refresh_data_group);
-        [self fetchingSystemNotificationWithCompletedBlock:^{
-            systemPage +=1;
-            [weakSelf.systemNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
-        }];
-        
-         dispatch_group_enter(self.refresh_data_group);
-        [self fetchingProductNotificationWithCompletedBlock:^{
-            productPage +=1;
-            [weakSelf.productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",productPage] forKey:@"page"];
-        }];
-        
-        dispatch_group_notify(_refresh_data_group, _group_queue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
-            });
-        });
     }else
     {
         //TODO:User must login first ,but not login .Error throw here!
@@ -138,6 +122,27 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
     [systemNotiTable reloadData];
 }
 
+-(void)refreshDataSource
+{
+    __typeof(self) __weak weakSelf =self;
+    dispatch_group_enter(self.refresh_data_group);
+    [self fetchingSystemNotificationWithCompletedBlock:^{
+        systemPage +=1;
+        [weakSelf.systemNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",systemPage] forKey:@"page"];
+    }];
+    
+    dispatch_group_enter(self.refresh_data_group);
+    [self fetchingProductNotificationWithCompletedBlock:^{
+        productPage +=1;
+        [weakSelf.productNotiFetchParmsInfo setValue:[NSString stringWithFormat:@"%d",productPage] forKey:@"page"];
+    }];
+    
+    dispatch_group_notify(_refresh_data_group, _group_queue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+        });
+    });
+}
 #pragma mark - Private
 -(void)initializationLocalString
 {
@@ -155,6 +160,8 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
 {
 //    [self enterNormalModel];
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self.navigationController.navigationBar setHidden:NO];
+    
     self.title = viewControllTitle;
     
     CGRect rect = CGRectMake(0, 0, 320, 371);
@@ -227,8 +234,6 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
 
 -(void)updataDataSource
 {
-    productNotiDataSource = myDelegate.proNotiContainer;
-    systemNotiDataSource  = myDelegate.sysNotiContainer;
     [self.productNotiTable reloadData];
     [self.systemNotiTable reloadData];
 }
@@ -304,25 +309,32 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
 
 -(void)updateUpperBtnStatus
 {
-    NSString * str = [[NSUserDefaults standardUserDefaults]stringForKey:@"SelectedItem"];
-    if (str == nil) {
+    if ([_currentTag length]) {
         [[NSUserDefaults standardUserDefaults]setObject:@"product" forKey:@"SelectedItem"];
         [_productNotiBtn setSelected:YES];
     }else
     {
-        if ([str isEqualToString:@"product"]) {
-            currentPage = 0;
-            [self resetProductNotiButtonStatus:YES];
+        NSString * str = [[NSUserDefaults standardUserDefaults]stringForKey:@"SelectedItem"];
+        if (str == nil) {
+            [[NSUserDefaults standardUserDefaults]setObject:@"product" forKey:@"SelectedItem"];
+            [_productNotiBtn setSelected:YES];
         }else
         {
-            currentPage = 1;
-            [self resetProductNotiButtonStatus:NO];
-            _contentScrollView.delegate = nil;
-            [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
-            _contentScrollView.delegate = self;
-
+            if ([str isEqualToString:@"product"]) {
+                currentPage = 0;
+                [self resetProductNotiButtonStatus:YES];
+            }else
+            {
+                currentPage = 1;
+                [self resetProductNotiButtonStatus:NO];
+                _contentScrollView.delegate = nil;
+                [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+                _contentScrollView.delegate = self;
+                
+            }
         }
     }
+   
 }
 
 -(void)resetProductNotiButtonStatus:(BOOL)isSelectedProduct
@@ -345,6 +357,15 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
     }
 }
 
+-(void)gotoProductDetailViewControllerWithGoodInfo:(Good *)good
+{
+    ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    viewController.title = good.name;
+    [viewController setGood:good];
+    [viewController setIsShouldShowShoppingCar:YES];
+    [self push:viewController];
+    viewController = nil;
+}
 #pragma  mark - Outlet Action
 - (IBAction)productNotiBtnAction:(id)sender {
     _contentScrollView.scrollEnabled = YES;
@@ -391,7 +412,7 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
        return  80.0f;
     }else
     {
-        return 45.0f;
+        return 60.0f;
     }
 }
 
@@ -403,15 +424,29 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
         Good * object = [productNotiDataSource objectAtIndex:indexPath.row];
         cell.cellTitle.text = object.name;
         cell.cellContent.text = object.description;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else
     {
         NotificationCell  * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier_system];
         NotiObj * object = [systemNotiDataSource objectAtIndex:indexPath.row];
         cell.notiTitle.text = object.content;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.tag == ProductTableType) {
+        Good * object = [productNotiDataSource objectAtIndex:indexPath.row];
+        [self gotoProductDetailViewControllerWithGoodInfo:object];
+    }else
+    {
+        NotiObj * object = [systemNotiDataSource objectAtIndex:indexPath.row];
+        
+    }
 }
 
 #pragma mark - UIScrollView

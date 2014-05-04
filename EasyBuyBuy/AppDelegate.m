@@ -12,11 +12,15 @@
 
 #import "SDURLCache.h"
 #import "APService.h"
+#import "Good.h"
 #import "AFNetworkReachabilityManager.h"
+#import "MyNotificationViewController.h"
+#import "ProductDetailViewControllerViewController.h"
 @interface AppDelegate()
 {
     SDURLCache *urlCache;
     AFNetworkReachabilityManager * reachbilityMng;
+    UIApplicationState previouseAppState;
 }
 @end
 
@@ -30,6 +34,7 @@
     if (remoteNotif) {
         [self application:application didReceiveRemoteNotification:remoteNotif];
     }
+    application.applicationIconBadgeNumber = 0;
     [self configureAppEnviroment:launchOptions];
 
     
@@ -56,6 +61,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [reachbilityMng stopMonitoring];
+    previouseAppState = application.applicationState;
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -98,23 +104,69 @@
 #if TARGET_OS_IPHONE
     [APService handleRemoteNotification:userInfo];
 #endif
+    NSLog(@"%@",userInfo);
     
+
+    if (application.applicationState == UIApplicationStateInactive && previouseAppState == UIApplicationStateBackground) {
+        previouseAppState = UIApplicationStateActive;
+        UINavigationController * nav = (UINavigationController *) self.window.rootViewController;
+        NSArray * viewControllers = nav.viewControllers;
+
+        NSString * type = [NSString stringWithFormat:@"%@",userInfo[@"is_system"]];
+        if ([type isEqualToString:@"0"] ) {
+            //商品信息推送
+            BOOL isInProductDetailViewController = NO;
+            ProductDetailViewControllerViewController * viewContorller = nil;
+            for (UIViewController * vc in viewControllers) {
+                if([vc isKindOfClass:[ProductDetailViewControllerViewController class]])
+                {
+                    viewContorller = (ProductDetailViewControllerViewController *)vc;
+                    isInProductDetailViewController = YES;
+                }
+            }
+            if(!isInProductDetailViewController)
+            {
+                __weak AppDelegate * weakSelf =self;
+                [MBProgressHUD showHUDAddedTo:nav.view animated:YES];
+                [[HttpService sharedInstance]getProductDetailWithParams:@{@"goods_id":userInfo[@"id"]} completionBlock:^(id object) {
+                    if([object count])
+                    {
+                        Good * obj = [object objectAtIndex:0];
+                        [weakSelf gotoProductDetailViewControllerWithGoodInfo:obj];
+                    }
+                    [MBProgressHUD hideHUDForView:nav.view animated:YES];
+                } failureBlock:^(NSError *error, NSString *responseString) {
+                    [MBProgressHUD hideHUDForView:nav.view animated:YES];
+                }];
+               
+            }
+        }else
+        {
+            //系统信息推送
+            BOOL isInMyNotificationViewController = NO;
+            MyNotificationViewController * viewContorller = nil;
+            for (UIViewController * vc in viewControllers) {
+                if([vc isKindOfClass:[MyNotificationViewController class]])
+                {
+                    viewContorller = (MyNotificationViewController *)vc;
+                    isInMyNotificationViewController = YES;
+                }
+            }
+            if(!isInMyNotificationViewController)
+            {
+                viewContorller = [[MyNotificationViewController alloc]initWithNibName:@"MyNotificationViewController" bundle:nil];
+                [viewContorller setCurrentTag:@"System"];
+                [nav pushViewController:viewContorller animated:YES];
+                viewContorller  = nil;
+            }else
+            {
+                [viewContorller refreshDataSource];
+            }
+        }
+    }
     if (application.applicationState == UIApplicationStateActive) {
         [self showNotification:userInfo];
     }
-    NSLog(@"%@",userInfo);
-    NSString * type = [NSString stringWithFormat:@"%@",userInfo[@"is_system"]];
-    if ([type isEqualToString:@"0"] ) {
-        //商品信息推送
-        [_proNotiContainer addObject:userInfo];
-    }else
-    {
-        //系统信息推送
-        [_sysNotiContainer addObject:userInfo];
-    }
-    //发送消息更新数据
-    [[NSNotificationCenter defaultCenter]postNotificationName:UpdataLocalNotificationStore object:nil];
-    
 }
 
 
@@ -136,11 +188,12 @@
 #pragma mark - Private
 -(void)configureAppEnviroment:(NSDictionary *)launchOptions
 {
-    _badge_num = 0;
-    _sysNotiContainer = [NSMutableArray array];
-    _proNotiContainer = [NSMutableArray array];
     
-    
+    [[UIApplication sharedApplication]
+     registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeAlert |
+      UIRemoteNotificationTypeBadge |
+      UIRemoteNotificationTypeSound)];
 #if TARGET_OS_IPHONE
 
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
@@ -245,4 +298,15 @@
     });
 }
 
+-(void)gotoProductDetailViewControllerWithGoodInfo:(Good *)good
+{
+    UINavigationController * nav = (UINavigationController *) self.window.rootViewController;
+
+    ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    viewController.title = good.name;
+    [viewController setGood:good];
+    [viewController setIsShouldShowShoppingCar:YES];
+    [nav pushViewController:viewController animated:YES];
+    viewController = nil;
+}
 @end
