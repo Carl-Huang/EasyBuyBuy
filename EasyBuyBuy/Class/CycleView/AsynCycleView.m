@@ -101,7 +101,6 @@
             [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object completedBlock:^(id object) {
                 [weakSelf startTimer];
             }];
-            
         }
     };
     [_cycleViewParentView addSubview:autoScrollView];

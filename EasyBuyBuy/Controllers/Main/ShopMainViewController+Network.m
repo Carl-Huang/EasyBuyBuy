@@ -80,6 +80,7 @@
             }
         });
     }
+    
     [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
 }
 
