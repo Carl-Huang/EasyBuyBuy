@@ -13,6 +13,10 @@
 #import "CycleScrollView.h"
 #import "HttpService.h"
 #import "SDWebImageManager.h"
+//#import "Scroll_Item_Info.h"
+//#import "Scroll_Item.h"
+//#import "News_Scroll_item.h"
+//#import "News_Scroll_Item_Info.h"
 
 @interface AsynCycleView()
 {
@@ -28,11 +32,14 @@
     NSArray * internalLinks;
     NSInteger downItemCount;
     id targetObject;
+    NSString * _flag;
+    Class     _type;
 }
 @property (strong ,nonatomic) NSMutableArray * placeHolderImages;
 @property (strong ,nonatomic) NSMutableArray * networkImages;
 @property (strong ,nonatomic) UIImage * placeHoderImage;
 @property (strong ,nonatomic) NSArray * items;
+@property (strong ,nonatomic) NSArray * localItems;
 
 @property (strong ,nonatomic) CompletedBlock  internalBlock;
 @property (strong ,nonatomic) NSMutableArray * downloadedImages;
@@ -59,7 +66,7 @@
         _serialQueue = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_SERIAL);
         _downloadedImages = [NSMutableArray array];
         [self initializationInterface];
-
+        _flag = nil;
     }
     return self;
 }
@@ -135,6 +142,7 @@
         [self resetThePlaceImages:links];
     }
     if (containerObj) {
+        _localItems = [containerObj copy];
         _items = [containerObj copy];
     }
 }
@@ -152,6 +160,12 @@
      });
 }
 
+-(void)setFetchLocalFlag:(NSString *)flag type:(Class)type
+{
+    _flag = flag;
+    _type = type;
+}
+
 -(void)cleanAsynCycleView
 {
     [manager cancelAll];
@@ -160,6 +174,7 @@
     autoScrollView = nil;
     internalLinks = nil;
     _items = nil;
+    _localItems = nil;
     _serialQueue = nil;
 }
 
@@ -298,6 +313,7 @@
     [self configureCycleViewContent];
 
 }
+
 
 -(void)dealloc
 {

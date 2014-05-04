@@ -294,6 +294,7 @@
     CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
      autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.view];
     autoScrollView.delegate = self;
+    [autoScrollView setFetchLocalFlag:@"Main" type:[Scroll_Item class]];
     [self fetchAdvertisementViewData];
 }
 

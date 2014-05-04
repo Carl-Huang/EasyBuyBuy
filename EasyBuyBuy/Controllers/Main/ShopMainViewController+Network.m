@@ -211,62 +211,69 @@
 {
     __typeof(self) __weak weakSelf = self;
     NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Main"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        if([scrollItems count])
-        {
-            NSMutableArray * localImages = [NSMutableArray array];
-            for (Scroll_Item * object in scrollItems) {
-                NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previouseImg];
-                for (UIImage * img in array) {
-                    if([img isKindOfClass:[UIImage class]])
-                    {
-                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+    if([scrollItems count])
+    {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            if([scrollItems count])
+            {
+                NSMutableArray * localImages = [NSMutableArray array];
+                for (Scroll_Item * object in scrollItems) {
+                    NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previouseImg];
+                    for (UIImage * img in array) {
+                        if([img isKindOfClass:[UIImage class]])
+                        {
+                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        }
+                        break;
                     }
-                    break;
+                }
+                if ([localImages count]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.autoScrollView setScrollViewImages:localImages];
+                    });
                 }
             }
-            if ([localImages count]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.autoScrollView setScrollViewImages:localImages];
-                });
-            }
-        }
-    });
-    [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
+        });
+        [weakSelf.autoScrollView updateImagesLink:nil containerObject:scrollItems];
+    }
+    
 }
 
 -(void)fetchNewsFromLocal
 {
     __typeof(self) __weak weakSelf = self;
     NSArray * scrollItems = [News_Scroll_item MR_findByAttribute:@"tag" withValue:@"Main"];
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if([scrollItems count])
-        {
-            NSMutableArray * localImages = [NSMutableArray array];
-            for (News_Scroll_item * object in scrollItems) {
-                NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previousImg];
-                for (UIImage * img in array) {
-                    if([img isKindOfClass:[UIImage class]])
-                    {
-                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+    if ([scrollItems count]) {
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if([scrollItems count])
+            {
+                NSMutableArray * localImages = [NSMutableArray array];
+                for (News_Scroll_item * object in scrollItems) {
+                    NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previousImg];
+                    for (UIImage * img in array) {
+                        if([img isKindOfClass:[UIImage class]])
+                        {
+                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        }
+                        break;
                     }
-                    break;
+                }
+                if ([localImages count]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.autoScrollNewsView setScrollViewImages:localImages];
+                    });
                 }
             }
-            if ([localImages count]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.autoScrollNewsView setScrollViewImages:localImages];
-                });
-            }
-        }
-    });
-    
-    [weakSelf.autoScrollNewsView updateNetworkImagesLink:nil containerObject:scrollItems];
+        });
+        
+        [weakSelf.autoScrollView updateImagesLink:nil containerObject:scrollItems];
+    }
+   
 }
-
-
 #pragma mark - Network Checking
+
+
 
 /**
  *  Compare the Local Cache Data with the Data Fetching from the intenet.

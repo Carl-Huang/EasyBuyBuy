@@ -21,7 +21,9 @@
 #import "AFURLRequestSerialization.h"
 #import "Parent_Category_Shop.h"
 #import "Parent_Category_Factory.h"
-
+#import "Scroll_Item.h"
+#import "Scroll_Item_Info.h"
+#import "CDToOB.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate,AsyCycleViewDelegate,NSURLConnectionDelegate>
@@ -35,15 +37,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
     EGORefreshTableFooterView * footerView;
     BOOL                        _reloading;
     OtherLinkView * linkView;
-    AsynCycleView * autoScrollView;
-
 }
 @property (strong ,nonatomic) NSOperationQueue * workingQueue;
 @property (strong ,nonatomic) dispatch_group_t  refresh_data_group;
 @property (strong ,nonatomic) dispatch_queue_t  group_queue;
+@property (strong ,nonatomic) AsynCycleView * autoScrollView;
 @end
 
 @implementation ShopViewController
+@synthesize autoScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,13 +72,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [autoScrollView pauseTimer];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [autoScrollView startTimer];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -162,15 +164,22 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)gotoParentViewController
 {
     [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)addAdvertisementView
 {
-
     CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
     autoScrollView.delegate = self;
+    
+    
+#if ISUseCacheData
+    //Fetch the data in local
+    [self fetchAdFromLocal];
+#endif
     
     //Fetching the Ad form server
     dispatch_group_enter(_refresh_data_group);
@@ -303,6 +312,48 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)refreshAdContent:(NSArray *)objects
 {
+#if ISUseCacheData
+    for(AdObject * object in objects)
+    {
+        BOOL isShouldAdd = YES;
+        NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Shop"];
+        Scroll_Item * adItem = nil;
+        for (Scroll_Item * tempObj in scrollItems) {
+            if ([tempObj.itemID isEqualToString:object.ID]) {
+                adItem = tempObj;
+                isShouldAdd = NO;
+                break;
+            }
+        }
+        if(isShouldAdd)
+        {
+            Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
+            scrollItem.itemID   =object.ID;
+            scrollItem.tag      = @"Shop";
+            Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+            itemInfo.itemID     = object.ID;
+            itemInfo.language   = object.language;
+            itemInfo.title      = object.title;
+            itemInfo.status     = object.status;
+            itemInfo.type       = object.type;
+            itemInfo.update_time = object.update_time;
+            itemInfo.add_time   = object.add_time;
+            itemInfo.content    = object.content;
+            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+            itemInfo.image      = arrayData;
+            scrollItem.item     = itemInfo;
+            
+        }else
+        {
+            [CDToOB updateAd:adItem.item withObj:object];
+        }
+        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+            ;
+        }];
+        
+    }
+#endif
+    
     NSMutableArray * imagesLink = [NSMutableArray array];
     for (AdObject * news in objects) {
         if([news.image count])
@@ -312,13 +363,44 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
 }
+
+
+-(void)fetchAdFromLocal
+{
+    __typeof(self) __weak weakSelf = self;
+    NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Shop"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        if([scrollItems count])
+        {
+            NSMutableArray * localImages = [NSMutableArray array];
+            for (Scroll_Item * object in scrollItems) {
+                NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previouseImg];
+                for (UIImage * img in array) {
+                    if([img isKindOfClass:[UIImage class]])
+                    {
+                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                    }
+                    break;
+                }
+            }
+            if ([localImages count]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.autoScrollView setScrollViewImages:localImages];
+                });
+            }
+        }
+    });
+    [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
+}
+
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if ([GlobalMethod isNetworkOk]) {
         if (object) {
             AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
-            [viewController setAdObj:object];
+            [viewController initializationContentWithObj:object completedBlock:compltedBlock];
             [self push:viewController];
             viewController =  nil;
         }

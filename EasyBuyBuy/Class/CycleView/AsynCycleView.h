@@ -40,6 +40,8 @@ typedef void (^CompletedBlock) (id object);
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
 
 -(void)updateImagesLink:(NSArray *)links targetObject:(id)object completedBlock:(CompletedBlock) block;
+-(void)updateImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj;
+-(void)setFetchLocalFlag:(NSString *)flag type:(Class)type;
 -(void)setScrollViewImages:(NSArray *)images;
 
 -(void)cleanAsynCycleView;
