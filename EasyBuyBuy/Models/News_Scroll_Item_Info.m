@@ -2,7 +2,7 @@
 //  News_Scroll_Item_Info.m
 //  EasyBuyBuy
 //
-//  Created by vedon on 30/4/14.
+//  Created by vedon on 4/5/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -17,11 +17,11 @@
 @dynamic image;
 @dynamic itemID;
 @dynamic language;
+@dynamic previousImg;
 @dynamic status;
 @dynamic title;
 @dynamic type;
 @dynamic update_time;
-@dynamic previousImg;
 @dynamic newsInfo;
 
 @end

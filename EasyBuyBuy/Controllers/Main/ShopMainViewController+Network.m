@@ -94,7 +94,7 @@
         for(AdObject * object in objects)
         {
             BOOL isShouldAdd = YES;
-            NSArray * scrollItems = [Scroll_Item MR_findAll];
+            NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Main"];
             Scroll_Item * adItem = nil;
             for (Scroll_Item * tempObj in scrollItems) {
                 if ([tempObj.itemID isEqualToString:object.ID]) {
@@ -107,7 +107,7 @@
             {
                 Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
                 scrollItem.itemID   =object.ID;
-                
+                scrollItem.tag      = @"Main";
                 Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
                 itemInfo.itemID     = object.ID;
                 itemInfo.language   = object.language;
@@ -155,7 +155,7 @@
         for(news * object in objects)
         {
             BOOL isShouldAdd = YES;
-            NSArray * scrollItems = [News_Scroll_item MR_findAll];
+            NSArray * scrollItems = [News_Scroll_item MR_findByAttribute:@"tag" withValue:@"Main"];
             News_Scroll_item * newItems = nil;
             for (News_Scroll_item * tempObj in scrollItems) {
                 if ([tempObj.itemID isEqualToString:object.ID]) {
@@ -168,7 +168,7 @@
             {
                 News_Scroll_item * scrollItem = [News_Scroll_item MR_createEntity];
                 scrollItem.itemID   =object.ID;
-                
+                scrollItem.tag      = @"Main";
                 News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
                 itemInfo.itemID     = object.ID;
                 itemInfo.language   = object.language;
@@ -210,7 +210,7 @@
 -(void)fetchAdFromLocal
 {
     __typeof(self) __weak weakSelf = self;
-    NSArray * scrollItems = [Scroll_Item MR_findAll];
+    NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Main"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         if([scrollItems count])
@@ -236,12 +236,10 @@
     [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
 }
 
-
-#pragma mark - Network Checking
 -(void)fetchNewsFromLocal
 {
-     __typeof(self) __weak weakSelf = self;
-    NSArray * scrollItems = [News_Scroll_item MR_findAll];
+    __typeof(self) __weak weakSelf = self;
+    NSArray * scrollItems = [News_Scroll_item MR_findByAttribute:@"tag" withValue:@"Main"];
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([scrollItems count])
         {
@@ -267,6 +265,8 @@
     [weakSelf.autoScrollNewsView updateNetworkImagesLink:nil containerObject:scrollItems];
 }
 
+
+#pragma mark - Network Checking
 
 /**
  *  Compare the Local Cache Data with the Data Fetching from the intenet.

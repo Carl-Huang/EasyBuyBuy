@@ -19,6 +19,7 @@
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="itemID" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="News_Scroll_Item_Info" inverseName="newsInfo" inverseEntity="News_Scroll_Item_Info" syncable="YES"/>
     </entity>
     <entity name="News_Scroll_Item_Info" representedClassName="News_Scroll_Item_Info" syncable="YES">
@@ -56,6 +57,7 @@
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="itemID" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Scroll_Item_Info" inverseName="itemInfo" inverseEntity="Scroll_Item_Info" syncable="YES"/>
     </entity>
     <entity name="Scroll_Item_Info" representedClassName="Scroll_Item_Info" syncable="YES">

@@ -2,7 +2,7 @@
 //  Scroll_Item.m
 //  EasyBuyBuy
 //
-//  Created by vedon on 29/4/14.
+//  Created by vedon on 4/5/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 @dynamic imageData;
 @dynamic imagePath;
 @dynamic itemID;
+@dynamic tag;
 @dynamic item;
 
 @end
