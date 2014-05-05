@@ -158,7 +158,9 @@ static NSString * cellIdentifier = @"cellidentifier";
     for (news * newsOjb in homePageNews) {
         [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
+    if (autoScrollView) {
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
+    }
 }
 
 -(void)setFooterView{
@@ -233,6 +235,7 @@ static NSString * cellIdentifier = @"cellidentifier";
 -(void)gotoParentViewController
 {
     [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -14,6 +14,7 @@
 @property (strong ,nonatomic) news * newsObj;
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
+@property (weak, nonatomic) IBOutlet UIWebView *contentWebView;
 
 
 -(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)completedBlock;

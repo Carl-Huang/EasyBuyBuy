@@ -77,10 +77,6 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     [super viewWillAppear:YES];
     [autoScrollView startTimer];
 }
--(void)dealloc
-{
-    [autoScrollView cleanAsynCycleView];
-}
 
 
 #pragma mark - Private
@@ -101,7 +97,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 {
    
     self.title = viewControllTitle;
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
     [self.navigationController.navigationBar setHidden:NO];
     
     if ([OSHelper iOS7]) {
@@ -174,7 +170,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    if ([imagesLink count]) {
+    if ([imagesLink count]&&autoScrollView) {
         [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil];
     }
 }
@@ -200,6 +196,12 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     viewController = nil;
 }
 
+-(void)gotoParentViewController
+{
+    [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

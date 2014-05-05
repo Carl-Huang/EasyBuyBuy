@@ -78,10 +78,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     }
     [autoScrollView startTimer];
 }
--(void)dealloc
-{
-    [autoScrollView cleanAsynCycleView];
-}
+
 #pragma  mark - Outlet Action
 -(void)putInCarAction:(id)sender
 {
@@ -148,7 +145,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 -(void)initializationInterface
 {
 
-    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewcontroller)];
     [self.navigationController.navigationBar setHidden:NO];
     //CycleScrollView configuration
     CGRect rect = _productImageScrollView.bounds;
@@ -247,7 +244,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    if ([imagesLink count]) {
+    if ([imagesLink count]&&autoScrollView) {
         [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil];
     }
 }
@@ -265,6 +262,12 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     }
 }
 
+-(void)gotoParentViewcontroller
+{
+    [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
 #pragma mark Table
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

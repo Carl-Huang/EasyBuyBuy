@@ -132,6 +132,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [self addNewsView];
     [self refreshNewContent];
     if (_newsObj) {
+        NSString * content = [[_newsObj valueForKey:@"title"]stringByAppendingString:[_newsObj valueForKey:@"content"]];
+        
+        [_contentWebView loadHTMLString:content baseURL:nil];
         dataSource = @[[_newsObj valueForKey:@"title"],[_newsObj valueForKey:@"content"]];
     }
 }
@@ -153,30 +156,34 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }
     if([GlobalMethod isNetworkOk])
     {
-        [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
-            //Finish Download
+        if(autoScrollView)
+        {
+            [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
+                //Finish Download
 #if ISUseCacheData
-            if([images count])
-            {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSString * targetID = [_newsObj valueForKey:@"ID"];
-                    //Fetch the data in local
-                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                        NSArray * scrollItems = [News_Scroll_item MR_findAllInContext:localContext];
-                        for (News_Scroll_item * object in scrollItems) {
-                            if([object.itemID isEqualToString:targetID])
-                            {
-                                NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
-                                object.item.previousImg = data;
-                                [CDToOB updateNews:object.item withObj:_newsObj];
-                                break;
+                if([images count])
+                {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        NSString * targetID = [_newsObj valueForKey:@"ID"];
+                        //Fetch the data in local
+                        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                            NSArray * scrollItems = [News_Scroll_item MR_findAllInContext:localContext];
+                            for (News_Scroll_item * object in scrollItems) {
+                                if([object.itemID isEqualToString:targetID])
+                                {
+                                    NSData * data = [NSKeyedArchiver archivedDataWithRootObject:images];
+                                    object.item.previousImg = data;
+                                    [CDToOB updateNews:object.item withObj:_newsObj];
+                                    break;
+                                }
                             }
-                        }
-                    }];
-                });
-            }
+                        }];
+                    });
+                }
 #endif
-        }];
+            }];
+        }
+
  
     }else
     {

@@ -165,7 +165,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
-
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -361,7 +360,11 @@ static NSString * cellIdentifier = @"cellIdentifier";
             [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
         }
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    if(autoScrollView)
+    {
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    }
+    
 }
 
 

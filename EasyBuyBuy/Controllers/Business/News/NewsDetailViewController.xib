@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="adView" destination="sqZ-VT-D6i" id="Pof-3X-3Kx"/>
                 <outlet property="contentTable" destination="ZzW-zp-1Dc" id="p9z-kb-dFI"/>
+                <outlet property="contentWebView" destination="Trw-Oq-529" id="ZBj-db-VP3"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -30,7 +31,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ZzW-zp-1Dc">
+                        <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ZzW-zp-1Dc">
                             <rect key="frame" x="5" y="94" width="310" height="298"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -39,6 +40,11 @@
                                 <outlet property="delegate" destination="-1" id="X4V-wN-TBB"/>
                             </connections>
                         </tableView>
+                        <webView contentMode="scaleToFill" id="Trw-Oq-529">
+                            <rect key="frame" x="0.0" y="118" width="320" height="298"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </webView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

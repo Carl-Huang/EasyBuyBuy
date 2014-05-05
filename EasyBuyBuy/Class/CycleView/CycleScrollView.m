@@ -111,7 +111,7 @@
         UIImageView * tempImageView = [[UIImageView alloc]initWithImage:contentView.image];
         tempImageView.frame = self.bounds;
         tempImageView.userInteractionEnabled = YES;
-//        contentView.contentMode = UIViewContentModeScaleAspectFit;
+//        tempImageView.contentMode = UIViewContentModeScaleAspectFit;
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewTapAction:)];
         [tempImageView addGestureRecognizer:tapGesture];

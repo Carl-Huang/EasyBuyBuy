@@ -43,6 +43,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     
     NSInteger start;
     NSInteger end;
+    CGRect originalContainerRect;
     
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
@@ -96,6 +97,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     popupItemIndex = index;
     start = range.location;
     end = range.location + range.length;
+    originalContainerRect = _containerView.frame;
     
     for (int i = 0 ;i< [dataSource count]; ++i) {
         NSString * contentTitle  = [dataSource objectAtIndex:i];
@@ -533,13 +535,9 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.3 animations:^{
-        [GlobalMethod updateContentView:_containerView withPosition:currentTouchLocation criticalValueToResize:250 postion:TOP offset:CGPointMake(0, -160)];
+        [GlobalMethod updateContentView:_containerView withPosition:currentTouchLocation criticalValueToResize:200 postion:CENTER offset:CGPointMake(0, -130)];
     }];
-    
-    //    NSInteger textFieldTag = textField.tag;
-    //    [UIView animateWithDuration:0.3 animations:^{
-    //        ;
-    //    }];
+
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -553,10 +551,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         [textField resignFirstResponder];
         
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect rect = _containerView.frame;
-            rect.origin.x = 0;
-            rect.origin.y = 0 ;
-            _containerView.frame = rect;
+            _containerView.frame = originalContainerRect;
         }];
         
         return NO;

@@ -160,7 +160,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(void)gotoParentViewController
 {
     [autoScrollView cleanAsynCycleView];
-    
+    autoScrollView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -173,7 +173,11 @@ static NSString * imageCellIdentifier = @"imageCell";
             [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
         }
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    if(autoScrollView)
+    {
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    }
+    
 }
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock

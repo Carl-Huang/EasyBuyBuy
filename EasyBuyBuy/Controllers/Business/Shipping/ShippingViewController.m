@@ -146,6 +146,7 @@
 -(void)gotoParentViewController
 {
     [autoScrollView cleanAsynCycleView];
+    autoScrollView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -158,7 +159,9 @@
             [imagesLink addObject:[[news.image objectAtIndex:0] valueForKey:@"image"]];
         }
     }
-    [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    if (autoScrollView) {
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+    }
 }
 #pragma mark AsynViewDelegate
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
@@ -175,7 +178,7 @@
     User * user = [User getUserFromLocal];
     if (user) {
         if ([self isCanPublic]) {
-            ;
+            [self publicWithUser:user];
         }
     }else
     {
