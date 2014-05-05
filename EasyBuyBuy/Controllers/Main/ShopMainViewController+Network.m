@@ -14,6 +14,7 @@
 #pragma mark - 获取广告信息
 -(void)fetchAdvertisementViewData
 {
+    dispatch_group_enter(self.refresh_data_group);
 #if ISUseCacheData
     //Fetch the data in local
     [self fetchAdFromLocal];
@@ -53,7 +54,14 @@
 -(void)fetchAdFromLocal
 {
     __typeof(self) __weak weakSelf = self;
-    NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Main"];
+    NSArray * totalAds = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Main"];
+    NSMutableArray * scrollItems =[NSMutableArray array];
+    NSString * currentLanguage = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
+    for (Scroll_Item * obj in totalAds) {
+        if ([obj.language isEqualToString:currentLanguage]) {
+            [scrollItems addObject:obj];
+        }
+    }
     if([scrollItems count])
     {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -105,6 +113,8 @@
                 Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
                 scrollItem.itemID   = object.ID;
                 scrollItem.tag      = @"Main";
+                scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
+                
                 Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
                 itemInfo.itemID     = object.ID;
                 itemInfo.language   = object.language;
@@ -164,6 +174,7 @@
 #pragma mark - 获取新闻信息
 -(void)fetchNewsViewData
 {
+    dispatch_group_enter(self.refresh_data_group);
 #if ISUseCacheData
      //Fetch the data in local
     NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
@@ -222,6 +233,7 @@
                 News_Scroll_item * scrollItem = [News_Scroll_item MR_createEntity];
                 scrollItem.itemID   =object.ID;
                 scrollItem.tag      = @"Main";
+                scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
                 News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
                 itemInfo.itemID     = object.ID;
                 itemInfo.language   = object.language;
@@ -280,7 +292,15 @@
 -(void)fetchNewsFromLocal
 {
     __typeof(self) __weak weakSelf = self;
-    NSArray * scrollItems = [News_Scroll_item MR_findByAttribute:@"tag" withValue:@"Main"];
+    NSArray * totalNews = [News_Scroll_item MR_findByAttribute:@"tag" withValue:@"Main"];
+    NSMutableArray * scrollItems =[NSMutableArray array];
+    NSString * currentLanguage = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
+    for (News_Scroll_item * obj in totalNews) {
+        if ([obj.language isEqualToString:currentLanguage]) {
+            [scrollItems addObject:obj];
+        }
+    }
+    
     if ([scrollItems count]) {
         dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if([scrollItems count])

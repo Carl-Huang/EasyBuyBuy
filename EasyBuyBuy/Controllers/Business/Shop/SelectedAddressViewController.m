@@ -165,7 +165,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
             ;
         }];
         _defaultAddress = nil;
-        [self popVIewController];
+        [self popViewController];
     }
    
 }

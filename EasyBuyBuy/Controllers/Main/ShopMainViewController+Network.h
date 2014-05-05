@@ -14,6 +14,7 @@
 
 -(void)fetchAdvertisementViewData;
 -(void)fetchNewsViewData;
+
 -(void)updateNewsContent;
 -(void)updateAdContent;
 

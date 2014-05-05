@@ -283,7 +283,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 1001) {
-        [self popVIewController];
+        [self popViewController];
     }
 }
 

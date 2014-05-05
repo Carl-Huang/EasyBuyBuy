@@ -110,7 +110,7 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
         [[HttpService sharedInstance]addAddressWithParams:@{@"user_id":user.user_id,@"zip":@"123",@"name":name,@"phone":phone,@"address":address,@"telephone":telNum} completionBlock:^(BOOL isSuccess) {
             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             if (isSuccess) {
-                [weakSelf popVIewController];
+                [weakSelf popViewController];
             }
             
         } failureBlock:^(NSError *error, NSString *responseString) {

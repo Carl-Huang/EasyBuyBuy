@@ -484,7 +484,7 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     [[NSUserDefaults standardUserDefaults]setObject:nil forKey:UserAvatar];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
-    [self popVIewController];
+    [self popViewController];
 }
 
 

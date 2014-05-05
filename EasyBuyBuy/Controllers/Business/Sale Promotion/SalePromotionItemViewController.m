@@ -150,7 +150,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         {
             [weakSelf showAlertViewWithMessage:@"No Product available"];
             isFetchingDataError = YES;
-            [weakSelf popVIewController];
+            [weakSelf popViewController];
 
         }
     } failureBlock:^(NSError *error, NSString *responseString) {

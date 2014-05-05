@@ -54,7 +54,7 @@
  @desc 返回上一个VIewController
  @return void
   */
-- (void)popVIewController;
+- (void)popViewController;
 /**
  @desc 返回RootVIewController
  @return void

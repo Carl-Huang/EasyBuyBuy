@@ -50,7 +50,7 @@
     NSInteger page_Region;
     NSInteger pageSize_Region;
     
-
+    NSString * previousLanguage;
 }
 
 @end
@@ -95,13 +95,35 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
     
     [self initializationInterface];
+    previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
 }
 
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
     [self.navigationController.navigationBar setHidden:YES];
+    if(![previousLanguage isEqualToString:[[LanguageSelectorMng shareLanguageMng]currentLanguageType]])
+    {
+        //User have change the default language ,so we need to fetch the news base
+        //on the language in the app .
+        [self.autoScrollNewsView cleanAsynCycleView];
+        [self.autoScrollView cleanAsynCycleView];
+        self.autoScrollView = nil;
+        self.autoScrollNewsView = nil;
+        
+
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self addAdvertisementView];
+        [self addNewsView];
+        
+        dispatch_group_notify(refresh_data_group, group_queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+            
+        });
+        previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -176,9 +198,7 @@
     [myDelegate.window addSubview:maskView];
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_group_enter(self.refresh_data_group);
     [self addAdvertisementView];
-    dispatch_group_enter(self.refresh_data_group);
     [self addNewsView];
     
     dispatch_group_notify(refresh_data_group, group_queue, ^{

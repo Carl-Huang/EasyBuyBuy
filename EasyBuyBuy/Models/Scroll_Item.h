@@ -2,7 +2,7 @@
 //  Scroll_Item.h
 //  EasyBuyBuy
 //
-//  Created by vedon on 4/5/14.
+//  Created by vedon on 5/5/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString * imagePath;
 @property (nonatomic, retain) NSString * itemID;
 @property (nonatomic, retain) NSString * tag;
+@property (nonatomic, retain) NSString * language;
 @property (nonatomic, retain) Scroll_Item_Info *item;
 
 @end

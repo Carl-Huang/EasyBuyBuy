@@ -214,7 +214,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (_totalPageCount != 1) {
                 CGFloat offsetX = ceil(self.scrollView.contentOffset.x /320) * 320;
-                NSLog(@"%f",offsetX);
                 CGPoint newOffset = CGPointMake(320 + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
                 [self.scrollView setContentOffset:newOffset animated:YES];
             }
