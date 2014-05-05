@@ -109,6 +109,7 @@
 		4EB3451A1913630E00F10742 /* MyNotificationViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB345191913630E00F10742 /* MyNotificationViewController+Network.m */; };
 		4EB3451F191388F600F10742 /* NotiProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB3451E191388F600F10742 /* NotiProductCell.m */; };
 		4EB345211913892100F10742 /* NotiProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB345201913892100F10742 /* NotiProductCell.xib */; };
+		4EB382DD19172C96001CD100 /* AppDelegate+BackgroundTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB382DC19172C96001CD100 /* AppDelegate+BackgroundTask.m */; };
 		4EB3E99E18EC5A8400CDEE19 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99618EC5A8400CDEE19 /* blackArrow.png */; };
 		4EB3E99F18EC5A8400CDEE19 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */; };
 		4EB3E9A018EC5A8400CDEE19 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99818EC5A8400CDEE19 /* blueArrow.png */; };
@@ -471,6 +472,8 @@
 		4EB3451D191388F600F10742 /* NotiProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiProductCell.h; sourceTree = "<group>"; };
 		4EB3451E191388F600F10742 /* NotiProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiProductCell.m; sourceTree = "<group>"; };
 		4EB345201913892100F10742 /* NotiProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotiProductCell.xib; sourceTree = "<group>"; };
+		4EB382DB19172C96001CD100 /* AppDelegate+BackgroundTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+BackgroundTask.h"; sourceTree = "<group>"; };
+		4EB382DC19172C96001CD100 /* AppDelegate+BackgroundTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+BackgroundTask.m"; sourceTree = "<group>"; };
 		4EB3E99618EC5A8400CDEE19 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
 		4EB3E99718EC5A8400CDEE19 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
 		4EB3E99818EC5A8400CDEE19 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
@@ -1467,6 +1470,8 @@
 				C33EEBED189667B200A26971 /* Resources */,
 				C33EEBB1189666F900A26971 /* AppDelegate.h */,
 				C33EEBB2189666F900A26971 /* AppDelegate.m */,
+				4EB382DB19172C96001CD100 /* AppDelegate+BackgroundTask.h */,
+				4EB382DC19172C96001CD100 /* AppDelegate+BackgroundTask.m */,
 				C33EEBB4189666F900A26971 /* Images.xcassets */,
 				4EC2079018C57754003708D6 /* Vendor */,
 				C33EEBA9189666F900A26971 /* Supporting Files */,
@@ -1937,6 +1942,7 @@
 				4EB422F118F51E6900DF2053 /* SearchResultViewController.m in Sources */,
 				4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */,
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
+				4EB382DD19172C96001CD100 /* AppDelegate+BackgroundTask.m in Sources */,
 				4EB7E7CE1915D0D100B4C9B9 /* News_Scroll_item.m in Sources */,
 				4EB4A6AA1905042F00606A39 /* NewsDetailViewController.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,

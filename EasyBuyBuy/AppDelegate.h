@@ -12,5 +12,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (assign, nonatomic) NSInteger badge_num;
-
+@property (strong, nonatomic) NSMutableDictionary * completionHandlerDictionary;
 @end

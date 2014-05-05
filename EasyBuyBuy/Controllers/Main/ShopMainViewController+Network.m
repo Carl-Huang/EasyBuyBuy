@@ -19,7 +19,6 @@
     [self fetchAdFromLocal];
 #endif
     if ([GlobalMethod isNetworkOk]) {
-        
         NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
             [self startFetchAdData];
         }];
@@ -307,7 +306,7 @@
         
       
     }
-   [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
+   [weakSelf.autoScrollNewsView updateNetworkImagesLink:nil containerObject:scrollItems];
 }
 #pragma mark - Network Checking
 

@@ -96,11 +96,12 @@
             id object = nil;
             if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
                 object = [weakSelf.items objectAtIndex:pageIndex];
+                [weakSelf pauseTimer];
             }
-            [weakSelf pauseTimer];
             [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object completedBlock:^(id object) {
                 [weakSelf startTimer];
             }];
+            
         }
     };
     [_cycleViewParentView addSubview:autoScrollView];

@@ -98,7 +98,7 @@
 
 }
 
-
+#ifndef ISUseNewRemoteNotification
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     
@@ -169,12 +169,7 @@
         [self showNotification:userInfo];
     }
 }
-
-
--(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-    NSLog(@"%s",__func__);
-}
+#endif
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
@@ -258,6 +253,7 @@
     }];
     
     [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
+    _completionHandlerDictionary = [NSMutableDictionary dictionary];
 }
 
 - (void)custonNavigationBar
@@ -266,16 +262,13 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{UITextAttributeTextColor:[UIColor whiteColor],NSFontAttributeName: [UIFont systemFontOfSize:21.0f]}];
     if([OSHelper iOS7])
     {
-//        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar1_128.png"] forBarMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar_128.png"] forBarMetrics:UIBarMetricsDefault];
     }
     else
     {
-//        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar1_88.png"] forBarMetrics:UIBarMetricsDefault];
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Top Bar_88.png"] forBarMetrics:UIBarMetricsDefault];
         
     }
-    
 }
 
 
