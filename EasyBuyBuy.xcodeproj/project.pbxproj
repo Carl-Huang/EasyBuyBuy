@@ -33,6 +33,8 @@
 		4E1EA35618E71B350012BAEC /* Factory.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35118E71B350012BAEC /* Factory.png */; };
 		4E1EA35718E71B350012BAEC /* Shipping.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35218E71B350012BAEC /* Shipping.png */; };
 		4E1EA35818E71B350012BAEC /* Shop.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA35318E71B350012BAEC /* Shop.png */; };
+		4E4062111918BD2100230392 /* ShopFetchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4062101918BD2100230392 /* ShopFetchResultController.m */; };
+		4E4062151918C24000230392 /* ShopViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4062141918C24000230392 /* ShopViewController+Network.m */; };
 		4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */; };
 		4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */; };
 		4E632CC518C44E2A006DD458 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CC318C44E2A006DD458 /* LanguageViewController.m */; };
@@ -358,6 +360,10 @@
 		4E1EA35118E71B350012BAEC /* Factory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Factory.png; sourceTree = "<group>"; };
 		4E1EA35218E71B350012BAEC /* Shipping.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shipping.png; sourceTree = "<group>"; };
 		4E1EA35318E71B350012BAEC /* Shop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shop.png; sourceTree = "<group>"; };
+		4E40620F1918BD2100230392 /* ShopFetchResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopFetchResultController.h; sourceTree = "<group>"; };
+		4E4062101918BD2100230392 /* ShopFetchResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopFetchResultController.m; sourceTree = "<group>"; };
+		4E4062131918C24000230392 /* ShopViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShopViewController+Network.h"; sourceTree = "<group>"; };
+		4E4062141918C24000230392 /* ShopViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShopViewController+Network.m"; sourceTree = "<group>"; };
 		4E632CBD18C44E1A006DD458 /* UpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpgradeViewController.h; sourceTree = "<group>"; };
 		4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpgradeViewController.m; sourceTree = "<group>"; };
 		4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeViewController.xib; sourceTree = "<group>"; };
@@ -861,6 +867,20 @@
 			path = "主页图标";
 			sourceTree = "<group>";
 		};
+		4E4062121918BD3000230392 /* ShopViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4EAE463618C6EE520089B843 /* ShopViewController.h */,
+				4EAE463718C6EE520089B843 /* ShopViewController.m */,
+				4EAE463818C6EE520089B843 /* ShopViewController.xib */,
+				4E40620F1918BD2100230392 /* ShopFetchResultController.h */,
+				4E4062101918BD2100230392 /* ShopFetchResultController.m */,
+				4E4062131918C24000230392 /* ShopViewController+Network.h */,
+				4E4062141918C24000230392 /* ShopViewController+Network.m */,
+			);
+			name = ShopViewController;
+			sourceTree = "<group>";
+		};
 		4E632CC718C4580D006DD458 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -920,9 +940,7 @@
 		4EAE461E18C6EE510089B843 /* Shop&Factory */ = {
 			isa = PBXGroup;
 			children = (
-				4EAE463618C6EE520089B843 /* ShopViewController.h */,
-				4EAE463718C6EE520089B843 /* ShopViewController.m */,
-				4EAE463818C6EE520089B843 /* ShopViewController.xib */,
+				4E4062121918BD3000230392 /* ShopViewController */,
 				4EAE462518C6EE510089B843 /* ProdecutViewController.h */,
 				4EAE462618C6EE510089B843 /* ProdecutViewController.m */,
 				4EAE462718C6EE510089B843 /* ProdecutViewController.xib */,
@@ -1899,6 +1917,7 @@
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
 				4EB4A6A41904FD2200606A39 /* NewsCell.m in Sources */,
 				4EB382E619175862001CD100 /* Scroll_Item.m in Sources */,
+				4E4062111918BD2100230392 /* ShopFetchResultController.m in Sources */,
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB7E7D11915D0D100B4C9B9 /* News_Scroll_Item_Info.m in Sources */,
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
@@ -1955,6 +1974,7 @@
 				4EBC497718E9B1FE00481F8E /* Good.m in Sources */,
 				4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */,
 				4EB422F518F5301F00DF2053 /* BiddingInfo.m in Sources */,
+				4E4062151918C24000230392 /* ShopViewController+Network.m in Sources */,
 				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */,
