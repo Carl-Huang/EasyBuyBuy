@@ -14,4 +14,5 @@
 
 @interface ShopViewController (Network)
 -(void)importShopContentData;
+-(void)setFooterView;
 @end

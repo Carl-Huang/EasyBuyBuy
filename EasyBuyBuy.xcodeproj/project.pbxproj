@@ -873,10 +873,10 @@
 				4EAE463618C6EE520089B843 /* ShopViewController.h */,
 				4EAE463718C6EE520089B843 /* ShopViewController.m */,
 				4EAE463818C6EE520089B843 /* ShopViewController.xib */,
-				4E40620F1918BD2100230392 /* ShopFetchResultController.h */,
-				4E4062101918BD2100230392 /* ShopFetchResultController.m */,
 				4E4062131918C24000230392 /* ShopViewController+Network.h */,
 				4E4062141918C24000230392 /* ShopViewController+Network.m */,
+				4E40620F1918BD2100230392 /* ShopFetchResultController.h */,
+				4E4062101918BD2100230392 /* ShopFetchResultController.m */,
 			);
 			name = ShopViewController;
 			sourceTree = "<group>";

@@ -10,10 +10,10 @@
 #import <CoreData/CoreData.h>
 #import <UIKit/UIKit.h>
 @class NSFetchedResultsController;
-@protocol ShopFetchResultControllerDataSourceDelegate
+@protocol ShopFetchResultControllerDataSourceDelegate <NSObject>
 
 - (void)configureCell:(id)cell withObject:(id)object;
-
+- (void)didFinishLoadData;
 @end
 
 @interface ShopFetchResultController : NSObject<UITableViewDataSource, NSFetchedResultsControllerDelegate>

@@ -50,15 +50,24 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self initializationLocalString];
     [self initializationInterface];
     
+    NSFetchRequest *request = nil;
+    if(_buinessType == B2BBuinessModel)
+    {
+        request = [NSFetchRequest fetchRequestWithEntityName:@"Parent_Category_Factory"];
+        request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"pc_id" ascending:YES]];
+    }else
+    {
+        request = [NSFetchRequest fetchRequestWithEntityName:@"Parent_Category_Shop"];
+        request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"pc_id" ascending:YES]];
+
+    }
+    self.fetchResultDataSource = [[ShopFetchResultController alloc] initWithTableView:self.contentTable];
+    self.fetchResultDataSource.delegate = self;
+    NSManagedObjectContext * mainContent = [NSManagedObjectContext MR_contextForCurrentThread];
     
-//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Parent_Category_Shop"];
-//    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"pc_id" ascending:YES]];
-//    self.fetchResultDataSource = [[ShopFetchResultController alloc] initWithTableView:self.contentTable];
-//    self.fetchResultDataSource.delegate = self;
-//    NSManagedObjectContext * mainContent = [NSManagedObjectContext MR_contextForCurrentThread];
-//    self.fetchResultDataSource.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:mainContent sectionNameKeyPath:nil cacheName:nil];
-//    
-//    self.fetchResultDataSource.reuseIdentifier = cellIdentifier;
+    self.fetchResultDataSource.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:mainContent sectionNameKeyPath:nil cacheName:nil];
+    
+    self.fetchResultDataSource.reuseIdentifier = cellIdentifier;
  
 }
 
@@ -168,34 +177,34 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 #pragma mark - Table
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return  [dataSource count];
-}
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return  [dataSource count];
+//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 82.0f;
 }
-//
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    @autoreleasepool {
-        ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
-        
-        NSURL * imageURL = [NSURL URLWithString:object.image];
-        if (imageURL) {
-             [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
-        }
-        cell.classifyName.text = object.name;
-        cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return  cell;
-    }
-    
-}
+
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    @autoreleasepool {
+//        ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+//        ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
+//        
+//        NSURL * imageURL = [NSURL URLWithString:object.image];
+//        if (imageURL) {
+//             [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
+//        }
+//        cell.classifyName.text = object.name;
+//        cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
+//        
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        return  cell;
+//    }
+//    
+//}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -226,7 +235,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     ProductClassifyCell * tmpCell = (ProductClassifyCell *)cell;
     @autoreleasepool {
-        
         NSURL * imageURL = [NSURL URLWithString:object.image];
         if (imageURL) {
             [tmpCell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
@@ -238,5 +246,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
 }
 
+
+-(void)didFinishLoadData
+{
+    [self setFooterView];
+}
 
 @end

@@ -111,8 +111,6 @@
         self.autoScrollView = nil;
         self.autoScrollNewsView = nil;
         
-
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self addAdvertisementView];
         [self addNewsView];
         

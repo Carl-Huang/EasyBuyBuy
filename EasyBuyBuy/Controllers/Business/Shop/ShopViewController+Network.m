@@ -26,24 +26,13 @@
 -(void)importShopContentData
 {
     [self initializationNetworkStuff];
-    NSArray * localCacheData = nil;
-    if (self.buinessType == B2BBuinessModel) {
-        localCacheData = [Parent_Category_Factory MR_findAll];
-    }else
-    {
-        localCacheData = [Parent_Category_Shop MR_findAll];
-    }
-    if ([localCacheData count]) {
-        [self.dataSource addObjectsFromArray:localCacheData];
-    }
-
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self fetchContentData];
     [self addAdvertisementView];
     dispatch_group_notify(self.refresh_data_group, self.group_queue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-        });
+        }); 
     });
 }
 
@@ -58,11 +47,10 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 [ParentCategory saveToLocalWithObject:object type:weakSelf.buinessType];
             });
-            [weakSelf.dataSource removeAllObjects];
-            [weakSelf.dataSource addObjectsFromArray:object];
-            [weakSelf.contentTable reloadData];
-            [weakSelf setFooterView];
-//
+//            [weakSelf.dataSource removeAllObjects];
+//            [weakSelf.dataSource addObjectsFromArray:object];
+//            [weakSelf.contentTable reloadData];
+//            [weakSelf setFooterView];
         }
         dispatch_group_leave(weakSelf.refresh_data_group);
     } failureBlock:^(NSError *error, NSString *responseString) {
@@ -196,10 +184,8 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",weakSelf.buinessType],@"page":[NSString stringWithFormat:@"%d",weakSelf.page],@"pageSize":[NSString stringWithFormat:@"%d",weakSelf.pageSize]} completionBlock:^(id object) {
-        
         if (object) {
             hud.labelText = @"Finish";
-            [weakSelf.dataSource addUniqueFromArray:object];
         }else
         {
             hud.labelText = @"Finish Loading";
@@ -217,7 +203,7 @@
 #pragma mark - FooterView
 - (void)doneLoadingTableViewData{
     //  model should call this when its done loading
-    [self.contentTable reloadData];
+//    [self.contentTable reloadData];
     [self removeFootView];
     [self setFooterView];
     self.reloading = NO;
@@ -233,6 +219,7 @@
 {
 	[self loadData];
 }
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 	if (self.footerView)
 	{

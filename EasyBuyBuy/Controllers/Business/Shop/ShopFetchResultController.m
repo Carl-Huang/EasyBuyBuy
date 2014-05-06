@@ -30,6 +30,11 @@
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     id<NSFetchedResultsSectionInfo> section = self.fetchedResultsController.sections[sectionIndex];
+    if (section.numberOfObjects > 0 &&[self.delegate respondsToSelector:@selector(didFinishLoadData)]) {
+        NSLog(@"%d",section.numberOfObjects);
+        [self.delegate didFinishLoadData];
+    }
+
     return section.numberOfObjects;
 }
 
@@ -37,7 +42,10 @@
 {
     id object = [self objectAtIndexPath:indexPath];
     id cell = [tableView dequeueReusableCellWithIdentifier:self.reuseIdentifier forIndexPath:indexPath];
-    [self.delegate configureCell:cell withObject:object];
+    if ([self.delegate respondsToSelector:@selector(configureCell:withObject:)]) {
+        [self.delegate configureCell:cell withObject:object];
+    }
+    
     return cell;
 }
 

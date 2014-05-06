@@ -14,19 +14,19 @@
 #pragma mark - 获取广告信息
 -(void)fetchAdvertisementViewData
 {
-    dispatch_group_enter(self.refresh_data_group);
 #if ISUseCacheData
     //Fetch the data in local
     [self fetchAdFromLocal];
 #endif
     if ([GlobalMethod isNetworkOk]) {
+        dispatch_group_enter(self.refresh_data_group);
         NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
             [self startFetchAdData];
         }];
         [self.workingQueue addOperation:blockOper];
     }else
     {
-        NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(startFetchAdData) object:nil];
+        NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchAdvertisementViewData) object:nil];
         [self.runningOperations addObject:opera];
     }
     
@@ -174,21 +174,21 @@
 #pragma mark - 获取新闻信息
 -(void)fetchNewsViewData
 {
-    dispatch_group_enter(self.refresh_data_group);
+    
 #if ISUseCacheData
      //Fetch the data in local
-    NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
-        [self fetchNewsFromLocal];
-    }];
-    [self.workingQueue addOperation:blockOper];
-
+[self fetchNewsFromLocal];
 #endif
-    
+   
     if ([GlobalMethod isNetworkOk]) {
-        [self startFetchNewsData];
+        dispatch_group_enter(self.refresh_data_group);
+        NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
+            [self startFetchNewsData];
+        }];
+        [self.workingQueue addOperation:blockOper];
     }else
     {
-         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(startFetchNewsData) object:nil];
+         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchNewsViewData) object:nil];
         [self.runningOperations addObject:opera];
     }
 }
@@ -415,12 +415,14 @@
 
 -(void)networkStatusHandle:(NSNotification *)notification
 {
+    __weak ShopMainViewController * weakSelf = self;
     AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
     if (status != AFNetworkReachabilityStatusNotReachable && status !=AFNetworkReachabilityStatusUnknown) {
         //TODO:Ok ,do something cool :]
         if ([self.runningOperations count]) {
              [self.workingQueue addOperations:self.runningOperations waitUntilFinished:NO];
             [self.runningOperations removeAllObjects];
+        
         }
     }
 }
