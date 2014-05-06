@@ -7,7 +7,7 @@
 //
 
 #import "CommonViewController.h"
-@class ChildCategory;
+@class BiddingInfo;
 @interface SalePromotionItemViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *biddingBtn;
@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIView *productBorswerContanier;
 
 @property (strong ,nonatomic) NSArray * productImages;
-@property (strong ,nonatomic) ChildCategory * object;
+@property (strong ,nonatomic) BiddingInfo * biddingInfo;
 
 - (IBAction)biddingBtnAction:(id)sender;
 @end

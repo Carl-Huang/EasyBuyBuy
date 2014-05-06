@@ -110,19 +110,17 @@ static NSString * cellIdentifier = @"cellIdentifier";
                  [dataSource addObjectsFromArray:object];
                  [weakSelf setItemsSelectedStatus];
                  [weakSelf.contentTable reloadData];
+                 [weakSelf setFooterView];
              }
          } failureBlock:^(NSError *error, NSString *responseString) {
              [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
          }];
-        [self createFooterView];
+        
     }else
     {
         [self showAlertViewWithMessage:@"Please login first"];
     }
-    
-    
-    
-   //
+    _reloading = NO;
 }
 
 -(void)setItemsSelectedStatus
@@ -153,11 +151,27 @@ static NSString * cellIdentifier = @"cellIdentifier";
 //竞价
 -(void)gotoSalePromotionItemViewControllerWithObj:(ChildCategory *)object
 {
-    SalePromotionItemViewController * viewController = [[SalePromotionItemViewController alloc]initWithNibName:@"SalePromotionItemViewController" bundle:nil];
-    viewController.title = object.name;
-    [viewController setObject:object];
-    [self push:viewController];
-    viewController = nil;
+    __weak ProdecutViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[HttpService sharedInstance]getBiddingGoodWithParams:@{@"c_cate_id": object.ID,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id biddingObj) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if (biddingObj) {
+           dispatch_async(dispatch_get_main_queue(), ^{
+               SalePromotionItemViewController * viewController = [[SalePromotionItemViewController alloc]initWithNibName:@"SalePromotionItemViewController" bundle:nil];
+               viewController.title = object.name;
+               [viewController setBiddingInfo:biddingObj];
+               [self push:viewController];
+               viewController = nil;
+           });
+        }else
+        {
+            [weakSelf showAlertViewWithMessage:@"No Product"];
+            
+        }
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [weakSelf showAlertViewWithMessage:@"Fetch Data Error"];
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
 }
 
 -(void)likeAction:(id)sender
@@ -211,31 +225,29 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 -(void)setFooterView{
-    
-    CGFloat height = MAX(_contentTable.contentSize.height, _contentTable.frame.size.height);
-    
-    if (footerView && [footerView superview])
-	{
-        // reset position
-        footerView.frame = CGRectMake(0.0f,
-                                      height,
-                                      _contentTable.frame.size.width,
-                                      self.view.bounds.size.height);
-    }else
-	{
-        _reloading = NO;
-        // create the footerView
-        footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                      CGRectMake(0.0f, height,
-                                 _contentTable.frame.size.width, self.view.bounds.size.height)];
-        footerView.delegate = self;
-        [_contentTable addSubview:footerView];
-    }
-    
-    if (footerView)
-	{
-        [footerView refreshLastUpdatedDate];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGFloat height = MAX(self.contentTable.contentSize.height, self.contentTable.frame.size.height);
+        if (self.contentTable.frame.size.height < height) {
+            if (footerView && [footerView superview])
+            {
+                footerView.frame = CGRectMake(0.0f,
+                                              height,
+                                              self.contentTable.frame.size.width,
+                                              self.view.bounds.size.height);
+            }else
+            {
+                _reloading = NO;
+                footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                              CGRectMake(0.0f, height,
+                                         self.contentTable.frame.size.width, self.view.bounds.size.height)];
+                footerView.delegate = self;
+                [self.contentTable addSubview:footerView];
+            }
+            [footerView refreshLastUpdatedDate];
+        }
+       
+
+    });
 }
 
 -(void)removeFootView
@@ -267,7 +279,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
          }
          hud.mode = MBProgressHUDModeText;
          [hud hide:YES afterDelay:0.5];
-
          [weakSelf doneLoadingTableViewData];
      } failureBlock:^(NSError *error, NSString *responseString) {
          [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -337,15 +348,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 - (void)doneLoadingTableViewData{
     //5
     //  model should call this when its done loading
-    [self.contentTable reloadData];
-    
     [self removeFootView];
     [self setFooterView];
     
     _reloading = NO;
     [footerView refreshLastUpdatedDate];
     [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
-    
+    [self.contentTable reloadData];
 }
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view

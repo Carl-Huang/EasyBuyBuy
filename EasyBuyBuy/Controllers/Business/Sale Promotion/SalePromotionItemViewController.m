@@ -35,7 +35,6 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     CGFloat priceFontSize;
     CGFloat desFontSize;
     
-    BiddingInfo * biddingInfo;
     CGFloat fontSize;
     BOOL isFetchingDataError;
     
@@ -43,7 +42,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 @end
 
 @implementation SalePromotionItemViewController
-
+@synthesize biddingInfo;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -121,40 +120,19 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
     
     priceFontSize = cell.biddingPrice.font.pointSize * [GlobalMethod getDefaultFontSize];
     desFontSize = cell.biddingDesc.font.pointSize * [GlobalMethod getDefaultFontSize];
+
+    //1）更新商品图片
+    [self getGoodImages];
+    //2)刷新Content
+    [self updateContent];
     
-    [self fetchingData];
+    
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
 }
 
--(void)fetchingData
-{
-    isFetchingDataError = NO;
-    __weak SalePromotionItemViewController * weakSelf = self;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[HttpService sharedInstance]getBiddingGoodWithParams:@{@"c_cate_id": _object.ID,@"page":@"1",@"pageSize":@"10"} completionBlock:^(id object) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        if (object) {
-            biddingInfo = object;
-            //1）更新商品图片
-            [weakSelf getGoodImages];
-            //2)刷新Content
-            [weakSelf updateContent];
-        }else
-        {
-            [weakSelf showAlertViewWithMessage:@"No Product available"];
-            isFetchingDataError = YES;
-            [weakSelf popViewController];
-
-        }
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        [weakSelf showAlertViewWithMessage:@"Fetch Data Error"];
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-    }];
-
-}
 
 -(void)updateContent
 {
@@ -301,8 +279,7 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (isFetchingDataError) {
-        [self fetchingData];
-        return;
+
     }else
     {
         switch (indexPath.section) {

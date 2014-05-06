@@ -344,6 +344,7 @@ static NSString * cellIdentifier = @"cellidentifier";
     [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     news * object = [dataSource objectAtIndex:indexPath.row];
     NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+
     [viewController setNewsObj:object];
     [self push:viewController];
     viewControllTitle = nil;

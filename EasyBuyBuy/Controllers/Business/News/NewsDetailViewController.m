@@ -205,7 +205,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
-    _completedBlock(nil);
+    if(_completedBlock)
+    {
+        _completedBlock(nil);
+    }
     _completedBlock = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }

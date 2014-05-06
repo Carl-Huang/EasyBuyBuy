@@ -60,7 +60,6 @@
     }
 	qtmquitView.delegate = self;
 	qtmquitView.dataSource = self;
-	
 	[self.view addSubview:qtmquitView];
 	
     pageSize = 20;
@@ -107,21 +106,6 @@
         [weakSelf doneLoadingTableViewData];
     }];
     
-}
-
--(void)createFooterView
-{
-    if (footerView && [footerView superview]) {
-        [footerView removeFromSuperview];
-    }
-    CGFloat height = MAX(qtmquitView.contentSize.height, qtmquitView.frame.size.height);
-    footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                  CGRectMake(0.0f,height,
-                             self.view.frame.size.width, self.view.bounds.size.height)];
-    footerView.delegate = self;
-    [qtmquitView addSubview:footerView];
-    
-    [footerView refreshLastUpdatedDate];
 }
 
 -(void)removeFootView
@@ -195,29 +179,33 @@
 -(void)setFooterView{
 	//    UIEdgeInsets test = self.aoView.contentInset;
     // if the footerView is nil, then create it, reset the position of the footer
-    CGFloat height = MAX(qtmquitView.contentSize.height, qtmquitView.frame.size.height);
-    if (footerView && [footerView superview])
-	{
-        // reset position
-        footerView.frame = CGRectMake(0.0f,
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGFloat height = MAX(qtmquitView.contentSize.height, qtmquitView.frame.size.height);
+        if (height > self.qtmquitView.frame.size.height) {
+            if (footerView && [footerView superview])
+            {
+                // reset position
+                footerView.frame = CGRectMake(0.0f,
                                               height,
                                               qtmquitView.frame.size.width,
                                               self.view.bounds.size.height);
-    }else
-	{
-        // create the footerView
-        _reloading = NO;
-        footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+            }else
+            {
+                // create the footerView
+                _reloading = NO;
+                footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
                               CGRectMake(0.0f, height,
                                          qtmquitView.frame.size.width, self.view.bounds.size.height)];
-        footerView.delegate = self;
-        [qtmquitView addSubview:footerView];
-    }
-    
-    if (footerView)
-	{
-        [footerView refreshLastUpdatedDate];
-    }
+                footerView.delegate = self;
+                [qtmquitView addSubview:footerView];
+            }
+            
+            if (footerView)
+            {
+                [footerView refreshLastUpdatedDate];
+            }
+        }
+    });
 }
 
 

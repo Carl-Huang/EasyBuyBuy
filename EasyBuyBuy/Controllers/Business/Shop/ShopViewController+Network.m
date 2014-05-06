@@ -235,26 +235,29 @@
 }
 
 -(void)setFooterView{
-    
-    CGFloat height = MAX(self.contentTable.contentSize.height, self.contentTable.frame.size.height);
-    
-    if (self.footerView && [self.footerView superview])
-	{
-        self.footerView.frame = CGRectMake(0.0f,
-                                      height,
-                                      self.contentTable.frame.size.width,
-                                      self.view.bounds.size.height);
-    }else
-	{
-        self.reloading = NO;
-        self.footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                      CGRectMake(0.0f, height,
-                                 self.contentTable.frame.size.width, self.view.bounds.size.height)];
-        self.footerView.delegate = self;
-        [self.contentTable addSubview:self.footerView];
-    }
-    [self.footerView refreshLastUpdatedDate];
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGFloat height = MAX(self.contentTable.contentSize.height, self.contentTable.frame.size.height);
+
+        if (height > self.contentTable.frame.size.height) {
+            
+            if (self.footerView && [self.footerView superview])
+            {
+                self.footerView.frame = CGRectMake(0.0f,
+                                                   height,
+                                                   self.contentTable.frame.size.width,
+                                                   self.view.bounds.size.height);
+            }else
+            {
+                self.reloading = NO;
+                self.footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
+                                   CGRectMake(0.0f, height,
+                                              self.contentTable.frame.size.width, self.view.bounds.size.height)];
+                self.footerView.delegate = self;
+                [self.contentTable addSubview:self.footerView];
+            }
+            [self.footerView refreshLastUpdatedDate];
+        }
+     });
 }
 
 -(void)removeFootView
