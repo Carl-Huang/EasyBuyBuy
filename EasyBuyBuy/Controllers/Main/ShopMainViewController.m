@@ -207,23 +207,27 @@
         });
         
     });
-    CATransition* transition = [CATransition animation];
-    transition.startProgress = 0;
-    transition.endProgress = 1.0;
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromRight;
-    transition.duration = 1.0;
-    // Add the transition animation to both layers
-    UIImageView * imageView1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shop.png"]];
-    UIImageView * imageView2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shipping.png"]];
-    [imageView1 setFrame:CGRectMake(0, 0, 50, 50)];
-    [imageView2 setFrame:CGRectMake(50, 0, 50, 50)];
-    
-    [imageView1.layer addAnimation:transition forKey:@"transition"];
-    [imageView2.layer addAnimation:transition forKey:@"transition"];
-    // Finally, change the visibility of the layers.
-    imageView1.hidden = YES;
-    imageView2.hidden = NO;
+//
+//    CATransition* transition = [CATransition animation];
+//    transition.startProgress = 0;
+//    transition.endProgress = 1.0;
+//    transition.type = kCATransitionPush;
+//    transition.subtype = kCATransitionFromRight;
+//    transition.duration = 1.0;
+//    // Add the transition animation to both layers
+//    UIImageView * imageView1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shop.png"]];
+//    UIImageView * imageView2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shipping.png"]];
+//    [imageView1 setFrame:CGRectMake(50, 0, 50, 50)];
+//    [imageView2 setFrame:CGRectMake(100, 0, 50, 50)];
+//    
+//    [imageView1.layer addAnimation:transition forKey:@"transition"];
+//    [imageView2.layer addAnimation:transition forKey:@"transition"];
+//    // Finally, change the visibility of the layers.
+//    imageView1.hidden = NO;
+//    imageView2.hidden = NO;
+//    
+//    [self.view addSubview:imageView1];
+//    [self.view addSubview:imageView2];
 
 }
 

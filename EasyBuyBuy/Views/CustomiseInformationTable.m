@@ -143,8 +143,6 @@ static NSString * imageCellIdentifier = @"imageCell";
     [_containerView bringSubviewToFront:locationHelperView];
     locationHelperView = nil;
     
-    
-    
     _takeBtnIndex = -1;
 }
 
@@ -531,11 +529,20 @@ static NSString * imageCellIdentifier = @"imageCell";
     
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%d",indexPath.row);
+    if(indexPath.row == dataSource.count)
+    {
+        
+    }
+}
+
 #pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [UIView animateWithDuration:0.3 animations:^{
-        [GlobalMethod updateContentView:_containerView withPosition:currentTouchLocation criticalValueToResize:200 postion:CENTER offset:CGPointMake(0, -130)];
+        [GlobalMethod updateContentView:_containerView withPosition:currentTouchLocation criticalValueToResize:200 postion:CENTER offset:CGPointMake(0, -100)];
     }];
 
 }
