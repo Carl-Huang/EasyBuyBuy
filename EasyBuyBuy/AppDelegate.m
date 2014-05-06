@@ -30,7 +30,7 @@
 {
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     NSDictionary *remoteNotif = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-    
+    [GlobalMethod setUserDefaultValue:@"0" key:BadgeNumber];
     //Accept push notification when app is not open
     if (remoteNotif) {
         [self application:application didReceiveRemoteNotification:remoteNotif];
@@ -76,10 +76,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    _badge_num = 0;
-    
+    [GlobalMethod setUserDefaultValue:@"0" key:BadgeNumber];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-//     [[UIApplication sharedApplication] cancelAllLocalNotifications];
+     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 
 }
 
@@ -98,7 +97,7 @@
 
 }
 
-#ifndef ISUseNewRemoteNotification
+#if !(ISUseNewRemoteNotification)
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     

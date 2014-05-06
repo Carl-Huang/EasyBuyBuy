@@ -82,7 +82,7 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
     }
 }
 
-#ifdef ISUseNewRemoteNotification
+#if ISUseNewRemoteNotification
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     NSLog(@"%s",__func__);
@@ -91,16 +91,11 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
     [APService handleRemoteNotification:userInfo];
 #endif
     completionHandler(UIBackgroundFetchResultNewData);
-//    NSNumber *contentID = userInfo[@"content-id"];
-//    NSString *downloadURLString = [NSString stringWithFormat:@"http://yourserver.com/downloads/%d.mp3", [contentID intValue]];
-//    NSURL* downloadURL = [NSURL URLWithString:downloadURLString];
-//    
-//    NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
-//    NSURLSessionDownloadTask *task = [[self backgroundURLSession] downloadTaskWithRequest:request];
-//    task.taskDescription = [NSString stringWithFormat:@"Podcast Episode %d", [contentID intValue]];
-//    [task resume];
-//    
-//    completionHandler(UIBackgroundFetchResultNewData);
+    self.badge_num = [[GlobalMethod getUserDefaultWithKey:BadgeNumber]integerValue];
+    self.badge_num ++;
+    [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",self.badge_num] key:BadgeNumber];
+    [[UIApplication sharedApplication]setApplicationIconBadgeNumber:self.badge_num];
+
 }
 #endif
 

@@ -42,6 +42,7 @@ typedef NS_ENUM (NSInteger ,Language)
 #define NetWorkStatus                   @"NetWorkStatus"
 #define NetWorkConnectionNoti           @"NetWorkConnectionNoti"
 #define CurrentLinkTag                  @"CurrentLinkTag"
+#define BadgeNumber                     @"badgeNumber"
 
 #define DefaultFontSize         14
 #define DebugVersion            0
@@ -51,4 +52,5 @@ typedef NS_ENUM (NSInteger ,Language)
 #define IS_VIP_Version                  1
 #define ISUseCacheData                  1
 #define ISUseNewRemoteNotification      1
+
 #endif
