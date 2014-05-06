@@ -47,10 +47,6 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 [ParentCategory saveToLocalWithObject:object type:weakSelf.buinessType];
             });
-//            [weakSelf.dataSource removeAllObjects];
-//            [weakSelf.dataSource addObjectsFromArray:object];
-//            [weakSelf.contentTable reloadData];
-//            [weakSelf setFooterView];
         }
         dispatch_group_leave(weakSelf.refresh_data_group);
     } failureBlock:^(NSError *error, NSString *responseString) {
@@ -236,22 +232,6 @@
 - (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
 {
 	return [NSDate date]; // should return date data source was last changed
-}
-
-
--(void)createFooterView
-{
-    if (self.footerView && [self.footerView superview]) {
-        [self.footerView removeFromSuperview];
-    }
-    CGFloat height = MAX(self.contentTable.contentSize.height, self.contentTable.frame.size.height);
-    self.footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                  CGRectMake(0.0f,height,
-                             self.view.frame.size.width, self.view.bounds.size.height)];
-    self.footerView.delegate = self;
-    [self.contentTable addSubview:self.footerView];
-    
-    [self.footerView refreshLastUpdatedDate];
 }
 
 -(void)setFooterView{

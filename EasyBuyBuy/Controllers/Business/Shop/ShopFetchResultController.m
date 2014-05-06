@@ -8,6 +8,9 @@
 
 #import "ShopFetchResultController.h"
 @interface ShopFetchResultController()
+{
+    BOOL isContentChange;
+}
 @property (nonatomic, strong) UITableView* tableView;
 @end
 @implementation ShopFetchResultController
@@ -17,6 +20,7 @@
     if (self) {
         self.tableView = tableView;
         self.tableView.dataSource = self;
+        isContentChange = NO;
     }
     return self;
 }
@@ -29,12 +33,8 @@
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
+    
     id<NSFetchedResultsSectionInfo> section = self.fetchedResultsController.sections[sectionIndex];
-    if (section.numberOfObjects > 0 &&[self.delegate respondsToSelector:@selector(didFinishLoadData)]) {
-        NSLog(@"%d",section.numberOfObjects);
-        [self.delegate didFinishLoadData];
-    }
-
     return section.numberOfObjects;
 }
 
@@ -45,7 +45,15 @@
     if ([self.delegate respondsToSelector:@selector(configureCell:withObject:)]) {
         [self.delegate configureCell:cell withObject:object];
     }
-    
+    if (!isContentChange) {
+        isContentChange = YES;
+        if ([self.delegate respondsToSelector:@selector(didFinishLoadData)]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate didFinishLoadData];
+            });
+        }
+
+    }
     return cell;
 }
 
@@ -58,6 +66,7 @@
 - (void)controllerWillChangeContent:(NSFetchedResultsController*)controller
 {
     [self.tableView beginUpdates];
+    isContentChange = NO;
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController*)controller
@@ -84,7 +93,11 @@
     NSAssert(_fetchedResultsController == nil, @"TODO: you can currently only assign this property once");
     _fetchedResultsController = fetchedResultsController;
     fetchedResultsController.delegate = self;
-    [fetchedResultsController performFetch:NULL];
+    NSError * error = nil;
+    [fetchedResultsController performFetch:&error];
+    if (error) {
+        NSLog(@"%@",error.description);
+    }
 }
 
 

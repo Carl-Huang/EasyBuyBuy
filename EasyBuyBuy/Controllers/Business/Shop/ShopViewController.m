@@ -177,40 +177,15 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 #pragma mark - Table
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return  [dataSource count];
-//}
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 82.0f;
 }
 
-//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    @autoreleasepool {
-//        ProductClassifyCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-//        ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
-//        
-//        NSURL * imageURL = [NSURL URLWithString:object.image];
-//        if (imageURL) {
-//             [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
-//        }
-//        cell.classifyName.text = object.name;
-//        cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
-//        
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        return  cell;
-//    }
-//    
-//}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     Parent_Category_Shop * object = [self.fetchResultDataSource selectedItem];
-//    ParentCategory * object = [dataSource objectAtIndex:indexPath.row];
     [self gotoProdecutViewControllerWithObject:object];
 }
 
@@ -218,12 +193,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     ProdecutViewController * viewController = [[ProdecutViewController alloc]initWithNibName:@"ProdecutViewController" bundle:nil];
     viewController.title = [object valueForKey:@"name"];
-    if ([GlobalMethod isNetworkOk]) {
-        [viewController setParentID:[object valueForKey:@"ID"]];
-    }else
-    {
-        [viewController setParentID:[object valueForKey:@"pc_id"]];
-    }
+    [viewController setParentID:[object valueForKey:@"pc_id"]];
     [self push:viewController];
     viewController = nil;
 }
@@ -245,7 +215,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         tmpCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 }
-
 
 -(void)didFinishLoadData
 {
