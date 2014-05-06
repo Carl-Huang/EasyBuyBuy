@@ -135,7 +135,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         {
             [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",i]];
         }
-        
     }
 }
 

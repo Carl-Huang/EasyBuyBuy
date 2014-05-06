@@ -23,7 +23,7 @@
 
 #import "AsynCycleView.h"
 #import "AdObject.h"
-
+#import "ListViewController.h"
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
 
@@ -105,6 +105,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 {
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
+    [self setRightCustomBarItem:@"list.png" action:@selector(gotoListViewController)];
     [self.navigationController.navigationBar setHidden:NO];
     
     
@@ -162,6 +163,13 @@ static NSString * imageCellIdentifier = @"imageCell";
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)gotoListViewController
+{
+    ListViewController * viewController = [[ListViewController alloc]initWithNibName:@"ListViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
+    viewController = nil;
 }
 
 -(void)refreshAdContent:(NSArray *)objects

@@ -13,6 +13,7 @@
 #import "NSArray+DictionaryObj.h"
 #import "AsynCycleView.h"
 #import "AdObject.h"
+#import "ListViewController.h"
 @interface ShippingViewController ()<TableContentDataDelegate,UIAlertViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
@@ -87,6 +88,7 @@
 
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:@selector(gotoParentViewController)];
+    [self setRightCustomBarItem:@"list.png" action:@selector(gotoListViewController)];
     [self.navigationController.navigationBar setHidden:NO];
 
     mustFillItems = [NSMutableArray array];
@@ -150,6 +152,12 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)gotoListViewController
+{
+    ListViewController * viewController = [[ListViewController alloc]initWithNibName:@"ListViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
+    viewController = nil;
+}
 -(void)refreshAdContent:(NSArray *)objects
 {
     NSMutableArray * imagesLink = [NSMutableArray array];

@@ -122,6 +122,9 @@
 		4EB3E9A318EC5A8400CDEE19 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */; };
 		4EB3E9A418EC5A8400CDEE19 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */; };
 		4EB3E9A518EC5A8400CDEE19 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */; };
+		4EB4061219191ADE00323D5D /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4061119191ADE00323D5D /* list.png */; };
+		4EB4061B19191B6A00323D5D /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB4061919191B6A00323D5D /* ListViewController.m */; };
+		4EB4061C19191B6A00323D5D /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4061A19191B6A00323D5D /* ListViewController.xib */; };
 		4EB4229518F50F6F00DF2053 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4229418F50F6F00DF2053 /* logo.png */; };
 		4EB422F118F51E6900DF2053 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */; };
 		4EB422F218F51E6900DF2053 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB422F018F51E6900DF2053 /* SearchResultViewController.xib */; };
@@ -492,6 +495,10 @@
 		4EB3E99B18EC5A8400CDEE19 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
 		4EB3E99C18EC5A8400CDEE19 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		4EB3E99D18EC5A8400CDEE19 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
+		4EB4061119191ADE00323D5D /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
+		4EB4061819191B6A00323D5D /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		4EB4061919191B6A00323D5D /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		4EB4061A19191B6A00323D5D /* ListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
 		4EB4229418F50F6F00DF2053 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		4EB422EE18F51E6900DF2053 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		4EB422EF18F51E6900DF2053 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
@@ -914,6 +921,9 @@
 				4EB335B818D7444F0012EA06 /* ImageTableViewCell.h */,
 				4EB335B918D7444F0012EA06 /* ImageTableViewCell.m */,
 				4EB335B618D744090012EA06 /* ImageTableViewCell.xib */,
+				4EB4061819191B6A00323D5D /* ListViewController.h */,
+				4EB4061919191B6A00323D5D /* ListViewController.m */,
+				4EB4061A19191B6A00323D5D /* ListViewController.xib */,
 			);
 			path = AskToBuy;
 			sourceTree = "<group>";
@@ -1540,6 +1550,7 @@
 		C33EEBEE189667B200A26971 /* 2x */ = {
 			isa = PBXGroup;
 			children = (
+				4EB4061119191ADE00323D5D /* list.png */,
 				4EB658BD190E5A840098DDB9 /* Shop_Icon_Like_Full@2x.png */,
 				4EB7D85B190B98AB006DECB2 /* LevelTwoBg.png */,
 				4ED09B2318FE376E004D6A7D /* home_Icon.png */,
@@ -1828,6 +1839,7 @@
 				4EAE464A18C6EE520089B843 /* ProductCell.xib in Resources */,
 				C33EEC68189667B200A26971 /* Sale Promotion_Frame_User@2x.png in Resources */,
 				4EB684A218DC1715005AE976 /* ProductListViewController.xib in Resources */,
+				4EB4061C19191B6A00323D5D /* ListViewController.xib in Resources */,
 				4EAE464618C6EE520089B843 /* ProdecutViewController.xib in Resources */,
 				C33EEC4A189667B200A26971 /* Home_Search Bar@2x.png in Resources */,
 				C33EEC55189667B200A26971 /* My Adress_Btn_Delete@2x.png in Resources */,
@@ -1857,6 +1869,7 @@
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
 				4E1EA35818E71B350012BAEC /* Shop.png in Resources */,
+				4EB4061219191ADE00323D5D /* list.png in Resources */,
 				4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */,
 				4E632CC618C44E2A006DD458 /* LanguageViewController.xib in Resources */,
 				4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */,
@@ -2015,6 +2028,7 @@
 				4EC90BBD18E41F29007969F5 /* Login.m in Sources */,
 				4EAE465518C6EE970089B843 /* AskToBuyViewController.m in Sources */,
 				4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */,
+				4EB4061B19191B6A00323D5D /* ListViewController.m in Sources */,
 				4EC207B018C57754003708D6 /* NSString+Utils.m in Sources */,
 				4EB5FFB218BC3E820064B22C /* MyAddressViewController.m in Sources */,
 				4EBB68BE1903967F0073DE48 /* LinkBtn.m in Sources */,
