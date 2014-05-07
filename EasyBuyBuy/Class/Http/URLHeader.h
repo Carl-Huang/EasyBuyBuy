@@ -45,5 +45,7 @@
 #define advertisement_list          @"advertisement_list"
 #define user_push_list              @"user_push_list"
 #define goods_detail                @"goods_detail"
+#define my_publish_list             @"my_publish_list"
+#define my_shipping_agency_list     @"my_shipping_agency_list"
 
 #endif

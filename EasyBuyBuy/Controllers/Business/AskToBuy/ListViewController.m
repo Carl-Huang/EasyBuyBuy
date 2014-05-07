@@ -7,11 +7,17 @@
 //
 
 #import "ListViewController.h"
+#import "PullRefreshTableView.h"
+#import "User.h"
 
-@interface ListViewController ()
+@interface ListViewController ()<PullRefreshTableViewDelegate>
 {
     NSString * viewControllTitle;
+    
+    NSInteger page;
+    NSInteger pageSize;
 }
+@property (strong ,nonatomic) PullRefreshTableView * contentTable;
 @end
 
 @implementation ListViewController
@@ -30,6 +36,24 @@
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
+    
+    if ([OSHelper iPhone5]) {
+        CGRect rect = self.containerView.frame;
+        rect.size.height +=88;
+        self.containerView.frame = rect;
+    }
+    __weak ListViewController * weakSelf = self;
+    _contentTable = [[PullRefreshTableView alloc]initPullRefreshTableViewWithFrame:self.containerView.bounds dataSource:@[] cellType:nil cellHeight:70 delegate:self pullRefreshHandler:^(dispatch_group_t group) {
+            [weakSelf loadPublishDataWithGroup:group];
+        }compltedBlock:^(NSDictionary * info) {
+            NSLog(@"%@",info);
+        }];
+    
+    [self.containerView addSubview:_contentTable];
+    page = 0;
+    pageSize = 15;
+    [_contentTable fetchData];
+  
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -55,5 +79,52 @@
     self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
    
+}
+
+-(void)loadPublishDataWithGroup:(dispatch_group_t)group
+{
+    
+    User * user = [User getUserFromLocal];
+    if (user) {
+        page ++;
+        __weak ListViewController * weakSelf = self;
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getPublishListDataWithParams:@{@"user_id":user.user_id,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
+            dispatch_group_leave(group);
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            ;
+            if (object) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.contentTable updateDataSourceWithData:object];
+                });
+            }else
+            {
+                [self showAlertViewWithMessage:@"No Data"];
+            }
+            
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            dispatch_group_leave(group);
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            page --;
+        }];
+    }else
+    {
+        dispatch_group_leave(group);
+        [self showAlertViewWithMessage:@"Please Login First"];
+    }
+    
+}
+
+#pragma  mark - PullRefreshTableView 
+-(void)congifurePullRefreshCell:(UITableViewCell *)cell withObj:(id)object
+{
+    cell.textLabel.text = @"Hello";
+    cell.detailTextLabel.textColor = [UIColor blueColor];
+    cell.detailTextLabel.text = @"hssss";
+}
+
+-(void)didSelectedItemInIndex:(NSInteger)index
+{
+    
 }
 @end

@@ -10,4 +10,5 @@
 
 @interface ListViewController : CommonViewController
 
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @end

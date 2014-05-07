@@ -23,4 +23,5 @@
 #import "news.h"
 #import "AdObject.h"
 #import "NotiObj.h"
+#import "PublicListData.h"
 #endif

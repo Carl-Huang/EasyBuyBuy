@@ -167,7 +167,9 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 -(void)gotoListViewController
 {
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     ListViewController * viewController = [[ListViewController alloc]initWithNibName:@"ListViewController" bundle:nil];
+    viewController.title = @"My Publish";
     [self.navigationController pushViewController:viewController animated:YES];
     viewController = nil;
 }

@@ -89,7 +89,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     UINib * cellNib = [UINib nibWithNibName:@"ProductCell" bundle:[NSBundle bundleForClass:[ProductCell class]]];
     [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
-    
     ProductCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
     

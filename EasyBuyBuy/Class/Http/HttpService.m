@@ -942,5 +942,33 @@
      }];
 }
 
+-(void)getPublishListDataWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
+{
+    [self post:[self mergeURL:my_publish_list] withParams:params completionBlock:^(id obj)
+     {
+         if (obj) {
+             NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];
+             if ([statusStr isEqualToString:@"1"]) {
+                 
+                 NSArray * responseObject = obj[@"result"];
+                 if ([responseObject count]) {
+                     
+                     NSArray * tempArray = [self mapModelProcess:responseObject withClass:[PublicListData class]];
+                     success(tempArray);
+                 }else
+                 {
+                     success(nil);
+                 }
+                 
+             }else
+             {
+                 NSError * error  = [NSError errorWithDomain:obj[@"result"] code:1001 userInfo:nil];
+                 failure(error,obj[@"result"]);
+             }
+         }
+     } failureBlock:^(NSError *error, NSString *responseString) {
+         failure(error,responseString);
+     }];
+}
 @end
 

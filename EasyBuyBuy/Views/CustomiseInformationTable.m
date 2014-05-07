@@ -99,7 +99,6 @@ static NSString * imageCellIdentifier = @"imageCell";
     popupItemIndex = index;
     start = range.location;
     end = range.location + range.length;
-    originalContainerRect = _containerView.frame;
     
     for (int i = 0 ;i< [dataSource count]; ++i) {
         NSString * contentTitle  = [dataSource objectAtIndex:i];
@@ -150,14 +149,11 @@ static NSString * imageCellIdentifier = @"imageCell";
     _takeBtnIndex = -1;
 }
 
-
-
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 
 }
-
 
 #pragma mark - Notification
 -(void)updateContentPositon:(NSNotification *)noti

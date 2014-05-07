@@ -350,4 +350,21 @@
  * @param goods_id   商品ID
  */
 -(void)getProductDetailWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取发布过的商品消息
+ * @param user_id   用户ID
+ * @param page      页
+ * @param pageSize  页大小
+ */
+-(void)getPublishListDataWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
+/*!
+ * 获取发布过的代运消息
+ * @param user_id   用户ID
+ * @param page      页
+ * @param pageSize  页大小
+ */
+-(void)getShippingListDataWithParams:(NSDictionary *)params  completionBlock:(void (^)(id object))success failureBlock:(void (^)(NSError * error,NSString * responseString))failure;
+
 @end
