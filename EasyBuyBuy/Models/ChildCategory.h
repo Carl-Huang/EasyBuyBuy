@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ChildCategory : NSObject
+@interface ChildCategory : Model
 /*
  id: "1"
  parent_id: "3"

@@ -14,7 +14,7 @@
  vip_only: "0"
  add_time: "2014-04-30 17:57:59"
  */
-@interface NotiObj : NSObject
+@interface NotiObj : Model
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * content;
 @property (strong ,nonatomic) NSString * is_pushed;

@@ -16,6 +16,7 @@
 		4E08AC3D18F67BEF007967B9 /* Icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3B18F67BEF007967B9 /* Icon_57.png */; };
 		4E08AC3E18F67BEF007967B9 /* Icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3C18F67BEF007967B9 /* Icon_114.png */; };
 		4E08AC4018F67E82007967B9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */; };
+		4E0B558C1919E2C600B168BC /* Detecter_Main_thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0B558B1919E2C600B168BC /* Detecter_Main_thread.m */; };
 		4E0EA5901910A6F7009CE6D2 /* ShopMainViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */; };
 		4E0EA5931910C35D009CE6D2 /* CDToOB.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA5921910C35D009CE6D2 /* CDToOB.m */; };
 		4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FA07118F04F3900FE466A /* MyOrderList.m */; };
@@ -337,6 +338,8 @@
 		4E08AC3B18F67BEF007967B9 /* Icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_57.png; sourceTree = "<group>"; };
 		4E08AC3C18F67BEF007967B9 /* Icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_114.png; sourceTree = "<group>"; };
 		4E08AC3F18F67E82007967B9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		4E0B558A1919E2C600B168BC /* Detecter_Main_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Detecter_Main_thread.h; sourceTree = "<group>"; };
+		4E0B558B1919E2C600B168BC /* Detecter_Main_thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Detecter_Main_thread.m; sourceTree = "<group>"; };
 		4E0EA58E1910A6F7009CE6D2 /* ShopMainViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShopMainViewController+Network.h"; sourceTree = "<group>"; };
 		4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShopMainViewController+Network.m"; sourceTree = "<group>"; };
 		4E0EA5911910C35D009CE6D2 /* CDToOB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDToOB.h; sourceTree = "<group>"; };
@@ -1088,6 +1091,8 @@
 				4EB6D9FE18E1B3D300985F0B /* PaymentMng.m */,
 				4E0EA5911910C35D009CE6D2 /* CDToOB.h */,
 				4E0EA5921910C35D009CE6D2 /* CDToOB.m */,
+				4E0B558A1919E2C600B168BC /* Detecter_Main_thread.h */,
+				4E0B558B1919E2C600B168BC /* Detecter_Main_thread.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -1936,6 +1941,7 @@
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
 				4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */,
 				4EBC497018E9ADAA00481F8E /* EGORefreshTableHeaderView.m in Sources */,
+				4E0B558C1919E2C600B168BC /* Detecter_Main_thread.m in Sources */,
 				4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */,
 				4EBC497418E9ADAA00481F8E /* TMQuiltViewController.m in Sources */,
 				4EB684A118DC1715005AE976 /* ProductListViewController.m in Sources */,

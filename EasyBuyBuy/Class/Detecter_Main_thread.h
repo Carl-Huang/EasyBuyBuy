@@ -1,13 +1,13 @@
 //
-//  Model.h
+//  Detecter_Main_thread.h
 //  EasyBuyBuy
 //
-//  Created by vedon on 26/4/14.
+//  Created by vedon on 7/5/14.
 //  Copyright (c) 2014 helloworld. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Model : NSObject
+@interface Detecter_Main_thread : NSObject
 
 @end

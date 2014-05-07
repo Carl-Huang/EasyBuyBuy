@@ -270,7 +270,13 @@
             [internalLinks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 
                 if (![obj isKindOfClass:[NSNull class]]) {
-                    //Must be excute in main thread ,because you do not excute ,something wrong happened.
+                    /*
+                     *Question:Must be excute in main thread ,because you do not excute ,something wrong happened.
+                     
+                     *Answer:After a few days ,I realized I have make a serious mistakes.
+                     *The Dead Lock:In _serialQueue ,i invoke _serialQueue again.
+                     *To fixed this ,dipatch the job to main thread.
+                     */
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf getImage:obj withIndex:idx];
                     });
@@ -350,4 +356,5 @@
     _items = nil;
 
 }
+
 @end

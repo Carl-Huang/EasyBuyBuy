@@ -18,7 +18,7 @@
  add_time: "2014-02-24 15:40:25"
  update_time: "2014-02-25 12:29:12"
  */
-@interface Address : NSObject
+@interface Address : Model
 @property (strong ,nonatomic) NSString * ID;
 @property (strong ,nonatomic) NSString * user_id;
 @property (strong ,nonatomic) NSString * name;

@@ -97,7 +97,9 @@
                 for (UIImage * img in array) {
                     if([img isKindOfClass:[UIImage class]])
                     {
-                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        });
                     }
                     break;
                 }

@@ -7,33 +7,21 @@
 //
 
 #import "Model.h"
-#import <objc/runtime.h>
 @implementation Model
-- (id)JSONToCoreData:(NSDictionary *)dic
+
+-(void)setNilValueForKey:(NSString *)key
 {
-    unsigned int outCount,i;
-    objc_property_t * properties = class_copyPropertyList([self class], &outCount);
-    for(i = 0; i < outCount; i++)
-    {
-        objc_property_t property = properties[i];
-        NSString * propertyName = [NSString stringWithUTF8String:property_getName(property)];
-        if([dic objectForKey:propertyName])
-        {
-            id value = [dic objectForKey:propertyName];
-            if(![value isKindOfClass:[NSString class]])
-            {
-                value = [value stringValue];
-            }
-            [self setValue:value forKey:propertyName];
-        }
+    [self setValue:@"" forKey:key];
+}
+
+-(BOOL)validateValue:(inout __autoreleasing id *)ioValue forKey:(NSString *)inKey error:(out NSError *__autoreleasing *)outError
+{
+    if (*ioValue == nil) {
+        *ioValue = @"";
+        return YES;
+    } else {
+        *ioValue = [*ioValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        return YES;
     }
-    return self;
 }
-
-- (void)save
-{
-    [[NSManagedObjectContext MR_defaultContext] MR_saveWithOptions:MRSaveSynchronously completion:^(BOOL success, NSError *error) {
-    }];
-}
-
 @end

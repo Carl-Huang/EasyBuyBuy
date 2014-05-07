@@ -9,6 +9,9 @@
 #import "Good.h"
 
 @implementation Good
-
+-(void)setNilValueForKey:(NSString *)key
+{
+    [self setValue:@"" forKey:key];
+}
 
 @end
