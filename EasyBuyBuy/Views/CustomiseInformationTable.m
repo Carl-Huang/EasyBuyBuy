@@ -9,6 +9,7 @@
 #define CellHeigth 40
 #define MinerCellHeigth 25
 #define PhotoAreaHeight 80
+#define EditOffset 50
 
 #import "CustomiseInformationTable.h"
 #import "TouchLocationView.h"
@@ -43,12 +44,11 @@ static NSString * imageCellIdentifier = @"imageCell";
     
     NSInteger start;
     NSInteger end;
-    CGRect originalContainerRect;
-    
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
 @property (strong ,nonatomic) NSMutableArray * photosStr;
 @property (strong ,nonatomic) NSString * buinessType;
+@property (assign ,nonatomic) CGFloat   kb_height;
 @property (strong ,nonatomic) NSMutableDictionary * textFieldVector;  //very obviouse ,it is the vector for textfield
 @end
 
@@ -81,6 +81,8 @@ static NSString * imageCellIdentifier = @"imageCell";
         if (fontSize < 0) {
             fontSize = DefaultFontSize;
         }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardFramedidChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+        _kb_height = 184.f;
     }
     return self;
 }
@@ -124,6 +126,8 @@ static NSString * imageCellIdentifier = @"imageCell";
             
             blankCellTextField.font = [UIFont systemFontOfSize:fontSize];
             blankCellTextField.delegate = self;
+            blankCellTextField.tag = i;
+            
             [self configureTextFieldContent:blankCellTextField];
             [textFieldVector setObject:blankCellTextField forKey:[NSString stringWithFormat:@"%d",i]];
             
@@ -153,6 +157,8 @@ static NSString * imageCellIdentifier = @"imageCell";
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 
 }
+
+
 #pragma mark - Notification
 -(void)updateContentPositon:(NSNotification *)noti
 {
@@ -162,6 +168,18 @@ static NSString * imageCellIdentifier = @"imageCell";
     
 }
 
+-(void)keyBoardFramedidChange:(NSNotification *)noti
+{
+    NSDictionary *userInfo = [noti userInfo];
+    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    if(self.kb_height != keyboardRect.size.height)
+    {
+        _kb_height = keyboardRect.size.height;
+    }
+}
+
+#pragma mark - Private
 -(BOOL)isShouldAddTextField:(UITextField *)textField
 {
     
@@ -529,22 +547,19 @@ static NSString * imageCellIdentifier = @"imageCell";
     
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%d",indexPath.row);
-    if(indexPath.row == dataSource.count)
-    {
-        
-    }
-}
-
 #pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        [GlobalMethod updateContentView:_containerView withPosition:currentTouchLocation criticalValueToResize:200 postion:CENTER offset:CGPointMake(0, -100)];
-    }];
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGFloat textFieldPostion = textField.frame.size.height * textField.tag ;
+        CGFloat offset = textFieldPostion - self.contentOffset.y;
+        if(offset > EditOffset)
+        {
+            CGPoint offsetPoint = CGPointMake(0, textFieldPostion - EditOffset);
+            [self setContentOffset:offsetPoint animated:YES];
+        }
+    });
+    
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -556,23 +571,17 @@ static NSString * imageCellIdentifier = @"imageCell";
 {
     if ([string isEqualToString:@"\n"]) {
         [textField resignFirstResponder];
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            _containerView.frame = originalContainerRect;
-        }];
-        
+        CGFloat textFieldPostion = textField.frame.size.height * textField.tag ;
+        CGFloat criticalValue = dataSource.count * CellHeigth  - CellHeigth*4;
+        if (textFieldPostion > (criticalValue)) {
+            CGPoint offsetPoint = CGPointMake(0, self.contentOffset.y - CellHeigth*5);
+            [self setContentOffset:offsetPoint animated:YES];
+        }
         return NO;
     }
     return YES;
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 1)
