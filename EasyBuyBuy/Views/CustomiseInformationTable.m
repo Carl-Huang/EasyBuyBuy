@@ -127,7 +127,7 @@ static NSString * imageCellIdentifier = @"imageCell";
             blankCellTextField.delegate = self;
             blankCellTextField.tag = i;
             
-            [self configureTextFieldContent:blankCellTextField];
+//            [self configureTextFieldContent:blankCellTextField];
             [textFieldVector setObject:blankCellTextField forKey:[NSString stringWithFormat:@"%d",i]];
             
             blankCellTextField = nil;

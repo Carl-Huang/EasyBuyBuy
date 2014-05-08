@@ -166,7 +166,6 @@ static NSUInteger defaultBatchSize = kMagicalRecordDefaultBatchSize;
 + (id) MR_createEntity
 {	
 	NSManagedObject *newEntity = [self MR_createInContext:[NSManagedObjectContext MR_contextForCurrentThread]];
-
 	return newEntity;
 }
 

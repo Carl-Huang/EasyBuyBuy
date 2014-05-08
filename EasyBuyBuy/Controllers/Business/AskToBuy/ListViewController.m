@@ -9,6 +9,8 @@
 #import "ListViewController.h"
 #import "PullRefreshTableView.h"
 #import "User.h"
+#import "PublicListData.h"
+#import "ListViewItemDetailController.h"
 
 @interface ListViewController ()<PullRefreshTableViewDelegate>
 {
@@ -76,7 +78,7 @@
 
 -(void)initializationInterface
 {
-    self.title = viewControllTitle;
+//    self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
    
 }
@@ -118,13 +120,20 @@
 #pragma  mark - PullRefreshTableView 
 -(void)congifurePullRefreshCell:(UITableViewCell *)cell withObj:(id)object
 {
-    cell.textLabel.text = @"Hello";
-    cell.detailTextLabel.textColor = [UIColor blueColor];
-    cell.detailTextLabel.text = @"hssss";
+    PublicListData * data = (PublicListData *)object;
+    
+    cell.textLabel.font = [UIFont systemFontOfSize:20];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+    
+    cell.textLabel.text = data.goods_name;
+    cell.detailTextLabel.text = data.publish_time;
 }
 
--(void)didSelectedItemInIndex:(NSInteger)index
+-(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object
 {
-    
+    ListViewItemDetailController * viewController = [[ListViewItemDetailController alloc]initWithNibName:@"ListViewItemDetailController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
+    viewController = nil;
 }
 @end

@@ -102,6 +102,8 @@
 		4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */; };
 		4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */; };
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
+		4EB1B77B191B79FC009F1298 /* ListViewItemDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1B779191B79FC009F1298 /* ListViewItemDetailController.m */; };
+		4EB1B77C191B79FC009F1298 /* ListViewItemDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1B77A191B79FC009F1298 /* ListViewItemDetailController.xib */; };
 		4EB2EDE5191A7793001C690E /* PublicListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB2EDE4191A7793001C690E /* PublicListData.m */; };
 		4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB30D9D18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m */; };
 		4EB30DA018DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB30D9E18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.xib */; };
@@ -472,6 +474,9 @@
 		4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionTableViewController.m; sourceTree = "<group>"; };
 		4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegionTableViewController.xib; sourceTree = "<group>"; };
 		4EB1AE6318BB2ABD0033364F /* EasyBuybuy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EasyBuybuy.xcdatamodel; sourceTree = "<group>"; };
+		4EB1B778191B79FC009F1298 /* ListViewItemDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewItemDetailController.h; sourceTree = "<group>"; };
+		4EB1B779191B79FC009F1298 /* ListViewItemDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewItemDetailController.m; sourceTree = "<group>"; };
+		4EB1B77A191B79FC009F1298 /* ListViewItemDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListViewItemDetailController.xib; sourceTree = "<group>"; };
 		4EB2EDE3191A7793001C690E /* PublicListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicListData.h; sourceTree = "<group>"; };
 		4EB2EDE4191A7793001C690E /* PublicListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicListData.m; sourceTree = "<group>"; };
 		4EB30D9C18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderUserInfoTableViewCell.h; sourceTree = "<group>"; };
@@ -933,6 +938,9 @@
 				4EB4061819191B6A00323D5D /* ListViewController.h */,
 				4EB4061919191B6A00323D5D /* ListViewController.m */,
 				4EB4061A19191B6A00323D5D /* ListViewController.xib */,
+				4EB1B778191B79FC009F1298 /* ListViewItemDetailController.h */,
+				4EB1B779191B79FC009F1298 /* ListViewItemDetailController.m */,
+				4EB1B77A191B79FC009F1298 /* ListViewItemDetailController.xib */,
 			);
 			path = AskToBuy;
 			sourceTree = "<group>";
@@ -1882,6 +1890,7 @@
 				C33EEC4B189667B200A26971 /* Home_Search Icon@2x.png in Resources */,
 				4EB3E99F18EC5A8400CDEE19 /* blackArrow@2x.png in Resources */,
 				C33EEBB5189666F900A26971 /* Images.xcassets in Resources */,
+				4EB1B77C191B79FC009F1298 /* ListViewItemDetailController.xib in Resources */,
 				C33EEC38189667B200A26971 /* Arrow_R@2x.png in Resources */,
 				4E1EA35818E71B350012BAEC /* Shop.png in Resources */,
 				4EB4061219191ADE00323D5D /* list.png in Resources */,
@@ -1948,6 +1957,7 @@
 				4E4062111918BD2100230392 /* ShopFetchResultController.m in Sources */,
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB7E7D11915D0D100B4C9B9 /* News_Scroll_Item_Info.m in Sources */,
+				4EB1B77B191B79FC009F1298 /* ListViewItemDetailController.m in Sources */,
 				4EB684A618DC1973005AE976 /* ProductListTableViewCell.m in Sources */,
 				4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */,
 				4EBC497018E9ADAA00481F8E /* EGORefreshTableHeaderView.m in Sources */,

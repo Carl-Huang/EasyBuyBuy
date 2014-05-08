@@ -12,7 +12,7 @@ typedef void (^PullRefreshBlock)(dispatch_group_t group);
 typedef void (^PullRefreshCompltedBlock)(NSDictionary * info);
 @protocol PullRefreshTableViewDelegate<NSObject>
 -(void)congifurePullRefreshCell:(UITableViewCell *)cell withObj:(id)object;
--(void)didSelectedItemInIndex:(NSInteger)index;
+-(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object;
 @end
 
 @interface PullRefreshTableView : UITableView

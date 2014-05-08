@@ -41,6 +41,7 @@ static NSString * cellIdentifier  =@"cellIdentifier";
 {
     self = [super initWithFrame:rect];
     if (self) {
+        _refreshDataSource = [NSMutableArray array];
         if ([data count]) {
             _refreshDataSource = [data copy];
         }
@@ -115,8 +116,9 @@ static NSString * cellIdentifier  =@"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.pullRefreshDelegate respondsToSelector:@selector(didSelectedItemInIndex:)]) {
-        [self.pullRefreshDelegate didSelectedItemInIndex:indexPath.row];
+    id object = [_refreshDataSource objectAtIndex:indexPath.row];
+    if ([self.pullRefreshDelegate respondsToSelector:@selector(didSelectedItemInIndex:withObj:)]) {
+        [self.pullRefreshDelegate didSelectedItemInIndex:indexPath.row withObj:object];
     }
 }
 #pragma mark - FooterView
