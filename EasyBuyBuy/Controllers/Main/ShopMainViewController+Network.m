@@ -19,7 +19,6 @@
     [self fetchAdFromLocal];
 #endif
     if ([GlobalMethod isNetworkOk]) {
-        dispatch_group_enter(self.refresh_data_group);
         NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
             [self startFetchAdData];
         }];
@@ -183,7 +182,6 @@
 #endif
    
     if ([GlobalMethod isNetworkOk]) {
-        dispatch_group_enter(self.refresh_data_group);
         NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
             [self startFetchNewsData];
         }];
@@ -427,7 +425,8 @@
         if ([self.runningOperations count]) {
              [self.workingQueue addOperations:self.runningOperations waitUntilFinished:NO];
             [self.runningOperations removeAllObjects];
-        
+            
+           
         }
     }
 }

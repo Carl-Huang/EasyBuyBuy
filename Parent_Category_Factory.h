@@ -19,5 +19,5 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * pc_id;
 @property (nonatomic, retain) NSString * update_time;
-
++ (Parent_Category_Factory *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
 @end

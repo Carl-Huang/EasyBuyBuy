@@ -13,11 +13,13 @@
 #import "Scroll_Item.h"
 #import "Scroll_Item_Info.h"
 #import "CDToOB.h"
+#import "MRZoomScrollView.h"
+#import "AppDelegate.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
 static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
-@interface AdDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface AdDetailViewController ()<UITableViewDataSource,UITableViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     AsynCycleView * autoScrollView;
@@ -26,8 +28,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     NSArray * cacheImgs;
     BOOL isCacheData;
     CompletedBlock _completedBlock;
-    
+     MRZoomScrollView * zoomView;
 }
+@property (strong ,nonatomic) UIScrollView * scrollView;
 @end
 
 @implementation AdDetailViewController
@@ -64,7 +67,13 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+#pragma mark - AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
+{
+    if (_scrollView) {
+        [_scrollView setHidden:NO];
+    }
+}
 
 #pragma  mark - Public
 -(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)compltedBlock
@@ -142,7 +151,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 {
     CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
-   
+    autoScrollView.delegate = self;
 }
 
 
@@ -155,11 +164,13 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }
     if([GlobalMethod isNetworkOk])
     {
+        __weak AdDetailViewController * weakSelf = self;
         [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
             //Finish Download
 #if ISUseCacheData
             if([images count])
             {
+                [weakSelf addZoomView:images];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     NSString * targetID = [_adObj valueForKey:@"ID"];
                     //Fetch the data in local
@@ -204,6 +215,51 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)addZoomView:(NSArray *)images
+{
+    AppDelegate * myDelegate = [[UIApplication sharedApplication]delegate];
+    _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
+    _scrollView.delegate = self;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.userInteractionEnabled = YES;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    [_scrollView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7]];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideZoomView)];
+    [_scrollView addGestureRecognizer:tap];
+    tap = nil;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        for (int i =0;i<[images count];i++) {
+            
+            CGRect frame = _scrollView.frame;
+            frame.origin.y = _scrollView.frame.size.height/2 - 120;
+            frame.origin.x = frame.size.width * i;
+            frame.size.height = 200;
+            
+            zoomView = [[MRZoomScrollView alloc]initWithFrame:frame];
+            UIImage * img = [images objectAtIndex:i];
+            zoomView.imageView.contentMode = UIViewContentModeScaleAspectFit;
+            zoomView.imageView.image =img;
+            [_scrollView addSubview:zoomView];
+        }
+        
+        [_scrollView setContentSize:CGSizeMake(320 * [images count], _scrollView.frame.size.height)];
+        
+        
+        [myDelegate.window addSubview:_scrollView];
+        [_scrollView setHidden:YES];
+    });
+    
+}
+
+
+-(void)hideZoomView
+{
+    [_scrollView setHidden:YES];
+}
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

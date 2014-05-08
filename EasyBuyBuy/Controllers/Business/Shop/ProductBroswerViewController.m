@@ -19,6 +19,7 @@
 #import "UIImageView+WebCache.h"
 #import "NSMutableArray+AddUniqueObject.h"
 
+static NSString * cellIdentifier = @"PhotoCell";
 @interface ProductBroswerViewController ()<TMQuiltViewDataSource,TMQuiltViewDelegate,EGORefreshTableDelegate>
 {
     NSMutableArray * products;
@@ -132,9 +133,9 @@
 }
 
 - (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath {
-    TMPhotoQuiltViewCell *cell = (TMPhotoQuiltViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
+    TMPhotoQuiltViewCell *cell = (TMPhotoQuiltViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:cellIdentifier];
     if (!cell) {
-        cell = [[TMPhotoQuiltViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
+        cell = [[TMPhotoQuiltViewCell alloc] initWithReuseIdentifier:cellIdentifier];
     }
     
     Good * product = [products objectAtIndex:indexPath.row];
@@ -142,7 +143,7 @@
     if ([productImages count]) {
         NSURL * imageURL = [NSURL URLWithString:[[productImages objectAtIndex:0] valueForKey:@"image"]];
         
-        [cell.photoView setImageWithURL:imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        [cell.photoView setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
         }];
         
     }

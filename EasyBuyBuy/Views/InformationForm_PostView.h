@@ -13,7 +13,7 @@
 
 @end
 
-@interface CustomiseInformationTable : UITableView
+@interface InformationForm_PostView : UITableView
 
 @property (weak ,nonatomic) id<TableContentDataDelegate>tableContentdelegate;
 @property (weak ,nonatomic) UIView * containerView;

@@ -182,16 +182,18 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",weakSelf.buinessType],@"page":[NSString stringWithFormat:@"%d",weakSelf.page],@"pageSize":[NSString stringWithFormat:@"%d",weakSelf.pageSize]} completionBlock:^(id object) {
+        [weakSelf doneLoadingTableViewData];
         if (object) {
+
             hud.labelText = @"Finish";
         }else
         {
             hud.labelText = @"Finish Loading";
         }
+        
+
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:0.5];
-        
-        [weakSelf doneLoadingTableViewData];
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [weakSelf doneLoadingTableViewData];
@@ -201,12 +203,15 @@
 #pragma mark - FooterView
 - (void)doneLoadingTableViewData{
     //  model should call this when its done loading
-//    [self.contentTable reloadData];
-    [self removeFootView];
-    [self setFooterView];
-    self.reloading = NO;
-    [self.footerView refreshLastUpdatedDate];
-    [self.footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.contentTable reloadData];
+        [self removeFootView];
+        [self setFooterView];
+        self.reloading = NO;
+        [self.footerView refreshLastUpdatedDate];
+        [self.footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
+    });
+   
 }
 
 -(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view

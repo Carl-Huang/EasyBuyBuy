@@ -48,7 +48,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     [super viewDidLoad];
     [self initializationLocalString];
-    [self initializationInterface];
+    
     
     NSFetchRequest *request = nil;
     if(_buinessType == B2BBuinessModel)
@@ -68,7 +68,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     self.fetchResultDataSource.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:mainContent sectionNameKeyPath:nil cacheName:nil];
     
     self.fetchResultDataSource.reuseIdentifier = cellIdentifier;
- 
+    [self initializationInterface];
 }
 
 -(void)viewWillDisappear:(BOOL)animated

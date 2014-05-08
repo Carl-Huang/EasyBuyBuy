@@ -7,7 +7,7 @@
 //
 
 #import "ShippingViewController.h"
-#import "CustomiseInformationTable.h"
+#import "InformationForm_PostView.h"
 #import "TouchLocationView.h"
 #import "User.h"
 #import "NSArray+DictionaryObj.h"
@@ -20,7 +20,7 @@
     NSArray * dataSource;
     NSArray * eliminateTheTextfieldItems;
     
-    CustomiseInformationTable * _contentTable;
+    InformationForm_PostView * _contentTable;
     TouchLocationView * locationHelperView;
     NSMutableArray * mustFillItems;
     NSDictionary * filledContentInfo;
@@ -105,7 +105,7 @@
         _containerView.frame = rect;
     }
     
-    CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
+    InformationForm_PostView * table = [[InformationForm_PostView alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
     [table setTableDataSource:dataSource
       eliminateTextFieldItems:nil
                     container:_containerView

@@ -19,11 +19,12 @@
 #import "CarView.h"
 #import "Car.h"
 #import "Good.h"
+#import "MRZoomScrollView.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
 static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 
-@interface ProductDetailViewControllerViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ProductDetailViewControllerViewController ()<UITableViewDataSource,UITableViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     
@@ -35,7 +36,9 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     
     CGFloat         fontSize;
     NSDictionary * goodInfo;
+    MRZoomScrollView * zoomView;
 }
+@property (strong ,nonatomic) UIScrollView * scrollView;
 @end
 
 @implementation ProductDetailViewControllerViewController
@@ -68,6 +71,8 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     [super viewWillDisappear:YES];
     [shoppingCar setHidden:YES];
     [autoScrollView pauseTimer];
+    [_scrollView removeFromSuperview];
+    _scrollView = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -78,7 +83,13 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     }
     [autoScrollView startTimer];
 }
-
+#pragma mark - AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
+{
+    if (_scrollView) {
+        [_scrollView setHidden:NO];
+    }
+}
 #pragma  mark - Outlet Action
 -(void)putInCarAction:(id)sender
 {
@@ -151,6 +162,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     CGRect rect = _productImageScrollView.bounds;
     
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:1 addTo:_productImageScrollView];
+    autoScrollView.delegate = self;
     //fetch the product images form internet
     [self getGoodImages];
     
@@ -244,9 +256,58 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
+    __weak ProductDetailViewControllerViewController * weakSelf = self;
     if ([imagesLink count]&&autoScrollView) {
-        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil];
+        [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
+            [weakSelf addZoomView:images];
+        }];
+        
     }
+}
+
+-(void)addZoomView:(NSArray *)images
+{
+    AppDelegate * myDelegate = [[UIApplication sharedApplication]delegate];
+    _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
+    _scrollView.delegate = self;
+    _scrollView.pagingEnabled = YES;
+    _scrollView.userInteractionEnabled = YES;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    [_scrollView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7]];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideZoomView)];
+    [_scrollView addGestureRecognizer:tap];
+    tap = nil;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        for (int i =0;i<[images count];i++) {
+            
+            CGRect frame = _scrollView.frame;
+            frame.origin.y = _scrollView.frame.size.height/2 - 120;
+            frame.origin.x = frame.size.width * i;
+            frame.size.height = 200;
+            
+            zoomView = [[MRZoomScrollView alloc]initWithFrame:frame];
+            UIImage * img = [images objectAtIndex:i];
+            zoomView.imageView.contentMode = UIViewContentModeScaleAspectFit;
+            zoomView.imageView.image =img;
+            [_scrollView addSubview:zoomView];
+        }
+        
+        [_scrollView setContentSize:CGSizeMake(320 * [images count], _scrollView.frame.size.height)];
+        
+        
+        [myDelegate.window addSubview:_scrollView];
+        [_scrollView setHidden:YES];
+    });
+
+}
+
+-(void)hideZoomView
+{
+    [_scrollView setHidden:YES];
 }
 
 -(void)layoutProductTable

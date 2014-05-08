@@ -20,6 +20,7 @@
 		4E0B558F191A331B00B168BC /* PullRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0B558E191A331B00B168BC /* PullRefreshTableView.m */; };
 		4E0EA5901910A6F7009CE6D2 /* ShopMainViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */; };
 		4E0EA5931910C35D009CE6D2 /* CDToOB.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0EA5921910C35D009CE6D2 /* CDToOB.m */; };
+		4E0F3CEF191B9015000D3C39 /* InformationForm_GetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0F3CEE191B9015000D3C39 /* InformationForm_GetView.m */; };
 		4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0FA07118F04F3900FE466A /* MyOrderList.m */; };
 		4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E11215918EA642F00B2F39E /* PopupTable.m */; };
 		4E11215C18EA642F00B2F39E /* PopupTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E11215A18EA642F00B2F39E /* PopupTable.xib */; };
@@ -85,6 +86,7 @@
 		4EAE465118C6EE520089B843 /* ShopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE463818C6EE520089B843 /* ShopViewController.xib */; };
 		4EAE465518C6EE970089B843 /* AskToBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE465318C6EE970089B843 /* AskToBuyViewController.m */; };
 		4EAE465618C6EE970089B843 /* AskToBuyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE465418C6EE970089B843 /* AskToBuyViewController.xib */; };
+		4EAE850E191BB562000F744B /* MRZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE850D191BB562000F744B /* MRZoomScrollView.m */; };
 		4EAF489018BB5D690038575F /* OneWayAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF488F18BB5D690038575F /* OneWayAlertView.m */; };
 		4EAF489218BB5D720038575F /* OneWayAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF489118BB5D720038575F /* OneWayAlertView.xib */; };
 		4EAF48A918BB77870038575F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF489B18BB77870038575F /* LoginViewController.m */; };
@@ -193,7 +195,7 @@
 		4EB9705E18E086DA001F52D8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB9705D18E086DA001F52D8 /* SystemConfiguration.framework */; };
 		4EB9964618D7F5E5001EA448 /* ShippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964418D7F5E5001EA448 /* ShippingViewController.m */; };
 		4EB9964718D7F5E5001EA448 /* ShippingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */; };
-		4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */; };
+		4EB9964A18D80B79001EA448 /* InformationForm_PostView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9964918D80B79001EA448 /* InformationForm_PostView.m */; };
 		4EBB68B919038EFC0073DE48 /* OtherLinkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB68B819038EFC0073DE48 /* OtherLinkView.m */; };
 		4EBB68BE1903967F0073DE48 /* LinkBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB68BD1903967F0073DE48 /* LinkBtn.m */; };
 		4EBC495A18E9A14B00481F8E /* ParentCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBC495918E9A14B00481F8E /* ParentCategory.m */; };
@@ -350,6 +352,8 @@
 		4E0EA58F1910A6F7009CE6D2 /* ShopMainViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShopMainViewController+Network.m"; sourceTree = "<group>"; };
 		4E0EA5911910C35D009CE6D2 /* CDToOB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDToOB.h; sourceTree = "<group>"; };
 		4E0EA5921910C35D009CE6D2 /* CDToOB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDToOB.m; sourceTree = "<group>"; };
+		4E0F3CED191B9015000D3C39 /* InformationForm_GetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationForm_GetView.h; sourceTree = "<group>"; };
+		4E0F3CEE191B9015000D3C39 /* InformationForm_GetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationForm_GetView.m; sourceTree = "<group>"; };
 		4E0FA07018F04F3900FE466A /* MyOrderList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderList.h; sourceTree = "<group>"; };
 		4E0FA07118F04F3900FE466A /* MyOrderList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderList.m; sourceTree = "<group>"; };
 		4E11215818EA642F00B2F39E /* PopupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupTable.h; sourceTree = "<group>"; };
@@ -449,6 +453,8 @@
 		4EAE465218C6EE970089B843 /* AskToBuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskToBuyViewController.h; sourceTree = "<group>"; };
 		4EAE465318C6EE970089B843 /* AskToBuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskToBuyViewController.m; sourceTree = "<group>"; };
 		4EAE465418C6EE970089B843 /* AskToBuyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AskToBuyViewController.xib; sourceTree = "<group>"; };
+		4EAE850C191BB562000F744B /* MRZoomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRZoomScrollView.h; sourceTree = "<group>"; };
+		4EAE850D191BB562000F744B /* MRZoomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRZoomScrollView.m; sourceTree = "<group>"; };
 		4EAF488E18BB5D690038575F /* OneWayAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneWayAlertView.h; sourceTree = "<group>"; };
 		4EAF488F18BB5D690038575F /* OneWayAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneWayAlertView.m; sourceTree = "<group>"; };
 		4EAF489118BB5D720038575F /* OneWayAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneWayAlertView.xib; sourceTree = "<group>"; };
@@ -613,8 +619,8 @@
 		4EB9964318D7F5E5001EA448 /* ShippingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShippingViewController.h; sourceTree = "<group>"; };
 		4EB9964418D7F5E5001EA448 /* ShippingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShippingViewController.m; sourceTree = "<group>"; };
 		4EB9964518D7F5E5001EA448 /* ShippingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShippingViewController.xib; sourceTree = "<group>"; };
-		4EB9964818D80B79001EA448 /* CustomiseInformationTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomiseInformationTable.h; sourceTree = "<group>"; };
-		4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomiseInformationTable.m; sourceTree = "<group>"; };
+		4EB9964818D80B79001EA448 /* InformationForm_PostView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationForm_PostView.h; sourceTree = "<group>"; };
+		4EB9964918D80B79001EA448 /* InformationForm_PostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationForm_PostView.m; sourceTree = "<group>"; };
 		4EBB68B719038EFC0073DE48 /* OtherLinkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherLinkView.h; sourceTree = "<group>"; };
 		4EBB68B819038EFC0073DE48 /* OtherLinkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherLinkView.m; sourceTree = "<group>"; };
 		4EBB68BC1903967F0073DE48 /* LinkBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkBtn.h; sourceTree = "<group>"; };
@@ -1157,6 +1163,8 @@
 		4EB1AE4918BB1AFC0033364F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4EAE850C191BB562000F744B /* MRZoomScrollView.h */,
+				4EAE850D191BB562000F744B /* MRZoomScrollView.m */,
 				4E11215818EA642F00B2F39E /* PopupTable.h */,
 				4E11215918EA642F00B2F39E /* PopupTable.m */,
 				4E11215A18EA642F00B2F39E /* PopupTable.xib */,
@@ -1174,8 +1182,10 @@
 				4EAA4F7318C743800037D8C5 /* CustomiseTextField.m */,
 				4EAA4F7518C749000037D8C5 /* TouchLocationView.h */,
 				4EAA4F7618C749000037D8C5 /* TouchLocationView.m */,
-				4EB9964818D80B79001EA448 /* CustomiseInformationTable.h */,
-				4EB9964918D80B79001EA448 /* CustomiseInformationTable.m */,
+				4EB9964818D80B79001EA448 /* InformationForm_PostView.h */,
+				4EB9964918D80B79001EA448 /* InformationForm_PostView.m */,
+				4E0F3CED191B9015000D3C39 /* InformationForm_GetView.h */,
+				4E0F3CEE191B9015000D3C39 /* InformationForm_GetView.m */,
 				4EB6849918DC0001005AE976 /* DefaultDescriptionCellTableViewCell.h */,
 				4EB6849A18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m */,
 				4EB6849B18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.xib */,
@@ -1996,6 +2006,7 @@
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
 				4E0FA07218F04F3900FE466A /* MyOrderList.m in Sources */,
 				4EC90BAB18E40ECA007969F5 /* AsynCycleView.m in Sources */,
+				4E0F3CEF191B9015000D3C39 /* InformationForm_GetView.m in Sources */,
 				4EC90BC318E42920007969F5 /* Address.m in Sources */,
 				4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */,
 				4E11216418EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m in Sources */,
@@ -2003,6 +2014,7 @@
 				4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */,
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
 				4EB382DD19172C96001CD100 /* AppDelegate+BackgroundTask.m in Sources */,
+				4EAE850E191BB562000F744B /* MRZoomScrollView.m in Sources */,
 				4EB4A6AA1905042F00606A39 /* NewsDetailViewController.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
 				4EB422F818F5313F00DF2053 /* BiddingGood.m in Sources */,
@@ -2014,7 +2026,7 @@
 				4EC90BB618E40ED2007969F5 /* CustomiseActionSheet.m in Sources */,
 				4EB422F518F5301F00DF2053 /* BiddingInfo.m in Sources */,
 				4E4062151918C24000230392 /* ShopViewController+Network.m in Sources */,
-				4EB9964A18D80B79001EA448 /* CustomiseInformationTable.m in Sources */,
+				4EB9964A18D80B79001EA448 /* InformationForm_PostView.m in Sources */,
 				C33EEBAF189666F900A26971 /* main.m in Sources */,
 				4EB30D9F18DBE4C700D3110D /* MyOrderUserInfoTableViewCell.m in Sources */,
 				4EAE463B18C6EE520089B843 /* BiddingPopupView.m in Sources */,

@@ -19,4 +19,16 @@
 @dynamic pc_id;
 @dynamic update_time;
 
++ (Parent_Category_Factory *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context
+{
+    NSArray *parent_category_shop_arr = [Parent_Category_Factory MR_findByAttribute:@"pc_id" withValue:identifier];
+    if ([parent_category_shop_arr count]) {
+        return [parent_category_shop_arr lastObject];
+    }else
+    {
+        Parent_Category_Factory * tmp = [Parent_Category_Factory MR_createEntity];
+        return tmp;
+    }
+    
+}
 @end

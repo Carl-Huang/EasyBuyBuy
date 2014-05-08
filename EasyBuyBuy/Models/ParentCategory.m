@@ -30,13 +30,10 @@
         [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveToPersistentStoreAndWait];
     }else
     {
-        NSArray * allObjects = [Parent_Category_Factory MR_findAll];
-        for (Parent_Category_Factory *rmObj in allObjects) {
-            [[NSManagedObjectContext MR_contextForCurrentThread]deleteObject:rmObj];
-        }
+
         for(ParentCategory * object in parentCategories)
         {
-            Parent_Category_Factory * localObj = [Parent_Category_Factory MR_createEntity];
+             Parent_Category_Factory * localObj = [Parent_Category_Factory findOrCreateObjectWithIdentifier:object.ID inContext:[NSManagedObjectContext MR_contextForCurrentThread]];
             localObj.pc_id = object.ID;
             localObj.name = object.name;
             localObj.business_model = object.name;
@@ -44,8 +41,9 @@
             localObj.update_time = object.update_time;
             localObj.is_delete = object.is_delete;
             localObj.image = object.image;
-            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveToPersistentStoreAndWait];
+            
         }
+        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveToPersistentStoreAndWait];
 
     }
     

@@ -10,7 +10,7 @@
 #define PhotoAreaHeight 80
 
 #import "AskToBuyViewController.h"
-#import "CustomiseInformationTable.h"
+#import "InformationForm_PostView.h"
 #import "CustomiseActionSheet.h"
 #import "ImageTableViewCell.h"
 #import "NSArray+DictionaryObj.h"
@@ -126,7 +126,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         _containerView.frame = rect;
     }
     
-    CustomiseInformationTable * table = [[CustomiseInformationTable alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
+    InformationForm_PostView * table = [[InformationForm_PostView alloc]initWithFrame:CGRectMake(10, 0, 300, _containerView.frame.size.height)];
     [table setTableDataSource:dataSource
       eliminateTextFieldItems:eliminateTheTextfieldItems
                     container:_containerView

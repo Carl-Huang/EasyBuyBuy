@@ -11,7 +11,7 @@
 #define PhotoAreaHeight 80
 #define EditOffset 50
 
-#import "CustomiseInformationTable.h"
+#import "InformationForm_PostView.h"
 #import "TouchLocationView.h"
 #import "CustomiseActionSheet.h"
 #import "ImageTableViewCell.h"
@@ -28,7 +28,7 @@
 static NSString * cellIdentifier  = @"cellIdentifier";
 static NSString * imageCellIdentifier = @"imageCell";
 
-@interface CustomiseInformationTable ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
+@interface InformationForm_PostView ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIAlertViewDelegate>
 {
     NSMutableArray * dataSource;
     NSMutableArray * eliminateTheTextfieldItems;
@@ -54,7 +54,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 
 
 
-@implementation CustomiseInformationTable
+@implementation InformationForm_PostView
 @synthesize buinessType,textFieldVector;
 
 - (id)initWithFrame:(CGRect)frame
@@ -287,7 +287,7 @@ static NSString * imageCellIdentifier = @"imageCell";
         alertView = nil;
         return;
     }
-    __weak CustomiseInformationTable * weakSelf = self;
+    __weak InformationForm_PostView * weakSelf = self;
     [[PhotoManager shareManager]setConfigureBlock:^(UIImage * image)
      {
          dispatch_async(dispatch_get_main_queue(), ^{
@@ -490,7 +490,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 {
     //popupItemIndex == -1，表示没有设置弹出
     if (popupItemIndex !=-1 && indexPath.row == 0) {
-        __weak CustomiseInformationTable * weakSelf = self;
+        __weak InformationForm_PostView * weakSelf = self;
         PopupTable * regionTable = [[PopupTable alloc]initWithNibName:@"PopupTable" bundle:nil];
         NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
         

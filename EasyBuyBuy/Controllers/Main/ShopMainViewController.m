@@ -110,16 +110,10 @@
         [self.autoScrollView cleanAsynCycleView];
         self.autoScrollView = nil;
         self.autoScrollNewsView = nil;
-        
+
         [self addAdvertisementView];
         [self addNewsView];
-        
-        dispatch_group_notify(refresh_data_group, group_queue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            });
-            
-        });
+    
         previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
     }
 }
@@ -196,7 +190,9 @@
     [myDelegate.window addSubview:maskView];
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_group_enter(self.refresh_data_group);
     [self addAdvertisementView];
+    dispatch_group_enter(self.refresh_data_group);
     [self addNewsView];
     
     dispatch_group_notify(refresh_data_group, group_queue, ^{

@@ -11,6 +11,7 @@ typedef void (^CompletedBlock) (id object);
 @protocol AsyCycleViewDelegate <NSObject>
 
 -(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock;
+-(void)didGetAllImage:(NSArray *)image;
 
 @end
 @interface AsynCycleView : NSObject

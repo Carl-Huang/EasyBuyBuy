@@ -254,19 +254,19 @@
         __weak AsynCycleView * weakSelf =self;
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            if ([internalLinks count ] > [weakSelf.placeHolderImages count]) {
-                for (int i = [weakSelf.placeHolderImages count]; i < [internalLinks count]; i ++) {
-                    UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
-                    [weakSelf.placeHolderImages addObject:tempImageView];
-                    tempImageView = nil;
-                }
-            }else
-            {
-                for (int i = [weakSelf.placeHolderImages count]; i > [internalLinks count]; i --) {
-                    [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
-                }
-            }
-            [weakSelf configureCycleViewContent];
+//            if ([internalLinks count ] > [weakSelf.placeHolderImages count]) {
+//                for (int i = [weakSelf.placeHolderImages count]; i < [internalLinks count]; i ++) {
+//                    UIImageView * tempImageView = [[UIImageView alloc]initWithImage:_placeHoderImage];
+//                    [weakSelf.placeHolderImages addObject:tempImageView];
+//                    tempImageView = nil;
+//                }
+//            }else
+//            {
+//                for (int i = [weakSelf.placeHolderImages count]; i > [internalLinks count]; i --) {
+//                    [weakSelf.placeHolderImages removeObjectAtIndex:i-1];
+//                }
+//            }
+//            [weakSelf configureCycleViewContent];
             [internalLinks enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 
                 if (![obj isKindOfClass:[NSNull class]]) {
@@ -305,7 +305,14 @@
                         UIImageView * imageView = nil;
                         imageView = [[UIImageView alloc]initWithImage:image];
                         if (imageView) {
-                            [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
+                            if(index >= [weakSelf.placeHolderImages count])
+                            {
+                                [weakSelf.placeHolderImages addObject:imageView];
+                            }else
+                            {
+                                 [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
+                            }
+                           
                             [weakSelf updateAutoScrollViewItem];
                         }
                         imageView = nil;
