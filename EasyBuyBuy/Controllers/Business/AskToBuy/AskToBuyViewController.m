@@ -329,7 +329,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     
     NSDictionary * params = @{@"user_id"        : user.user_id,
                               @"type"           : type,
-                              @"goods_name"     :@"222",
+                              @"goods_name"     :[textFieldContent objectForKey:11],
                               @"publisher_second_name": [textFieldContent objectForKey:1],
                               @"publisher_first_name": [textFieldContent objectForKey:2],
                               @"country"        : [textFieldContent objectForKey:3],

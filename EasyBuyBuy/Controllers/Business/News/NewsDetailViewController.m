@@ -99,7 +99,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if (_scrollView) {
-        [_scrollView setHidden:NO];
+        [UIView animateWithDuration:0.3 animations:^{
+            _scrollView.alpha = 1.0;
+        }];
+        
     }
 }
 #pragma  mark - Private
@@ -261,7 +264,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         
         
         [myDelegate.window addSubview:_scrollView];
-        [_scrollView setHidden:YES];
+        _scrollView.alpha = 0.0;
     });
     
 }
@@ -269,7 +272,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 
 -(void)hideZoomView
 {
-    [_scrollView setHidden:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        _scrollView.alpha = 0.0;
+    }];
 }
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

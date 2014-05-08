@@ -87,7 +87,10 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if (_scrollView) {
-        [_scrollView setHidden:NO];
+        [UIView animateWithDuration:0.3 animations:^{
+            _scrollView.alpha = 1.0;
+        }];
+        
     }
 }
 #pragma  mark - Outlet Action
@@ -298,16 +301,18 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         
         [_scrollView setContentSize:CGSizeMake(320 * [images count], _scrollView.frame.size.height)];
         
-        
         [myDelegate.window addSubview:_scrollView];
-        [_scrollView setHidden:YES];
+        _scrollView.alpha = 0.0f;
     });
 
 }
 
 -(void)hideZoomView
 {
-    [_scrollView setHidden:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        _scrollView.alpha = 0.0;
+    }];
+    
 }
 
 -(void)layoutProductTable
