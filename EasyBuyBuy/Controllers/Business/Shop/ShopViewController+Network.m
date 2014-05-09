@@ -12,7 +12,7 @@
 #import "ParentCategory.h"
 #import "AdObject.h"
 #import "CDToOB.h"
-@interface ShopViewController ()<EGORefreshTableDelegate>
+@interface ShopViewController (Network)<EGORefreshTableDelegate>
 @end
 
 @implementation ShopViewController (Network)

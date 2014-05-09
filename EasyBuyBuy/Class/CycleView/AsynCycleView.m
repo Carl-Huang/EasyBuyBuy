@@ -345,6 +345,11 @@
             self.internalGroup = nil;
         }
     }
+    
+    if([self.delegate respondsToSelector:@selector(didGetImages:)])
+    {
+        [self.delegate didGetImages:_downloadedImages];
+    }
     [self configureCycleViewContent];
 
 }

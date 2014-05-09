@@ -218,7 +218,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)didFinishLoadData
 {
-    [self setFooterView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+         [self setFooterView];
+    });
 }
 
 @end

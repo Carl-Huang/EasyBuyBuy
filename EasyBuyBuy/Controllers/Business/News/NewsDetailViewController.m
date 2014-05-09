@@ -105,6 +105,11 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         
     }
 }
+
+-(void)didGetImages:(NSArray *)images
+{
+    [self addZoomView:images];
+}
 #pragma  mark - Private
 -(void)initializationLocalString
 {
@@ -177,7 +182,6 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 #if ISUseCacheData
                 if([images count])
                 {
-                    [weakSelf addZoomView:images];
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         NSString * targetID = [_newsObj valueForKey:@"ID"];
                         //Fetch the data in local
@@ -223,8 +227,11 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     if(_completedBlock)
     {
         _completedBlock(nil);
+        _completedBlock = nil;
     }
-    _completedBlock = nil;
+
+    [_scrollView  removeFromSuperview];
+    _scrollView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -232,41 +239,44 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 -(void)addZoomView:(NSArray *)images
 {
     AppDelegate * myDelegate = [[UIApplication sharedApplication]delegate];
-    _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
-    _scrollView.delegate = self;
-    _scrollView.pagingEnabled = YES;
-    _scrollView.userInteractionEnabled = YES;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.showsVerticalScrollIndicator = NO;
-    [_scrollView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7]];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideZoomView)];
-    [_scrollView addGestureRecognizer:tap];
-    tap = nil;
-    
+    if (!_scrollView) {
+        _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
+        _scrollView.delegate = self;
+        _scrollView.pagingEnabled = YES;
+        _scrollView.userInteractionEnabled = YES;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        [_scrollView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7]];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideZoomView)];
+        [_scrollView addGestureRecognizer:tap];
+        tap = nil;
+        _scrollView.alpha = 0.0;
+
+    }
+    NSArray * subViews = _scrollView.subviews;
+    [subViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     dispatch_async(dispatch_get_main_queue(), ^{
         
         for (int i =0;i<[images count];i++) {
-            
+             UIImage * img = [images objectAtIndex:i];
             CGRect frame = _scrollView.frame;
             frame.origin.y = _scrollView.frame.size.height/2 - 120;
             frame.origin.x = frame.size.width * i;
-            frame.size.height = 200;
+            frame.size.height = 300;
             
             zoomView = [[MRZoomScrollView alloc]initWithFrame:frame];
-            UIImage * img = [images objectAtIndex:i];
+           
             zoomView.imageView.contentMode = UIViewContentModeScaleAspectFit;
             zoomView.imageView.image =img;
             [_scrollView addSubview:zoomView];
         }
         
         [_scrollView setContentSize:CGSizeMake(320 * [images count], _scrollView.frame.size.height)];
-        
-        
         [myDelegate.window addSubview:_scrollView];
-        _scrollView.alpha = 0.0;
+        
     });
-    
+
 }
 
 

@@ -2,6 +2,7 @@
 # platform :ios, "6.0"
 
 target "EasyBuyBuy" do
+pod 'SVPullToRefresh', '~> 0.4.1'
 pod 'JSONModel', '~> 0.13.0'
 pod 'SDURLCache', '~> 1.3'
 pod 'RMStore', '~> 0.4.2'
