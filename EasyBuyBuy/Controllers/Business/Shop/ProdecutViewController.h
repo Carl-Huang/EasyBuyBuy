@@ -11,5 +11,5 @@
 @interface ProdecutViewController : CommonViewController
 
 @property (strong ,nonatomic) NSString * parentID;
-@property (weak, nonatomic) IBOutlet UITableView *contentTable;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @end

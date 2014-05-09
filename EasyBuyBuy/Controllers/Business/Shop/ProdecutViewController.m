@@ -11,13 +11,15 @@
 #import "ProductBroswerViewController.h"
 #import "ChildCategory.h"
 #import "UIImageView+WebCache.h"
-#import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 #import "User.h"
 #import "SalePromotionItemViewController.h"
+#import "PullRefreshTableView.h"
+#import <objc/runtime.h>
+static char * likeBtnAssociateKey = "likeBtnAssociateKey";
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
+@interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSString * viewControllTitle;
     
@@ -27,12 +29,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSMutableDictionary * itemsSelectedStatus;
     NSInteger page;
     NSInteger pageSize;
-    
-    EGORefreshTableFooterView * footerView;
-    BOOL                        _reloading;
+
     NSString                  *  isVip;
     User * user;
+    
 }
+@property (strong ,nonatomic) PullRefreshTableView * contentTable;
 @end
 
 @implementation ProdecutViewController
@@ -60,6 +62,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc
+{
+
+}
 #pragma mark - Private
 -(void)initializationLocalString
 {
@@ -79,52 +85,40 @@ static NSString * cellIdentifier = @"cellIdentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
-    CGRect rect = _contentTable.frame;
+    CGRect rect = _containerView.frame;
     if ([OSHelper iPhone5]) {
         rect.size.height +=88;
-        _contentTable.frame = rect;
+        _containerView.frame = rect;
     }
-    [_contentTable setBackgroundView:nil];
-    [_contentTable setBackgroundColor:[UIColor clearColor]];
+  
     
     UINib * cellNib = [UINib nibWithNibName:@"ProductCell" bundle:[NSBundle bundleForClass:[ProductCell class]]];
-    [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
     ProductCell * cell = [[[NSBundle mainBundle]loadNibNamed:@"ProductCell" owner:self options:nil]objectAtIndex:0];
     fontSize= cell.classifyName.font.pointSize * [GlobalMethod getDefaultFontSize];
+
+    __weak ProdecutViewController * weakSelf = self;
+    _contentTable = [[PullRefreshTableView alloc]initPullRefreshTableViewWithFrame:self.containerView.bounds dataSource:@[] cellType:cellNib cellHeight:82.0f delegate:self pullRefreshHandler:^(dispatch_group_t group) {
+        [weakSelf loadPublishDataWithGroup:group];
+    }compltedBlock:^(NSDictionary * info) {
+        NSLog(@"%@",info);
+    }];
     
+    [_contentTable setBackgroundView:nil];
+    [_contentTable setBackgroundColor:[UIColor clearColor]];
+    [self.containerView addSubview:_contentTable];
+    page = 0;
+    pageSize = 15;
+    [_contentTable fetchData];
     
-    isVip = NO;
-    user = [User getUserFromLocal];
-    if (user) {
-        isVip = user.isVip;
-        page = 1;
-        pageSize = 20;
-        dataSource = [NSMutableArray array];
-        __weak ProdecutViewController * weakSelf = self;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
-         {
-             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-             if (object) {
-                 [dataSource addObjectsFromArray:object];
-                 [weakSelf setItemsSelectedStatus];
-                 [weakSelf.contentTable reloadData];
-                 [weakSelf setFooterView];
-             }
-         } failureBlock:^(NSError *error, NSString *responseString) {
-             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-         }];
-        
-    }else
-    {
-        [self showAlertViewWithMessage:@"Please login first"];
-    }
-    _reloading = NO;
+    itemsSelectedStatus = [NSMutableDictionary dictionary];
 }
 
 -(void)setItemsSelectedStatus
 {
-    itemsSelectedStatus = [NSMutableDictionary dictionary];
+    
+    if (!itemsSelectedStatus) {
+        itemsSelectedStatus = [NSMutableDictionary dictionary];
+    }
     for (int i = 0; i < [dataSource count]; ++ i) {
         ChildCategory * object = [dataSource objectAtIndex:i];
         if ([object.isSubscription isEqualToString:@"1"]) {
@@ -175,9 +169,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)likeAction:(id)sender
 {
     UIButton * btn = (UIButton *)sender;
+    id associateObj = objc_getAssociatedObject(btn, likeBtnAssociateKey);
     NSString * key = [NSString stringWithFormat:@"%d",btn.tag];
     NSString * value = [itemsSelectedStatus valueForKey:key];
-    ChildCategory * object = [dataSource objectAtIndex:btn.tag];
+    ChildCategory * object = associateObj;
     if ([value isEqualToString:@"1"]) {
         [self updateFaviroteItem:object withStatus:@"0" key:key];
     }else
@@ -208,82 +203,50 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
 }
 
--(void)createFooterView
-{
-    if (footerView && [footerView superview]) {
-        [footerView removeFromSuperview];
-    }
-    footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                  CGRectMake(0.0f,_contentTable.frame.size.height,
-                             self.view.frame.size.width, self.view.bounds.size.height)];
-    footerView.delegate = self;
-    [_contentTable addSubview:footerView];
-    
-    [footerView refreshLastUpdatedDate];
-}
-
--(void)setFooterView{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CGFloat height = MAX(self.contentTable.contentSize.height, self.contentTable.frame.size.height);
-        if (self.contentTable.frame.size.height < height) {
-            if (footerView && [footerView superview])
-            {
-                footerView.frame = CGRectMake(0.0f,
-                                              height,
-                                              self.contentTable.frame.size.width,
-                                              self.view.bounds.size.height);
-            }else
-            {
-                _reloading = NO;
-                footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                              CGRectMake(0.0f, height,
-                                         self.contentTable.frame.size.width, self.view.bounds.size.height)];
-                footerView.delegate = self;
-                [self.contentTable addSubview:footerView];
-            }
-            [footerView refreshLastUpdatedDate];
-        }
-       
-
-    });
-}
-
--(void)removeFootView
-{
-    if (footerView) {
-        [footerView removeFromSuperview];
-        footerView = nil;
-    }
-}
-
-
 -(void)loadData
 {
-    
-    page +=1;
-    _reloading = YES;
-    __weak ProdecutViewController * weakSelf = self;
-    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading";
-    [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
-     {
-         if (object) {
-             hud.labelText = @"Finish";
-             [dataSource addUniqueFromArray:object];
-             [weakSelf setItemsSelectedStatus];
-         }else
-         {
-            hud.labelText = @"No More Data"; 
-         }
-         hud.mode = MBProgressHUDModeText;
-         [hud hide:YES afterDelay:0.5];
-         [weakSelf doneLoadingTableViewData];
-     } failureBlock:^(NSError *error, NSString *responseString) {
-         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-         [weakSelf doneLoadingTableViewData];
-     }];
+
 }
 
+-(void)loadPublishDataWithGroup:(dispatch_group_t)group
+{
+    
+    isVip = NO;
+    user = [User getUserFromLocal];
+    if (user) {
+        isVip = user.isVip;
+        
+        page +=1;
+        __weak ProdecutViewController * weakSelf = self;
+        MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.labelText = @"Loading";
+        [[HttpService sharedInstance]getChildCategoriesWithParams:@{@"p_cate_id":_parentID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"user_id":user.user_id} completionBlock:^(id object)
+         {
+             dispatch_group_leave(group);
+             if (object) {
+                 hud.labelText = @"Finish";
+                 [weakSelf.contentTable updateDataSourceWithData:object];
+//                 [weakSelf setItemsSelectedStatus];
+             }else
+             {
+                 hud.labelText = @"No More Data";
+             }
+             hud.mode = MBProgressHUDModeText;
+             [hud hide:YES afterDelay:0.5];
+             
+         } failureBlock:^(NSError *error, NSString *responseString) {
+             page --;
+             dispatch_group_leave(group);
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         }];
+        
+
+    }else
+    {
+        [self showAlertViewWithMessage:@"Please login first"];
+    }
+    
+}
 
 #pragma mark - Table
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -328,8 +291,51 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
+   
+    
+}
 
+#pragma  mark - PullRefreshTableView
+-(void)congifurePullRefreshCell:(UITableViewCell *)cell index:(NSIndexPath *)index withObj:(id)object
+{
+
+    ChildCategory * data = (ChildCategory *)object;
+    
+    if (![itemsSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",index.row]]) {
+        if ([data.isSubscription isEqualToString:@"1"]) {
+            //订阅
+            [itemsSelectedStatus setValue:@"1" forKeyPath:[NSString stringWithFormat:@"%d",index.row]];
+        }else
+        {
+            [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",index.row]];
+        }
+    }
+    ProductCell * tmpCell = (ProductCell *)cell;
+    NSURL * imageURL = [NSURL URLWithString:data.image];
+    if (imageURL) {
+        [tmpCell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
+    }
+    
+    tmpCell.classifyName.font = [UIFont systemFontOfSize:fontSize];
+    tmpCell.classifyName.text = data.name;
+    
+    NSString * value = [itemsSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",index.row]];
+    if ([value isEqualToString:@"1"]) {
+        [tmpCell.likeBtn setSelected:YES];
+    }else
+    {
+        [tmpCell.likeBtn setSelected:NO];
+    }
+    tmpCell.likeBtn.tag = index.row;
+    objc_setAssociatedObject(tmpCell.likeBtn, likeBtnAssociateKey, data, OBJC_ASSOCIATION_ASSIGN);
+    
+    [tmpCell.likeBtn addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+}
+
+-(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object
+{
     //获取当前的模式类型
     NSString * type = [GlobalMethod getUserDefaultWithKey:BuinessModel];
     if (type.integerValue == BiddingBuinessModel) {
@@ -338,50 +344,5 @@ static NSString * cellIdentifier = @"cellIdentifier";
     {
         [self gotoProductBroswerViewControllerWithObj:object];
     }
-    
-}
-
-#pragma mark - FooterView
-
-- (void)doneLoadingTableViewData{
-    //5
-    //  model should call this when its done loading
-    [self removeFootView];
-    [self setFooterView];
-    
-    _reloading = NO;
-    [footerView refreshLastUpdatedDate];
-    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
-    [self.contentTable reloadData];
-}
-
--(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
-{
-    return _reloading;
-}
-- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
-{
-	[self loadData];
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	if (footerView)
-	{
-        [footerView egoRefreshScrollViewDidScroll:scrollView];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	if (footerView)
-	{
-        [footerView egoRefreshScrollViewDidEndDragging:scrollView];
-    }
-	
-}
-- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
-{
-	return [NSDate date]; // should return date data source was last changed
-	
 }
 @end

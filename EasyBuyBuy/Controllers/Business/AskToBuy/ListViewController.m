@@ -118,7 +118,7 @@
 }
 
 #pragma  mark - PullRefreshTableView 
--(void)congifurePullRefreshCell:(UITableViewCell *)cell withObj:(id)object
+-(void)congifurePullRefreshCell:(UITableViewCell *)cell index:(NSIndexPath *)index withObj:(id)object
 {
     PublicListData * data = (PublicListData *)object;
     

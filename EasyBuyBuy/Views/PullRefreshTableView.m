@@ -109,8 +109,8 @@ static NSString * cellIdentifier  =@"cellIdentifier";
     }
     
     id object = [_refreshDataSource objectAtIndex:indexPath.row];
-    if ([self.pullRefreshDelegate respondsToSelector:@selector(congifurePullRefreshCell:withObj:)]) {
-        [self.pullRefreshDelegate congifurePullRefreshCell:cell withObj:object];
+    if ([self.pullRefreshDelegate respondsToSelector:@selector(congifurePullRefreshCell:index:withObj:)]) {
+        [self.pullRefreshDelegate congifurePullRefreshCell:cell index:indexPath withObj:object];
     }
 
     return  cell;
