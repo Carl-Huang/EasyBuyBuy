@@ -418,7 +418,6 @@
 
 -(void)networkStatusHandle:(NSNotification *)notification
 {
-    __weak ShopMainViewController * weakSelf = self;
     AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
     if (status != AFNetworkReachabilityStatusNotReachable && status !=AFNetworkReachabilityStatusUnknown) {
         //TODO:Ok ,do something cool :]

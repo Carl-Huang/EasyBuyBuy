@@ -176,7 +176,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     {
         if(autoScrollView)
         {
-            __weak NewsDetailViewController * weakSelf = self;
+
             [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
                 //Finish Download
 #if ISUseCacheData

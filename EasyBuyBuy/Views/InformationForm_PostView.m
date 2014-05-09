@@ -391,7 +391,7 @@ static NSString * imageCellIdentifier = @"imageCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     @autoreleasepool {
-        NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
+//        NSString * contentTitle = [dataSource objectAtIndex:indexPath.row];
         if (indexPath.row < start || indexPath.row >end) {
             if (_takeBtnIndex != -1 && _takeBtnIndex == indexPath.row -1) {
                 return PhotoAreaHeight;

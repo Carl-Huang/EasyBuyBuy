@@ -11,8 +11,7 @@
 #import "ParentCategory.h"
 #import "AdObject.h"
 #import "CDToOB.h"
-@interface ShopViewController (Network)
-@end
+
 
 @implementation ShopViewController (Network)
 -(void)initializationNetworkStuff

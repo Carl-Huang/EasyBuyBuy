@@ -263,7 +263,6 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     for (NSDictionary * imageInfo in images) {
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
-    __weak ProductDetailViewControllerViewController * weakSelf = self;
     if ([imagesLink count]&&autoScrollView) {
         [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
             

@@ -172,7 +172,6 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }
     if([GlobalMethod isNetworkOk])
     {
-        __weak AdDetailViewController * weakSelf = self;
         [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
             //Finish Download
 #if ISUseCacheData

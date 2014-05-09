@@ -444,7 +444,7 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
         [self gotoProductDetailViewControllerWithGoodInfo:object];
     }else
     {
-        NotiObj * object = [systemNotiDataSource objectAtIndex:indexPath.row];
+//        NotiObj * object = [systemNotiDataSource objectAtIndex:indexPath.row];
         
     }
 }
