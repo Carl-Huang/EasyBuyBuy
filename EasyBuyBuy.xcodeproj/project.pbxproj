@@ -1660,7 +1660,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = helloworld;
+				ORGANIZATIONNAME = vedon;
 				TargetAttributes = {
 					C33EEB9E189666F900A26971 = {
 						DevelopmentTeam = YX3SRBN6K9;

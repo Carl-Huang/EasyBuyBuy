@@ -3,7 +3,7 @@
 //  EasyBuyBuy
 //
 //  Created by vedon on 4/5/14.
-//  Copyright (c) 2014 helloworld. All rights reserved.
+//  Copyright (c) 2014 vedon. All rights reserved.
 //
 
 #import "News_Scroll_Item_Info.h"

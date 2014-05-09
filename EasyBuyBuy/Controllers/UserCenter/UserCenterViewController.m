@@ -3,7 +3,7 @@
 //  EasyBuyBuy
 //
 //  Created by vedon on 24/2/14.
-//  Copyright (c) 2014 helloworld. All rights reserved.
+//  Copyright (c) 2014 vedon. All rights reserved.
 //
 #define UpperTableTag 1001
 #define BottomTableTag 1002
