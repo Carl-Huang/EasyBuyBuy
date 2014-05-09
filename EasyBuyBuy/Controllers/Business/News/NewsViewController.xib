@@ -8,7 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsViewController">
             <connections>
                 <outlet property="adView" destination="UqP-3N-A0e" id="jgm-8B-wkK"/>
-                <outlet property="contentTable" destination="H1g-q1-kIP" id="Djg-Xk-PAC"/>
+                <outlet property="containerView" destination="nSa-zl-DBx" id="7IK-n8-ovi"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -17,17 +17,13 @@
             <rect key="frame" x="0.0" y="64" width="320" height="416"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="H1g-q1-kIP">
-                    <rect key="frame" x="20" y="135" width="281" height="282"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="uUz-CH-S24"/>
-                        <outlet property="delegate" destination="-1" id="eqr-Hv-kCO"/>
-                    </connections>
-                </tableView>
                 <view contentMode="scaleToFill" id="UqP-3N-A0e">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="nSa-zl-DBx">
+                    <rect key="frame" x="20" y="128" width="280" height="240"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>

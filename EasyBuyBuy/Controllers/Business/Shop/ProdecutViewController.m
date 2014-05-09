@@ -19,18 +19,15 @@
 static char * likeBtnAssociateKey = "likeBtnAssociateKey";
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface ProdecutViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ProdecutViewController ()
 {
     NSString * viewControllTitle;
-    
-    NSMutableArray * dataSource;
     CGFloat fontSize;
     
     NSMutableDictionary * itemsSelectedStatus;
     NSInteger page;
     NSInteger pageSize;
-
-    NSString                  *  isVip;
+    NSString  *isVip;
     User * user;
     
 }
@@ -82,9 +79,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     
-    if ([OSHelper iOS7]) {
-        _contentTable.separatorInset = UIEdgeInsetsZero;
-    }
     CGRect rect = _containerView.frame;
     if ([OSHelper iPhone5]) {
         rect.size.height +=88;
@@ -111,24 +105,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [_contentTable fetchData];
     
     itemsSelectedStatus = [NSMutableDictionary dictionary];
-}
-
--(void)setItemsSelectedStatus
-{
-    
-    if (!itemsSelectedStatus) {
-        itemsSelectedStatus = [NSMutableDictionary dictionary];
-    }
-    for (int i = 0; i < [dataSource count]; ++ i) {
-        ChildCategory * object = [dataSource objectAtIndex:i];
-        if ([object.isSubscription isEqualToString:@"1"]) {
-            //订阅
-            [itemsSelectedStatus setValue:@"1" forKeyPath:[NSString stringWithFormat:@"%d",i]];
-        }else
-        {
-            [itemsSelectedStatus setValue:@"0" forKeyPath:[NSString stringWithFormat:@"%d",i]];
-        }
-    }
 }
 
 -(void)gotoProductBroswerViewControllerWithObj:(ChildCategory *)object
@@ -226,7 +202,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
              if (object) {
                  hud.labelText = @"Finish";
                  [weakSelf.contentTable updateDataSourceWithData:object];
-//                 [weakSelf setItemsSelectedStatus];
              }else
              {
                  hud.labelText = @"No More Data";
@@ -248,52 +223,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
 }
 
-#pragma mark - Table
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return  [dataSource count];
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 82.0f;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    ChildCategory * object = [dataSource objectAtIndex:indexPath.row];
-    
-    NSURL * imageURL = [NSURL URLWithString:object.image];
-    if (imageURL) {
-         [cell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"]];
-    }
-   
-    cell.classifyName.font = [UIFont systemFontOfSize:fontSize];
-    cell.classifyName.text = object.name;
-    
-    NSString * value = [itemsSelectedStatus valueForKey:[NSString stringWithFormat:@"%d",indexPath.row]];
-    if ([value isEqualToString:@"1"]) {
-        [cell.likeBtn setSelected:YES];
-    }else
-    {
-        [cell.likeBtn setSelected:NO];
-    }
-    
-    cell.likeBtn.tag = indexPath.row;
-    [cell.likeBtn addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return  cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-   
-    
-}
 
 #pragma  mark - PullRefreshTableView
 -(void)congifurePullRefreshCell:(UITableViewCell *)cell index:(NSIndexPath *)index withObj:(id)object

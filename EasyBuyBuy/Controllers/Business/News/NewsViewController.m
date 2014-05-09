@@ -11,28 +11,24 @@
 #import "NewsCell.h"
 #import "NewsDetailViewController.h"
 #import "news.h"
-#import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 #import "AppDelegate.h"
 #import "AsynCycleView.h"
+#import "PullRefreshTableView.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
-@interface NewsViewController ()<EGORefreshTableDelegate,AsyCycleViewDelegate>
+@interface NewsViewController ()<AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
     CGFloat fontSize;
-    NSInteger originalTableHeight;
-    NSMutableArray * dataSource;
     NSInteger page;
     NSInteger pageSize;
-    EGORefreshTableFooterView * footerView;
-    BOOL                        _reloading;
     AppDelegate * myDelegate;
     AsynCycleView * autoScrollView;
     
     NSArray * homePageNews;
 }
-
+@property (strong ,nonatomic) PullRefreshTableView * contentTable;
 @end
 
 @implementation NewsViewController
@@ -98,40 +94,52 @@ static NSString * cellIdentifier = @"cellidentifier";
     if ([OSHelper iOS7]) {
         _contentTable.separatorInset = UIEdgeInsetsZero;
     }
-    CGRect rect = _contentTable.frame;
+    CGRect rect = _containerView.frame;
     if ([OSHelper iPhone5]) {
         rect.size.height +=88;
     }
-    _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _contentTable.frame = rect;
-    originalTableHeight = rect.size.height;
-    
-    UINib * cellNib = [UINib nibWithNibName:@"NewsCell" bundle:[NSBundle bundleForClass:[NewsCell class]]];
-    [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
-  
+    _containerView.frame = rect;
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
     }
     myDelegate = [[UIApplication sharedApplication]delegate];
-    page = 1;
-    pageSize = 15;
-    dataSource = [NSMutableArray array];
-    __typeof (self) __weak weakSelf = self;
 
+    __typeof (self) __weak weakSelf = self;
+    [self addAdvertisementView];
+    
+   UINib * cellNib = [UINib nibWithNibName:@"NewsCell" bundle:[NSBundle bundleForClass:[NewsCell class]]];
+    _contentTable = [[PullRefreshTableView alloc]initPullRefreshTableViewWithFrame:self.containerView.bounds dataSource:@[] cellType:cellNib cellHeight:45.0f delegate:self pullRefreshHandler:^(dispatch_group_t group) {
+        [weakSelf loadPublishDataWithGroup:group];
+    }compltedBlock:^(NSDictionary * info) {
+        NSLog(@"%@",info);
+    }];
+    
+    _contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [_contentTable setBackgroundView:nil];
+    [_contentTable setBackgroundColor:[UIColor clearColor]];
+    [self.containerView addSubview:_contentTable];
+    page = 0;
+    pageSize = 15;
+    [_contentTable fetchData];
+
+}
+-(void)loadPublishDataWithGroup:(dispatch_group_t)group
+{
+    page ++;
+    __weak NewsViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        dispatch_group_leave(group);
         if (object) {
-            [dataSource addUniqueFromArray: object];
-            [weakSelf setFooterView];
-            [weakSelf.contentTable reloadData];
+            [weakSelf.contentTable updateDataSourceWithData:object];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
-         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        dispatch_group_leave(group);
+        page --;
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
-    
-    [self addAdvertisementView];
 }
 
 -(void)addAdvertisementView
@@ -163,69 +171,7 @@ static NSString * cellIdentifier = @"cellidentifier";
     }
 }
 
--(void)setFooterView{
-    
-    
-    NSInteger tableHeight = [dataSource count] * CellHeigth;
-    
-    CGRect rect = _contentTable.frame;
-    if (tableHeight > originalTableHeight) {
-        rect.size.height = originalTableHeight;
-        CGFloat height = MAX(_contentTable.contentSize.height, _contentTable.frame.size.height);
-        
-        if (footerView && [footerView superview])
-        {
-            // reset position
-            footerView.frame = CGRectMake(0.0f,
-                                          height,
-                                          _contentTable.frame.size.width,
-                                          self.view.bounds.size.height);
-        }else
-        {
-            _reloading = NO;
-            // create the footerView
-            footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                          CGRectMake(0.0f, height,
-                                     _contentTable.frame.size.width, self.view.bounds.size.height)];
-            footerView.delegate = self;
-            [_contentTable addSubview:footerView];
-        }
-        
-        if (footerView)
-        {
-            [footerView refreshLastUpdatedDate];
-        }
-    }else
-    {
-        rect.size.height =tableHeight;
-    }
-     _contentTable.frame = rect;
-    
-}
 
--(void)removeFootView
-{
-    if (footerView) {
-        [footerView removeFromSuperview];
-        footerView = nil;
-    }
-}
--(void)loadData
-{
-    page +=1;
-    _reloading = YES;
-    
-    __typeof (self) __weak weakSelf = self;
-    [[HttpService sharedInstance]getNewsListWithParams:@{@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize],@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} completionBlock:^(id object) {
-        
-        if (object) {
-            [dataSource addUniqueFromArray:object];
-        }
-        [weakSelf doneLoadingTableViewData];
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        [weakSelf doneLoadingTableViewData];
-    }];
-}
 -(void)ConfigureLinkViewSetting
 {
     [GlobalMethod setUserDefaultValue:@"5" key:CurrentLinkTag];
@@ -255,99 +201,40 @@ static NSString * cellIdentifier = @"cellidentifier";
     }
 }
 
-
-
-#pragma mark - FooterView
-
-- (void)doneLoadingTableViewData{
-    //5
-    //  model should call this when its done loading
-    [self.contentTable reloadData];
-    
-    [self removeFootView];
-    [self setFooterView];
-    
-    _reloading = NO;
-    [footerView refreshLastUpdatedDate];
-    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
-    
-}
-
--(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
+#pragma  mark - PullRefreshTableView
+-(void)congifurePullRefreshCell:(UITableViewCell *)cell index:(NSIndexPath *)index withObj:(id)object
 {
-    return _reloading;
-}
-- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
-{
-	[self loadData];
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	if (footerView)
-	{
-        [footerView egoRefreshScrollViewDidScroll:scrollView];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	if (footerView)
-	{
-        [footerView egoRefreshScrollViewDidEndDragging:scrollView];
-    }
-	
-}
-- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
-{
-	return [NSDate date]; // should return date data source was last changed
-}
-
-#pragma mark - Table
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return  [dataSource count];
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CellHeigth;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NewsCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    NewsCell * tmpCell = (NewsCell *)cell;
+//    if ([dataSource count]==1) {
+//        UIView * bgImageView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth)];
+//        [cell setBackgroundView:bgImageView];
+//        bgImageView = nil;
+//    }else
+//    {
+//        UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth) lastItemNumber:[dataSource count]];
+//        [cell setBackgroundView:bgImageView];
+//        bgImageView = nil;
+//    }
     
-    if ([dataSource count]==1) {
-        UIView * bgImageView = [GlobalMethod configureSingleCell:cell withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth)];
-        [cell setBackgroundView:bgImageView];
-        bgImageView = nil;
-    }else
-    {
-        UIView * bgImageView = [GlobalMethod newBgViewWithCell:cell index:indexPath.row withFrame:CGRectMake(0, 0, _contentTable.frame.size.width, CellHeigth) lastItemNumber:[dataSource count]];
-        [cell setBackgroundView:bgImageView];
-        bgImageView = nil;
-    }
+    news * tmpNews = object;
+    tmpCell.newsTitle.text = tmpNews.title;
+    tmpCell.newsTitle.font = [UIFont systemFontOfSize:fontSize+2];
     
-    news * object = [dataSource objectAtIndex:indexPath.row];
-    cell.newsTitle.text = object.title;
-
+    tmpCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    tmpCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell.newsTitle.font = [UIFont systemFontOfSize:fontSize+2];
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object
 {
+    //获取当前的模式类型
     [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
-    news * object = [dataSource objectAtIndex:indexPath.row];
     NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
-
+    
     [viewController setNewsObj:object];
     [self push:viewController];
     viewControllTitle = nil;
 }
+
 
 @end

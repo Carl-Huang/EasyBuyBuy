@@ -9,7 +9,8 @@
 #import "CommonViewController.h"
 
 @interface NewsViewController : CommonViewController
-@property (weak, nonatomic) IBOutlet UITableView *contentTable;
+
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @end
