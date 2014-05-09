@@ -24,5 +24,5 @@
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * update_time;
 @property (nonatomic, retain) Scroll_Item *itemInfo;
-
++ (Scroll_Item_Info *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
 @end

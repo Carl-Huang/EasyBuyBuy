@@ -16,8 +16,8 @@
         <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="News_Scroll_item" representedClassName="News_Scroll_item" syncable="YES">
+        <attribute name="addTime" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="itemID" attributeType="String" syncable="YES"/>
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
@@ -55,8 +55,8 @@
         <attribute name="update_time" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Scroll_Item" representedClassName="Scroll_Item" syncable="YES">
+        <attribute name="addTime" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="itemID" attributeType="String" syncable="YES"/>
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>

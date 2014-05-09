@@ -119,8 +119,6 @@
 		4EB3451F191388F600F10742 /* NotiProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB3451E191388F600F10742 /* NotiProductCell.m */; };
 		4EB345211913892100F10742 /* NotiProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB345201913892100F10742 /* NotiProductCell.xib */; };
 		4EB382DD19172C96001CD100 /* AppDelegate+BackgroundTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB382DC19172C96001CD100 /* AppDelegate+BackgroundTask.m */; };
-		4EB382E319175846001CD100 /* News_Scroll_item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB382E219175846001CD100 /* News_Scroll_item.m */; };
-		4EB382E619175862001CD100 /* Scroll_Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB382E519175862001CD100 /* Scroll_Item.m */; };
 		4EB4061219191ADE00323D5D /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4061119191ADE00323D5D /* list.png */; };
 		4EB4061B19191B6A00323D5D /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB4061919191B6A00323D5D /* ListViewController.m */; };
 		4EB4061C19191B6A00323D5D /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB4061A19191B6A00323D5D /* ListViewController.xib */; };
@@ -174,6 +172,8 @@
 		4EB7D85F190C03C9006DECB2 /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7D85E190C03C9006DECB2 /* Model.m */; };
 		4EB7E7CB1915CF1400B4C9B9 /* Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7E7CA1915CF1400B4C9B9 /* Scroll_Item_Info.m */; };
 		4EB7E7D11915D0D100B4C9B9 /* News_Scroll_Item_Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7E7D01915D0D100B4C9B9 /* News_Scroll_Item_Info.m */; };
+		4EB7F901191CB9F600AB2D88 /* News_Scroll_item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7F900191CB9F600AB2D88 /* News_Scroll_item.m */; };
+		4EB7F90A191CD2D400AB2D88 /* Scroll_Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7F909191CD2D400AB2D88 /* Scroll_Item.m */; };
 		4EB7FC2A1907636E00CA2C52 /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC291907636E00CA2C52 /* Region.m */; };
 		4EB7FC2D1907645000CA2C52 /* news.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB7FC2C1907645000CA2C52 /* news.m */; };
 		4EB88ECF18F588A5001C2AA5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB88ECE18F588A5001C2AA5 /* User.m */; };
@@ -493,10 +493,6 @@
 		4EB345201913892100F10742 /* NotiProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotiProductCell.xib; sourceTree = "<group>"; };
 		4EB382DB19172C96001CD100 /* AppDelegate+BackgroundTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+BackgroundTask.h"; sourceTree = "<group>"; };
 		4EB382DC19172C96001CD100 /* AppDelegate+BackgroundTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+BackgroundTask.m"; sourceTree = "<group>"; };
-		4EB382E119175846001CD100 /* News_Scroll_item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = News_Scroll_item.h; sourceTree = "<group>"; };
-		4EB382E219175846001CD100 /* News_Scroll_item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News_Scroll_item.m; sourceTree = "<group>"; };
-		4EB382E419175862001CD100 /* Scroll_Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item.h; sourceTree = "<group>"; };
-		4EB382E519175862001CD100 /* Scroll_Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item.m; sourceTree = "<group>"; };
 		4EB4061119191ADE00323D5D /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
 		4EB4061819191B6A00323D5D /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		4EB4061919191B6A00323D5D /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
@@ -579,6 +575,10 @@
 		4EB7E7CA1915CF1400B4C9B9 /* Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item_Info.m; sourceTree = "<group>"; };
 		4EB7E7CF1915D0D100B4C9B9 /* News_Scroll_Item_Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = News_Scroll_Item_Info.h; sourceTree = "<group>"; };
 		4EB7E7D01915D0D100B4C9B9 /* News_Scroll_Item_Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News_Scroll_Item_Info.m; sourceTree = "<group>"; };
+		4EB7F8FF191CB9F600AB2D88 /* News_Scroll_item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = News_Scroll_item.h; sourceTree = "<group>"; };
+		4EB7F900191CB9F600AB2D88 /* News_Scroll_item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = News_Scroll_item.m; sourceTree = "<group>"; };
+		4EB7F908191CD2D400AB2D88 /* Scroll_Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroll_Item.h; sourceTree = "<group>"; };
+		4EB7F909191CD2D400AB2D88 /* Scroll_Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scroll_Item.m; sourceTree = "<group>"; };
 		4EB7FC281907636E00CA2C52 /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region.h; sourceTree = "<group>"; };
 		4EB7FC291907636E00CA2C52 /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Region.m; sourceTree = "<group>"; };
 		4EB7FC2B1907645000CA2C52 /* news.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = news.h; sourceTree = "<group>"; };
@@ -1227,11 +1227,11 @@
 		4EB7D84D190B51DB006DECB2 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				4EB382E119175846001CD100 /* News_Scroll_item.h */,
-				4EB382E219175846001CD100 /* News_Scroll_item.m */,
 				4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */,
-				4EB382E419175862001CD100 /* Scroll_Item.h */,
-				4EB382E519175862001CD100 /* Scroll_Item.m */,
+				4EB7F908191CD2D400AB2D88 /* Scroll_Item.h */,
+				4EB7F909191CD2D400AB2D88 /* Scroll_Item.m */,
+				4EB7F8FF191CB9F600AB2D88 /* News_Scroll_item.h */,
+				4EB7F900191CB9F600AB2D88 /* News_Scroll_item.m */,
 				4EB7E7CF1915D0D100B4C9B9 /* News_Scroll_Item_Info.h */,
 				4EB7E7D01915D0D100B4C9B9 /* News_Scroll_Item_Info.m */,
 				4EB7E7C91915CF1400B4C9B9 /* Scroll_Item_Info.h */,
@@ -1903,7 +1903,6 @@
 				4EB88ECF18F588A5001C2AA5 /* User.m in Sources */,
 				4EC90BAE18E40ECA007969F5 /* AFHttp.m in Sources */,
 				4EB4A6A41904FD2200606A39 /* NewsCell.m in Sources */,
-				4EB382E619175862001CD100 /* Scroll_Item.m in Sources */,
 				4E4062111918BD2100230392 /* ShopFetchResultController.m in Sources */,
 				C33EEBB3189666F900A26971 /* AppDelegate.m in Sources */,
 				4EB7E7D11915D0D100B4C9B9 /* News_Scroll_Item_Info.m in Sources */,
@@ -1938,7 +1937,6 @@
 				4EB7FC2D1907645000CA2C52 /* news.m in Sources */,
 				4E082051190123BD00D9C2A2 /* NewsViewController.m in Sources */,
 				4EB8FF5418F2F92700A13709 /* OrderProductListViewController.m in Sources */,
-				4EB382E319175846001CD100 /* News_Scroll_item.m in Sources */,
 				5F00239718BDB03500100CBF /* NotificationCell.m in Sources */,
 				4EB5FFAD18BC369F0064B22C /* MyOrderDetailViewController.m in Sources */,
 				4EC90BB118E40ECA007969F5 /* parseCSV.m in Sources */,
@@ -1955,6 +1953,7 @@
 				4EAE850E191BB562000F744B /* MRZoomScrollView.m in Sources */,
 				4EB4A6AA1905042F00606A39 /* NewsDetailViewController.m in Sources */,
 				4EAF48B518BB78D20038575F /* OrderCell.m in Sources */,
+				4EB7F901191CB9F600AB2D88 /* News_Scroll_item.m in Sources */,
 				4EB422F818F5313F00DF2053 /* BiddingGood.m in Sources */,
 				4EB4A6AE1905155D00606A39 /* NewsDetailDesCell.m in Sources */,
 				4EAE464118C6EE520089B843 /* MyCarCell.m in Sources */,
@@ -1996,6 +1995,7 @@
 				4EB6849C18DC0001005AE976 /* DefaultDescriptionCellTableViewCell.m in Sources */,
 				4E1EA34A18E715060012BAEC /* AboutUsViewController.m in Sources */,
 				4EAA4F7718C749000037D8C5 /* TouchLocationView.m in Sources */,
+				4EB7F90A191CD2D400AB2D88 /* Scroll_Item.m in Sources */,
 				4EB6F61318ED9E5800D4C9C1 /* CheckOrderViewController.m in Sources */,
 				4EAE464518C6EE520089B843 /* ProdecutViewController.m in Sources */,
 				4EC207AC18C57754003708D6 /* HWConnect.m in Sources */,

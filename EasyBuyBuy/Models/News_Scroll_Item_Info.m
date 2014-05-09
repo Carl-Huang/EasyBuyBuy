@@ -23,5 +23,15 @@
 @dynamic type;
 @dynamic update_time;
 @dynamic newsInfo;
-
++ (News_Scroll_Item_Info *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context
+{
+    NSArray *newsItemCount = [News_Scroll_Item_Info MR_findByAttribute:@"itemID" withValue:identifier];
+    if ([newsItemCount count]) {
+        return [newsItemCount lastObject];
+    }else
+    {
+        News_Scroll_Item_Info * tmp = [News_Scroll_Item_Info MR_createEntity];
+        return tmp;
+    }
+}
 @end

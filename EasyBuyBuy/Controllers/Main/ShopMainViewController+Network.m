@@ -97,46 +97,50 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         __typeof(self) __weak weakSelf = self;
 #if ISUseCacheData
-        for(AdObject * object in objects)
+        NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+        
+        for(news * object in objects)
         {
-            BOOL isShouldAdd = YES;
-            NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Main"];
-            Scroll_Item * adItem = nil;
-            for (Scroll_Item * tempObj in scrollItems) {
-                if ([tempObj.itemID isEqualToString:object.ID]) {
-                    adItem = tempObj;
-                    isShouldAdd = NO;
-                    break;
-                }
-            }
-            if(isShouldAdd)
-            {
-                Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
-                scrollItem.itemID   = object.ID;
-                scrollItem.tag      = @"Main";
-                scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
-                
-                Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
-                itemInfo.itemID     = object.ID;
-                itemInfo.language   = object.language;
-                itemInfo.title      = object.title;
-                itemInfo.status     = object.status;
-                itemInfo.type       = object.type;
-                itemInfo.update_time = object.update_time;
-                itemInfo.add_time   = object.add_time;
-                itemInfo.content    = object.content;
-                NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
-                itemInfo.image      = arrayData;
-                scrollItem.item     = itemInfo;
-                
-            }else
-            {
-                [CDToOB updateAd:adItem.item withObj:object];
-            }
-            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-                ;
-            }];
+            NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
             
+            Scroll_Item * newItems = [Scroll_Item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
+            newItems.itemID   =object.ID;
+            newItems.addTime  = addTime;
+            
+            newItems.tag      = @"Main";
+            newItems.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
+            Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+            itemInfo.itemID     = object.ID;
+            itemInfo.language   = object.language;
+            itemInfo.title      = object.title;
+            itemInfo.update_time = object.update_time;
+            itemInfo.add_time   = object.add_time;
+            itemInfo.content    = object.content;
+            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+            itemInfo.image      = arrayData;
+            newItems.item     = itemInfo;
+            
+            [moc MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
+             {
+                 if (error) {
+                     NSLog(@"%@",error.description);
+                 }
+                 NSFetchRequest *request = [[NSFetchRequest alloc]init];
+                 NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"Scroll_Item" inManagedObjectContext:moc];
+                 [request setEntity:entityDes];
+                 request.predicate = [NSPredicate predicateWithFormat:@"addTime < %@",addTime];
+                 
+                 NSError * fetchError = nil;
+                 NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
+                 if (error) {
+                     NSLog(@"%@",[error description]);
+                 }else
+                 {
+                     for (id obj in fetchResult) {
+                         [moc deleteObject:obj];
+                     }
+                 }
+             }];
         }
 #endif
         [weakSelf.autoScrollView setInternalGroup:weakSelf.refresh_data_group];
@@ -216,47 +220,54 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         __typeof(self) __weak weakSelf = self;
 #if ISUseCacheData
+        NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+        
         for(news * object in objects)
         {
-            BOOL isShouldAdd = YES;
-            NSArray * scrollItems = [News_Scroll_item MR_findByAttribute:@"tag" withValue:@"Main"];
-            News_Scroll_item * newItems = nil;
-            for (News_Scroll_item * tempObj in scrollItems) {
-                if ([tempObj.itemID isEqualToString:object.ID]) {
-                    isShouldAdd = NO;
-                    newItems =tempObj;
-                    break;
-                }
-            }
-            if(isShouldAdd)
+            NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
+            
+            News_Scroll_item * newItems = [News_Scroll_item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
+            newItems.itemID   =object.ID;
+            newItems.addTime  = addTime;
+            
+            newItems.tag      = @"Main";
+            newItems.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
+            News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
+            itemInfo.itemID     = object.ID;
+            itemInfo.language   = object.language;
+            itemInfo.title      = object.title;
+            itemInfo.update_time = object.update_time;
+            itemInfo.add_time   = object.add_time;
+            itemInfo.content    = object.content;
+            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+            itemInfo.image      = arrayData;
+            newItems.item     = itemInfo;
+            
+            [moc MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
             {
-                News_Scroll_item * scrollItem = [News_Scroll_item MR_createEntity];
-                scrollItem.itemID   =object.ID;
-                scrollItem.tag      = @"Main";
-                scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
-                News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
-                itemInfo.itemID     = object.ID;
-                itemInfo.language   = object.language;
-                itemInfo.title      = object.title;
-                itemInfo.update_time = object.update_time;
-                itemInfo.add_time   = object.add_time;
-                itemInfo.content    = object.content;
-                NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
-                itemInfo.image      = arrayData;
-                scrollItem.item     = itemInfo;
-                
-            }else
-            {
-                [CDToOB updateNews:newItems.item withObj:object];
-            }
-            [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-                if(!success)
-                {
+                if (error) {
                     NSLog(@"%@",error.description);
                 }
+                NSFetchRequest *request = [[NSFetchRequest alloc]init];
+                NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"News_Scroll_item" inManagedObjectContext:moc];
+                [request setEntity:entityDes];
+                request.predicate = [NSPredicate predicateWithFormat:@"addTime < %@",addTime];
+                
+                NSError * fetchError = nil;
+                NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
+                if (error) {
+                    NSLog(@"%@",[error description]);
+                }else
+                {
+                    for (id obj in fetchResult) {
+                        [moc deleteObject:obj];
+                    }
+                }
             }];
-            
         }
+        
+        
+        
 #endif
         [weakSelf.autoScrollNewsView setInternalGroup:weakSelf.refresh_data_group];
         NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{

@@ -29,6 +29,5 @@
         Parent_Category_Factory * tmp = [Parent_Category_Factory MR_createEntity];
         return tmp;
     }
-    
 }
 @end

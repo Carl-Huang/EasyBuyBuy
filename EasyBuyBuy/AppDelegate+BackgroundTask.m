@@ -8,6 +8,9 @@
 
 #import "AppDelegate+BackgroundTask.h"
 #import "APService.h"
+#import "ProductDetailViewControllerViewController.h"
+#import "MyNotificationViewController.h"
+#import "Good.h"
 @implementation AppDelegate (BackgroundTask)
 
 #pragma mark - NSURLSession Delegate
@@ -95,6 +98,69 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
     self.badge_num ++;
     [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",self.badge_num] key:BadgeNumber];
     [[UIApplication sharedApplication]setApplicationIconBadgeNumber:self.badge_num];
+    
+    if (application.applicationState == UIApplicationStateInactive ) {
+
+        UINavigationController * nav = (UINavigationController *) self.window.rootViewController;
+        NSArray * viewControllers = nav.viewControllers;
+        
+        NSString * type = [NSString stringWithFormat:@"%@",userInfo[@"is_system"]];
+        if ([type isEqualToString:@"0"] ) {
+            //商品信息推送
+            BOOL isInProductDetailViewController = NO;
+            ProductDetailViewControllerViewController * viewContorller = nil;
+            for (UIViewController * vc in viewControllers) {
+                if([vc isKindOfClass:[ProductDetailViewControllerViewController class]])
+                {
+                    viewContorller = (ProductDetailViewControllerViewController *)vc;
+                    isInProductDetailViewController = YES;
+                }
+            }
+            if(!isInProductDetailViewController)
+            {
+                __weak AppDelegate * weakSelf =self;
+                [MBProgressHUD showHUDAddedTo:nav.view animated:YES];
+                [[HttpService sharedInstance]getProductDetailWithParams:@{@"goods_id":userInfo[@"id"]} completionBlock:^(id object) {
+                    if([object count])
+                    {
+                        Good * obj = [object objectAtIndex:0];
+                        [weakSelf gotoProductDetailViewControllerWithGoodInfo:obj];
+                    }
+                    [MBProgressHUD hideHUDForView:nav.view animated:YES];
+                } failureBlock:^(NSError *error, NSString *responseString) {
+                    [MBProgressHUD hideHUDForView:nav.view animated:YES];
+                }];
+                
+            }
+        }else
+        {
+            //系统信息推送
+            BOOL isInMyNotificationViewController = NO;
+            MyNotificationViewController * viewContorller = nil;
+            for (UIViewController * vc in viewControllers) {
+                if([vc isKindOfClass:[MyNotificationViewController class]])
+                {
+                    viewContorller = (MyNotificationViewController *)vc;
+                    isInMyNotificationViewController = YES;
+                }
+            }
+            if(!isInMyNotificationViewController)
+            {
+                viewContorller = [[MyNotificationViewController alloc]initWithNibName:@"MyNotificationViewController" bundle:nil];
+                [viewContorller setCurrentTag:@"System"];
+                [nav pushViewController:viewContorller animated:YES];
+                viewContorller  = nil;
+            }else
+            {
+                [viewContorller refreshDataSource];
+            }
+        }
+    }
+    if (application.applicationState == UIApplicationStateActive) {
+        [self showNotification:userInfo];
+    }
+
+    
 
 }
 #endif
@@ -128,5 +194,25 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
     
 }
 
+-(void)gotoProductDetailViewControllerWithGoodInfo:(Good *)good
+{
+    UINavigationController * nav = (UINavigationController *) self.window.rootViewController;
+    
+    ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+    viewController.title = good.name;
+    [viewController setGood:good];
+    [viewController setIsShouldShowShoppingCar:YES];
+    [nav pushViewController:viewController animated:YES];
+    viewController = nil;
+}
 
+-(void)showNotification:(NSDictionary *)notification
+{
+    NSDictionary * content = notification[@"aps"];
+    
+    UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"Easybuybuy" message:content[@"alert"] delegate:nil cancelButtonTitle:@"Confirm" otherButtonTitles:nil, nil];
+    
+    [alertView show];
+    alertView = nil;
+}
 @end
