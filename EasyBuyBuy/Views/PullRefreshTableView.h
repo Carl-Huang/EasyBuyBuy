@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^CompltedBlock)( );
 typedef void (^PullRefreshBlock)(dispatch_group_t group);
 typedef void (^PullRefreshCompltedBlock)(NSDictionary * info);
 @protocol PullRefreshTableViewDelegate<NSObject>

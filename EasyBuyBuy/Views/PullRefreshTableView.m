@@ -7,12 +7,9 @@
 //
 
 #import "PullRefreshTableView.h"
-#import "EGORefreshTableFooterView.h"
-
+#import "SVPullToRefresh.h"
 static NSString * cellIdentifier  =@"cellIdentifier";
-@interface PullRefreshTableView ()<EGORefreshTableDelegate,UITableViewDelegate,UITableViewDataSource>
-@property (strong ,nonatomic) EGORefreshTableFooterView * footerView;
-@property (assign ,nonatomic) BOOL reloading;
+@interface PullRefreshTableView ()<UITableViewDelegate,UITableViewDataSource>
 @property (strong ,nonatomic) NSMutableArray * refreshDataSource;
 @property (assign ,nonatomic) CGFloat cellHeight;
 @property (strong ,nonatomic) PullRefreshBlock refreshBlock;
@@ -55,6 +52,11 @@ static NSString * cellIdentifier  =@"cellIdentifier";
         if (compltedBlock) {
             _refreshCompltedBlock = [compltedBlock copy];
         }
+        __weak PullRefreshTableView * weakSelf =self;
+        [self addPullToRefreshWithActionHandler:^{
+            [weakSelf loadData];
+        } position:SVPullToRefreshPositionBottom];
+        
         _refreshGroup = dispatch_group_create();
         _pullRefreshDelegate = delegate;
         _cellHeight = height;
@@ -121,89 +123,6 @@ static NSString * cellIdentifier  =@"cellIdentifier";
         [self.pullRefreshDelegate didSelectedItemInIndex:indexPath.row withObj:object];
     }
 }
-#pragma mark - FooterView
--(void)setFooterView{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CGFloat height = MAX(self.contentSize.height, self.frame.size.height);
-        
-        if (height > self.frame.size.height) {
-            
-            if (self.footerView && [self.footerView superview])
-            {
-                self.footerView.frame = CGRectMake(0.0f,
-                                                   height,
-                                                   self.frame.size.width,
-                                                   self.frame.size.height);
-            }else
-            {
-                self.reloading = NO;
-                self.footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                                   CGRectMake(0.0f, height,
-                                              self.frame.size.width, self.frame.size.height)];
-                self.footerView.delegate = self;
-                [self addSubview:self.footerView];
-            }
-            [self.footerView refreshLastUpdatedDate];
-        }
-    });
-}
-
--(void)removeFootView
-{
-    if (self.footerView) {
-        [self.footerView removeFromSuperview];
-        self.footerView = nil;
-    }
-}
-- (void)doneLoadingTableViewData{
-    if (self.footerView) {
-        [self removeFootView];
-        [self setFooterView];
-        self.reloading = NO;
-        [self.footerView refreshLastUpdatedDate];
-        [self.footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self];
-    }else
-    {
-        if ((_refreshDataSource.count * _cellHeight)> self.frame.size.height) {
-            [self setFooterView];
-            if (_refreshCompltedBlock) {
-                _refreshCompltedBlock(@{@"Info":@"Successfully"});
-            }
-        }else
-        {
-            if (_refreshCompltedBlock) {
-                _refreshCompltedBlock(@{@"Info":@"No Data"});
-            }
-        }
-    }
-}
-
--(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
-{
-    return self.reloading;
-}
-- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
-{
-	[self loadData];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	if (self.footerView)
-	{
-        [self.footerView egoRefreshScrollViewDidScroll:scrollView];
-    }
-}
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	if (self.footerView)
-	{
-        [self.footerView egoRefreshScrollViewDidEndDragging:scrollView];
-    }
-	
-}
-- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
-{
-	return [NSDate date]; // should return date data source was last changed
-}
 
 -(void)loadData
 {
@@ -213,8 +132,7 @@ static NSString * cellIdentifier  =@"cellIdentifier";
         _refreshBlock(_refreshGroup);
         
         dispatch_group_notify(_refreshGroup,dispatch_get_main_queue(), ^{
-            [self doneLoadingTableViewData];
-            
+            [self.pullToRefreshView stopAnimating];
         });
      
     }else

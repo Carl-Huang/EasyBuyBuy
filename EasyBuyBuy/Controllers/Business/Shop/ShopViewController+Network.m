@@ -7,12 +7,11 @@
 //
 
 #import "ShopViewController+Network.h"
-#import "EGORefreshTableFooterView.h"
 #import "NSMutableArray+AddUniqueObject.h"
 #import "ParentCategory.h"
 #import "AdObject.h"
 #import "CDToOB.h"
-@interface ShopViewController (Network)<EGORefreshTableDelegate>
+@interface ShopViewController (Network)
 @end
 
 @implementation ShopViewController (Network)
@@ -182,97 +181,23 @@
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
     [[HttpService sharedInstance]getParentCategoriesWithParams:@{@"business_model": [NSString stringWithFormat:@"%d",weakSelf.buinessType],@"page":[NSString stringWithFormat:@"%d",weakSelf.page],@"pageSize":[NSString stringWithFormat:@"%d",weakSelf.pageSize]} completionBlock:^(id object) {
-        [weakSelf doneLoadingTableViewData];
+        [weakSelf.contentTable.pullToRefreshView stopAnimating];
         if (object) {
-
             hud.labelText = @"Finish";
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                [ParentCategory saveToLocalWithObject:object type:weakSelf.buinessType];
+            });
         }else
         {
             hud.labelText = @"Finish Loading";
         }
-        
-
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:0.5];
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [weakSelf doneLoadingTableViewData];
+        [weakSelf.contentTable.pullToRefreshView stopAnimating];
     }];
 }
 
-#pragma mark - FooterView
-- (void)doneLoadingTableViewData{
-    //  model should call this when its done loading
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.contentTable reloadData];
-        [self removeFootView];
-        [self setFooterView];
-        self.reloading = NO;
-        [self.footerView refreshLastUpdatedDate];
-        [self.footerView egoRefreshScrollViewDataSourceDidFinishedLoading:self.contentTable];
-    });
-   
-}
-
--(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
-{
-    return self.reloading;
-}
-- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
-{
-	[self loadData];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	if (self.footerView)
-	{
-        [self.footerView egoRefreshScrollViewDidScroll:scrollView];
-    }
-}
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	if (self.footerView)
-	{
-        [self.footerView egoRefreshScrollViewDidEndDragging:scrollView];
-    }
-	
-}
-- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
-{
-	return [NSDate date]; // should return date data source was last changed
-}
-
--(void)setFooterView{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CGFloat height = MAX(self.contentTable.contentSize.height, self.contentTable.frame.size.height);
-
-        if (height > self.contentTable.frame.size.height) {
-            
-            if (self.footerView && [self.footerView superview])
-            {
-                self.footerView.frame = CGRectMake(0.0f,
-                                                   height,
-                                                   self.contentTable.frame.size.width,
-                                                   self.view.bounds.size.height);
-            }else
-            {
-                self.reloading = NO;
-                self.footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                                   CGRectMake(0.0f, height,
-                                              self.contentTable.frame.size.width, self.view.bounds.size.height)];
-                self.footerView.delegate = self;
-                [self.contentTable addSubview:self.footerView];
-            }
-            [self.footerView refreshLastUpdatedDate];
-        }
-     });
-}
-
--(void)removeFootView
-{
-    if (self.footerView) {
-        [self.footerView removeFromSuperview];
-        self.footerView = nil;
-    }
-}
 
 @end

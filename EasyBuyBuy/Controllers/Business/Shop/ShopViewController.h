@@ -8,7 +8,6 @@
 
 #import "CommonViewController.h"
 #import "AsynCycleView.h"
-@class  EGORefreshTableFooterView;
 @interface ShopViewController : CommonViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
@@ -22,7 +21,6 @@
 @property (assign ,nonatomic) NSInteger page;
 @property (assign ,nonatomic) NSInteger pageSize;
 @property (assign ,nonatomic) BOOL reloading;
-@property (strong ,nonatomic) EGORefreshTableFooterView * footerView;
 @property (strong ,nonatomic) NSMutableArray * dataSource;
 
 @property (strong ,nonatomic) AsynCycleView * autoScrollView;

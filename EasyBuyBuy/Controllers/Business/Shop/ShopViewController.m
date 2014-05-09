@@ -18,6 +18,7 @@
 #import "ParentCategory.h"
 #import "ShopFetchResultController.h"
 #import "ShopViewController+Network.h"
+#import "SVPullToRefresh.h"
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface ShopViewController ()<UITableViewDelegate,AsyCycleViewDelegate,NSURLConnectionDelegate,ShopFetchResultControllerDataSourceDelegate>
 {
@@ -134,6 +135,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     dataSource = [NSMutableArray array];
     [self importShopContentData];
     self.autoScrollView.delegate = self;
+    
+  
 }
 
 -(void)gotoParentViewController
@@ -219,8 +222,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)didFinishLoadData
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-         [self setFooterView];
+//         [self setFooterView];
+        [self.contentTable addPullToRefreshWithActionHandler:^{
+            [self loadData];
+        } position:SVPullToRefreshPositionBottom];
     });
+    
 }
 
 @end

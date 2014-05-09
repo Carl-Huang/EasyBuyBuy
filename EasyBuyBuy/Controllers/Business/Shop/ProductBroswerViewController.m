@@ -12,23 +12,17 @@
 #import "ChildCategory.h"
 #import "TMQuiltView.h"
 #import "TMPhotoQuiltViewCell.h"
-#import "EGORefreshTableHeaderView.h"
-#import "EGORefreshTableFooterView.h"
 #import "Good.h"
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
 #import "NSMutableArray+AddUniqueObject.h"
-
+#import "SVPullToRefresh.h"
 static NSString * cellIdentifier = @"PhotoCell";
-@interface ProductBroswerViewController ()<TMQuiltViewDataSource,TMQuiltViewDelegate,EGORefreshTableDelegate>
+@interface ProductBroswerViewController ()<TMQuiltViewDataSource,TMQuiltViewDelegate>
 {
     NSMutableArray * products;
     NSInteger page;
     NSInteger pageSize;
-    
-
-    EGORefreshTableFooterView * footerView;
-    BOOL                        _reloading;
 }
 @property (strong ,nonatomic) TMQuiltView *qtmquitView;
 @property  (strong ,nonatomic) NSMutableArray * images;
@@ -73,13 +67,14 @@ static NSString * cellIdentifier = @"PhotoCell";
         if (object && [object count]) {
             [products addObjectsFromArray:object];
             [weakSelf.qtmquitView reloadData];
-            [weakSelf setFooterView];
+            [self.qtmquitView addPullToRefreshWithActionHandler:^{
+                [weakSelf loadData];
+            } position:SVPullToRefreshPositionBottom];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [weakSelf showAlertViewWithMessage:@"Loading failed"];
     }];
-    _reloading = NO;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -92,8 +87,6 @@ static NSString * cellIdentifier = @"PhotoCell";
 -(void)loadData
 {
     page += 1;
-    _reloading = YES;
-    
     __weak ProductBroswerViewController * weakSelf = self;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
@@ -101,20 +94,12 @@ static NSString * cellIdentifier = @"PhotoCell";
         if (object && [object count]) {
             [products addUniqueFromArray:object];
         }
-        [weakSelf doneLoadingTableViewData];
+        [weakSelf.qtmquitView.pullToRefreshView stopAnimating];
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [weakSelf doneLoadingTableViewData];
+        [weakSelf.qtmquitView.pullToRefreshView stopAnimating];
     }];
     
-}
-
--(void)removeFootView
-{
-    if (footerView) {
-        [footerView removeFromSuperview];
-        footerView = nil;
-    }
 }
 
 
@@ -177,87 +162,7 @@ static NSString * cellIdentifier = @"PhotoCell";
     [self gotoProductDetailViewControllerWithGoodInfo:tempGood];
 }
 
--(void)setFooterView{
-	//    UIEdgeInsets test = self.aoView.contentInset;
-    // if the footerView is nil, then create it, reset the position of the footer
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CGFloat height = MAX(qtmquitView.contentSize.height, qtmquitView.frame.size.height);
-        if (height > self.qtmquitView.frame.size.height) {
-            if (footerView && [footerView superview])
-            {
-                // reset position
-                footerView.frame = CGRectMake(0.0f,
-                                              height,
-                                              qtmquitView.frame.size.width,
-                                              self.view.bounds.size.height);
-            }else
-            {
-                // create the footerView
-                _reloading = NO;
-                footerView = [[EGORefreshTableFooterView alloc] initWithFrame:
-                              CGRectMake(0.0f, height,
-                                         qtmquitView.frame.size.width, self.view.bounds.size.height)];
-                footerView.delegate = self;
-                [qtmquitView addSubview:footerView];
-            }
-            
-            if (footerView)
-            {
-                [footerView refreshLastUpdatedDate];
-            }
-        }
-    });
-}
 
-
--(void)removeFooterView
-{
-    if (footerView && [footerView superview])
-	{
-        [footerView removeFromSuperview];
-    }
-    footerView = nil;
-}
-#pragma mark - FooterView
-
-- (void)doneLoadingTableViewData{
-    [footerView egoRefreshScrollViewDataSourceDidFinishedLoading:qtmquitView];
-    [qtmquitView reloadData];
-
-    [self removeFooterView];
-    [self setFooterView];
-    _reloading = NO;
-
-}
-
--(BOOL)egoRefreshTableDataSourceIsLoading:(UIView *)view
-{
-    return _reloading;
-}
-- (void)egoRefreshTableDidTriggerRefresh:(EGORefreshPos)aRefreshPos
-{
-	[self loadData];
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-	if (footerView)
-	{
-        [footerView egoRefreshScrollViewDidScroll:scrollView];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	if (footerView)
-	{
-        [footerView egoRefreshScrollViewDidEndDragging:scrollView];
-    }
-	
-}
-- (NSDate*)egoRefreshTableDataSourceLastUpdated:(UIView*)view
-{
-	return [NSDate date]; // should return date data source was last changed
-}
 
 @end
 

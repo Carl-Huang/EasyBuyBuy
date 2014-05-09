@@ -11,8 +11,8 @@
 #import "Parent_Category_Factory.h"
 #import "Scroll_Item.h"
 #import "Scroll_Item_Info.h"
-
+#import "SVPullToRefresh.h"
 @interface ShopViewController (Network)
 -(void)importShopContentData;
--(void)setFooterView;
+-(void)loadData;
 @end
