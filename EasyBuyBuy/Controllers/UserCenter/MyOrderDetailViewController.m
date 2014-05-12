@@ -134,8 +134,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     UINib * cellNib3 = [UINib nibWithNibName:@"RemartCell" bundle:[NSBundle bundleForClass:[RemartCell class]]];
     [_contentTable registerNib:cellNib3 forCellReuseIdentifier:remartCellIdentifier];
     
-    
-    
     sectionArray = @[@"1",@"2",@"3",@"4",@"5",@"6"];
     User * user = [User getUserFromLocal];
     __weak MyOrderDetailViewController * weakSelf =self;
@@ -209,8 +207,11 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
 -(void)promptUserToSelectAddress
 {
-    NSDictionary * userInfo = @{@"name":@"Please Seletecd the address",@"phone":@"",@"address":@""};
+    [self showAlertViewWithMessage:@"Please Choose the address" withDelegate:self tag:1002];
+    
+    NSDictionary * userInfo = @{@"name":@"",@"phone":@"",@"address":@"Please Seletecd the address"};
     [dataSource replaceObjectAtIndex:0 withObject:userInfo];
+    [self.contentTable reloadData];
 }
 
 
@@ -238,8 +239,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 
 -(void)configureLastSectionCell:(DefaultDescriptionCellTableViewCell *)cell index:(NSIndexPath *)indexPath
 {
-    
-    
     if (_isNewOrder) {
         if (indexPath.row == 0) {
             //订单状态
@@ -426,9 +425,6 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         [self showAlertViewWithMessage:@"Please selected an address"];
     }
     
-    
-   
-    
 }
 
 #pragma mark - UITableView
@@ -473,6 +469,12 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         cell.phoneNumber.font   = [UIFont systemFontOfSize:fontSize];
         cell.address.font       = [UIFont systemFontOfSize:fontSize];
         
+        if (!defaultAddress) {
+            cell.address.textColor = [UIColor redColor];
+        }else
+        {
+            cell.address.textColor = [UIColor whiteColor];
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return  cell;
     }else if(indexPath.section == 3)
@@ -638,6 +640,12 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 {
     if (alertView.tag == 1001) {
         [self popToRoot];
+    }else if (alertView.tag == 1002)
+    {
+        if (buttonIndex == 1) {
+            [self gotoSelectedAddressViewController];
+        }
+        
     }
 }
 //payment proof

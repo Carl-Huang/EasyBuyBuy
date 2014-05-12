@@ -51,6 +51,7 @@
     NSInteger pageSize_Region;
     
     NSString * previousLanguage;
+    NSInteger previousTagNumber;
 }
 
 @end
@@ -115,6 +116,21 @@
         [self addNewsView];
     
         previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
+    }
+    
+    NSString * tag = [GlobalMethod getUserDefaultWithKey:CurrentLinkTag];
+    NSLog(@"Link Tag :%d",tag.integerValue);
+    if (!tag || tag.integerValue == -1) {
+        previousTagNumber = 0;
+    }else
+    {
+        if (previousTagNumber != tag.integerValue) {
+            previousTagNumber = tag.integerValue;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self.contentScrollView setContentOffset:CGPointMake(320 * previousTagNumber, self.contentScrollView.contentOffset.y) animated:YES];
+                page.currentPage = previousTagNumber;
+            });
+        }
     }
 }
 
@@ -227,24 +243,32 @@
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
 {
-    MBProgressHUD * hub = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hub.labelText = @"Searching";
-    
     searchContent = searchText;
     NSString * zipID  = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentRegion];
-    [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15",@"zip_code_id":zipID} completionBlock:^(id object) {
-        if (object) {
-            finishBlock(object);
-        }else
-        {
-            hub.labelText = @"No Data";
-        }
-        [hub hide:YES afterDelay:0.5];
-    } failureBlock:^(NSError *error, NSString *responseString) {
-        hub.labelText = @"Error";
-        [hub hide:YES afterDelay:0.5];
-    }];
+    if (zipID) {
 
+        if ([searchContent length]) {
+            MBProgressHUD * hub = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hub.labelText = @"Searching";
+            [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15",@"zip_code_id":zipID} completionBlock:^(id object) {
+                if (object) {
+                    finishBlock(object);
+                }else
+                {
+                    hub.labelText = @"No Data";
+                }
+                [hub hide:YES afterDelay:0.5];
+            } failureBlock:^(NSError *error, NSString *responseString) {
+                hub.labelText = @"Error";
+                [hub hide:YES afterDelay:0.5];
+            }];
+        }
+       
+    }else
+    {
+        [self showAlertViewWithMessage:@"Please Select the region" withDelegate:self tag:1002];
+    }
+   
 }
 
 -(void)tapAction:(UITapGestureRecognizer *)tap
@@ -259,7 +283,7 @@
             return;
         }
     }
-    
+    previousTagNumber = tapNumber;
     switch (tapNumber) {
         case 0:
             //1 : b2c
@@ -461,8 +485,9 @@
         if ([textField.text length]) {
             __weak ShopMainViewController * weakSelf = self;
             [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
-                [weakSelf gotoSearchResultViewControllerWithData:objects];
-                
+                if ([objects count]) {
+                    [weakSelf gotoSearchResultViewControllerWithData:objects];
+                }
             }];
             [maskView setHidden:YES];
         }else
@@ -538,6 +563,12 @@
               [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"VIPVersionURL"]];
         }
       
+    }else if ( alertView.tag == 1002)
+    {
+        if (buttonIndex == 1) {
+            //show the region table
+            [self showTable];
+        }
     }
 }
 

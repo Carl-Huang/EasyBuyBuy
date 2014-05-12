@@ -93,16 +93,31 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
 - (IBAction)confirmBtnAction:(id)sender {
     
     [[[UIApplication sharedApplication]keyWindow]endEditing:YES];
-    
-    NSLog(@"%@",textFieldInfoDic);
-    __weak EditAddressViewController * weakSelf = self;
+
     //名字，手机号码，电话，地址
     
-    NSString * name= [textFieldInfoDic objectForKey:@"0"];
-    NSString * phone = [textFieldInfoDic objectForKey:@"2"];
-    NSString * address = [textFieldInfoDic objectForKey:@"3"];
-    NSString * telNum = [textFieldInfoDic objectForKey:@"1"];
+    NSString * name     = [textFieldInfoDic objectForKey:@"0"];
+    NSString * phone    = [textFieldInfoDic objectForKey:@"2"];
+    NSString * address  = [textFieldInfoDic objectForKey:@"3"];
+    NSString * telNum   = [textFieldInfoDic objectForKey:@"1"];
     
+    if ([name length] == 0) {
+        [self showAlertViewWithMessage:@"The name can'not be empty"];
+        return;
+    }else if (address.length ==0)
+    {
+        [self showAlertViewWithMessage:@"The address can'not be empty"];
+        return;
+    }else if (phone.length == 0)
+    {
+        [self showAlertViewWithMessage:@"The Mobile can'not be empty"];
+        return;
+    }
+    if (!telNum) {
+        telNum = @"";
+    }
+    
+    __weak EditAddressViewController * weakSelf = self;
     User * user = [User getUserFromLocal];
     if (user) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -119,9 +134,6 @@ static NSString * normalCellIdentifier  = @"normalCellIdentifier";
             
         }];
     }
-    
-    
-    
 }
 
 #pragma  mark - Table

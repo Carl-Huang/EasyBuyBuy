@@ -46,6 +46,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self refreshAddressContent];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -89,29 +95,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
         fontSize = DefaultFontSize;
     }
     
-    
-    
-    page = 1;
-    pageSize = 10;
-    __weak MyAddressViewController * weakSelf = self;
-    NSString * pageStr = [NSString stringWithFormat:@"%d",page];
-    NSString * pageSizeStr = [NSString stringWithFormat:@"%d",pageSize];
-    User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
-    if (loginObj) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [[HttpService sharedInstance]getAddressListWithParams:@{@"user_id": loginObj.user_id,@"page":pageStr,@"pageSize":pageSizeStr} completionBlock:^(id object) {
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-            if ([object count]) {
-                dataSource = object;
-                [weakSelf.contentTable reloadData];
-            }
-        } failureBlock:^(NSError *error, NSString *responseString) {
-            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        }];
-    }else
-    {
-        
-    }
 }
 
 
@@ -177,6 +160,30 @@ static NSString * cellIdentifier = @"cellIdentifier";
     viewController = nil;
 }
 
+-(void)refreshAddressContent
+{
+    page = 1;
+    pageSize = 10;
+    __weak MyAddressViewController * weakSelf = self;
+    NSString * pageStr = [NSString stringWithFormat:@"%d",page];
+    NSString * pageSizeStr = [NSString stringWithFormat:@"%d",pageSize];
+    User * loginObj  = [PersistentStore getLastObjectWithType:[User class]];
+    if (loginObj) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [[HttpService sharedInstance]getAddressListWithParams:@{@"user_id": loginObj.user_id,@"page":pageStr,@"pageSize":pageSizeStr} completionBlock:^(id object) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            if ([object count]) {
+                dataSource = object;
+                [weakSelf.contentTable reloadData];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        }];
+    }else
+    {
+        
+    }
+}
 #pragma mark - UITableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

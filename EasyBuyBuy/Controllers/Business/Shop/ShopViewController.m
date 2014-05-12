@@ -143,7 +143,13 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    NSArray * viewControllers = [self.navigationController viewControllers];
+    for (UIViewController * vc in viewControllers) {
+        if ([vc isKindOfClass:[ShopMainViewController class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

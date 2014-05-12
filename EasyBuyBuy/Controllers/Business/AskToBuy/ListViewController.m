@@ -132,8 +132,8 @@
 
 -(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object
 {
-    ListViewItemDetailController * viewController = [[ListViewItemDetailController alloc]initWithNibName:@"ListViewItemDetailController" bundle:nil];
-    [self.navigationController pushViewController:viewController animated:YES];
-    viewController = nil;
+//    ListViewItemDetailController * viewController = [[ListViewItemDetailController alloc]initWithNibName:@"ListViewItemDetailController" bundle:nil];
+//    [self.navigationController pushViewController:viewController animated:YES];
+//    viewController = nil;
 }
 @end

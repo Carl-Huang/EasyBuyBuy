@@ -50,6 +50,14 @@ static NSString * cellIdentifier = @"cellIdentifier";
 #pragma mark - Private Method
 -(void)initializationInterface
 {
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:self container:nil];
+    if (localizedDic) {
+
+        self.title = localizedDic[@"viewControllTitle"];
+    }
+    
+    
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     [self.navigationController.navigationBar setHidden:NO];
     

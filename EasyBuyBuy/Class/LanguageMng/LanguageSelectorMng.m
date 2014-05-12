@@ -884,4 +884,23 @@
     }
 }
 
+#pragma mark - SearchResultViewController
+-(NSDictionary *)SearchResultViewControllerLanguage
+{
+    
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Results"
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"搜索结果"
+                 };
+    }else
+    {
+        return @{@"viewControllTitle": @"نتيجة"
+                 };
+    }
+}
+
 @end

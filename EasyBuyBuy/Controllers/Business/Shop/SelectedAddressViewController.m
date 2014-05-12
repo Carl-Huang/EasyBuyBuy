@@ -165,9 +165,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
             ;
         }];
         _defaultAddress = nil;
-        [self popViewController];
     }
-   
+   [self popViewController];
 }
 
 #pragma mark - UITableView

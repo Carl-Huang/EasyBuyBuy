@@ -79,6 +79,7 @@
 #pragma mark - Outlet Action
 - (IBAction)registerBtnAction:(id)sender {
     
+    [[[UIApplication sharedApplication]keyWindow]endEditing:YES];
     //1）检查用户名，或密码是否为空
     if ([_userName.text length] && [_password.text length]) {
         

@@ -14,6 +14,7 @@
 #import "AsynCycleView.h"
 #import "AdObject.h"
 #import "ListViewController.h"
+#import "ShopMainViewController.h"
 @interface ShippingViewController ()<TableContentDataDelegate,UIAlertViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
@@ -149,7 +150,14 @@
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    NSArray * viewControllers = [self.navigationController viewControllers];
+    for (UIViewController * vc in viewControllers) {
+        if ([vc isKindOfClass:[ShopMainViewController class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)gotoListViewController

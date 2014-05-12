@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "AsynCycleView.h"
 #import "PullRefreshTableView.h"
+#import "ShopMainViewController.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
 @interface NewsViewController ()<AsyCycleViewDelegate>
@@ -60,7 +61,6 @@ static NSString * cellIdentifier = @"cellidentifier";
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     [autoScrollView pauseTimer];
 }
 
@@ -182,7 +182,13 @@ static NSString * cellIdentifier = @"cellidentifier";
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    NSArray * viewControllers = [self.navigationController viewControllers];
+    for (UIViewController * vc in viewControllers) {
+        if ([vc isKindOfClass:[ShopMainViewController class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark AsynViewDelegate

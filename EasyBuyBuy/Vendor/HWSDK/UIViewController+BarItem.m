@@ -79,7 +79,10 @@
 
 - (void)popViewController
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+    
 }
 
 - (void)popToRoot
