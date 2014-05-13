@@ -310,8 +310,14 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
 -(void)updateUpperBtnStatus
 {
     if ([_currentTag length]) {
-        [[NSUserDefaults standardUserDefaults]setObject:@"product" forKey:@"SelectedItem"];
-        [_productNotiBtn setSelected:YES];
+        if ([_currentTag isEqualToString:@"System"]) {
+            currentPage = 1;
+            [self resetProductNotiButtonStatus:NO];
+            _contentScrollView.delegate = nil;
+            [_contentScrollView scrollRectToVisible:CGRectMake(320, 0, 320, _contentScrollView.frame.size.height) animated:YES];
+            _contentScrollView.delegate = self;
+        }
+        
     }else
     {
         NSString * str = [[NSUserDefaults standardUserDefaults]stringForKey:@"SelectedItem"];

@@ -458,10 +458,9 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
 }
 
-
 -(void)ConfigureLinkViewSetting
 {
-    [GlobalMethod setUserDefaultValue:@"4" key:CurrentLinkTag];
+    [GlobalMethod setUserDefaultValue:@"3" key:CurrentLinkTag];
 }
 /*
  @"dataSource":@[@"*Sale or Purchase:",

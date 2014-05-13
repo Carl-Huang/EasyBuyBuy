@@ -162,6 +162,7 @@
 
 -(void)gotoListViewController
 {
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     ListViewController * viewController = [[ListViewController alloc]initWithNibName:@"ListViewController" bundle:nil];
     [self.navigationController pushViewController:viewController animated:YES];
     viewController = nil;
