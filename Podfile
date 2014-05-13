@@ -1,8 +1,7 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, "6.0"
+platform :ios, "6.0"
 
 target "EasyBuyBuy" do
-pod 'Canvas', '~> 0.1.1'
 pod 'SVPullToRefresh', '~> 0.4.1'
 pod 'JSONModel', '~> 0.13.0'
 pod 'SDURLCache', '~> 1.3'

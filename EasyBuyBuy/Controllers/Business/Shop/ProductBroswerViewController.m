@@ -55,6 +55,7 @@ static NSString * cellIdentifier = @"PhotoCell";
     }
 	qtmquitView.delegate = self;
 	qtmquitView.dataSource = self;
+
 	[self.view addSubview:qtmquitView];
 	
     pageSize = 20;
@@ -153,7 +154,7 @@ static NSString * cellIdentifier = @"PhotoCell";
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120;
+    return 200;
 }
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
@@ -162,7 +163,10 @@ static NSString * cellIdentifier = @"PhotoCell";
     [self gotoProductDetailViewControllerWithGoodInfo:tempGood];
 }
 
-
+- (CGFloat)quiltViewMargin:(TMQuiltView *)quilView marginType:(TMQuiltViewMarginType)marginType
+{
+    return 1;
+}
 
 @end
 

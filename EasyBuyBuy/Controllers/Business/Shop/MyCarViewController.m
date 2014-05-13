@@ -158,6 +158,9 @@ static NSString * cellIdentifier = @"cellIdentifier";
     {
         [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2CBuinessModel] key:CarType];
         type = B2CBuinessModel;
+        [_b2cBtn setSelected:YES];
+        [_b2cBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_b2bBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     }else
     {
         type = typeStr.integerValue;

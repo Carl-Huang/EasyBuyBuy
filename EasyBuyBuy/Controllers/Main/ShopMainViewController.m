@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 vedon. All rights reserved.
 //
 
-#define MainIconWidth 230
-#define MainIconHeight 230
+
 #define PageNumer  6
 
 #import "ShopMainViewController.h"
@@ -37,6 +36,8 @@
     UIPageControl * page;
     NSInteger  currentPage;
     NSString * zipCode;
+    NSInteger MainIconHeight;
+    NSInteger MainIconWidth;
     
     NSInteger reloadPage;
     NSString * searchContent;
@@ -152,12 +153,17 @@
 #pragma mark - Private Method
 -(void)initializationInterface
 {
-    contentIconOffsetY = 120;
+    contentIconOffsetY = 90;
     CGSize size = CGSizeMake(320 * PageNumer,400);
+    MainIconWidth = 190;
+    MainIconHeight = 190;
     if ([OSHelper iPhone5]) {
         size.height = 488;
+        MainIconHeight = 230;
+        MainIconWidth = 230;
+        contentIconOffsetY = 120;
     }
-
+    
     currentPage = 0 ;
     page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, contentIconOffsetY + MainIconHeight + 20, 120, 30)];
     page.numberOfPages = PageNumer;
@@ -175,7 +181,7 @@
         
         
         imageView.tag = i;
-        [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, contentIconOffsetY, MainIconWidth, MainIconHeight)];
+        [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, 120, MainIconWidth, MainIconHeight)];
         [self.contentScrollView addSubview:imageView];
         imageView = nil;
     }
