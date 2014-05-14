@@ -37,6 +37,8 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     CGFloat         fontSize;
     NSDictionary * goodInfo;
     MRZoomScrollView * zoomView;
+    UIImage * previousImg;
+    UIImageView * proImg;
 }
 @property (strong ,nonatomic) UIScrollView * scrollView;
 @end
@@ -100,48 +102,81 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 #pragma  mark - Outlet Action
 -(void)putInCarAction:(id)sender
 {
-    //获取在购物车中的商品，判断购物车中是否已经有该商品
-    NSArray * inCarGoods = [PersistentStore getAllObjectWithType:[Car class]];
-    Car * inCarObject = nil;
-    BOOL isAlreadyInCar = NO;
-    for (Car * object in inCarGoods) {
-        if ([object.proNum isEqualToString:_good.item_number]) {
-            inCarObject = object;
-            isAlreadyInCar = YES;
-            break;
-        }
-    }
-    if (!isAlreadyInCar) {
-        //添加到购物车
-        inCarObject = [Car MR_createEntity];
-        inCarObject.name    = _good.name;
-        inCarObject.price   = _good.price;
-        inCarObject.model   = _good.business_model;
-        inCarObject.size    = _good.size;
-        inCarObject.quality = _good.quality;
-        inCarObject.color   = _good.color;
-        inCarObject.proNum  = _good.item_number;
-        inCarObject.proCount = @"1";
-        inCarObject.des     = _good.description;
-        inCarObject.isSelected = @"0"; //默认不选中
-        inCarObject.productID = _good.ID;
-        if ([_good.image count]) {
-            inCarObject.image = [[_good.image objectAtIndex:0] valueForKey:@"image"];
-        }
+    if (!proImg) {
+        UIButton * btn = sender;
+        CGRect convertRect1 = [self.view convertRect:btn.frame fromView:self.contentScrollView];
+        CGPoint startPoint = CGPointMake(convertRect1.origin.x, convertRect1.origin.y);
+        AppDelegate * myDelegate =(AppDelegate *)[[UIApplication sharedApplication]delegate];
+        CGRect convertRect2 = [self.view convertRect:shoppingCar.frame fromView:myDelegate.window];
+        CGPoint endPoint = CGPointMake(convertRect2.origin.x, convertRect2.origin.y);
+        CGPoint controlPoint = CGPointMake((endPoint.x - startPoint.x)*3/4+startPoint.x, startPoint.y-40);
         
-        [PersistentStore save];
-        [shoppingCar updateProductNumber:[[PersistentStore getAllObjectWithType:[Car class]]count]];
-    }else
-    {
-        //增加改商品的计数
-        if (inCarObject) {
-            NSInteger originalNum = inCarObject.proCount.integerValue;
-            originalNum ++;
-            inCarObject.proCount = [NSString stringWithFormat:@"%d",originalNum];
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathMoveToPoint(path,NULL,startPoint.x,startPoint.y);
+        CGPathAddQuadCurveToPoint(path, NULL, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
+        
+        CAKeyframeAnimation * pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        [pathAnimation setPath:path];
+        pathAnimation.delegate = self;
+        [pathAnimation setValue:@"Good" forKey:@"position"];
+        [pathAnimation setDuration:0.5];
+        CFRelease(path);
+        
+        proImg = [[UIImageView alloc]initWithImage:previousImg];
+        proImg.layer.cornerRadius = 20;
+        proImg.layer.masksToBounds = YES;
+        CGRect rect = CGRectMake(startPoint.x, startPoint.y, 35, 35);
+        [proImg setFrame:rect];
+        proImg.contentMode = UIViewContentModeScaleAspectFill;
+        [proImg.layer addAnimation:pathAnimation forKey:NULL];
+        proImg.layer.position = endPoint;
+        
+        [self.view addSubview:proImg];
+        
+        
+        //获取在购物车中的商品，判断购物车中是否已经有该商品
+        NSArray * inCarGoods = [PersistentStore getAllObjectWithType:[Car class]];
+        Car * inCarObject = nil;
+        BOOL isAlreadyInCar = NO;
+        for (Car * object in inCarGoods) {
+            if ([object.proNum isEqualToString:_good.item_number]) {
+                inCarObject = object;
+                isAlreadyInCar = YES;
+                break;
+            }
+        }
+        if (!isAlreadyInCar) {
+            //添加到购物车
+            inCarObject = [Car MR_createEntity];
+            inCarObject.name    = _good.name;
+            inCarObject.price   = _good.price;
+            inCarObject.model   = _good.business_model;
+            inCarObject.size    = _good.size;
+            inCarObject.quality = _good.quality;
+            inCarObject.color   = _good.color;
+            inCarObject.proNum  = _good.item_number;
+            inCarObject.proCount = @"1";
+            inCarObject.des     = _good.description;
+            inCarObject.isSelected = @"0"; //默认不选中
+            inCarObject.productID = _good.ID;
+            if ([_good.image count]) {
+                inCarObject.image = [[_good.image objectAtIndex:0] valueForKey:@"image"];
+            }
+            
             [PersistentStore save];
+            [shoppingCar updateProductNumber:[[PersistentStore getAllObjectWithType:[Car class]]count]];
+        }else
+        {
+            //增加改商品的计数
+            if (inCarObject) {
+                NSInteger originalNum = inCarObject.proCount.integerValue;
+                originalNum ++;
+                inCarObject.proCount = [NSString stringWithFormat:@"%d",originalNum];
+                [PersistentStore save];
+            }
         }
     }
-    [self showAlertViewWithMessage:@"Add Successfully"];
+//    [self showAlertViewWithMessage:@"Add Successfully"];
 }
 
 #pragma mark - Private
@@ -257,7 +292,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     {
        [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2BBuinessModel] key:CarType];
     }
-   
+    previousImg = nil;
 }
 
 -(void)getGoodImages
@@ -277,6 +312,9 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 
 -(void)addZoomView:(NSArray *)images
 {
+    if (!previousImg) {
+        previousImg = [images objectAtIndex:0];
+    }
     AppDelegate * myDelegate = [[UIApplication sharedApplication]delegate];
     if (!_scrollView) {
         _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
@@ -406,6 +444,24 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
+}
+
+
+#pragma mark - Animatioin Delegate
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if ([[anim valueForKey:@"position"]isEqualToString:@"Good"]) {
+        [proImg removeFromSuperview];
+        proImg = nil;
+        
+        CABasicAnimation *zoomInOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        zoomInOut.duration = 0.2;
+        zoomInOut.byValue = @(0.2);
+        zoomInOut.autoreverses = YES;
+        zoomInOut.repeatCount = 1;
+        zoomInOut.removedOnCompletion = YES;
+        [shoppingCar.layer addAnimation:zoomInOut forKey:@"zoom"];
+    }
 }
 
 @end
