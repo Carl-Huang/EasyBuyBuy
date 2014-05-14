@@ -14,7 +14,7 @@
 #import "LanguageSelectorMng.h"
 
 static NSString * cellIdentifier = @"cellIdentifier";
-@interface RegionTableViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface RegionTableViewController ()<UITableViewDataSource,UITableViewDelegate,CAAction>
 {
     NSArray * dataSource;
     NSMutableDictionary * itemStatus;
@@ -129,15 +129,6 @@ static NSString * cellIdentifier = @"cellIdentifier";
 }
 
 #pragma mark - Private 
--(void)removeRegionTable
-{
-    [UIView animateWithDuration:0.3 animations:^{
-        self.view.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-    }];
-    
-}
 
 #pragma mark - TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -226,4 +217,33 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     [self performSelector:@selector(removeRegionTable) withObject:nil afterDelay:0.2];
 }
+
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if ([[anim valueForKey:@"disappearAnimation"] isEqualToString:@"Disappear"]) {
+        self.view.frame = CGRectOffset(self.view.frame, -320, 0);
+        [self.view removeFromSuperview];
+    }
+}
+
+-(void)removeRegionTable
+{
+    //    [UIView animateWithDuration:0.3 animations:^{
+    //        self.view.alpha = 0.0;
+    //    } completion:^(BOOL finished) {
+    //        [self.view removeFromSuperview];
+    //    }];
+    
+    self.view.frame = CGRectOffset(self.view.frame, 320, 0);
+    CATransition *disappearAnimation=[CATransition animation];
+    disappearAnimation.duration=0.2;
+    disappearAnimation.timingFunction=UIViewAnimationCurveEaseInOut;
+    disappearAnimation.type=kCATransitionPush;
+    disappearAnimation.subtype=kCATransitionFromRight;
+    disappearAnimation.delegate = self;
+    disappearAnimation.removedOnCompletion = YES;
+    [disappearAnimation setValue:@"Disappear" forKey:@"disappearAnimation"];
+    [self.view.layer addAnimation:disappearAnimation forKey:@"disappearAnimation"];
+}
+
 @end

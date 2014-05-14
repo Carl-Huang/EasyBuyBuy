@@ -63,7 +63,7 @@
     }
     if([scrollItems count])
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             
             if([scrollItems count])
             {
@@ -73,17 +73,13 @@
                     for (UIImage * img in array) {
                         if([img isKindOfClass:[UIImage class]])
                         {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [localImages addObject:[[UIImageView alloc] initWithImage:img]];
-                            });
+                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
                         }
                         break;
                     }
                 }
                 if ([localImages count]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf.autoScrollView setScrollViewImages:localImages];
-                    });
                 }
             }
         });
@@ -313,7 +309,7 @@
     }
     
     if ([scrollItems count]) {
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             if([scrollItems count])
             {
                 NSMutableArray * localImages = [NSMutableArray array];
@@ -322,18 +318,13 @@
                     for (UIImage * img in array) {
                         if([img isKindOfClass:[UIImage class]])
                         {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                 [localImages addObject:[[UIImageView alloc] initWithImage:img]];
-                            });
-                           
+                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
                         }
                         break;
                     }
                 }
                 if ([localImages count]) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [weakSelf.autoScrollNewsView setScrollViewImages:localImages];
-                    });
+                    [weakSelf.autoScrollNewsView setScrollViewImages:localImages];
                 }
             }
         });
@@ -435,9 +426,10 @@
         if ([self.runningOperations count]) {
              [self.workingQueue addOperations:self.runningOperations waitUntilFinished:NO];
             [self.runningOperations removeAllObjects];
-            
-           
         }
+    }else
+    {
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }
 }
 @end

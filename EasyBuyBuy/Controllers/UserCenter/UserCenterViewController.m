@@ -140,6 +140,9 @@ static NSString * fontSizeCellIdentifier = @"fontSizeCellIdentifier";
     _nameLabel.text     = userName;
     _nameLabel.font     = [UIFont systemFontOfSize:fontSize + 4];
     userImageStr        = @"";
+    _userImage.layer.cornerRadius = 15;
+    _userImage.layer.masksToBounds = YES;
+    
     
     NSData * imageData = [[NSUserDefaults standardUserDefaults]objectForKey:UserAvatar];
     if (imageData) {

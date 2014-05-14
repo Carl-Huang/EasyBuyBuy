@@ -251,7 +251,12 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     
     [_contentScrollView setShowsVerticalScrollIndicator:NO];
     [_contentScrollView addSubview:productInfoTable];
-    
+    if (_good.business_model.integerValue == B2CBuinessModel) {
+        [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2CBuinessModel] key:CarType];
+    }else if(_good.business_model.integerValue == B2BBuinessModel)
+    {
+       [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2BBuinessModel] key:CarType];
+    }
    
 }
 

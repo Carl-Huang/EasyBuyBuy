@@ -156,6 +156,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     NSString * typeStr = [GlobalMethod getUserDefaultWithKey:CarType];
     if(!typeStr)
     {
+        //The user first use,we set the default car type is b2c
         [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2CBuinessModel] key:CarType];
         type = B2CBuinessModel;
         [_b2cBtn setSelected:YES];
@@ -194,9 +195,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 -(void)updateStatusWithTag:(NSInteger)tag
 {
     NSString * key = [NSString stringWithFormat:@"%d",tag];
-    Car * object = [b2cDataSource objectAtIndex:tag];
+    
     if(type == B2CBuinessModel)
     {
+        Car * object = [b2cDataSource objectAtIndex:tag];
         NSString * value = [b2cItemSelectedStatus valueForKey:key];
         
         if ([value isEqualToString:@"1"]) {
@@ -213,6 +215,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
         [b2cTable reloadData];
     }else
     {
+        Car * object = [b2bDataSource objectAtIndex:tag];
         NSString * value = [b2bItemSelectedStatus valueForKey:key];
         if ([value isEqualToString:@"1"]) {
             [b2bItemSelectedStatus setObject:@"0" forKey:key];

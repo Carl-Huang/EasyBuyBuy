@@ -224,7 +224,6 @@
             };
         });
     });
-    
 }
 
 -(void)cachingData
@@ -299,6 +298,7 @@
             if (image) {
                 [weakSelf.downloadedImages addObject:image];
                 [weakSelf.downloadFirImagesInfo setObject:image forKey:[_items[index] valueForKey:@"ID"]];
+                
                 dispatch_barrier_async(_serialQueue, ^{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSLog(@"replace");

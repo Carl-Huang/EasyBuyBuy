@@ -85,7 +85,7 @@
 {
     __typeof(self) __weak weakSelf = self;
     NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Shop"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         
         if([scrollItems count])
         {
@@ -95,17 +95,13 @@
                 for (UIImage * img in array) {
                     if([img isKindOfClass:[UIImage class]])
                     {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
-                        });
+                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
                     }
                     break;
                 }
             }
             if ([localImages count]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.autoScrollView setScrollViewImages:localImages];
-                });
+                [weakSelf.autoScrollView setScrollViewImages:localImages];
             }
         }
     });

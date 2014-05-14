@@ -171,14 +171,31 @@
     
     NSArray * images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png",@"news.png"];
     for (int i =0; i < PageNumer; i++) {
+        //Image
         UIImage * image = [UIImage imageNamed:[images objectAtIndex:i]];
         UIImageView * imageView = [[UIImageView alloc]initWithImage:image];
         imageView.userInteractionEnabled = YES;
         
+        //Gesture
         UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
         [imageView addGestureRecognizer:tapGesture];
         tapGesture = nil;
         
+        //Animation
+        CABasicAnimation * fadeIn = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        fadeIn.fromValue    = @0.0;
+        fadeIn.toValue      = @1.0;
+        fadeIn.duration     = 0.5;
+        fadeIn.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        [imageView.layer addAnimation:fadeIn forKey:@"fadeIn"];
+        
+        //Zoom
+        CABasicAnimation *zoomInOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        zoomInOut.duration = 0.3;
+        zoomInOut.byValue = @(0.05);
+        zoomInOut.autoreverses = YES;
+        zoomInOut.repeatCount = 2;
+        [imageView.layer addAnimation:zoomInOut forKey:@"zoomInOut"];
         
         imageView.tag = i;
         [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, 120, MainIconWidth, MainIconHeight)];
@@ -223,27 +240,6 @@
         });
         
     });
-//
-//    CATransition* transition = [CATransition animation];
-//    transition.startProgress = 0;
-//    transition.endProgress = 1.0;
-//    transition.type = kCATransitionPush;
-//    transition.subtype = kCATransitionFromRight;
-//    transition.duration = 1.0;
-//    // Add the transition animation to both layers
-//    UIImageView * imageView1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shop.png"]];
-//    UIImageView * imageView2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Shipping.png"]];
-//    [imageView1 setFrame:CGRectMake(50, 0, 50, 50)];
-//    [imageView2 setFrame:CGRectMake(100, 0, 50, 50)];
-//    
-//    [imageView1.layer addAnimation:transition forKey:@"transition"];
-//    [imageView2.layer addAnimation:transition forKey:@"transition"];
-//    // Finally, change the visibility of the layers.
-//    imageView1.hidden = NO;
-//    imageView2.hidden = NO;
-//    
-//    [self.view addSubview:imageView1];
-//    [self.view addSubview:imageView2];
 
 }
 
@@ -375,37 +371,64 @@
 
 -(void)showTable
 {
-    if (!regionTable) {
-        regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    
+    if (regionTable) {
+        [regionTable removeFromParentViewController];
+        regionTable = nil;
     }
+    regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+    [self addChildViewController:regionTable];
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
+    
+    
 //    NSArray * regionData = [GlobalMethod getRegionTableData];
-    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+//    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
 //    __weak ShopMainViewController * weakSelf = self;
+//    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
+//    [regionTable setSelectedBlock:^(id object)
+//     {
+//         NSLog(@"Regioin :%@",object);
+         //更新zipCode
+//         [weakSelf getZipCode];
+//     }];
+    
+    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
     [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
     [regionTable setSelectedBlock:^(id object)
      {
          NSLog(@"Regioin :%@",object);
-         //更新zipCode
-//         [weakSelf getZipCode];
      }];
     
+    regionTable.view.frame = CGRectMake(0, 0, regionTable.view.frame.size.width, regionTable.view.frame.size.height);
     
-    regionTable.view.alpha = 0.0;
-    [UIView animateWithDuration:0.3 animations:^{
-        regionTable.view.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        [self.view addSubview:regionTable.view];
-        [self addChildViewController:regionTable];
-    }];
+    CATransition *showTransiton=[CATransition animation];
+    showTransiton.duration=0.1;
+    showTransiton.timingFunction=UIViewAnimationCurveEaseInOut;
+    showTransiton.type=kCATransitionPush;
+    showTransiton.subtype=kCATransitionFromLeft;
+    showTransiton.removedOnCompletion = YES;
+    [showTransiton setValue:@"Appear" forKey:@"showTransiton"];
+    [regionTable.view.layer addAnimation:showTransiton forKey:@"showTransiton"];
+    [self.view addSubview:regionTable.view];
+    
+    
+//    regionTable.view.alpha = 0.0;
+//    [UIView animateWithDuration:0.3 animations:^{
+//        regionTable.view.alpha = 1.0;
+//    } completion:^(BOOL finished) {
+//        [self.view addSubview:regionTable.view];
+//        [self addChildViewController:regionTable];
+//    }];
+    
 }
 -(void)CSVToPlist
 {
     //Convert CSV to Plist
-    //    NSBundle *mainBundle = [NSBundle mainBundle];
-    //    NSString *filePath = [mainBundle pathForResource:@"国家地区"
-    //                                              ofType:@"csv"];
-    //    [GlobalMethod convertCVSTOPlist:filePath];
-    //    [self getZipCode];
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *filePath = [mainBundle pathForResource:@"国家地区"
+                                              ofType:@"csv"];
+    [GlobalMethod convertCVSTOPlist:filePath];
+    [self getZipCode];
 }
 
 #pragma  mark - Remote Notification

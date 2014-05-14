@@ -49,7 +49,10 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     
     NSInteger  selectedExpressIndex;
     NSString * orderID;
+    
+    MyOrderUserInfoTableViewCell * addressCell;
 }
+
 @end
 
 @implementation MyOrderDetailViewController
@@ -458,25 +461,20 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 {
     
     if (indexPath.row == 0 && indexPath.section == 0) {
-        MyOrderUserInfoTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
+        addressCell  = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
        
         id  adress        = [dataSource objectAtIndex:0];
-        cell.userName.text      = [adress valueForKey:@"name"];
-        cell.phoneNumber.text   = [adress valueForKey:@"phone"];
-        cell.address.text       = [adress valueForKey:@"address"];
+        addressCell.userName.text      = [adress valueForKey:@"name"];
+        addressCell.phoneNumber.text   = [adress valueForKey:@"phone"];
+        addressCell.address.text       = [adress valueForKey:@"address"];
 
-        cell.userName.font      = [UIFont systemFontOfSize:fontSize];
-        cell.phoneNumber.font   = [UIFont systemFontOfSize:fontSize];
-        cell.address.font       = [UIFont systemFontOfSize:fontSize];
-        
-        if (!defaultAddress) {
-            cell.address.textColor = [UIColor redColor];
-        }else
-        {
-            cell.address.textColor = [UIColor whiteColor];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return  cell;
+        addressCell.userName.font      = [UIFont systemFontOfSize:fontSize];
+        addressCell.phoneNumber.font   = [UIFont systemFontOfSize:fontSize];
+        addressCell.address.font       = [UIFont systemFontOfSize:fontSize];
+    
+        addressCell.address.textColor = [UIColor whiteColor];
+        addressCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return  addressCell;
     }else if(indexPath.section == 3)
     {
         RemartCell * cell = [tableView dequeueReusableCellWithIdentifier:remartCellIdentifier];
@@ -644,6 +642,17 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     {
         if (buttonIndex == 1) {
             [self gotoSelectedAddressViewController];
+        }else
+        {
+            //User animation to prompt the use to select
+            //Zoom
+            CABasicAnimation *zoomInOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            zoomInOut.duration = 0.3;
+            zoomInOut.byValue = @(0.1);
+            zoomInOut.autoreverses = YES;
+            zoomInOut.repeatCount = 2;
+            zoomInOut.removedOnCompletion = YES;
+            [addressCell.layer addAnimation:zoomInOut forKey:@"zoomInOut"];
         }
         
     }
