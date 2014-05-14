@@ -37,7 +37,7 @@
         buttons = [NSMutableArray array];
         NSInteger bgWidth = 320 / 5;
         NSInteger iconWidth = bgWidth / 8 * 7;
-        NSInteger offset = bgWidth / 8  ;
+        NSInteger offset = bgWidth / 7  ;
         
         for (int i =0; i< 5; i++) {
             //背景
@@ -46,7 +46,7 @@
             
             //图标
             LinkBtn * btn = [LinkBtn buttonWithType:UIButtonTypeCustom];
-            [btn setFrame:CGRectMake(i * (iconWidth+offset)+offset , offset, iconWidth, iconWidth)];
+            [btn setFrame:CGRectMake(i * (iconWidth+offset)+offset-5 , offset, iconWidth, iconWidth)];
             btn.tag = i;
             [btn addTarget: self action:@selector(gotoOtherLinkAction:) forControlEvents:UIControlEventTouchUpInside];
             

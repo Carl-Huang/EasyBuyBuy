@@ -35,7 +35,7 @@
 @property (strong ,nonatomic) NSMutableArray * networkImages;
 @property (strong ,nonatomic) UIImage * placeHoderImage;
 @property (strong ,nonatomic) NSArray * items;
-@property (strong ,nonatomic) NSArray * localItems;
+@property (strong ,nonatomic) NSMutableArray * downloadItems;
 
 @property (strong ,nonatomic) CompletedBlock  finishedDownloadImgsBlock;
 @property (strong ,nonatomic) NSMutableArray * downloadedImages;
@@ -62,6 +62,7 @@
         downItemCount   = InvalidValue;
         _serialQueue    = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_SERIAL);
         _downloadedImages = [NSMutableArray array];
+        _downloadItems    = [NSMutableArray array];
         _finishedLoadingFirImgsBlock    = nil;
         _finishedDownloadImgsBlock      = nil;
         _flag = nil;
@@ -94,14 +95,13 @@
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
         if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:completedBlock:)]) {
             id object = nil;
-            if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
-                object = [weakSelf.items objectAtIndex:pageIndex];
+            if ([weakSelf.downloadItems count] && [weakSelf.downloadItems count] > pageIndex) {
+                object = [weakSelf.downloadItems objectAtIndex:pageIndex];
                 [weakSelf pauseTimer];
+                [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object completedBlock:^(id object) {
+                    [weakSelf startTimer];
+                }];
             }
-            [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object completedBlock:^(id object) {
-                [weakSelf startTimer];
-            }];
-            
         }
     };
     [_cycleViewParentView addSubview:autoScrollView];
@@ -119,6 +119,7 @@
      if (containerObj) {
          _items  = nil;
          _items = [containerObj copy];
+         [_downloadItems removeAllObjects];
      }
     if (cacheImgBlock) {
         _finishedLoadingFirImgsBlock = [cacheImgBlock copy];
@@ -127,19 +128,12 @@
 
 }
 
--(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj
+-(void)setLocalCacheObjects:(NSArray *)containerObj
 {
     [self pauseTimer];
-    if([links count])
-    {
-        downItemCount = [links count];
-        [self resetThePlaceImages:links];
-    }
     if (containerObj) {
-        _items  = nil;
-        _items = [containerObj copy];
+        [_downloadItems addObjectsFromArray:containerObj];
     }
-
 }
 
 
@@ -158,6 +152,7 @@
     if (containerObj) {
         _items  = nil;
         _items = [containerObj copy];
+        [_downloadItems removeAllObjects];
     }
 }
 
@@ -189,7 +184,7 @@
     autoScrollView = nil;
     internalLinks = nil;
     _items = nil;
-    _localItems = nil;
+    _downloadItems = nil;
     _serialQueue = nil;
 }
 
@@ -220,6 +215,7 @@
                 return weakSelf.placeHolderImages[pageIndex];
             };
             autoScrollView.totalPagesCount = ^NSInteger(void){
+                NSLog(@"Image Number :%d",[weakSelf.placeHolderImages count]);
                 return [weakSelf.placeHolderImages count];
             };
         });
@@ -297,6 +293,10 @@
         {
             if (image) {
                 [weakSelf.downloadedImages addObject:image];
+                if ([weakSelf.items count]> index) {
+                    [weakSelf.downloadItems addObject:[weakSelf.items objectAtIndex:index]];
+                }
+            
                 [weakSelf.downloadFirImagesInfo setObject:image forKey:[_items[index] valueForKey:@"ID"]];
                 
                 dispatch_barrier_async(_serialQueue, ^{

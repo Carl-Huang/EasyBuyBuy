@@ -149,7 +149,10 @@ static NSString * secondSectionCellIdentifier = @"secondSectionCell";
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
     if ([imagesLink count]&&autoScrollView) {
-        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil];
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil completedBlock:^(id object) {
+            ;
+        }];
+//        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:nil];
     }
 }
 

@@ -208,6 +208,8 @@
     _contentScrollView.delegate = self;
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.showsVerticalScrollIndicator = NO;
+
+    
     [self.contentView addSubview:page];
     
     

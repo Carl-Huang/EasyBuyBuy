@@ -45,7 +45,6 @@
             dispatch_group_leave(weakSelf.refresh_data_group);
         }
     }];
-
 }
 
 
@@ -85,7 +84,7 @@
         });
     }
     
-    [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
+    [weakSelf.autoScrollView setLocalCacheObjects:scrollItems];
 }
 
 -(void)refreshAdContent:(NSArray *)objects
@@ -331,7 +330,8 @@
         
       
     }
-   [weakSelf.autoScrollNewsView updateNetworkImagesLink:nil containerObject:scrollItems];
+    
+   [weakSelf.autoScrollNewsView setLocalCacheObjects:scrollItems];
 }
 #pragma mark - Network Checking
 

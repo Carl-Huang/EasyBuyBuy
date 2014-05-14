@@ -198,8 +198,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
     if(autoScrollView)
     {
-        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
-        [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id object) {
+        [autoScrollView updateImagesLink:imagesLink targetObjects:objects completedBlock:^(id object) {
             ;
         }];
     }

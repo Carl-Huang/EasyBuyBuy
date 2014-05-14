@@ -25,8 +25,9 @@
 {
     [self initializationNetworkStuff];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self fetchContentData];
+    
     [self addAdvertisementView];
+    [self fetchContentData];
     dispatch_group_notify(self.refresh_data_group, self.group_queue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -84,7 +85,17 @@
 -(void)fetchAdFromLocal
 {
     __typeof(self) __weak weakSelf = self;
-    NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Shop"];
+    NSString * fetchKey = nil;
+    if (self.buinessType == B2BBuinessModel) {
+        fetchKey = @"Factory";
+    }else if(self.buinessType == B2CBuinessModel)
+    {
+        fetchKey = @"Shop";
+    }else
+    {
+        fetchKey = @"Acution";
+    }
+    NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:fetchKey];
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if([scrollItems count])
@@ -105,7 +116,10 @@
             }
         }
     });
-    [weakSelf.autoScrollView updateNetworkImagesLink:nil containerObject:scrollItems];
+    if ([scrollItems count]) {
+        [weakSelf.autoScrollView setLocalCacheObjects:scrollItems];
+    }
+    
 }
 
 
@@ -115,7 +129,17 @@
     for(AdObject * object in objects)
     {
         BOOL isShouldAdd = YES;
-        NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:@"Shop"];
+        NSString * fetchKey = nil;
+        if (self.buinessType == B2BBuinessModel) {
+            fetchKey = @"Factory";
+        }else if(self.buinessType == B2CBuinessModel)
+        {
+            fetchKey = @"Shop";
+        }else
+        {
+            fetchKey = @"Acution";
+        }
+        NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:fetchKey];
         Scroll_Item * adItem = nil;
         for (Scroll_Item * tempObj in scrollItems) {
             if ([tempObj.itemID isEqualToString:object.ID]) {
@@ -126,9 +150,20 @@
         }
         if(isShouldAdd)
         {
+            NSString * fetchKey = nil;
+            if (self.buinessType == B2BBuinessModel) {
+                fetchKey = @"Factory";
+            }else if(self.buinessType == B2CBuinessModel)
+            {
+                fetchKey = @"Shop";
+            }else
+            {
+                fetchKey = @"Acution";
+            }
+            
             Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
             scrollItem.itemID   =object.ID;
-            scrollItem.tag      = @"Shop";
+            scrollItem.tag      = fetchKey;
             Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
             itemInfo.itemID     = object.ID;
             itemInfo.language   = object.language;
@@ -162,9 +197,10 @@
     }
     if(self.autoScrollView)
     {
-        [self.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+        [self.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects completedBlock:^(id object) {
+            ;
+        }];
     }
-    
 }
 
 

@@ -177,7 +177,10 @@
         }
     }
     if (autoScrollView) {
-        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects];
+        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects completedBlock:^(id object) {
+            ;
+        }];
+        
     }
 }
 #pragma mark AsynViewDelegate

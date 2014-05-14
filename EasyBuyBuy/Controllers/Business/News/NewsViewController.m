@@ -167,7 +167,9 @@ static NSString * cellIdentifier = @"cellidentifier";
         [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
     }
     if (autoScrollView) {
-        [autoScrollView updateNetworkImagesLink:imagesLink containerObject:homePageNews];
+        [autoScrollView updateImagesLink:imagesLink targetObjects:homePageNews completedBlock:^(id object) {
+            ;
+        }];
     }
 }
 
