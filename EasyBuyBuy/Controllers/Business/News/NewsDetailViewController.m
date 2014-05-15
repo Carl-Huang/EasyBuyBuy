@@ -96,16 +96,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 }
 
 #pragma mark - AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
+-(void)didClickItemAtIndex:(NSInteger)index
 {
     if (_scrollView) {
         [UIView animateWithDuration:0.3 animations:^{
             _scrollView.alpha = 1.0;
+            
         }];
         
     }
 }
-
 -(void)didGetImages:(NSArray *)images
 {
     [self addZoomView:images];

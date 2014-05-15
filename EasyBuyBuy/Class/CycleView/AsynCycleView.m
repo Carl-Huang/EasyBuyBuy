@@ -41,10 +41,6 @@
  * 用于保存每一个对象下载的第一张图片。没有网络的时候可以显示
  */
 @property (strong ,nonatomic) NSArray * items;
-/**
- * 用于保存每一个成功下载图片的对象。
- */
-@property (strong ,nonatomic) NSMutableArray * downloadedItems;
 
 @property (strong ,nonatomic) CompletedBlock  finishedDownloadImgsBlock;
 /**
@@ -61,6 +57,8 @@
  * 用于保存每一个对象下载的第一张图片。没有网络的时候可以显示
  */
 @property (strong ,nonatomic) NSMutableDictionary * downloadFirImagesInfo;
+
+@property (assign ,atomic) NSInteger downloadedItem_num;
 @end
 @implementation AsynCycleView
 @synthesize placeHolderImages,networkImages;
@@ -81,7 +79,6 @@
         downItemCount   = InvalidValue;
         _serialQueue    = dispatch_queue_create("com.vedon.concurrentQueue", DISPATCH_QUEUE_SERIAL);
         _downloadedImages = [NSMutableArray array];
-        _downloadedItems    = [NSMutableArray array];
         _finishedLoadingFirImgsBlock    = nil;
         _finishedDownloadImgsBlock      = nil;
         _flag = nil;
@@ -114,8 +111,8 @@
     autoScrollView.TapActionBlock = ^(NSInteger pageIndex){
         if ([weakSelf.delegate respondsToSelector:@selector(didClickItemAtIndex:withObj:completedBlock:)]) {
             id object = nil;
-            if ([weakSelf.downloadedItems count] && [weakSelf.downloadedItems count] > pageIndex) {
-                object = [weakSelf.downloadedItems objectAtIndex:pageIndex];
+            if ([weakSelf.items count] && [weakSelf.items count] > pageIndex) {
+                object = [weakSelf.items objectAtIndex:pageIndex];
                 [weakSelf pauseTimer];
                 [weakSelf.delegate didClickItemAtIndex:pageIndex withObj:object completedBlock:^(id object) {
                     [weakSelf startTimer];
@@ -142,7 +139,7 @@
      if (containerObj) {
          _items  = nil;
          _items = [containerObj copy];
-         [_downloadedItems removeAllObjects];
+         _downloadedItem_num = 0;
      }
     if (cacheImgBlock) {
         _finishedLoadingFirImgsBlock = [cacheImgBlock copy];
@@ -155,7 +152,7 @@
 {
     [self pauseTimer];
     if (containerObj) {
-        [_downloadedItems addObjectsFromArray:containerObj];
+        _items = [containerObj copy];
     }
 }
 
@@ -175,7 +172,6 @@
     if (containerObj) {
         _items  = nil;
         _items = [containerObj copy];
-        [_downloadedItems removeAllObjects];
     }
 }
 
@@ -207,7 +203,6 @@
     autoScrollView  = nil;
     internalLinks   = nil;
     _items          = nil;
-    _downloadedItems  = nil;
     _serialQueue    = nil;
 }
 
@@ -239,7 +234,7 @@
             };
             autoScrollView.totalPagesCount = ^NSInteger(void){
                 NSLog(@"Image Number :%d",[weakSelf.placeHolderImages count]);
-                return [weakSelf.placeHolderImages count];
+                return weakSelf.downloadedItem_num;
             };
         });
     });
@@ -300,7 +295,15 @@
                     });
                 }
             }];
+//            for (int i =0; i<[internalLinks count]; i++) {
+//                id obj = [internalLinks objectAtIndex:i];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [weakSelf getImage:obj withIndex:i];
+//                });
+//            }
+            
         });
+        
     });
 }
 
@@ -317,9 +320,9 @@
             if (image) {
                 [weakSelf.downloadedImages addObject:image];
                 if ([weakSelf.items count]> index) {
-                    [weakSelf.downloadedItems addObject:[weakSelf.items objectAtIndex:index]];
                     [weakSelf.downloadFirImagesInfo setObject:image forKey:[_items[index] valueForKey:@"ID"]];
                 }
+                weakSelf.downloadedItem_num ++;
                 dispatch_barrier_async(_serialQueue, ^{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSLog(@"replace");
@@ -328,9 +331,11 @@
                         if (imageView) {
                             if(index >= [weakSelf.placeHolderImages count])
                             {
+                                NSLog(@"addobject %d",index);
                                 [weakSelf.placeHolderImages addObject:imageView];
                             }else
                             {
+                                NSLog(@"replaceObjectAtIndex %d",index);
                                  [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
                             }
                            
