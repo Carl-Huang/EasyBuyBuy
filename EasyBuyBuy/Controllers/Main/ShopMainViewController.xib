@@ -7,7 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShopMainViewController">
             <connections>
+                <outlet property="containerView" destination="gD5-x5-5yR" id="Zx9-pQ-9m8"/>
                 <outlet property="contentScrollView" destination="2jN-7C-IRn" id="HBg-nh-Rje"/>
+                <outlet property="contentTable" destination="Q4d-KX-IiF" id="Q6k-wr-mbR"/>
                 <outlet property="contentView" destination="BQ2-o3-tYx" id="WsQ-AH-YYn"/>
                 <outlet property="searchTextField" destination="CbG-a1-es1" id="P4E-1N-3qi"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -18,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="gD5-x5-5yR">
+                <view contentMode="scaleToFill" id="gD5-x5-5yR" customClass="UIScrollView">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
@@ -31,8 +33,15 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </imageView>
                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2jN-7C-IRn">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="408"/>
+                                    <rect key="frame" x="0.0" y="120" width="320" height="288"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Q4d-KX-IiF">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="288"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </tableView>
+                                    </subviews>
                                 </scrollView>
                             </subviews>
                             <color key="backgroundColor" red="0.041250838560000003" green="0.50815634580000002" blue="0.80925143489999996" alpha="1" colorSpace="calibratedRGB"/>

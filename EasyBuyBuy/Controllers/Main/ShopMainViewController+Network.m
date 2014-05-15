@@ -78,13 +78,13 @@
                     }
                 }
                 if ([localImages count]) {
-                        [weakSelf.autoScrollView setScrollViewImages:localImages];
+                        [weakSelf.autoScrollView setScrollViewImages:localImages object:scrollItems];
                 }
             }
         });
     }
     
-    [weakSelf.autoScrollView setLocalCacheObjects:scrollItems];
+//    [weakSelf.autoScrollView setLocalCacheObjects:scrollItems];
 }
 
 -(void)refreshAdContent:(NSArray *)objects
@@ -93,11 +93,10 @@
         __typeof(self) __weak weakSelf = self;
 #if ISUseCacheData
         NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-        
+        NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
+
         for(news * object in objects)
         {
-            NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
-            
             Scroll_Item * newItems = [Scroll_Item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
             newItems.itemID   =object.ID;
             newItems.addTime  = addTime;
@@ -123,7 +122,7 @@
                  NSFetchRequest *request = [[NSFetchRequest alloc]init];
                  NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"Scroll_Item" inManagedObjectContext:moc];
                  [request setEntity:entityDes];
-                 request.predicate = [NSPredicate predicateWithFormat:@"addTime < %@",addTime];
+                 request.predicate = [NSPredicate predicateWithFormat:@"(addTime < %@) &&(tag BEGINSWITH %@)",addTime,@"Main"];
                  
                  NSError * fetchError = nil;
                  NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
@@ -149,6 +148,11 @@
             }
             [weakSelf.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects completedBlock:^(id object) {
                 NSLog(@"%@",object);
+                
+                /**
+                 * Download each items' first image ,aka,cache the image;
+                 */
+                
                 [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
                     NSArray * arr = [Scroll_Item_Info MR_findAllInContext:localContext];
                     for (Scroll_Item_Info * tmpItemInfo in arr) {
@@ -216,11 +220,9 @@
         __typeof(self) __weak weakSelf = self;
 #if ISUseCacheData
         NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-        
+         NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
         for(news * object in objects)
         {
-            NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
-            
             News_Scroll_item * newItems = [News_Scroll_item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
             newItems.itemID   =object.ID;
             newItems.addTime  = addTime;
@@ -246,7 +248,7 @@
                 NSFetchRequest *request = [[NSFetchRequest alloc]init];
                 NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"News_Scroll_item" inManagedObjectContext:moc];
                 [request setEntity:entityDes];
-                request.predicate = [NSPredicate predicateWithFormat:@"addTime < %@",addTime];
+                    request.predicate = [NSPredicate predicateWithFormat:@"(addTime < %@) &&(tag BEGINSWITH %@)",addTime,@"Main"];
                 
                 NSError * fetchError = nil;
                 NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
@@ -260,9 +262,6 @@
                 }
             }];
         }
-        
-        
-        
 #endif
         [weakSelf.autoScrollNewsView setInternalGroup:weakSelf.refresh_data_group];
         NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
@@ -323,7 +322,7 @@
                     }
                 }
                 if ([localImages count]) {
-                    [weakSelf.autoScrollNewsView setScrollViewImages:localImages];
+                    [weakSelf.autoScrollNewsView setScrollViewImages:localImages object:scrollItems];
                 }
             }
         });
@@ -331,7 +330,7 @@
       
     }
     
-   [weakSelf.autoScrollNewsView setLocalCacheObjects:scrollItems];
+//   [weakSelf.autoScrollNewsView setLocalCacheObjects:scrollItems];
 }
 #pragma mark - Network Checking
 

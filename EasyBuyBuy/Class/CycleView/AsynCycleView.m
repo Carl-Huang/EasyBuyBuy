@@ -177,9 +177,14 @@
 
 
 
--(void)setScrollViewImages:(NSArray *)images
+-(void)setScrollViewImages:(NSArray *)images object:(NSArray *)array
 {
+    _downloadedItem_num = [images count];
     __weak AsynCycleView * weakSelf = self;
+    if ([array count]) {
+         [self pauseTimer];
+        _items = [array copy];
+    }
      dispatch_barrier_async(_serialQueue, ^{
          dispatch_async(dispatch_get_main_queue(), ^{
              [self.placeHolderImages removeAllObjects];
@@ -199,11 +204,12 @@
 {
     [manager cancelAll];
     [autoScrollView stopTimer];
-    [placeHolderImages removeAllObjects];
     autoScrollView  = nil;
+    [placeHolderImages removeAllObjects];
     internalLinks   = nil;
     _items          = nil;
     _serialQueue    = nil;
+    placeHolderImages = nil;
 }
 
 -(void)startTimer

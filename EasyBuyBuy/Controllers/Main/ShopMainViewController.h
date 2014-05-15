@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UIScrollView *containerView;
+@property (weak, nonatomic) IBOutlet UITableView *contentTable;
 
 /**
  * Use for doing the Job ,such as Internet request,local data fetch

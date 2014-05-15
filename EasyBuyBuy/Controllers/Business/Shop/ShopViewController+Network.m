@@ -125,12 +125,11 @@
                 }
             }
             if ([localImages count]) {
-                [weakSelf.autoScrollView setScrollViewImages:localImages];
+                [weakSelf.autoScrollView setScrollViewImages:localImages object:scrollItems];
             }
         }
     });
     if ([scrollItems count]) {
-        [weakSelf.autoScrollView setLocalCacheObjects:scrollItems];
     }
     
 }
@@ -139,6 +138,9 @@
 -(void)refreshAdContent:(NSArray *)objects
 {
 #if ISUseCacheData
+    NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+    NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
+
     for(AdObject * object in objects)
     {
         BOOL isShouldAdd = YES;
@@ -177,6 +179,9 @@
             Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
             scrollItem.itemID   =object.ID;
             scrollItem.tag      = fetchKey;
+            scrollItem.addTime  = addTime;
+
+            
             Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
             itemInfo.itemID     = object.ID;
             itemInfo.language   = object.language;
@@ -190,6 +195,29 @@
             itemInfo.image      = arrayData;
             scrollItem.item     = itemInfo;
             
+            
+            [moc MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
+             {
+                 if (error) {
+                     NSLog(@"%@",error.description);
+                 }
+                 NSFetchRequest *request = [[NSFetchRequest alloc]init];
+                 NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"Scroll_Item" inManagedObjectContext:moc];
+                 [request setEntity:entityDes];
+                  request.predicate = [NSPredicate predicateWithFormat:@"(addTime < %@) &&(tag BEGINSWITH %@)",addTime,fetchKey];
+                 
+                 NSError * fetchError = nil;
+                 NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
+                 if (error) {
+                     NSLog(@"%@",[error description]);
+                 }else
+                 {
+                     for (id obj in fetchResult) {
+                         [moc deleteObject:obj];
+                     }
+                 }
+             }];
+
         }else
         {
             [CDToOB updateAd:adItem.item withObj:object];
@@ -211,7 +239,26 @@
     if(self.autoScrollView)
     {
         [self.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects completedBlock:^(id object) {
-            ;
+            /**
+             * Download each items' first image ,aka,cache the image;
+             */
+            [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+                NSArray * arr = [Scroll_Item_Info MR_findAllInContext:localContext];
+                for (Scroll_Item_Info * tmpItemInfo in arr) {
+                    NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:tmpItemInfo.previouseImg];
+                    
+                    if (!array) {
+                        NSMutableDictionary * tmpDic = object;
+                        [tmpDic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                            if ([tmpItemInfo.itemID isEqualToString:key]) {
+                                NSData *img   = [NSKeyedArchiver archivedDataWithRootObject:@[obj]];
+                                tmpItemInfo.previouseImg = img;
+                            }
+                        }];
+                    }
+                }
+            }];
+            
         }];
     }
 }

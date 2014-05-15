@@ -204,7 +204,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
             for (UIImage * temImg in cacheImgs) {
                 [imageViews  addObject:[[UIImageView alloc] initWithImage:temImg]];
             }
-            [autoScrollView setScrollViewImages:imageViews];
+            [autoScrollView setScrollViewImages:imageViews object:@[]];
         }
         [self showAlertViewWithMessage:@"No Network"];
     }

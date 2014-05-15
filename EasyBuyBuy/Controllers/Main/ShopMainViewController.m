@@ -29,7 +29,7 @@
 #import "AppDelegate.h"
 #import "AdDetailViewController.h"
 #import "NewsDetailViewController.h"
-
+#import "SVPullToRefresh.h"
 #import "ShopMainViewController+Network.h"
 @interface ShopMainViewController ()<UIScrollViewDelegate,UITextFieldDelegate,AsyCycleViewDelegate,UIAlertViewDelegate>
 {
@@ -97,6 +97,11 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
     
     [self initializationInterface];
+    
+    
+    [self.contentScrollView addPullToRefreshWithActionHandler:^{
+        [self refreshContent];
+    } position:SVPullToRefreshPositionTop];
     previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
 }
 
@@ -108,13 +113,7 @@
     {
         //User have change the default language ,so we need to fetch the news base
         //on the language in the app .
-        [self.autoScrollNewsView cleanAsynCycleView];
-        [self.autoScrollView cleanAsynCycleView];
-        self.autoScrollView = nil;
-        self.autoScrollNewsView = nil;
-
-        [self addAdvertisementView];
-        [self addNewsView];
+        [self refreshContent];
     
         previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
     }
@@ -133,6 +132,34 @@
             });
         }
     }
+}
+
+-(void)refreshContent
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.autoScrollNewsView) {
+            [self.autoScrollNewsView cleanAsynCycleView];
+            self.autoScrollNewsView = nil;
+        }
+        if (self.autoScrollView) {
+            [self.autoScrollView cleanAsynCycleView];
+            self.autoScrollView = nil;
+        }
+        
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        dispatch_group_enter(self.refresh_data_group);
+        [self addAdvertisementView];
+        dispatch_group_enter(self.refresh_data_group);
+        [self addNewsView];
+        
+        __weak __typeof(self) weakSelf = self;
+        dispatch_group_notify(refresh_data_group, group_queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [weakSelf.containerView.pullToRefreshView stopAnimating];
+            });
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -154,11 +181,11 @@
 -(void)initializationInterface
 {
     contentIconOffsetY = 90;
-    CGSize size = CGSizeMake(320 * PageNumer,400);
+    CGSize size = CGSizeMake(320 * PageNumer,288);
     MainIconWidth = 190;
     MainIconHeight = 190;
     if ([OSHelper iPhone5]) {
-        size.height = 488;
+        size.height = 376;
         MainIconHeight = 230;
         MainIconWidth = 230;
         contentIconOffsetY = 120;
@@ -168,6 +195,7 @@
     page = [[UIPageControl alloc]initWithFrame:CGRectMake(100, contentIconOffsetY + MainIconHeight + 20, 120, 30)];
     page.numberOfPages = PageNumer;
     page.currentPage = currentPage;
+    [self.contentView addSubview:page];
     
     NSArray * images = @[@"Shop.png",@"Factory.png",@"Auction.png",@"Easy sell&Buy.png",@"Shipping.png",@"news.png"];
     for (int i =0; i < PageNumer; i++) {
@@ -198,7 +226,7 @@
         [imageView.layer addAnimation:zoomInOut forKey:@"zoomInOut"];
         
         imageView.tag = i;
-        [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, 120, MainIconWidth, MainIconHeight)];
+        [imageView setFrame:CGRectMake(320 * i+(320 - MainIconWidth)/2, 0, MainIconWidth, MainIconHeight)];
         [self.contentScrollView addSubview:imageView];
         imageView = nil;
     }
@@ -208,9 +236,6 @@
     _contentScrollView.delegate = self;
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.showsVerticalScrollIndicator = NO;
-
-    
-    [self.contentView addSubview:page];
     
     
     _searchTextField.delegate = self;
@@ -230,19 +255,31 @@
     myDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     [myDelegate.window addSubview:maskView];
 
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    dispatch_group_enter(self.refresh_data_group);
-    [self addAdvertisementView];
-    dispatch_group_enter(self.refresh_data_group);
-    [self addNewsView];
+    [self refreshContent];
     
-    dispatch_group_notify(refresh_data_group, group_queue, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        });
-        
-    });
-
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    dispatch_group_enter(self.refresh_data_group);
+//    [self addAdvertisementView];
+//    dispatch_group_enter(self.refresh_data_group);
+//    [self addNewsView];
+//    
+//    dispatch_group_notify(refresh_data_group, group_queue, ^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        });
+//    });
+    
+    
+    NSInteger containerViewHeight = 490;
+    if ([OSHelper iPhone5]) {
+        containerViewHeight +=88;
+    }
+    [_containerView setContentSize:CGSizeMake(320, containerViewHeight)];
+    _containerView.pagingEnabled = YES;
+    _containerView.showsVerticalScrollIndicator = NO;
+    [_containerView addPullToRefreshWithActionHandler:^{
+        [self refreshContent];
+    } position:SVPullToRefreshPositionTop];
 }
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
@@ -337,9 +374,8 @@
 {
     NSInteger height = 80;
     CGRect rect = CGRectMake(0, myDelegate.window.frame.size.height-height, 320, height);
-     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.view];
+    autoScrollView = [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.containerView];
     autoScrollView.delegate = self;
-    [autoScrollView setFetchLocalFlag:@"Main" type:[Scroll_Item class]];
     [self fetchAdvertisementViewData];
 }
 
@@ -347,7 +383,7 @@
 {
     CGRect rect = CGRectMake(0, 64, 320, 120);
 
-    autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:1 addTo:self.view];
+    autoScrollNewsView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"New1.png"] placeHolderNum:1 addTo:self.containerView];
     autoScrollNewsView.delegate = self;
     [self fetchNewsViewData];
 }

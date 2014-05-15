@@ -28,4 +28,6 @@
 @property (strong ,nonatomic) NSArray  * image;
 @property (strong ,nonatomic) NSString  * status;
 @property (strong ,nonatomic) NSString  * type;
+//@property (strong ,nonatomic) NSString  * is_goods_advertisement;
+//@property (strong ,nonatomic) NSString  * goods_id;
 @end

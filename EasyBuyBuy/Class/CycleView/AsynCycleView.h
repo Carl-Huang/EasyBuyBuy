@@ -41,7 +41,7 @@ typedef void (^CompletedBlock) (id object);
  */
 
 
--(void)setLocalCacheObjects:(NSArray *)containerObj;
+
 
 //保存每个对象的第一张图片到本地
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj  completedBlock:(CompletedBlock)cacheImgBlock;
@@ -50,7 +50,8 @@ typedef void (^CompletedBlock) (id object);
 -(void)updateImagesLink:(NSArray *)links targetObjects:(NSArray *)objects completedBlock:(CompletedBlock) block;
 
 -(void)setFetchLocalFlag:(NSString *)flag type:(Class)type;
--(void)setScrollViewImages:(NSArray *)images;
+-(void)setScrollViewImages:(NSArray *)images  object:(NSArray *)array;
+-(void)setLocalCacheObjects:(NSArray *)containerObj;
 
 -(void)cleanAsynCycleView;
 -(void)pauseTimer;
