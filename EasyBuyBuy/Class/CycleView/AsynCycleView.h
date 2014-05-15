@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 typedef void (^CompletedBlock) (id object);
 @protocol AsyCycleViewDelegate <NSObject>
-
--(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock;
 @optional
+-(void)didClickItemAtIndex:(NSInteger )index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock;
+-(void)didClickItemAtIndex:(NSInteger )index;
 -(void)didGetImages:(NSArray *)images;
 
 @end

@@ -12,7 +12,8 @@
 #import "Scroll_Item.h"
 #import "Scroll_Item_Info.h"
 #import "SVPullToRefresh.h"
-@interface ShopViewController (Network)
+@interface ShopViewController (Network)<AsyCycleViewDelegate>
 -(void)importShopContentData;
 -(void)loadData;
+-(void)networkStatusHandle:(NSNotification *)notification;
 @end

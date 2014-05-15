@@ -49,7 +49,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     [super viewDidLoad];
     [self initializationLocalString];
-    
+    _workingQueue        = [[NSOperationQueue alloc]init];
+    _refresh_data_group  = dispatch_group_create();
+    _group_queue         = dispatch_queue_create("com.vedon.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
+    _runningOperations  = [NSMutableArray array];
     
     NSFetchRequest *request = nil;
     if(_buinessType == B2BBuinessModel)
@@ -70,6 +73,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
     
     self.fetchResultDataSource.reuseIdentifier = cellIdentifier;
     [self initializationInterface];
+      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated

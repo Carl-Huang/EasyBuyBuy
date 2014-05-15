@@ -52,7 +52,6 @@
                 [self.delegate didFinishLoadData];
             });
         }
-
     }
     return cell;
 }

@@ -177,7 +177,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         if(autoScrollView)
         {
 
-            [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
+            [autoScrollView updateImagesLink:imagesLink targetObjects:@[_newsObj] completedBlock:^(id images) {
                 //Finish Download
 #if ISUseCacheData
                 if([images count])

@@ -68,14 +68,14 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     // Dispose of any resources that can be recreated.
 }
 #pragma mark - AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
+-(void)didClickItemAtIndex:(NSInteger)index
 {
     if (_scrollView) {
         [UIView animateWithDuration:0.3 animations:^{
             _scrollView.alpha = 1.0;
-        
+            
         }];
-    
+        
     }
 }
 -(void)didGetImages:(NSArray *)images
@@ -172,7 +172,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     }
     if([GlobalMethod isNetworkOk])
     {
-        [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
+        [autoScrollView updateImagesLink:imagesLink targetObjects:@[_adObj] completedBlock:^(id images) {
             //Finish Download
 #if ISUseCacheData
             if([images count])

@@ -14,25 +14,35 @@
 
 
 @implementation ShopViewController (Network)
--(void)initializationNetworkStuff
-{
-    self.workingQueue        = [[NSOperationQueue alloc]init];
-    self.refresh_data_group  = dispatch_group_create();
-    self.group_queue         = dispatch_queue_create("com.refreshData.queue", DISPATCH_QUEUE_CONCURRENT);
-}
 
 -(void)importShopContentData
 {
-    [self initializationNetworkStuff];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    [self addAdvertisementView];
-    [self fetchContentData];
-    dispatch_group_notify(self.refresh_data_group, self.group_queue, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }); 
-    });
+   
+#if ISUseCacheData
+        //Fetch the data in local
+#endif
+    if ([GlobalMethod isNetworkOk]) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        NSBlockOperation * adOpera = [NSBlockOperation blockOperationWithBlock:^{
+            [self addAdvertisementView];
+        }];
+        
+        NSBlockOperation * fetchDataOpera = [NSBlockOperation blockOperationWithBlock:^{
+            [self fetchContentData];
+        }];
+
+        [self.workingQueue addOperation:adOpera];
+        [self.workingQueue addOperation:fetchDataOpera];
+        dispatch_group_notify(self.refresh_data_group, self.group_queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+        });
+    }else
+    {
+        NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(importShopContentData) object:nil];
+        [self.runningOperations addObject:opera];
+    }
 }
 
 
@@ -57,9 +67,12 @@
 
 -(void)addAdvertisementView
 {
-    CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
-    self.autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
-
+     __typeof(self) __weak weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGRect rect = CGRectMake(0, 0, 320, self.adView.frame.size.height);
+        self.autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"Ad1.png"] placeHolderNum:1 addTo:self.adView];
+        self.autoScrollView.delegate = weakSelf;
+    });
 #if ISUseCacheData
     //Fetch the data in local
     [self fetchAdFromLocal];
@@ -67,7 +80,7 @@
     
     //Fetching the Ad form server
     dispatch_group_enter(self.refresh_data_group);
-    __typeof(self) __weak weakSelf = self;
+   
     NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
     [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
         if (object) {
@@ -230,5 +243,16 @@
     }];
 }
 
+-(void)networkStatusHandle:(NSNotification *)notification
+{
+    AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
+    if (status != AFNetworkReachabilityStatusNotReachable && status !=AFNetworkReachabilityStatusUnknown) {
+        //Ok ,do something cool :]
+        if ([self.runningOperations count]) {
+            [self.workingQueue addOperations:self.runningOperations waitUntilFinished:NO];
+            [self.runningOperations removeAllObjects];
+        }
+    }
+}
 
 @end

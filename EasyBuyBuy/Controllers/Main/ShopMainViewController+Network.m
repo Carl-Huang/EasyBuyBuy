@@ -422,7 +422,7 @@
 {
     AFNetworkReachabilityStatus  status = (AFNetworkReachabilityStatus)[notification.object integerValue];
     if (status != AFNetworkReachabilityStatusNotReachable && status !=AFNetworkReachabilityStatusUnknown) {
-        //TODO:Ok ,do something cool :]
+        //Ok ,do something cool :]
         if ([self.runningOperations count]) {
              [self.workingQueue addOperations:self.runningOperations waitUntilFinished:NO];
             [self.runningOperations removeAllObjects];

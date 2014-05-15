@@ -304,7 +304,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         [imagesLink addObject:[imageInfo valueForKey:@"image"]];
     }
     if ([imagesLink count]&&autoScrollView) {
-        [autoScrollView updateImagesLink:imagesLink targetObjects:nil completedBlock:^(id images) {
+        [autoScrollView updateImagesLink:imagesLink targetObjects:@[_good] completedBlock:^(id images) {
             
         }];
     }
