@@ -269,7 +269,6 @@
 //        });
 //    });
     
-    
     NSInteger containerViewHeight = 490;
     if ([OSHelper iPhone5]) {
         containerViewHeight +=88;
@@ -304,7 +303,6 @@
                 [hub hide:YES afterDelay:0.5];
             }];
         }
-       
     }else
     {
         [self showAlertViewWithMessage:@"Please Select the region" withDelegate:self tag:1002];

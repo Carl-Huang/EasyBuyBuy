@@ -143,7 +143,6 @@
 
     for(AdObject * object in objects)
     {
-        BOOL isShouldAdd = YES;
         NSString * fetchKey = nil;
         if (self.buinessType == B2BBuinessModel) {
             fetchKey = @"Factory";
@@ -154,79 +153,46 @@
         {
             fetchKey = @"Acution";
         }
-        NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:fetchKey];
-        Scroll_Item * adItem = nil;
-        for (Scroll_Item * tempObj in scrollItems) {
-            if ([tempObj.itemID isEqualToString:object.ID]) {
-                adItem = tempObj;
-                isShouldAdd = NO;
-                break;
-            }
-        }
-        if(isShouldAdd)
-        {
-            NSString * fetchKey = nil;
-            if (self.buinessType == B2BBuinessModel) {
-                fetchKey = @"Factory";
-            }else if(self.buinessType == B2CBuinessModel)
-            {
-                fetchKey = @"Shop";
-            }else
-            {
-                fetchKey = @"Acution";
-            }
-            
-            Scroll_Item * scrollItem = [Scroll_Item MR_createEntity];
-            scrollItem.itemID   =object.ID;
-            scrollItem.tag      = fetchKey;
-            scrollItem.addTime  = addTime;
-
-            
-            Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
-            itemInfo.itemID     = object.ID;
-            itemInfo.language   = object.language;
-            itemInfo.title      = object.title;
-            itemInfo.status     = object.status;
-            itemInfo.type       = object.type;
-            itemInfo.update_time = object.update_time;
-            itemInfo.add_time   = object.add_time;
-            itemInfo.content    = object.content;
-            NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
-            itemInfo.image      = arrayData;
-            scrollItem.item     = itemInfo;
-            
-            
-            [moc MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
-             {
-                 if (error) {
-                     NSLog(@"%@",error.description);
-                 }
-                 NSFetchRequest *request = [[NSFetchRequest alloc]init];
-                 NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"Scroll_Item" inManagedObjectContext:moc];
-                 [request setEntity:entityDes];
-                  request.predicate = [NSPredicate predicateWithFormat:@"(addTime < %@) &&(tag BEGINSWITH %@)",addTime,fetchKey];
-                 
-                 NSError * fetchError = nil;
-                 NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
-                 if (error) {
-                     NSLog(@"%@",[error description]);
-                 }else
-                 {
-                     for (id obj in fetchResult) {
-                         [moc deleteObject:obj];
-                     }
-                 }
-             }];
-
-        }else
-        {
-            [CDToOB updateAd:adItem.item withObj:object];
-        }
-        [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
-            ;
-        }];
+        Scroll_Item * scrollItem = [Scroll_Item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
+        scrollItem.itemID   =object.ID;
+        scrollItem.addTime  = addTime;
         
+        scrollItem.tag      = fetchKey;
+        scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
+        Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+        itemInfo.itemID     = object.ID;
+        itemInfo.language   = object.language;
+        itemInfo.title      = object.title;
+        itemInfo.update_time = object.update_time;
+        itemInfo.add_time   = object.add_time;
+        itemInfo.content    = object.content;
+        NSData *arrayData   = [NSKeyedArchiver archivedDataWithRootObject:object.image];
+        itemInfo.image      = arrayData;
+        scrollItem.item     = itemInfo;
+        
+        [moc MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error)
+         {
+             if (error) {
+                 NSLog(@"%@",error.description);
+             }
+             NSFetchRequest *request = [[NSFetchRequest alloc]init];
+             NSEntityDescription * entityDes = [NSEntityDescription entityForName:@"Scroll_Item" inManagedObjectContext:moc];
+             [request setEntity:entityDes];
+             request.predicate = [NSPredicate predicateWithFormat:@"(addTime < %@) &&(tag BEGINSWITH %@)",addTime,fetchKey];
+             
+             NSError * fetchError = nil;
+             NSArray * fetchResult = [moc executeFetchRequest:request error:&fetchError];
+             if (error) {
+                 NSLog(@"%@",[error description]);
+             }else
+             {
+                 for (id obj in fetchResult) {
+                     [moc deleteObject:obj];
+                 }
+             }
+         }];
     }
+
 #endif
     
     NSMutableArray * imagesLink = [NSMutableArray array];

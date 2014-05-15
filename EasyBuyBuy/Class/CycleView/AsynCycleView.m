@@ -179,12 +179,13 @@
 
 -(void)setScrollViewImages:(NSArray *)images object:(NSArray *)array
 {
-    _downloadedItem_num = [images count];
-    __weak AsynCycleView * weakSelf = self;
     if ([array count]) {
-         [self pauseTimer];
+        [self pauseTimer];
         _items = [array copy];
     }
+    _downloadedItem_num = [images count];
+    __weak AsynCycleView * weakSelf = self;
+    
      dispatch_barrier_async(_serialQueue, ^{
          dispatch_async(dispatch_get_main_queue(), ^{
              [self.placeHolderImages removeAllObjects];
@@ -328,9 +329,9 @@
                 if ([weakSelf.items count]> index) {
                     [weakSelf.downloadFirImagesInfo setObject:image forKey:[_items[index] valueForKey:@"ID"]];
                 }
-                weakSelf.downloadedItem_num ++;
                 dispatch_barrier_async(_serialQueue, ^{
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        
                         NSLog(@"replace");
                         UIImageView * imageView = nil;
                         imageView = [[UIImageView alloc]initWithImage:image];
@@ -344,7 +345,7 @@
                                 NSLog(@"replaceObjectAtIndex %d",index);
                                  [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
                             }
-                           
+                             weakSelf.downloadedItem_num ++;
                             [weakSelf updateAutoScrollViewItem];
                         }
                         imageView = nil;

@@ -140,6 +140,11 @@
     }
     return  models;
 }
+
+-(void)setNilValueForKey:(NSString *)key
+{
+    [self setValue:@"" forKey:key];
+}
 #pragma mark Instance Method
 -(void)loginWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
