@@ -164,7 +164,7 @@
 {
     if(currentPageIndex == -1) {
         return self.totalPageCount - 1;
-    } else if (currentPageIndex == self.totalPageCount) {
+    } else if (currentPageIndex >= self.totalPageCount) {
         return 0;
     } else {
         return currentPageIndex;

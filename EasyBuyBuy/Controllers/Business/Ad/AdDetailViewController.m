@@ -15,6 +15,9 @@
 #import "CDToOB.h"
 #import "MRZoomScrollView.h"
 #import "AppDelegate.h"
+#import "ProductDetailViewControllerViewController.h"
+#import "Good.h"
+#import "User.h"
 
 static NSString * cellIdentifier = @"cellidentifier";
 static NSString * newsContentIdentifier = @"newsContentIdentifier";
@@ -84,6 +87,10 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
 }
 
 #pragma  mark - Public
+- (IBAction)buyBtnAction:(id)sender {
+    [self gotoProductDetailViewController];
+}
+
 -(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
     if([object isKindOfClass:[Scroll_Item class]])
@@ -140,6 +147,16 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [_contentTable setBackgroundColor:[UIColor clearColor]];
     _contentTable.frame = rect;
     
+    if ([_adObj.is_goods_advertisement isEqualToString:@"1"]) {
+        CGRect buyBtnRect = _buyBtn.frame;
+        buyBtnRect.origin.y = rect.origin.y+rect.size.height+10;
+        _buyBtn.frame = buyBtnRect;
+        [_buyBtn setHidden:NO];
+    }else
+    {
+        [_buyBtn setHidden:YES];
+    }
+   
     
 //    UINib * cellNib = [UINib nibWithNibName:@"DefaultDescriptionCellTableViewCell" bundle:[NSBundle bundleForClass:[DefaultDescriptionCellTableViewCell class]]];
 //    [_contentTable registerNib:cellNib forCellReuseIdentifier:cellIdentifier];
@@ -265,14 +282,47 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     });
     
 }
-
-
-
 -(void)hideZoomView
 {
     [UIView animateWithDuration:0.3 animations:^{
         _scrollView.alpha = 0.0;
     }];
+}
+
+-(void)gotoProductDetailViewController
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    __weak __typeof(self) weakSelf = self;
+    [[HttpService sharedInstance]getProductDetailWithParams:@{@"goods_id":_adObj.goods_id} completionBlock:^(id object) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        if ([object count]) {
+            User * user = [User getUserFromLocal];
+            if (user) {
+                Good * obj = [object objectAtIndex:0];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    ProductDetailViewControllerViewController * viewController = [[ProductDetailViewControllerViewController alloc]initWithNibName:@"ProductDetailViewControllerViewController" bundle:nil];
+                    viewController.title = obj.name;
+                    [viewController setGood:obj];
+                    [viewController setIsShouldShowShoppingCar:YES];
+                    [self push:viewController];
+                    viewController = nil;
+                    
+                });
+            }else
+            {
+                [self showAlertViewWithMessage:@"Please Login first"];
+            }
+           
+        }else
+        {
+            //获取商品出错
+            [self showAlertViewWithMessage:@"Data Error"];
+        }
+        
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
+    
 }
 #pragma mark - Table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

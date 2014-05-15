@@ -59,6 +59,7 @@
 @property (strong ,nonatomic) NSMutableDictionary * downloadFirImagesInfo;
 
 @property (assign ,atomic) NSInteger downloadedItem_num;
+@property (assign ,atomic) BOOL isSingleObj;
 @end
 @implementation AsynCycleView
 @synthesize placeHolderImages,networkImages;
@@ -72,6 +73,7 @@
     self = [super init];
     if (self) {
         _isShouldAutoScroll = YES;
+        _isSingleObj = NO;
         _placeHoderImage = image;
         nPlaceholderImages = (numOfPlaceHoderImages ==0?1:numOfPlaceHoderImages);
         _cycleViewParentView = parentView;
@@ -131,16 +133,17 @@
 -(void)updateNetworkImagesLink:(NSArray *)links containerObject:(NSArray *)containerObj  completedBlock:(CompletedBlock)cacheImgBlock
 {
     [self pauseTimer];
+    if (containerObj) {
+        _items  = nil;
+        _items = [containerObj copy];
+        _downloadedItem_num = 0;
+    }
      if([links count])
      {
          downItemCount = [links count];
          [self resetThePlaceImages:links];
      }
-     if (containerObj) {
-         _items  = nil;
-         _items = [containerObj copy];
-         _downloadedItem_num = 0;
-     }
+    
     if (cacheImgBlock) {
         _finishedLoadingFirImgsBlock = [cacheImgBlock copy];
         _downloadFirImagesInfo = [NSMutableDictionary dictionaryWithCapacity:downItemCount];
@@ -167,6 +170,8 @@
     if([links count])
     {
         downItemCount = [links count];
+        _downloadedItem_num = 0;
+        _isSingleObj = YES;
         [self resetThePlaceImages:links];
     }
     if (containerObj) {
@@ -236,13 +241,17 @@
     dispatch_async(_serialQueue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             __weak AsynCycleView * weakSelf = self;
+            autoScrollView.totalPagesCount = ^NSInteger(void){
+                NSLog(@"Image Number :%d",[weakSelf.placeHolderImages count]);
+                if (weakSelf.isSingleObj) {
+                    return  [weakSelf.items count];
+                }
+                return weakSelf.downloadedItem_num;
+            };
             autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
                 return weakSelf.placeHolderImages[pageIndex];
             };
-            autoScrollView.totalPagesCount = ^NSInteger(void){
-                NSLog(@"Image Number :%d",[weakSelf.placeHolderImages count]);
-                return weakSelf.downloadedItem_num;
-            };
+           
         });
     });
 }
@@ -251,6 +260,7 @@
 {
     if(downItemCount == [_downloadedImages count])
     {
+        NSLog(@"*********release group signal********");
         //_finishedDownloadImgsBlock use to download single object's total images
         if(_finishedDownloadImgsBlock)
         {
@@ -345,7 +355,7 @@
                                 NSLog(@"replaceObjectAtIndex %d",index);
                                  [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
                             }
-                             weakSelf.downloadedItem_num ++;
+                            weakSelf.downloadedItem_num ++;
                             [weakSelf updateAutoScrollViewItem];
                         }
                         imageView = nil;

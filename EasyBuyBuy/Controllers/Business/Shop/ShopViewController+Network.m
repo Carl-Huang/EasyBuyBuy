@@ -30,14 +30,23 @@
         NSBlockOperation * fetchDataOpera = [NSBlockOperation blockOperationWithBlock:^{
             [self fetchContentData];
         }];
-
+        NSBlockOperation * groupOpera = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_group_notify(self.refresh_data_group, self.group_queue, ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
+            });
+        }];
+        [groupOpera addDependency:adOpera];
+        [groupOpera addDependency:fetchDataOpera];
+        
+        
+        
+        
         [self.workingQueue addOperation:adOpera];
         [self.workingQueue addOperation:fetchDataOpera];
-        dispatch_group_notify(self.refresh_data_group, self.group_queue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            });
-        });
+        [self.workingQueue addOperation:groupOpera];
+        
     }else
     {
         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(importShopContentData) object:nil];
@@ -86,7 +95,6 @@
         if (object) {
             [weakSelf refreshAdContent:object];
         }
-        dispatch_group_leave(weakSelf.refresh_data_group);
     } failureBlock:^(NSError *error, NSString *responseString) {
         dispatch_group_leave(weakSelf.refresh_data_group);
         NSLog(@"%@",error.description);
@@ -194,7 +202,7 @@
     }
 
 #endif
-    
+     [self.autoScrollView setInternalGroup:self.refresh_data_group];
     NSMutableArray * imagesLink = [NSMutableArray array];
     for (AdObject * news in objects) {
         if([news.image count])

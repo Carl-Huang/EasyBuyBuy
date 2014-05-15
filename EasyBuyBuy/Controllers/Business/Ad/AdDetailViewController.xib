@@ -5,9 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsDetailViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AdDetailViewController">
             <connections>
                 <outlet property="adView" destination="sqZ-VT-D6i" id="Pof-3X-3Kx"/>
+                <outlet property="buyBtn" destination="CKk-WH-vVy" id="wNO-8L-Afh"/>
                 <outlet property="contentTable" destination="ZzW-zp-1Dc" id="p9z-kb-dFI"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -26,7 +27,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="1" id="ZzW-zp-1Dc">
-                            <rect key="frame" x="5" y="99" width="310" height="293"/>
+                            <rect key="frame" x="5" y="99" width="310" height="260"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             <connections>
@@ -39,6 +40,17 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CKk-WH-vVy">
+                            <rect key="frame" x="23" y="367" width="274" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="购买商品" backgroundImage="Verification_Btn_Confirm.png">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buyBtnAction:" destination="-1" eventType="touchUpInside" id="Qjf-H7-WrB"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -51,5 +63,6 @@
     </objects>
     <resources>
         <image name="BackGroud.png" width="320" height="568"/>
+        <image name="Verification_Btn_Confirm.png" width="261" height="42"/>
     </resources>
 </document>

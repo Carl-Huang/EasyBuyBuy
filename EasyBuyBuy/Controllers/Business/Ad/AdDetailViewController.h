@@ -14,5 +14,10 @@
 @property (strong ,nonatomic) AdObject * adObj;
 @property (weak, nonatomic) IBOutlet UIView *adView;
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
+@property (weak, nonatomic) IBOutlet UIButton *buyBtn;
+
+
+
+- (IBAction)buyBtnAction:(id)sender;
 -(void)initializationContentWithObj:(id)object completedBlock:(CompletedBlock)compltedBlock;
 @end
