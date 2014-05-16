@@ -242,10 +242,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             __weak AsynCycleView * weakSelf = self;
             autoScrollView.totalPagesCount = ^NSInteger(void){
-                NSLog(@"Image Number :%d",[weakSelf.placeHolderImages count]);
-                if (weakSelf.isSingleObj) {
-                    return  [weakSelf.items count];
-                }
+//                if (weakSelf.isSingleObj) {
+//                    return  [weakSelf.items count];
+//                }
                 return weakSelf.downloadedItem_num;
             };
             autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
@@ -260,7 +259,6 @@
 {
     if(downItemCount == [_downloadedImages count])
     {
-        NSLog(@"*********release group signal********");
         //_finishedDownloadImgsBlock use to download single object's total images
         if(_finishedDownloadImgsBlock)
         {

@@ -15,6 +15,8 @@
 #import "AdObject.h"
 #import "ListViewController.h"
 #import "ShopMainViewController.h"
+#import "MRZoomScrollView.h"
+#import "AppDelegate.h"
 @interface ShippingViewController ()<TableContentDataDelegate,UIAlertViewDelegate,AsyCycleViewDelegate>
 {
     NSString * viewControllTitle;
@@ -26,7 +28,9 @@
     NSMutableArray * mustFillItems;
     NSDictionary * filledContentInfo;
     AsynCycleView * autoScrollView;
+    MRZoomScrollView * zoomView;
 }
+@property (strong ,nonatomic) UIScrollView * scrollView;
 @end
 
 @implementation ShippingViewController
@@ -150,7 +154,8 @@
 {
     [autoScrollView cleanAsynCycleView];
     autoScrollView = nil;
-    
+    [_scrollView  removeFromSuperview];
+    _scrollView = nil;
     NSArray * viewControllers = [self.navigationController viewControllers];
     for (UIViewController * vc in viewControllers) {
         if ([vc isKindOfClass:[ShopMainViewController class]]) {
@@ -183,14 +188,70 @@
         
     }
 }
-#pragma mark AsynViewDelegate
--(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
+-(void)addZoomView:(NSArray *)images
 {
-    if ([GlobalMethod isNetworkOk]) {
-        if (object) {
-
-        }
+    AppDelegate * myDelegate = [[UIApplication sharedApplication]delegate];
+    CGRect photoRect = myDelegate.window.frame;
+    if (!_scrollView) {
+        _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
+        _scrollView.pagingEnabled = YES;
+        _scrollView.userInteractionEnabled = YES;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        [_scrollView setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.7]];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideZoomView)];
+        [_scrollView addGestureRecognizer:tap];
+        tap = nil;
+        _scrollView.alpha = 0.0;
+        
     }
+    NSArray * subViews = _scrollView.subviews;
+    [subViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        for (int i =0;i<[images count];i++) {
+            
+            CGRect frame = _scrollView.frame;
+            frame.origin.y = photoRect.origin.y;
+            frame.origin.x = frame.size.width * i;
+            frame.size.height = photoRect.size.height;
+            
+            zoomView = [[MRZoomScrollView alloc]initWithFrame:frame];
+            UIImage * img = [images objectAtIndex:i];
+            zoomView.imageView.contentMode = UIViewContentModeScaleAspectFit;
+            zoomView.imageView.image =img;
+            [_scrollView addSubview:zoomView];
+        }
+        
+        [_scrollView setContentSize:CGSizeMake(320 * [images count], _scrollView.frame.size.height)];
+        [myDelegate.window addSubview:_scrollView];
+        
+    });
+    
+}
+
+-(void)hideZoomView
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        _scrollView.alpha = 0.0;
+    }];
+}
+
+#pragma mark - AsynViewDelegate
+-(void)didClickItemAtIndex:(NSInteger)index
+{
+    if (_scrollView) {
+        [UIView animateWithDuration:0.3 animations:^{
+            _scrollView.alpha = 1.0;
+            
+        }];
+        
+    }
+}
+-(void)didGetImages:(NSArray *)images
+{
+    [self addZoomView:images];
 }
 
 #pragma  mark - Outlet Action

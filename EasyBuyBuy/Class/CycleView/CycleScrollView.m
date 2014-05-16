@@ -24,7 +24,6 @@
 
 - (void)setTotalPagesCount:(NSInteger (^)(void))totalPagesCount
 {
-    
     _pageController.numberOfPages = totalPagesCount();
     NSInteger width = 10*_pageController.numberOfPages;
     _pageController.frame = CGRectMake((self.bounds.size.width - width)/2, self.bounds.size.height/5*4, width, 20);

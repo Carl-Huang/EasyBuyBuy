@@ -480,8 +480,7 @@
         AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
         [viewController initializationContentWithObj:object completedBlock:compltedBlock];
         [self push:viewController];
-        viewController = nil;
-        
+        viewController = nil;   
     }
 
 }

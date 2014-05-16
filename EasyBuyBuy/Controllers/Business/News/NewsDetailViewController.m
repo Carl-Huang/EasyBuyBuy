@@ -235,13 +235,12 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
 -(void)addZoomView:(NSArray *)images
 {
     AppDelegate * myDelegate = [[UIApplication sharedApplication]delegate];
+    CGRect photoRect = myDelegate.window.frame;
     if (!_scrollView) {
         _scrollView  = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, myDelegate.window.frame.size.height)];
-        _scrollView.delegate = self;
         _scrollView.pagingEnabled = YES;
         _scrollView.userInteractionEnabled = YES;
         _scrollView.showsHorizontalScrollIndicator = NO;
@@ -252,21 +251,21 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         [_scrollView addGestureRecognizer:tap];
         tap = nil;
         _scrollView.alpha = 0.0;
-
+        
     }
     NSArray * subViews = _scrollView.subviews;
     [subViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     dispatch_async(dispatch_get_main_queue(), ^{
         
         for (int i =0;i<[images count];i++) {
-             UIImage * img = [images objectAtIndex:i];
+            
             CGRect frame = _scrollView.frame;
-            frame.origin.y = _scrollView.frame.size.height/2 - 120;
+            frame.origin.y = photoRect.origin.y;
             frame.origin.x = frame.size.width * i;
-            frame.size.height = 300;
+            frame.size.height = photoRect.size.height;
             
             zoomView = [[MRZoomScrollView alloc]initWithFrame:frame];
-           
+            UIImage * img = [images objectAtIndex:i];
             zoomView.imageView.contentMode = UIViewContentModeScaleAspectFit;
             zoomView.imageView.image =img;
             [_scrollView addSubview:zoomView];
@@ -276,8 +275,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         [myDelegate.window addSubview:_scrollView];
         
     });
-
+    
 }
+
 
 
 -(void)hideZoomView
