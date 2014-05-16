@@ -279,6 +279,8 @@
     [_containerView addPullToRefreshWithActionHandler:^{
         [self refreshContent];
     } position:SVPullToRefreshPositionTop];
+    _containerView.tag = 1001;
+    _containerView.delegate = self;
 }
 
 -(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
@@ -446,16 +448,6 @@
     [showTransiton setValue:@"Appear" forKey:@"showTransiton"];
     [regionTable.view.layer addAnimation:showTransiton forKey:@"showTransiton"];
     [self.view addSubview:regionTable.view];
-    
-    
-//    regionTable.view.alpha = 0.0;
-//    [UIView animateWithDuration:0.3 animations:^{
-//        regionTable.view.alpha = 1.0;
-//    } completion:^(BOOL finished) {
-//        [self.view addSubview:regionTable.view];
-//        [self addChildViewController:regionTable];
-//    }];
-    
 }
 -(void)CSVToPlist
 {
@@ -495,10 +487,22 @@
 }
 
 #pragma mark - UIScrollViewDelegate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if (scrollView.tag == 1001) {
+        if (offsetY > 0) {
+            [scrollView setContentOffset:CGPointMake(0, 0)];
+        }
+    }
+}
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSInteger pageNumber = scrollView.contentOffset.x / 320.0f;
-    page.currentPage = pageNumber;
+    if (scrollView.tag != 1001) {
+        NSInteger pageNumber = scrollView.contentOffset.x / 320.0f;
+        page.currentPage = pageNumber;
+    }
 }
 
 #pragma mark - IBOutlet Action

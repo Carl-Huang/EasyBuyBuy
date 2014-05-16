@@ -17,10 +17,7 @@
 
 -(void)importShopContentData
 {
-   
-#if ISUseCacheData
-        //Fetch the data in local
-#endif
+
     if ([GlobalMethod isNetworkOk]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         NSBlockOperation * adOpera = [NSBlockOperation blockOperationWithBlock:^{
@@ -222,6 +219,7 @@
     if(self.autoScrollView)
     {
         [self.autoScrollView updateNetworkImagesLink:imagesLink containerObject:objects completedBlock:^(id object) {
+#if ISUseCacheData
             /**
              * Download each items' first image ,aka,cache the image;
              */
@@ -241,6 +239,7 @@
                     }
                 }
             }];
+#endif
             
         }];
     }

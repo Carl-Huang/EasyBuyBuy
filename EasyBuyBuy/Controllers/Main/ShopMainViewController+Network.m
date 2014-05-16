@@ -164,7 +164,7 @@
                 /**
                  * Download each items' first image ,aka,cache the image;
                  */
-                
+#if ISUseCacheData
                 [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
                     NSArray * arr = [Scroll_Item_Info MR_findAllInContext:localContext];
                     for (Scroll_Item_Info * tmpItemInfo in arr) {
@@ -181,6 +181,7 @@
                         }
                     }
                 }];
+#endif
             }];
         }];
         [weakSelf.workingQueue addOperation:operation];
@@ -284,6 +285,7 @@
                 [imagesLink addObject:[[newsOjb.image objectAtIndex:0] valueForKey:@"image"]];
             }
             [weakSelf.autoScrollNewsView updateNetworkImagesLink:imagesLink containerObject:objects completedBlock:^(id object) {
+#if ISUseCacheData
                 [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
                     NSArray * arr = [News_Scroll_Item_Info MR_findAllInContext:localContext];
                     for (News_Scroll_Item_Info * tmpItemInfo in arr) {
@@ -300,6 +302,7 @@
                         }
                     }
                 }];
+#endif
             }];
         }];
         [weakSelf.workingQueue addOperation:operation];
