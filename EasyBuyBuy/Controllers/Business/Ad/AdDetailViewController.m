@@ -57,6 +57,7 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
     [super viewDidLoad];
     [self initializationLocalString];
     [self initializationInterface];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -105,6 +106,8 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         _adObj.add_time = tmpObj.item.add_time;
         _adObj.update_time = tmpObj.item.update_time;
         _adObj.title = tmpObj.item.title;
+        _adObj.is_goods_advertisement = tmpObj.item.is_goods_advertisement;
+        _adObj.goods_id = tmpObj.item.is_goods_advertisement;
         
         NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:tmpObj.item.image];
         _adObj.image = array;
@@ -152,6 +155,9 @@ static NSString * newsContentIdentifier = @"newsContentIdentifier";
         buyBtnRect.origin.y = rect.origin.y+rect.size.height+10;
         _buyBtn.frame = buyBtnRect;
         [_buyBtn setHidden:NO];
+        if (![GlobalMethod isNetworkOk]) {
+            [self showAlertViewWithMessage:@"No network"];
+        }
     }else
     {
         [_buyBtn setHidden:YES];

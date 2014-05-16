@@ -106,7 +106,7 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     if (!proImg) {
         UIButton * btn = sender;
         CGRect convertRect1 = [self.view convertRect:btn.frame fromView:self.contentScrollView];
-        CGPoint startPoint = CGPointMake(convertRect1.origin.x, convertRect1.origin.y);
+        CGPoint startPoint = CGPointMake(convertRect1.origin.x+convertRect1.size.width/2, convertRect1.origin.y);
         AppDelegate * myDelegate =(AppDelegate *)[[UIApplication sharedApplication]delegate];
         CGRect convertRect2 = [self.view convertRect:shoppingCar.frame fromView:myDelegate.window];
         CGPoint endPoint = CGPointMake(convertRect2.origin.x, convertRect2.origin.y);
@@ -117,10 +117,12 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         CGPathAddQuadCurveToPoint(path, NULL, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
         
         CAKeyframeAnimation * pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+        pathAnimation.calculationMode = kCAAnimationCubic;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         [pathAnimation setPath:path];
         pathAnimation.delegate = self;
         [pathAnimation setValue:@"Good" forKey:@"position"];
-        [pathAnimation setDuration:0.5];
+        [pathAnimation setDuration:1.0];
         CFRelease(path);
         
         proImg = [[UIImageView alloc]initWithImage:previousImg];

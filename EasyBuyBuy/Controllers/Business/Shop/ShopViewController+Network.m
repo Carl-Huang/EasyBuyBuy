@@ -85,11 +85,9 @@
 #if ISUseCacheData
     //Fetch the data in local
     [self fetchAdFromLocal];
-#endif
-    
+#else
     //Fetching the Ad form server
     dispatch_group_enter(self.refresh_data_group);
-   
     NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
     [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
         if (object) {
@@ -99,7 +97,7 @@
         dispatch_group_leave(weakSelf.refresh_data_group);
         NSLog(@"%@",error.description);
     }];
-    
+#endif
 }
 
 
@@ -136,9 +134,18 @@
                 [weakSelf.autoScrollView setScrollViewImages:localImages object:scrollItems];
             }
         }
+        //Fetching the Ad form server
+        dispatch_group_enter(self.refresh_data_group);
+        NSString * buinesseType = [GlobalMethod getUserDefaultWithKey:BuinessModel];
+        [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
+            if (object) {
+                [weakSelf refreshAdContent:object];
+            }
+        } failureBlock:^(NSError *error, NSString *responseString) {
+            dispatch_group_leave(weakSelf.refresh_data_group);
+            NSLog(@"%@",error.description);
+        }];
     });
-    if ([scrollItems count]) {
-    }
     
 }
 
@@ -168,6 +175,8 @@
         scrollItem.tag      = fetchKey;
         scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
         Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+        itemInfo.is_goods_advertisement = object.is_goods_advertisement;
+        itemInfo.goods_id   = object.goods_id;
         itemInfo.itemID     = object.ID;
         itemInfo.language   = object.language;
         itemInfo.title      = object.title;

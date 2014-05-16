@@ -23,6 +23,9 @@
 @dynamic type;
 @dynamic update_time;
 @dynamic itemInfo;
+@dynamic is_goods_advertisement;
+@dynamic goods_id;
+
 + (Scroll_Item_Info *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context
 {
     NSArray *newsItemCount = [Scroll_Item_Info MR_findByAttribute:@"itemID" withValue:identifier];

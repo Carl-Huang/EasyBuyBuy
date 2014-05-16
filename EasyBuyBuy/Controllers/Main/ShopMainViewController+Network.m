@@ -17,7 +17,7 @@
 #if ISUseCacheData
     //Fetch the data in local
     [self fetchAdFromLocal];
-#endif
+#else
     if ([GlobalMethod isNetworkOk]) {
         NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
             [self startFetchAdData];
@@ -28,6 +28,8 @@
         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchAdvertisementViewData) object:nil];
         [self.runningOperations addObject:opera];
     }
+    
+#endif
     
 }
 
@@ -60,29 +62,38 @@
             [scrollItems addObject:obj];
         }
     }
-    if([scrollItems count])
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if([scrollItems count])
-            {
-                NSMutableArray * localImages = [NSMutableArray array];
-                for (Scroll_Item * object in scrollItems) {
-                    NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previouseImg];
-                    for (UIImage * img in array) {
-                        if([img isKindOfClass:[UIImage class]])
-                        {
-                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
-                        }
-                        break;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        if([scrollItems count])
+        {
+            NSMutableArray * localImages = [NSMutableArray array];
+            for (Scroll_Item * object in scrollItems) {
+                NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previouseImg];
+                for (UIImage * img in array) {
+                    if([img isKindOfClass:[UIImage class]])
+                    {
+                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
                     }
-                }
-                if ([localImages count]) {
-                        [weakSelf.autoScrollView setScrollViewImages:localImages object:scrollItems];
+                    break;
                 }
             }
-        });
-    }
+            if ([localImages count]) {
+                [weakSelf.autoScrollView setScrollViewImages:localImages object:scrollItems];
+            }
+        }
+        if ([GlobalMethod isNetworkOk]) {
+            NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
+                [self startFetchAdData];
+            }];
+            [self.workingQueue addOperation:blockOper];
+        }else
+        {
+            NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchAdvertisementViewData) object:nil];
+            [self.runningOperations addObject:opera];
+        }
+        
+    });
+
     
 //    [weakSelf.autoScrollView setLocalCacheObjects:scrollItems];
 }
@@ -95,15 +106,16 @@
         NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
         NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
 
-        for(news * object in objects)
+        for(AdObject * object in objects)
         {
             Scroll_Item * newItems = [Scroll_Item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
             newItems.itemID   =object.ID;
             newItems.addTime  = addTime;
-            
             newItems.tag      = @"Main";
             newItems.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
             Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
+            itemInfo.is_goods_advertisement= object.is_goods_advertisement;
+            itemInfo.goods_id   = object.goods_id;
             itemInfo.itemID     = object.ID;
             itemInfo.language   = object.language;
             itemInfo.title      = object.title;
@@ -182,8 +194,7 @@
 #if ISUseCacheData
      //Fetch the data in local
 [self fetchNewsFromLocal];
-#endif
-   
+#else
     if ([GlobalMethod isNetworkOk]) {
         NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
             [self startFetchNewsData];
@@ -191,9 +202,12 @@
         [self.workingQueue addOperation:blockOper];
     }else
     {
-         NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchNewsViewData) object:nil];
+        NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchNewsViewData) object:nil];
         [self.runningOperations addObject:opera];
     }
+#endif
+   
+    
 }
 
 -(void)startFetchNewsData
@@ -306,30 +320,37 @@
         }
     }
     
-    if ([scrollItems count]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([scrollItems count])
-            {
-                NSMutableArray * localImages = [NSMutableArray array];
-                for (News_Scroll_item * object in scrollItems) {
-                    NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previousImg];
-                    for (UIImage * img in array) {
-                        if([img isKindOfClass:[UIImage class]])
-                        {
-                            [localImages addObject:[[UIImageView alloc] initWithImage:img]];
-                        }
-                        break;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([scrollItems count])
+        {
+            NSMutableArray * localImages = [NSMutableArray array];
+            for (News_Scroll_item * object in scrollItems) {
+                NSMutableArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:object.item.previousImg];
+                for (UIImage * img in array) {
+                    if([img isKindOfClass:[UIImage class]])
+                    {
+                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
                     }
-                }
-                if ([localImages count]) {
-                    [weakSelf.autoScrollNewsView setScrollViewImages:localImages object:scrollItems];
+                    break;
                 }
             }
-        });
-        
-      
-    }
+            if ([localImages count]) {
+                [weakSelf.autoScrollNewsView setScrollViewImages:localImages object:scrollItems];
+            }
+        }
+        if ([GlobalMethod isNetworkOk]) {
+            NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
+                [self startFetchNewsData];
+            }];
+            [self.workingQueue addOperation:blockOper];
+        }else
+        {
+            NSInvocationOperation * opera = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(fetchNewsViewData) object:nil];
+            [self.runningOperations addObject:opera];
+        }
+    });
     
+
 //   [weakSelf.autoScrollNewsView setLocalCacheObjects:scrollItems];
 }
 #pragma mark - Network Checking
