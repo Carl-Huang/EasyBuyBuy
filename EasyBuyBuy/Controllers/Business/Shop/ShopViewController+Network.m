@@ -112,6 +112,7 @@
         fetchKey = @"Acution";
     }
     NSArray * scrollItems = [Scroll_Item MR_findByAttribute:@"tag" withValue:fetchKey];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if([scrollItems count])

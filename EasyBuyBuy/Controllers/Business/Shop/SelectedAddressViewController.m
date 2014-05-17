@@ -110,15 +110,12 @@ static NSString * cellIdentifier = @"cellIdentifier";
                 dataSource = object;
                 [weakSelf setSelectedStatus];
                 [weakSelf.contentTable reloadData];
-            }else
-            {
-                hub.labelText = @"Your address list is empty";
-                [weakSelf showAlertViewWithMessage:@"Please add an address"];
             }
             [hub hide:YES afterDelay:0.5];
         } failureBlock:^(NSError *error, NSString *responseString) {
             [hub hide:YES afterDelay:0.5];
-            
+            hub.labelText = @"Your address list is empty";
+            [weakSelf showAlertViewWithMessage:@"Please add an address"];
         }];
     }else
     {

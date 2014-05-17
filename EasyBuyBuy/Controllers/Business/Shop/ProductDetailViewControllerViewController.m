@@ -98,7 +98,11 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
 }
 -(void)didGetImages:(NSArray *)images
 {
-    [self addZoomView:images];
+    if ([images count]) {
+        previousImg = [images objectAtIndex:0];
+        [self addZoomView:images];
+    }
+   
 }
 #pragma  mark - Outlet Action
 -(void)putInCarAction:(id)sender
@@ -117,12 +121,12 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         CGPathAddQuadCurveToPoint(path, NULL, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
         
         CAKeyframeAnimation * pathAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
-        pathAnimation.calculationMode = kCAAnimationCubic;
+        pathAnimation.calculationMode = kCAAnimationPaced;
         pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         [pathAnimation setPath:path];
         pathAnimation.delegate = self;
         [pathAnimation setValue:@"Good" forKey:@"position"];
-        [pathAnimation setDuration:1.0];
+        [pathAnimation setDuration:0.8];
         CFRelease(path);
         
         proImg = [[UIImageView alloc]initWithImage:previousImg];

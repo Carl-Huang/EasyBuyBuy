@@ -524,7 +524,7 @@
 }
 
 - (IBAction)showUserCenter:(id)sender {
-    
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     User * user = [PersistentStore getFirstObjectWithType:[User class]];
     if (user) {
         //Already login ,go to usercenter

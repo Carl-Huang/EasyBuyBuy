@@ -147,15 +147,11 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
             [[HttpService sharedInstance]getDefaultAddressWithParams:@{@"user_id":user.user_id} completionBlock:^(id object) {
                 
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-                if (object) {
-                    NSArray * array = object;
-                    if ([array count]) {
-                        [weakSelf updateDataSourceWithUserDefaultAddress:[array objectAtIndex:0]];
-                    }else
-                    {
-                        [weakSelf promptUserToSelectAddress];
-                    }
-                    
+                if ([object count]) {
+                    [weakSelf updateDataSourceWithUserDefaultAddress:[object objectAtIndex:0]];
+                }else
+                {
+                    [weakSelf promptUserToSelectAddress];
                 }
             } failureBlock:^(NSError *error, NSString *responseString) {
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -307,7 +303,13 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     [[HttpService sharedInstance]getShippingTypeListWithParams:@{@"business_model":type} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([object count]) {
-            [weakSelf showPopupTableWithData:object];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [weakSelf showPopupTableWithData:object];
+            });
+           
+        }else
+        {
+            [self showAlertViewWithMessage:@"No Transport Found"];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -397,34 +399,42 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 - (IBAction)submitOrderAction:(id)sender {
     
     if (defaultAddress ) {
-        [[PaymentMng sharePaymentMng]configurePaymentSetting];
-        User * user = [User getUserFromLocal];
-        if (_isNewOrder) {
-            NSMutableArray * orderProducts = [self assembleOrderProducts];
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
-                                                               options:0
-                                                                 error:nil];
-            NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-            
-            //把订单上传到服务器
-            __weak MyOrderDetailViewController * weakSelf =self;
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
-             {
-                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-                 orderID = [object valueForKey:@"order_id"];
-                 [weakSelf paying];
-             } failureBlock:^(NSError *error, NSString *responseString) {
-                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-                 [self showAlertViewWithMessage:@"Submit order failed"];
-             }];
-            
+        if (selectedExpressIndex != -1) {
+            [[PaymentMng sharePaymentMng]configurePaymentSetting];
+            User * user = [User getUserFromLocal];
+            if (_isNewOrder) {
+                NSMutableArray * orderProducts = [self assembleOrderProducts];
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
+                                                                   options:0
+                                                                     error:nil];
+                NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+                
+                //把订单上传到服务器
+                __weak MyOrderDetailViewController * weakSelf =self;
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
+                 {
+                     [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                     orderID = [object valueForKey:@"order_id"];
+                     [weakSelf paying];
+                 } failureBlock:^(NSError *error, NSString *responseString) {
+                     [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                     [self showAlertViewWithMessage:@"Submit order failed"];
+                 }];
+                
+            }else
+            {
+                [self paying];
+            }
+
         }else
         {
-            [self paying];
+            //选择运输方式
+            [self showAlertViewWithMessage:@"Please selected an Transport"];
         }
     }else
     {
+        //选择地址
         [self showAlertViewWithMessage:@"Please selected an address"];
     }
     
@@ -461,6 +471,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 {
     
     if (indexPath.row == 0 && indexPath.section == 0) {
+        //地址
         addressCell  = [tableView dequeueReusableCellWithIdentifier:userInfoCellIdentifier];
        
         id  adress        = [dataSource objectAtIndex:0];
@@ -477,6 +488,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         return  addressCell;
     }else if(indexPath.section == 3)
     {
+        //留言
         RemartCell * cell = [tableView dequeueReusableCellWithIdentifier:remartCellIdentifier];
         cell.cellTitle.text     = remartTitle;
         cell.cellTitle.font     = [UIFont systemFontOfSize:fontSize];
@@ -524,8 +536,14 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         }
         
         cell.contentTitle.text  = [dataSource objectAtIndex:offset];
+        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
+        cell.content.font       = [UIFont systemFontOfSize:fontSize];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
         
         if (indexPath.section == 2) {
+            //运输方式
             if (_isNewOrder) {
                 if ([shippingTypeData count]) {
                     ShippingType * shippingType = [shippingTypeData objectAtIndex:selectedExpressIndex];
@@ -537,25 +555,25 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
             }
            
         }
+        if (indexPath.section ==1) {
+            //付款方式
+            cell.content.text = @"Paypal";
+        }
         if (indexPath.section == 4) {
+            //商品列表
             cell.content.text = @"";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }else
         {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        if (indexPath.section ==1) {
-            cell.content.text = @"Paypal";
-        }
+        
         if (indexPath.section == [sectionArray count]-1) {
             [self configureLastSectionCell:cell index:indexPath];
         }
         
         
-        
-        cell.contentTitle.font  =[UIFont systemFontOfSize:fontSize];
-        cell.content.font       = [UIFont systemFontOfSize:fontSize];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+       
         return cell;
     }
 }
