@@ -44,6 +44,7 @@ static NSString * imageCellIdentifier = @"imageCell";
     
     NSInteger start;
     NSInteger end;
+    CustomiseActionSheet * synActionSheet;
 }
 @property (strong ,nonatomic) NSMutableArray * photos;
 @property (strong ,nonatomic) NSMutableArray * photosStr;
@@ -309,7 +310,9 @@ static NSString * imageCellIdentifier = @"imageCell";
          
      }];
     
-    CustomiseActionSheet * synActionSheet = [[CustomiseActionSheet alloc] init];
+    if (!synActionSheet) {
+        synActionSheet = [[CustomiseActionSheet alloc] init];
+    }
     synActionSheet.titles = [NSArray arrayWithObjects:@"拍照", @"从相册选择",@"取消", nil];
     synActionSheet.destructiveButtonIndex = -1;
     synActionSheet.cancelButtonIndex = 2;

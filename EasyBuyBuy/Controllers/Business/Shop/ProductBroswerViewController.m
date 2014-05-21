@@ -129,7 +129,10 @@ static NSString * cellIdentifier = @"PhotoCell";
     if ([productImages count]) {
         NSURL * imageURL = [NSURL URLWithString:[[productImages objectAtIndex:0] valueForKey:@"image"]];
         
+        __weak TMPhotoQuiltViewCell * weakCell = cell;
         [cell.photoView setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+            weakCell.photoView.image = image;
+            weakCell.photoView.contentMode = UIViewContentModeScaleAspectFill;
         }];
         
     }
@@ -154,7 +157,7 @@ static NSString * cellIdentifier = @"PhotoCell";
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 200;
+    return 190;
 }
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath

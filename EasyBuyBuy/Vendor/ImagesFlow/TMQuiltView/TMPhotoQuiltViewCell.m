@@ -47,6 +47,7 @@ const CGFloat kTMPhotoQuiltViewMargin = 5;
     if (!_photoView) {
         _photoView = [[UIImageView alloc] init];
         _photoView.contentMode = UIViewContentModeScaleAspectFill;
+        _photoView.frame = CGRectMake(0, 0, 150,190);
         _photoView.clipsToBounds = YES;
         [self addSubview:_photoView];
     }
@@ -66,7 +67,7 @@ const CGFloat kTMPhotoQuiltViewMargin = 5;
 }
     
 - (void)layoutSubviews {
-    self.photoView.frame = CGRectInset(self.bounds, kTMPhotoQuiltViewMargin, kTMPhotoQuiltViewMargin);
+//    self.photoView.frame = CGRectInset(self.bounds, kTMPhotoQuiltViewMargin, kTMPhotoQuiltViewMargin);
     self.titleLabel.frame = CGRectMake(kTMPhotoQuiltViewMargin, self.bounds.size.height - 20 - kTMPhotoQuiltViewMargin,
                                        self.bounds.size.width - 2 * kTMPhotoQuiltViewMargin, 20);
 }
