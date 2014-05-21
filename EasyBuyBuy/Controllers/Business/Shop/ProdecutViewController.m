@@ -16,6 +16,7 @@
 #import "SalePromotionItemViewController.h"
 #import "PullRefreshTableView.h"
 #import <objc/runtime.h>
+#import "ProductBroswerCollectionViewController.h"
 static char * likeBtnAssociateKey = "likeBtnAssociateKey";
 
 static NSString * cellIdentifier = @"cellIdentifier";
@@ -109,11 +110,18 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 -(void)gotoProductBroswerViewControllerWithObj:(ChildCategory *)object
 {
-    ProductBroswerViewController * viewController = [[ProductBroswerViewController alloc]initWithNibName:@"ProductBroswerViewController" bundle:nil];
+//    ProductBroswerViewController * viewController = [[ProductBroswerViewController alloc]initWithNibName:@"ProductBroswerViewController" bundle:nil];
+//    viewController.title = object.name;
+//    [viewController setObject:object];
+//    [self push:viewController];
+//    viewController = nil;
+    
+    ProductBroswerCollectionViewController * viewController = [[ProductBroswerCollectionViewController alloc]initWithNibName:@"ProductBroswerCollectionViewController" bundle:nil];
     viewController.title = object.name;
     [viewController setObject:object];
     [self push:viewController];
     viewController = nil;
+    
 }
 
 //竞价

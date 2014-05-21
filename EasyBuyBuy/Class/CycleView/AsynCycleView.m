@@ -13,7 +13,7 @@
 #import "CycleScrollView.h"
 #import "HttpService.h"
 #import "SDWebImageManager.h"
-
+#import "ScrollImage.h"
 @interface AsynCycleView()
 {
     CycleScrollView * autoScrollView;
@@ -242,13 +242,17 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             __weak AsynCycleView * weakSelf = self;
             autoScrollView.totalPagesCount = ^NSInteger(void){
-//                if (weakSelf.isSingleObj) {
-//                    return  [weakSelf.items count];
-//                }
-                return weakSelf.downloadedItem_num;
+                return weakSelf.downloadedItem_num<weakSelf.placeHolderImages.count?weakSelf.downloadedItem_num:weakSelf.placeHolderImages.count;
             };
             autoScrollView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-                return weakSelf.placeHolderImages[pageIndex];
+                for (UIImageView * img in weakSelf.placeHolderImages) {
+                    if (img.tag == pageIndex) {
+                        return  img;
+                    }
+                }
+//                UIImageView * imageView = weakSelf.placeHolderImages[pageIndex];
+////                NSLog(@"imageView Tag :%d",imageView.tag);
+                return nil;
             };
            
         });
@@ -294,6 +298,8 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf getImage:obj withIndex:idx];
                     });
+                    
+
                 }
             }];
             
@@ -323,15 +329,16 @@
                         NSLog(@"replace");
                         UIImageView * imageView = nil;
                         imageView = [[UIImageView alloc]initWithImage:image];
+                        imageView.tag = index;
                         if (imageView) {
-                            if(index >= [weakSelf.placeHolderImages count])
+                            if(weakSelf.downloadedItem_num!=0)
                             {
                                 NSLog(@"addobject %d",index);
                                 [weakSelf.placeHolderImages addObject:imageView];
                             }else
                             {
                                 NSLog(@"replaceObjectAtIndex %d",index);
-                                 [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
+                                 [weakSelf.placeHolderImages replaceObjectAtIndex:0 withObject:imageView];
                             }
                             weakSelf.downloadedItem_num ++;
                             [weakSelf updateAutoScrollViewItem];
@@ -358,6 +365,7 @@
     [self cachingData];
 #endif
     
+    //下载图片完成
     if(downItemCount == [_downloadedImages count])
     {
         if(self.internalGroup)
@@ -367,10 +375,26 @@
         }
     }
     
+    //获取到图片
     if([self.delegate respondsToSelector:@selector(didGetImages:)])
     {
         [self.delegate didGetImages:_downloadedImages];
     }
+    
+//    [self.placeHolderImages sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//        UIImageView * img1 = obj1;
+//        UIImageView * img2 = obj2;
+//        if (img1.tag > img2.tag) {
+//            return NSOrderedAscending;
+//            
+//        }else if (img1.tag < img2.tag)
+//        {
+//            return  NSOrderedDescending;
+//        }else
+//            return  NSOrderedSame;
+//    }];
+    
+
     [self configureCycleViewContent];
 
 }

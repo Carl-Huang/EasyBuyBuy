@@ -398,7 +398,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 #pragma mark - Outlet Action
 - (IBAction)submitOrderAction:(id)sender {
     
-    if (defaultAddress ) {
+    if (defaultAddress) {
         if (selectedExpressIndex != -1) {
             [[PaymentMng sharePaymentMng]configurePaymentSetting];
             User * user = [User getUserFromLocal];

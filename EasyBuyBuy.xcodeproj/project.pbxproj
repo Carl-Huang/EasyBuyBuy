@@ -83,6 +83,7 @@
 		4EAF48B218BB77870038575F /* VerificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF48A818BB77870038575F /* VerificationViewController.xib */; };
 		4EAF48B518BB78D20038575F /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF48B418BB78D20038575F /* OrderCell.m */; };
 		4EAF48B718BB78DC0038575F /* OrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EAF48B618BB78DB0038575F /* OrderCell.xib */; };
+		4EB138D0192CFF61002AE235 /* ScrollImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB138CF192CFF61002AE235 /* ScrollImage.m */; };
 		4EB1AE4D18BB1B0F0033364F /* RegionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */; };
 		4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */; };
 		4EB1AE6418BB2ABD0033364F /* EasyBuybuy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1AE6218BB2ABD0033364F /* EasyBuybuy.xcdatamodeld */; };
@@ -365,6 +366,8 @@
 		4EAF48B318BB78D20038575F /* OrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCell.h; sourceTree = "<group>"; };
 		4EAF48B418BB78D20038575F /* OrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCell.m; sourceTree = "<group>"; };
 		4EAF48B618BB78DB0038575F /* OrderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderCell.xib; sourceTree = "<group>"; };
+		4EB138CE192CFF61002AE235 /* ScrollImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollImage.h; sourceTree = "<group>"; };
+		4EB138CF192CFF61002AE235 /* ScrollImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollImage.m; sourceTree = "<group>"; };
 		4EB1AE4A18BB1B0F0033364F /* RegionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionTableViewController.h; sourceTree = "<group>"; };
 		4EB1AE4B18BB1B0F0033364F /* RegionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionTableViewController.m; sourceTree = "<group>"; };
 		4EB1AE4C18BB1B0F0033364F /* RegionTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegionTableViewController.xib; sourceTree = "<group>"; };
@@ -1176,6 +1179,8 @@
 				4EC90B9418E40ECA007969F5 /* CycleScrollView.m */,
 				4EC90B9518E40ECA007969F5 /* NSTimer+Addition.h */,
 				4EC90B9618E40ECA007969F5 /* NSTimer+Addition.m */,
+				4EB138CE192CFF61002AE235 /* ScrollImage.h */,
+				4EB138CF192CFF61002AE235 /* ScrollImage.m */,
 			);
 			path = CycleView;
 			sourceTree = "<group>";
@@ -1624,6 +1629,7 @@
 				4EB7D853190B520A006DECB2 /* AdObject.m in Sources */,
 				4EA4D9F4190CA3A50003EF19 /* Parent_Category_Factory.m in Sources */,
 				4E870DCA18DA8B3E00596D7E /* FontSizeTableViewCell.m in Sources */,
+				4EB138D0192CFF61002AE235 /* ScrollImage.m in Sources */,
 				4EAF48AB18BB77870038575F /* MyOrderViewController.m in Sources */,
 				4EC207B318C57754003708D6 /* UIImage+Util.m in Sources */,
 				4EA4D9F1190CA3A40003EF19 /* Parent_Category_Shop.m in Sources */,

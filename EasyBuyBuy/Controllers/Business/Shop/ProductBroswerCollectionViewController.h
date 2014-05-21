@@ -7,8 +7,9 @@
 //
 
 #import "CommonViewController.h"
-
+@class ChildCategory;
 @interface ProductBroswerCollectionViewController : CommonViewController
 @property (weak, nonatomic) IBOutlet UICollectionView *contentCollectionView;
-
+@property (strong ,nonatomic) ChildCategory * object;
 @end
+
