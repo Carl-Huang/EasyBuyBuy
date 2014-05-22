@@ -15,4 +15,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *productNumber;
 @property (weak, nonatomic) IBOutlet UILabel *productCost;
 @property (weak, nonatomic) IBOutlet UIButton *productCheckBtn;
+@property (weak, nonatomic) IBOutlet UILabel *productNumDes;
+@property (weak, nonatomic) IBOutlet UIButton *plusBtn;
+@property (weak, nonatomic) IBOutlet UIButton *minBtn;
+
+
 @end

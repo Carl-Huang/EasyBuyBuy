@@ -155,6 +155,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
                 }
             } failureBlock:^(NSError *error, NSString *responseString) {
                 [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                [weakSelf promptUserToSelectAddress];
             }];
         }
         CGFloat cost = 0;
@@ -306,13 +307,13 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
             dispatch_async(dispatch_get_main_queue(), ^{
                  [weakSelf showPopupTableWithData:object];
             });
-           
         }else
         {
             [self showAlertViewWithMessage:@"No Transport Found"];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self showAlertViewWithMessage:@"Fetching Data Error"];
     }];
     
    

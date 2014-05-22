@@ -72,6 +72,9 @@ static NSString * cellIdentifier = @"cell";
             [products addObjectsFromArray:object];
             [weakSelf.contentCollectionView reloadData];
             
+        }else
+        {
+            [weakSelf showAlertViewWithMessage:@"No Products"];
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];

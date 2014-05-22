@@ -5,13 +5,14 @@
 //  Created by vedon on 3/3/14.
 //  Copyright (c) 2014 vedon. All rights reserved.
 //
-
+typedef NS_ENUM(NSInteger, ActionType) {MinusSumOfProAction,PlusSumOfProAction};
 #import "MyCarViewController.h"
 #import "MyCarCell.h"
 #import "MyOrderDetailViewController.h"
 #import "Car.h"
 #import "User.h"
 #import "UIImageView+AFNetworking.h"
+
 
 static NSString * cellIdentifier = @"cellIdentifier";
 @interface MyCarViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
@@ -31,6 +32,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     UITableView * b2bTable;
     
     BuinessModelType type;
+    Car * currentEdittingPro;
 }
 @end
 
@@ -192,6 +194,18 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [self updateStatusWithTag:btn.tag];
 }
 
+-(void)plusProductNum:(id)sender
+{
+    UIButton * btn = (UIButton *)sender;
+    [self updateSpecificSumOfProduct:PlusSumOfProAction position:btn.tag];
+}
+
+-(void)minusProductNum:(id)sender
+{
+    UIButton * btn = (UIButton *)sender;
+    [self updateSpecificSumOfProduct:MinusSumOfProAction position:btn.tag];
+}
+
 -(void)updateStatusWithTag:(NSInteger)tag
 {
     NSString * key = [NSString stringWithFormat:@"%d",tag];
@@ -232,6 +246,45 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
 }
 
+-(void)updateSpecificSumOfProduct:(ActionType)actionType position:(NSInteger)posi
+{
+    currentEdittingPro = nil;
+    if (type == B2CBuinessModel)
+    {
+        currentEdittingPro = [b2cDataSource objectAtIndex:posi];
+    }else
+    {
+        currentEdittingPro = [b2bDataSource objectAtIndex:posi];
+    }
+    
+    NSInteger number = currentEdittingPro.proCount.integerValue;
+    if (actionType == MinusSumOfProAction) {
+        if (number ==1) {
+            [self showAlertViewWithMessage:@"Delete the product from the shopping car?" withDelegate:self tag:1003];
+        }else
+        {
+            number --;
+            currentEdittingPro.proCount  = [NSString stringWithFormat:@"%d",number];
+        }
+    }else
+    {
+        number ++;
+        currentEdittingPro.proCount  = [NSString stringWithFormat:@"%d",number];
+    }
+    [[NSManagedObjectContext MR_contextForCurrentThread]MR_saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+        ;
+    }];
+    
+    
+    [self getData];
+    if (type == B2CBuinessModel)
+    {
+        [b2cTable reloadData];
+    }else
+    {
+        [b2bTable reloadData];
+    }
+}
 
 -(void)deleteCarObject
 {
@@ -271,6 +324,8 @@ static NSString * cellIdentifier = @"cellIdentifier";
         NSMutableArray * selectedProducts = [NSMutableArray array];
         if(type == B2CBuinessModel)
         {
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2CBuinessModel] key:BuinessModel];
+
             for (int i =0; i < [[b2cItemSelectedStatus allKeys]count]; ++ i) {
                 NSString * key = [NSString stringWithFormat:@"%d",i];
                 NSString * value = [b2cItemSelectedStatus valueForKey:key];
@@ -281,6 +336,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
             }
         }else
         {
+            [GlobalMethod setUserDefaultValue:[NSString stringWithFormat:@"%d",B2BBuinessModel] key:BuinessModel];
             for (int i =0; i < [[b2bItemSelectedStatus allKeys]count]; ++ i) {
                 NSString * key = [NSString stringWithFormat:@"%d",i];
                 NSString * value = [b2bItemSelectedStatus valueForKey:key];
@@ -375,15 +431,22 @@ static NSString * cellIdentifier = @"cellIdentifier";
     }
     cell.productDes.text    = productObj.name;
     cell.productCost.text   = [NSString stringWithFormat:@"$%0.2f",productObj.price.floatValue * productObj.proCount.integerValue];
-    cell.productNumber.text = [NSString stringWithFormat:@"Amount:%@",productObj.proCount];
+    cell.productNumber.text = [NSString stringWithFormat:@"%@",productObj.proCount];
+    cell.productDes.text = @"Amount";
+    
     
     [cell.productCheckBtn addTarget:self action:@selector(selectProductAction:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.plusBtn addTarget:self action:@selector(plusProductNum:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.minBtn addTarget:self action:@selector(minusProductNum:) forControlEvents:UIControlEventTouchUpInside];
     cell.productCheckBtn.tag = indexPath.row;
+    cell.minBtn.tag          = indexPath.row;
+    cell.plusBtn.tag         = indexPath.row;
+    
 
     cell.productDes.font    = [UIFont systemFontOfSize:fontSize+3];
-    cell.productNumber.font = [UIFont systemFontOfSize:fontSize];
+    cell.productNumber.font = [UIFont systemFontOfSize:fontSize+2];
     cell.productCost.font   = [UIFont systemFontOfSize:fontSize+1];
-    
+    cell.productDes.font   = [UIFont systemFontOfSize:fontSize+1];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return  cell;
 }
@@ -408,7 +471,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
             [b2cTable reloadData];
         }
       
-    }else
+    }else if(alertView.tag == 102)
     {
         if (buttonIndex == 1) {
             for (int i =0; i< [[b2bItemSelectedStatus allKeys]count]; i++) {
@@ -421,7 +484,18 @@ static NSString * cellIdentifier = @"cellIdentifier";
             [self getData];
             [b2bTable reloadData];
         }
-    }
+    }else if(alertView.tag == 1003)
+    {
+        if (buttonIndex == 1) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [PersistentStore deleteObje:currentEdittingPro];
+                [self getData];
+                [b2cTable reloadData];
+                [b2bTable reloadData];
+            });
+        }
+    }else
+        ;
 }
 
 @end
