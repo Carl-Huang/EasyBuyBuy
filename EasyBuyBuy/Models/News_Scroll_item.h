@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * itemID;
 @property (nonatomic, retain) NSString * language;
 @property (nonatomic, retain) NSString * tag;
+@property (nonatomic, retain) NSString * itemNum;
 @property (nonatomic, retain) News_Scroll_Item_Info *item;
 + (News_Scroll_item *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
 @end

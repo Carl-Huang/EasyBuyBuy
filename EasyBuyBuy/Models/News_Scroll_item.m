@@ -18,6 +18,7 @@
 @dynamic language;
 @dynamic tag;
 @dynamic item;
+@dynamic itemNum;
 + (News_Scroll_item *)findOrCreateObjectWithIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context
 {
     NSArray *newsItemCount = [News_Scroll_item MR_findByAttribute:@"itemID" withValue:identifier];

@@ -578,6 +578,7 @@
 		4EC90BBF18E4208C007969F5 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		4EC90BC118E42920007969F5 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		4EC90BC218E42920007969F5 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		4ED977A9192F52F800A2F5DE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4EECE1BB18F2802D00FF412C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4EF1F53F18EE63120047254B /* YMDPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMDPickerView.h; sourceTree = "<group>"; };
@@ -1275,6 +1276,7 @@
 		C33EEBA1189666F900A26971 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4ED977A9192F52F800A2F5DE /* Security.framework */,
 				C32183DF18F5A418004CDB30 /* CoreTelephony.framework */,
 				4EECE1BD18F2803800FF412C /* MobileCoreServices.framework */,
 				4EECE1BB18F2802D00FF412C /* StoreKit.framework */,
@@ -1841,7 +1843,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "525FE403-A23D-47D1-909A-C678EC2D68E7";
+				PROVISIONING_PROFILE = "C3F5D536-713D-43E5-828B-57256D8E7641";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1883,7 +1885,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "525FE403-A23D-47D1-909A-C678EC2D68E7";
+				PROVISIONING_PROFILE = "C3F5D536-713D-43E5-828B-57256D8E7641";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

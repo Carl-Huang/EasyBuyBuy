@@ -72,7 +72,10 @@
                 for (UIImage * img in array) {
                     if([img isKindOfClass:[UIImage class]])
                     {
-                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        UIImageView * imgView = [[UIImageView alloc] initWithImage:img];
+                        imgView.tag = object.itemNum.integerValue;
+                        [localImages addObject:imgView];
+                        
                     }
                     break;
                 }
@@ -106,12 +109,14 @@
         NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
         NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
 
-        for(AdObject * object in objects)
+        for(int i = 0;i<[objects count];i++)
         {
+            AdObject * object = [objects objectAtIndex:i];
             Scroll_Item * newItems = [Scroll_Item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
             newItems.itemID   =object.ID;
             newItems.addTime  = addTime;
             newItems.tag      = @"Main";
+            newItems.itemNum  = [NSString stringWithFormat:@"%d",i];
             newItems.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
             Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];
             itemInfo.is_goods_advertisement= object.is_goods_advertisement;
@@ -236,12 +241,13 @@
 #if ISUseCacheData
         NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
          NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
-        for(news * object in objects)
+        for(int i =0;i<[objects count];i++)
         {
+            news * object = [objects objectAtIndex:i];
             News_Scroll_item * newItems = [News_Scroll_item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
             newItems.itemID   =object.ID;
             newItems.addTime  = addTime;
-            
+            newItems.itemNum  = [NSString stringWithFormat:@"%d",i];
             newItems.tag      = @"Main";
             newItems.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
             News_Scroll_Item_Info * itemInfo = [News_Scroll_Item_Info MR_createEntity];
@@ -332,7 +338,9 @@
                 for (UIImage * img in array) {
                     if([img isKindOfClass:[UIImage class]])
                     {
-                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        UIImageView * imgView =[[UIImageView alloc] initWithImage:img];
+                        imgView.tag = object.itemNum.integerValue;
+                        [localImages addObject:imgView];
                     }
                     break;
                 }
