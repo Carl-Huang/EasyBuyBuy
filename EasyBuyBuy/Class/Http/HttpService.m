@@ -714,6 +714,7 @@
 
 -(void)getSearchResultWithParams:(NSDictionary *)params completionBlock:(void (^)(id))success failureBlock:(void (^)(NSError *, NSString *))failure
 {
+    NSLog(@"%@",params);
     [self post:[self mergeURL:search] withParams:params completionBlock:^(id obj) {
         if (obj) {
             NSString * statusStr = [NSString stringWithFormat:@"%@",obj[@"status"]];

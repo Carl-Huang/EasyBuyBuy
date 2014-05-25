@@ -10,6 +10,6 @@
 
 @interface SearchResultViewController : CommonViewController
 @property (weak, nonatomic) IBOutlet UITableView *contentTable;
-
--(void)searchTableWithResult:(NSArray *)array;
+@property (strong ,nonatomic) NSDictionary * searchInfo ;
+-(void)searchTableWithResult:(NSArray *)array searchInfo:(NSDictionary *)info;
 @end

@@ -11,15 +11,20 @@
 #import "ProductDetailViewControllerViewController.h"
 #import "Good.h"
 #import "UIImageView+AFNetworking.h"
+#import "PullRefreshTableView.h"
+
+
+
 static NSString * cellIdentifier = @"cellIdentifier";
 
-@interface SearchResultViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface SearchResultViewController ()<UITableViewDataSource,UITableViewDelegate,PullRefreshTableViewDelegate>
 {
     NSString * viewControllTitle;
     
     NSArray * dataSource;
     
 }
+@property (strong ,nonatomic) PullRefreshTableView * contentTable;
 @end
 
 @implementation SearchResultViewController
@@ -75,9 +80,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 }
 
--(void)searchTableWithResult:(NSArray *)array
+-(void)searchTableWithResult:(NSArray *)array searchInfo:(NSDictionary *)info
 {
     dataSource = array;
+    _searchInfo = info;
     [self.contentTable reloadData];
 }
 

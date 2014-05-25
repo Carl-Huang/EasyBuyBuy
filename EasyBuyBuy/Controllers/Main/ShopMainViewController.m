@@ -53,6 +53,7 @@
     
     NSString * previousLanguage;
     NSInteger previousTagNumber;
+    BuinessModelType currentBuinessModel;
 }
 
 @end
@@ -283,18 +284,20 @@
     _containerView.delegate = self;
 }
 
--(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects))finishBlock
+-(void)searchingWithText:(NSString *)searchText completedHandler:(void (^)(NSArray * objects ,NSDictionary * searchInfo))finishBlock
 {
     searchContent = searchText;
     NSString * zipID  = [[NSUserDefaults standardUserDefaults]objectForKey:CurrentRegion];
+    
     if (zipID) {
 
         if ([searchContent length]) {
             MBProgressHUD * hub = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hub.labelText = @"Searching";
-            [[HttpService sharedInstance]getSearchResultWithParams:@{@"business_model": @"1",@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15",@"zip_code_id":zipID} completionBlock:^(id object) {
+            NSDictionary * searchParams = @{@"business_model": [NSString stringWithFormat:@"%d",currentBuinessModel],@"keyword":searchContent,@"page":[NSString stringWithFormat:@"%d",reloadPage],@"pageSize":@"15",@"zip_code_id":zipID};
+            [[HttpService sharedInstance]getSearchResultWithParams:searchParams completionBlock:^(id object) {
                 if (object) {
-                    finishBlock(object);
+                    finishBlock(object,searchParams);
                 }else
                 {
                     hub.labelText = @"No Data";
@@ -501,6 +504,13 @@
     if (scrollView.tag != 1001) {
         NSInteger pageNumber = scrollView.contentOffset.x / 320.0f;
         page.currentPage = pageNumber;
+        
+        if (pageNumber == 0) {
+            currentBuinessModel = B2CBuinessModel;
+        }else
+        {
+            currentBuinessModel = B2BBuinessModel;
+        }
     }
 }
 
@@ -552,9 +562,9 @@
         [textField resignFirstResponder];
         if ([textField.text length]) {
             __weak ShopMainViewController * weakSelf = self;
-            [self searchingWithText:textField.text completedHandler:^(NSArray * objects){
+            [self searchingWithText:textField.text completedHandler:^(NSArray * objects,NSDictionary * searchInfo){
                 if ([objects count]) {
-                    [weakSelf gotoSearchResultViewControllerWithData:objects];
+                    [weakSelf gotoSearchResultViewControllerWithData:objects searchInfo:searchInfo];
                 }
             }];
             [maskView setHidden:YES];
@@ -612,10 +622,11 @@
     
 }
 
--(void)gotoSearchResultViewControllerWithData:(NSArray *)data
+-(void)gotoSearchResultViewControllerWithData:(NSArray *)data searchInfo:(NSDictionary *)info
 {
+    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
     SearchResultViewController * viewController = [[SearchResultViewController alloc]initWithNibName:@"SearchResultViewController" bundle:nil];
-    [viewController searchTableWithResult:data];
+    [viewController searchTableWithResult:data searchInfo:info];
     [self push:viewController];
     viewController = nil;
 }
