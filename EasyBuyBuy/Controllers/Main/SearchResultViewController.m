@@ -17,11 +17,12 @@
 
 static NSString * cellIdentifier = @"cellIdentifier";
 
-@interface SearchResultViewController ()<UITableViewDataSource,UITableViewDelegate,PullRefreshTableViewDelegate>
+@interface SearchResultViewController ()<PullRefreshTableViewDelegate>
 {
     NSString * viewControllTitle;
-    
     NSArray * dataSource;
+    NSInteger page;
+    NSInteger pageSize;
     
 }
 @property (strong ,nonatomic) PullRefreshTableView * contentTable;
@@ -42,6 +43,23 @@ static NSString * cellIdentifier = @"cellIdentifier";
 {
     [super viewDidLoad];
     [self initializationInterface];
+    
+    if ([OSHelper iPhone5]) {
+        CGRect rect = self.containerView.frame;
+        rect.size.height +=88;
+        self.containerView.frame = rect;
+    }
+    __weak SearchResultViewController * weakSelf = self;
+    UINib * cellNib = [UINib nibWithNibName:@"ProductCell" bundle:[NSBundle bundleForClass:[ProductCell class]]];
+    _contentTable = [[PullRefreshTableView alloc]initPullRefreshTableViewWithFrame:self.containerView.bounds dataSource:dataSource cellType:cellNib cellHeight:82.0f delegate:self pullRefreshHandler:^(dispatch_group_t group) {
+        [weakSelf loadPublishDataWithGroup:group];
+    }compltedBlock:^(NSDictionary * info) {
+        NSLog(@"%@",info);
+    }];
+
+    
+    [self.containerView addSubview:_contentTable];
+
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -50,6 +68,7 @@ static NSString * cellIdentifier = @"cellIdentifier";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 #pragma mark - Private Method
@@ -80,10 +99,44 @@ static NSString * cellIdentifier = @"cellIdentifier";
 
 }
 
+
+-(void)loadPublishDataWithGroup:(dispatch_group_t)group
+{
+    page ++;
+    __weak SearchResultViewController * weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSDictionary * searchParams = @{@"business_model": _searchInfo[@"business_model"]
+                                    ,@"keyword":_searchInfo[@"keyword"],
+                                    @"page":[NSString stringWithFormat:@"%d",page],
+                                    @"pageSize":[NSString stringWithFormat:@"%d",pageSize],
+                                    @"zip_code_id":_searchInfo[@"zip_code_id"]};
+    
+    
+    [[HttpService sharedInstance]getSearchResultWithParams:searchParams completionBlock:^(id object) {
+        dispatch_group_leave(group);
+        if (object) {
+           [weakSelf.contentTable updateDataSourceWithData:object];
+        }else
+        {
+           
+        }
+        
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    } failureBlock:^(NSError *error, NSString *responseString) {
+        dispatch_group_leave(group);
+        page --;
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+    }];
+
+}
+
 -(void)searchTableWithResult:(NSArray *)array searchInfo:(NSDictionary *)info
 {
     dataSource = array;
     _searchInfo = info;
+    page = [info[@"page"]integerValue]+1;
+    pageSize = [info[@"pageSize"]integerValue];
+    
     [self.contentTable reloadData];
 }
 
@@ -98,39 +151,26 @@ static NSString * cellIdentifier = @"cellIdentifier";
     viewController = nil;
 }
 
-#pragma  mark - Table
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma  mark - PullRefreshTableView
+-(void)congifurePullRefreshCell:(UITableViewCell *)cell index:(NSIndexPath *)index withObj:(id)object
 {
-    return [dataSource count];
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 82.0f;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ProductCell * cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    Good * object = [dataSource objectAtIndex:indexPath.row];
-    cell.classifyName.text = object.name;
-    NSURL * imageURL = [NSURL URLWithString:[[object.image objectAtIndex:0] valueForKey:@"image"]];
+    ProductCell * tmpCell = (ProductCell *)cell;
+    Good * good = (Good *)object;
+    tmpCell.classifyName.text = good.name;
+    NSURL * imageURL = [NSURL URLWithString:[[good.image objectAtIndex:0] valueForKey:@"image"]];
     if (imageURL) {
-        [cell.classifyImage setImageWithURL:imageURL placeholderImage:nil];
+        [tmpCell.classifyImage setImageWithURL:imageURL placeholderImage:nil];
     }
-    [cell.likeBtn setHidden:YES];
+    [tmpCell.likeBtn setHidden:YES];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object
 {
-    //去到商品详情页面
-    Good * object = [dataSource objectAtIndex:indexPath.row];
     [self gotoProductDetailViewControllerWithGoodInfo:object];
 }
-
 @end
 
 

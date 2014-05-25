@@ -38,9 +38,10 @@ static NSString * cellIdentifier  =@"cellIdentifier";
 {
     self = [super initWithFrame:rect];
     if (self) {
+        
         _refreshDataSource = [NSMutableArray array];
         if ([data count]) {
-            _refreshDataSource = [data copy];
+            [_refreshDataSource addObjectsFromArray:data];
         }
         if (nib) {
             [self registerNib:nib forCellReuseIdentifier:cellIdentifier];
@@ -75,10 +76,13 @@ static NSString * cellIdentifier  =@"cellIdentifier";
 
 -(void)updateDataSourceWithData:(NSArray *)arr
 {
-    if ([arr count]) {
-        [_refreshDataSource addObjectsFromArray:arr];
-        [self reloadData];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([arr count]) {
+            [_refreshDataSource addObjectsFromArray:arr];
+            [self reloadData];
+        }
+    });
+  
 }
 #pragma mark - TableView
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

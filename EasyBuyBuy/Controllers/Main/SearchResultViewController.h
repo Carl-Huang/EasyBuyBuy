@@ -9,7 +9,7 @@
 #import "CommonViewController.h"
 
 @interface SearchResultViewController : CommonViewController
-@property (weak, nonatomic) IBOutlet UITableView *contentTable;
 @property (strong ,nonatomic) NSDictionary * searchInfo ;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 -(void)searchTableWithResult:(NSArray *)array searchInfo:(NSDictionary *)info;
 @end
