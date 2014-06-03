@@ -349,6 +349,8 @@
                 [weakSelf.autoScrollNewsView setScrollViewImages:localImages object:scrollItems];
             }
         }
+        
+        //如果网络可以，则请求数据
         if ([GlobalMethod isNetworkOk]) {
             NSBlockOperation * blockOper= [NSBlockOperation blockOperationWithBlock:^{
                 [self startFetchNewsData];

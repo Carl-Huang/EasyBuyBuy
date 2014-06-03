@@ -123,7 +123,9 @@
                 for (UIImage * img in array) {
                     if([img isKindOfClass:[UIImage class]])
                     {
-                        [localImages addObject:[[UIImageView alloc] initWithImage:img]];
+                        UIImageView * imgView = [[UIImageView alloc] initWithImage:img];
+                        imgView.tag = object.itemNum.integerValue;
+                        [localImages addObject:imgView];
                     }
                     break;
                 }
@@ -154,8 +156,9 @@
     NSNumber * addTime = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
     NSManagedObjectContext * moc = [NSManagedObjectContext MR_contextForCurrentThread];
 
-    for(AdObject * object in objects)
+    for(int i =0;i<[objects count];i++)
     {
+        AdObject * object  = [objects objectAtIndex:i];
         NSString * fetchKey = nil;
         if (self.buinessType == B2BBuinessModel) {
             fetchKey = @"Factory";
@@ -169,7 +172,7 @@
         Scroll_Item * scrollItem = [Scroll_Item findOrCreateObjectWithIdentifier:object.ID inContext:moc];
         scrollItem.itemID   =object.ID;
         scrollItem.addTime  = addTime;
-        
+        scrollItem.itemNum  = [NSString stringWithFormat:@"%d",i];
         scrollItem.tag      = fetchKey;
         scrollItem.language = [[LanguageSelectorMng shareLanguageMng]currentLanguageType];
         Scroll_Item_Info * itemInfo = [Scroll_Item_Info MR_createEntity];

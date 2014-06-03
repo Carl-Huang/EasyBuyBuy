@@ -234,6 +234,10 @@ static NSString * cellIdentifier = @"cellIdentifier";
     //        [self.view removeFromSuperview];
     //    }];
     
+    if (_selectedBlock) {
+        _selectedBlock(@"");
+        _selectedBlock = nil;
+    }
     self.view.frame = CGRectOffset(self.view.frame, 320, 0);
     CATransition *disappearAnimation=[CATransition animation];
     disappearAnimation.duration=0.2;

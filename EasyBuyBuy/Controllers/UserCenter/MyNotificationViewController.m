@@ -103,6 +103,7 @@ static NSString * cellIdentifier_system        = @"cellIdentifier_system";
     }else
     {
         //TODO:User must login first ,but not login .Error throw here!
+        [self showAlertViewWithMessage:@"Please login first"];
     }
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(networkStatusHandle:) name:NetWorkConnectionNoti object:nil];

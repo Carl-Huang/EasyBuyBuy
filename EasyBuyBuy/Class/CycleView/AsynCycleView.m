@@ -250,8 +250,7 @@
                         return  img;
                     }
                 }
-//                UIImageView * imageView = weakSelf.placeHolderImages[pageIndex];
-////                NSLog(@"imageView Tag :%d",imageView.tag);
+
                 return nil;
             };
            
@@ -298,8 +297,6 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [weakSelf getImage:obj withIndex:idx];
                     });
-                    
-
                 }
             }];
             
@@ -331,14 +328,30 @@
                         imageView = [[UIImageView alloc]initWithImage:image];
                         imageView.tag = index;
                         if (imageView) {
-                            if(weakSelf.downloadedItem_num!=0)
-                            {
-                                NSLog(@"addobject %d",index);
+//                            if(weakSelf.downloadedItem_num!=0)
+//                            {
+//                                NSLog(@"addobject %d",index);
+//                                if (index > weakSelf.placeHolderImages.count-1) {
+//                                    [weakSelf.placeHolderImages addObject:imageView];
+//                                }else
+//                                {
+//                                    [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
+//                                }
+//                                
+//                                
+////                                [weakSelf.placeHolderImages addObject:imageView];
+//                            }else
+//                            {
+//                                NSLog(@"replaceObjectAtIndex %d",index);
+//                                 [weakSelf.placeHolderImages replaceObjectAtIndex:0 withObject:imageView];
+//                            }
+                            
+                            
+                            if (index > weakSelf.placeHolderImages.count-1) {
                                 [weakSelf.placeHolderImages addObject:imageView];
                             }else
                             {
-                                NSLog(@"replaceObjectAtIndex %d",index);
-                                 [weakSelf.placeHolderImages replaceObjectAtIndex:0 withObject:imageView];
+                                [weakSelf.placeHolderImages replaceObjectAtIndex:index withObject:imageView];
                             }
                             weakSelf.downloadedItem_num ++;
                             [weakSelf updateAutoScrollViewItem];

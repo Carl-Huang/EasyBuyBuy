@@ -54,8 +54,9 @@
     NSString * previousLanguage;
     NSInteger previousTagNumber;
     BuinessModelType currentBuinessModel;
+    
 }
-
+@property (assign,nonatomic) BOOL isShowingRegionTable;
 @end
 @implementation ShopMainViewController
 @synthesize  refresh_data_group,group_queue,autoScrollView,autoScrollNewsView,workingQueue;
@@ -104,6 +105,7 @@
         [self refreshContent];
     } position:SVPullToRefreshPositionTop];
     previousLanguage = [[LanguageSelectorMng shareLanguageMng] currentLanguageType];
+    _isShowingRegionTable = NO;
 }
 
 
@@ -304,7 +306,7 @@
                 }
                 [hub hide:YES afterDelay:0.5];
             } failureBlock:^(NSError *error, NSString *responseString) {
-                hub.labelText = @"Error";
+                hub.labelText = @"No Data";
                 [hub hide:YES afterDelay:0.5];
             }];
         }
@@ -412,45 +414,49 @@
 
 -(void)showTable
 {
-    
-    if (regionTable) {
-        [regionTable removeFromParentViewController];
-        regionTable = nil;
+    if (!_isShowingRegionTable) {
+        _isShowingRegionTable = YES;
+        if (regionTable) {
+            [regionTable removeFromParentViewController];
+            regionTable = nil;
+        }
+        regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
+        [self addChildViewController:regionTable];
+        [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
+        
+        
+        //    NSArray * regionData = [GlobalMethod getRegionTableData];
+        //    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+        //    __weak ShopMainViewController * weakSelf = self;
+        //    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
+        //    [regionTable setSelectedBlock:^(id object)
+        //     {
+        //         NSLog(@"Regioin :%@",object);
+        //更新zipCode
+        //         [weakSelf getZipCode];
+        //     }];
+        __weak __typeof(self) weakSelf = self;
+        NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
+        [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
+        [regionTable setSelectedBlock:^(id object)
+         {
+             NSLog(@"Regioin :%@",object);
+             weakSelf.isShowingRegionTable = NO;
+         }];
+        
+        regionTable.view.frame = CGRectMake(0, 0, regionTable.view.frame.size.width, regionTable.view.frame.size.height);
+        
+        CATransition *showTransiton=[CATransition animation];
+        showTransiton.duration=0.1;
+        showTransiton.timingFunction=UIViewAnimationCurveEaseInOut;
+        showTransiton.type=kCATransitionPush;
+        showTransiton.subtype=kCATransitionFromLeft;
+        showTransiton.removedOnCompletion = YES;
+        [showTransiton setValue:@"Appear" forKey:@"showTransiton"];
+        [regionTable.view.layer addAnimation:showTransiton forKey:@"showTransiton"];
+        [self.view addSubview:regionTable.view];
     }
-    regionTable = [[RegionTableViewController alloc]initWithNibName:@"RegionTableViewController" bundle:nil];
-    [self addChildViewController:regionTable];
-    [GlobalMethod setUserDefaultValue:@"-1" key:CurrentLinkTag];
-    
-    
-//    NSArray * regionData = [GlobalMethod getRegionTableData];
-//    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-//    __weak ShopMainViewController * weakSelf = self;
-//    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
-//    [regionTable setSelectedBlock:^(id object)
-//     {
-//         NSLog(@"Regioin :%@",object);
-         //更新zipCode
-//         [weakSelf getZipCode];
-//     }];
-    
-    NSDictionary * localizedDic = [[LanguageSelectorMng shareLanguageMng]getLocalizedStringWithObject:regionTable container:nil];
-    [regionTable tableTitle:localizedDic[@"Region"] dataSource:regionData userDefaultKey:CurrentRegion];
-    [regionTable setSelectedBlock:^(id object)
-     {
-         NSLog(@"Regioin :%@",object);
-     }];
-    
-    regionTable.view.frame = CGRectMake(0, 0, regionTable.view.frame.size.width, regionTable.view.frame.size.height);
-    
-    CATransition *showTransiton=[CATransition animation];
-    showTransiton.duration=0.1;
-    showTransiton.timingFunction=UIViewAnimationCurveEaseInOut;
-    showTransiton.type=kCATransitionPush;
-    showTransiton.subtype=kCATransitionFromLeft;
-    showTransiton.removedOnCompletion = YES;
-    [showTransiton setValue:@"Appear" forKey:@"showTransiton"];
-    [regionTable.view.layer addAnimation:showTransiton forKey:@"showTransiton"];
-    [self.view addSubview:regionTable.view];
+   
 }
 -(void)CSVToPlist
 {

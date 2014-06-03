@@ -102,7 +102,13 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
         previousImg = [images objectAtIndex:0];
         [self addZoomView:images];
     }
-   
+
+}
+#pragma mark - Public
+-(void)updateProductInterface
+{
+    [self initializationLocalString];
+    [self initializationInterface];
 }
 #pragma  mark - Outlet Action
 -(void)putInCarAction:(id)sender
@@ -210,6 +216,10 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
     //CycleScrollView configuration
     CGRect rect = _productImageScrollView.bounds;
     
+    if (autoScrollView) {
+        [autoScrollView cleanAsynCycleView];
+        autoScrollView = nil;
+    }
     autoScrollView =  [[AsynCycleView alloc]initAsynCycleViewWithFrame:rect placeHolderImage:[UIImage imageNamed:@"tempTest.png"] placeHolderNum:1 addTo:_productImageScrollView];
     autoScrollView.delegate = self;
     //fetch the product images form internet

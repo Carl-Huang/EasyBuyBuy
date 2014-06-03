@@ -88,7 +88,6 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
 #if ISUseNewRemoteNotification
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    NSLog(@"%s",__func__);
     NSLog(@"%@",userInfo);
 #if TARGET_OS_IPHONE
     [APService handleRemoteNotification:userInfo];
@@ -116,22 +115,23 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
                     isInProductDetailViewController = YES;
                 }
             }
-            if(!isInProductDetailViewController)
-            {
-                __weak AppDelegate * weakSelf =self;
-                [MBProgressHUD showHUDAddedTo:nav.view animated:YES];
-                [[HttpService sharedInstance]getProductDetailWithParams:@{@"goods_id":userInfo[@"id"]} completionBlock:^(id object) {
-                    if([object count])
-                    {
-                        Good * obj = [object objectAtIndex:0];
-                        [weakSelf gotoProductDetailViewControllerWithGoodInfo:obj];
-                    }
-                    [MBProgressHUD hideHUDForView:nav.view animated:YES];
-                } failureBlock:^(NSError *error, NSString *responseString) {
-                    [MBProgressHUD hideHUDForView:nav.view animated:YES];
-                }];
-                
-            }
+            
+            __weak AppDelegate * weakSelf =self;
+            [MBProgressHUD showHUDAddedTo:nav.view animated:YES];
+            [[HttpService sharedInstance]getProductDetailWithParams:@{@"goods_id":userInfo[@"goods_id"]} completionBlock:^(id object) {
+                if([object count])
+                {
+                    Good * obj = [object objectAtIndex:0];
+                    if (isInProductDetailViewController) {
+                        [weakSelf updateProductDetailViewController:viewContorller WithGoodInfo:obj];
+                    }else
+                    [weakSelf gotoProductDetailViewControllerWithGoodInfo:obj];
+                }
+                [MBProgressHUD hideHUDForView:nav.view animated:YES];
+            } failureBlock:^(NSError *error, NSString *responseString) {
+                [MBProgressHUD hideHUDForView:nav.view animated:YES];
+            }];
+
         }else
         {
             //系统信息推送
@@ -204,6 +204,15 @@ handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(vo
     [viewController setIsShouldShowShoppingCar:YES];
     [nav pushViewController:viewController animated:YES];
     viewController = nil;
+}
+
+-(void)updateProductDetailViewController:(ProductDetailViewControllerViewController *)viewController WithGoodInfo:(Good *)good
+{
+    
+    viewController.title = good.name;
+    [viewController setGood:good];
+    [viewController setIsShouldShowShoppingCar:YES];
+    [viewController updateProductInterface];
 }
 
 -(void)showNotification:(NSDictionary *)notification

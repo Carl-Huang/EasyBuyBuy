@@ -16,4 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
 
 @property (strong ,nonatomic) Good * good;
+
+-(void)updateProductInterface;
+
 @end
