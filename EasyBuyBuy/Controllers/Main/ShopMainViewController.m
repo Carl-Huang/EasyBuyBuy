@@ -148,8 +148,12 @@
             [self.autoScrollView cleanAsynCycleView];
             self.autoScrollView = nil;
         }
-        
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+        MBProgressHUD * hub = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        if (hub&&![GlobalMethod isNetworkOk]) {
+            [hub hide:YES afterDelay:2];
+            hub.labelText = @"No network";
+        }
         dispatch_group_enter(self.refresh_data_group);
         [self addAdvertisementView];
         dispatch_group_enter(self.refresh_data_group);
@@ -478,20 +482,26 @@
 -(void)didClickItemAtIndex:(NSInteger)index withObj:(id)object completedBlock:(CompletedBlock)compltedBlock
 {
 
-    if([object isKindOfClass:[news class]] || [object isKindOfClass:[News_Scroll_item class]])
-    {
-        NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
-        [viewController initializationContentWithObj:object completedBlock:compltedBlock];
-        [self push:viewController];
-        viewController = nil;
-    }else if([object isKindOfClass:[AdObject class]] || [object isKindOfClass:[Scroll_Item class]])
-    {
-        AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
-        [viewController initializationContentWithObj:object completedBlock:compltedBlock];
-        [self push:viewController];
-        viewController = nil;   
-    }
+    if (object) {
+        if([object isKindOfClass:[news class]] || [object isKindOfClass:[News_Scroll_item class]])
+        {
+            NewsDetailViewController * viewController = [[NewsDetailViewController alloc]initWithNibName:@"NewsDetailViewController" bundle:nil];
+            [viewController initializationContentWithObj:object completedBlock:compltedBlock];
+            [self push:viewController];
+            viewController = nil;
+        }else if([object isKindOfClass:[AdObject class]] || [object isKindOfClass:[Scroll_Item class]])
+        {
+            AdDetailViewController * viewController = [[AdDetailViewController alloc]initWithNibName:@"AdDetailViewController" bundle:nil];
+            [viewController initializationContentWithObj:object completedBlock:compltedBlock];
+            [self push:viewController];
+            viewController = nil;
+        }
 
+    }else
+    {
+        NSLog(@"Check the network");
+    }
+  
 }
 
 #pragma mark - UIScrollViewDelegate

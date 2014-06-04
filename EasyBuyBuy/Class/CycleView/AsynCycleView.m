@@ -84,6 +84,8 @@
         _finishedLoadingFirImgsBlock    = nil;
         _finishedDownloadImgsBlock      = nil;
         _flag = nil;
+        
+        manager = [SDWebImageManager sharedManager];
         [self initializationInterface];
     }
     return self;
@@ -216,6 +218,7 @@
     _items          = nil;
     _serialQueue    = nil;
     placeHolderImages = nil;
+    _serialQueue    = nil;
 }
 
 -(void)startTimer
@@ -238,7 +241,7 @@
 #pragma  mark - Private method
 -(void)configureCycleViewContent
 {
-    dispatch_async(_serialQueue, ^{
+//    dispatch_async(_serialQueue, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             __weak AsynCycleView * weakSelf = self;
             autoScrollView.totalPagesCount = ^NSInteger(void){
@@ -250,12 +253,11 @@
                         return  img;
                     }
                 }
-
                 return nil;
             };
            
         });
-    });
+//    });
 }
 
 -(void)cachingData
@@ -309,7 +311,6 @@
 {
     __weak AsynCycleView * weakSelf = self;
     NSURL * url = [NSURL URLWithString:imgStr];
-    manager = [SDWebImageManager sharedManager];
     [manager downloadWithURL:url options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         ;
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {

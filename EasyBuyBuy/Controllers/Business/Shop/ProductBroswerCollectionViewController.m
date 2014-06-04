@@ -46,14 +46,14 @@ static NSString * cellIdentifier = @"cell";
 {
     [super viewDidLoad];
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
+    CGRect rect = _contentCollectionView.frame;
     if ([OSHelper iPhone5]) {
-        CGRect rect = _contentCollectionView.frame;
         rect.size.height +=88;
         [_contentCollectionView setFrame:rect];
     }
     UINib * cellNib = [UINib nibWithNibName:@"PhotoCell" bundle:[NSBundle bundleForClass:[PhotoCell class]]];
     [self.contentCollectionView registerNib:cellNib forCellWithReuseIdentifier:cellIdentifier];
-    
+    self.contentCollectionView.contentSize = CGSizeMake(320,rect.size.height+100);
 
     
     
@@ -65,6 +65,7 @@ static NSString * cellIdentifier = @"cell";
     [self.contentCollectionView addPullToRefreshWithActionHandler:^{
         [weakSelf loadData];
     } position:SVPullToRefreshPositionBottom];
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[HttpService sharedInstance]getGoodsWithParams:@{@"p_cate_id":_object.parent_id,@"c_cate_id":_object.ID,@"page":[NSString stringWithFormat:@"%d",page],@"pageSize":[NSString stringWithFormat:@"%d",pageSize]} completionBlock:^(id object) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -80,7 +81,6 @@ static NSString * cellIdentifier = @"cell";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [weakSelf showAlertViewWithMessage:@"Loading failed"];
     }];
-
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -105,7 +105,6 @@ static NSString * cellIdentifier = @"cell";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [weakSelf.contentCollectionView.pullToRefreshView stopAnimating];
     }];
-    
 }
 
 

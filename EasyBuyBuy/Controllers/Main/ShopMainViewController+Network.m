@@ -228,7 +228,6 @@
         if (weakSelf.refresh_data_group) {
             dispatch_group_leave(weakSelf.refresh_data_group);
         }
-        
     }];
 }
 
