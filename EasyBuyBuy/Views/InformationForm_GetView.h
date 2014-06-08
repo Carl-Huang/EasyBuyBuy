@@ -11,5 +11,5 @@
 @interface InformationForm_GetView : UITableView
 
 
--(void)setContentDataDes:(NSArray *)contentDataDes contentData:(PublicListData *)contentData noSeperatorRange:(NSRange)range;
+-(void)setContentDataDes:(NSArray *)contentDataDes contentData:(PublicListData *)contentData noSeperatorRange:(NSRange)range takePicBtnIndex:(NSInteger)index;
 @end

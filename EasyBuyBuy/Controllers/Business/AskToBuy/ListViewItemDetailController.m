@@ -58,16 +58,16 @@
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
     
     CGRect rect = self.view.bounds;
-    rect.size.height = 406;
+    rect.size.height = 396;
     rect.size.width = 300;
     rect.origin.x = 10;
     rect.origin.y = 10;
     if ([OSHelper iPhone5]) {
-        rect.size.height +=98;
+        rect.size.height +=78;
     }
     contentTable = [[InformationForm_GetView alloc]initWithFrame:rect];
     if (_itemData && _contentDataDes) {
-        [contentTable setContentDataDes:_contentDataDes contentData:_itemData noSeperatorRange:NSMakeRange(12, 4)];
+        [contentTable setContentDataDes:_contentDataDes contentData:_itemData noSeperatorRange:NSMakeRange(12, 4) takePicBtnIndex:9];
         [self.view addSubview:contentTable];
     }else
         NSLog(@"数据为空");
