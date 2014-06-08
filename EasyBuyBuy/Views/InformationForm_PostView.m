@@ -522,6 +522,7 @@ static NSString * imageCellIdentifier = @"imageCell";
              [weakSelf reloadData];
          }];
         
+        
         regionTable.view.alpha = 0.0;
         [UIView animateWithDuration:0.3 animations:^{
             regionTable.view.alpha = 1.0;

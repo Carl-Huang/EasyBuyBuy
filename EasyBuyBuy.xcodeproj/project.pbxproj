@@ -26,6 +26,8 @@
 		4E1EA34B18E715060012BAEC /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1EA34918E715060012BAEC /* AboutUsViewController.xib */; };
 		4E4062111918BD2100230392 /* ShopFetchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4062101918BD2100230392 /* ShopFetchResultController.m */; };
 		4E4062151918C24000230392 /* ShopViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4062141918C24000230392 /* ShopViewController+Network.m */; };
+		4E5DD10B19444DA200655E2D /* TitleAndDesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5DD10A19444DA200655E2D /* TitleAndDesCell.m */; };
+		4E5DD10D19444DB000655E2D /* TitleAndDesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E5DD10C19444DB000655E2D /* TitleAndDesCell.xib */; };
 		4E632CC018C44E1A006DD458 /* UpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */; };
 		4E632CC118C44E1A006DD458 /* UpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */; };
 		4E632CC518C44E2A006DD458 /* LanguageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E632CC318C44E2A006DD458 /* LanguageViewController.m */; };
@@ -276,6 +278,9 @@
 		4E4062101918BD2100230392 /* ShopFetchResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopFetchResultController.m; sourceTree = "<group>"; };
 		4E4062131918C24000230392 /* ShopViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ShopViewController+Network.h"; sourceTree = "<group>"; };
 		4E4062141918C24000230392 /* ShopViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ShopViewController+Network.m"; sourceTree = "<group>"; };
+		4E5DD10919444DA200655E2D /* TitleAndDesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleAndDesCell.h; sourceTree = "<group>"; };
+		4E5DD10A19444DA200655E2D /* TitleAndDesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleAndDesCell.m; sourceTree = "<group>"; };
+		4E5DD10C19444DB000655E2D /* TitleAndDesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleAndDesCell.xib; sourceTree = "<group>"; };
 		4E632CBD18C44E1A006DD458 /* UpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpgradeViewController.h; sourceTree = "<group>"; };
 		4E632CBE18C44E1A006DD458 /* UpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpgradeViewController.m; sourceTree = "<group>"; };
 		4E632CBF18C44E1A006DD458 /* UpgradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeViewController.xib; sourceTree = "<group>"; };
@@ -1003,6 +1008,9 @@
 				4EBB68BD1903967F0073DE48 /* LinkBtn.m */,
 				4E0B558D191A331B00B168BC /* PullRefreshTableView.h */,
 				4E0B558E191A331B00B168BC /* PullRefreshTableView.m */,
+				4E5DD10919444DA200655E2D /* TitleAndDesCell.h */,
+				4E5DD10A19444DA200655E2D /* TitleAndDesCell.m */,
+				4E5DD10C19444DB000655E2D /* TitleAndDesCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1500,6 +1508,7 @@
 				4EB5FFAE18BC369F0064B22C /* MyOrderDetailViewController.xib in Resources */,
 				4E632CC618C44E2A006DD458 /* LanguageViewController.xib in Resources */,
 				4EB1AE4E18BB1B0F0033364F /* RegionTableViewController.xib in Resources */,
+				4E5DD10D19444DB000655E2D /* TitleAndDesCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1600,6 +1609,7 @@
 				4EC90BC318E42920007969F5 /* Address.m in Sources */,
 				4EC90BB318E40ECA007969F5 /* PhotoManager.m in Sources */,
 				4E11216418EA95B900B2F39E /* NSMutableArray+AddUniqueObject.m in Sources */,
+				4E5DD10B19444DA200655E2D /* TitleAndDesCell.m in Sources */,
 				4EB422F118F51E6900DF2053 /* SearchResultViewController.m in Sources */,
 				4E11215B18EA642F00B2F39E /* PopupTable.m in Sources */,
 				4EC90BC018E4208C007969F5 /* Register.m in Sources */,
@@ -1819,12 +1829,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyBuyBuy/EasyBuyBuy-Prefix.pch";
 				INFOPLIST_FILE = "EasyBuyBuy/EasyBuyBuy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EasyBuyBuy/Vendor/PayPalMobile",
 					"$(SRCROOT)/EasyBuyBuy/Vendor/JPush",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -1843,7 +1854,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "723B98A7-0FAD-4A0A-A1D4-585833A02E55";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1861,12 +1872,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyBuyBuy/EasyBuyBuy-Prefix.pch";
 				INFOPLIST_FILE = "EasyBuyBuy/EasyBuyBuy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EasyBuyBuy/Vendor/PayPalMobile",
 					"$(SRCROOT)/EasyBuyBuy/Vendor/JPush",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -1885,7 +1897,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "723B98A7-0FAD-4A0A-A1D4-585833A02E55";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

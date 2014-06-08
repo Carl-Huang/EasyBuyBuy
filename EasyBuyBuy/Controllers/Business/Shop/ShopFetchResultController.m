@@ -7,6 +7,7 @@
 //
 
 #import "ShopFetchResultController.h"
+#import "UIActivityIndicatorView+AFNetworking.h"
 @interface ShopFetchResultController()
 {
     BOOL isContentChange;
@@ -53,6 +54,7 @@
             });
         }
     }
+    
     return cell;
 }
 

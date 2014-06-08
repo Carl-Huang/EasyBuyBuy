@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class PublicListData;
 @interface InformationForm_GetView : UITableView
 
+
+-(void)setContentDataDes:(NSArray *)contentDataDes contentData:(PublicListData *)contentData noSeperatorRange:(NSRange)range;
 @end

@@ -18,6 +18,7 @@
     
     NSInteger page;
     NSInteger pageSize;
+    NSArray * itemDescriptionData;
 }
 @property (strong ,nonatomic) PullRefreshTableView * contentTable;
 @end
@@ -72,13 +73,14 @@
     
     if (localizedDic) {
         viewControllTitle   = localizedDic [@"viewControllTitle"];
+        itemDescriptionData = localizedDic [@"dataSource"];
     }
     
 }
 
 -(void)initializationInterface
 {
-//    self.title = viewControllTitle;
+    self.title = viewControllTitle;
     [self setLeftCustomBarItem:@"Home_Icon_Back.png" action:nil];
    
 }
@@ -132,8 +134,12 @@
 
 -(void)didSelectedItemInIndex:(NSInteger)index withObj:(id)object
 {
-//    ListViewItemDetailController * viewController = [[ListViewItemDetailController alloc]initWithNibName:@"ListViewItemDetailController" bundle:nil];
-//    [self.navigationController pushViewController:viewController animated:YES];
-//    viewController = nil;
+    ListViewItemDetailController * viewController = [[ListViewItemDetailController alloc]initWithNibName:@"ListViewItemDetailController" bundle:nil];
+    if (itemDescriptionData && object) {
+        [viewController setContentDataDes:itemDescriptionData];
+        [viewController setItemData:object];
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
+    viewController = nil;
 }
 @end

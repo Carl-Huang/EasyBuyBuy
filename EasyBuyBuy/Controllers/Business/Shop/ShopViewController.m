@@ -221,7 +221,26 @@ static NSString * cellIdentifier = @"cellIdentifier";
     @autoreleasepool {
         NSURL * imageURL = [NSURL URLWithString:object.image];
         if (imageURL) {
-            [tmpCell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
+//            [tmpCell.classifyImage setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"tempTest.png"] options:SDWebImageRetryFailed];
+            
+            __block UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            spinner.center = CGPointMake(tmpCell.classifyImage.frame.size.width/2, tmpCell.classifyImage.frame.size.height/2);
+            spinner.hidesWhenStopped = YES;
+            [tmpCell.classifyImage addSubview:spinner];
+            [spinner startAnimating];
+            [tmpCell.classifyImage setImageWithURL:imageURL placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                [spinner stopAnimating];
+                spinner = nil;
+                
+                if (error) {
+                    NSLog(@"%@",error.description);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        tmpCell.classifyImage.image = [UIImage imageNamed:@"tempTest.png"];
+                    });
+                    
+                }
+            }];
+            
         }
         tmpCell.classifyName.text = object.name;
         tmpCell.classifyName.font = [UIFont systemFontOfSize:fontSize];

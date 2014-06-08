@@ -101,8 +101,6 @@ static NSString * imageCellIdentifier = @"imageCell";
     }
     [_contentTable reloadData];
     
-    
-    
 }
 
 -(void)initializationInterface

@@ -927,4 +927,99 @@
     }
 }
 
+#pragma  mark - ListViewController
+-(NSDictionary *)ListViewControllerLanguage
+{
+    if ([language isEqualToString:@"English"])
+    {
+        return @{@"viewControllTitle": @"Easy to buy or sell "
+                 ,@"publicBtn":@"Publish"
+                 ,@"dataSource":@[@"*Sale or Purchase:",
+                                  @"*First Name:",
+                                  @"*Last Name:",
+                                  @"*Country Name:",
+                                  @"Company Name:",
+                                  @"*Container:",
+                                  @"*Tel Number:",
+                                  @"*Mobile Number:",
+                                  @"*Email:",
+                                  @"*Photo of product",//10
+                                  @"Photo",            //To specify the photo area
+                                  @"*Name Of Goods:",
+                                  @"Size",             //13
+                                  @"LENGTH:",
+                                  @"WIDTH:",
+                                  @"HEIGTH:",
+                                  @"THICKNESS:",
+                                  @"COLOR:",
+                                  @"Used in:",
+                                  @"*QUANTITY AVAILABLE:",
+                                  @"NAME OF MATERIAL:",
+                                  @"Weight/KG/G:",
+                                  @"Remark:"]
+                 ,@"eliminateTheTextfieldItems":@[@"*Sale or Purchase:",@"*Photo of product",@"Size",@"Photo"]
+                 };
+    }else if ([language isEqualToString:@"Chinese"])
+    {
+        return @{@"viewControllTitle": @"易买/易卖"
+                 ,@"publicBtn":@"提交"
+                 ,@"dataSource":@[@"*出售或购买:",
+                                  @"*名字:",
+                                  @"*姓:",
+                                  @"*国家名字:",
+                                  @"公司名字:",
+                                  @"*集装箱:",
+                                  @"*电话号码:",
+                                  @"*手机号码:",
+                                  @"*邮件:",
+                                  @"*产品图片",//10
+                                  @"Photo",            //To specify the photo area
+                                  @"*商品名称:",
+                                  @"尺寸",             //13
+                                  @"长度:",
+                                  @"宽度:",
+                                  @"高度:",
+                                  @"厚度:",
+                                  @"颜色:",
+                                  @"用途:",
+                                  @"*现有数量:",
+                                  @"材料名称:",
+                                  @"重量/公斤/克:",
+                                  @"备注:"]
+                 ,@"eliminateTheTextfieldItems":@[@"*出售或购买:",@"*产品图片",@"尺寸",@"Photo"]
+                 };
+    }else
+    {
+        
+        return @{@"viewControllTitle": @"*السهل شراء أو بيع"
+                 ,@"publicBtn":@"نشر"
+                 ,@"dataSource":@[@"*السهل شراء أو بيع",
+                                  @"*الاسم الأول",
+                                  @"*الاسم الأخير",
+                                  @"*اسم البلد",
+                                  @"اسم الشركة",
+                                  @"*حاوية",
+                                  @"*رقم  الهاتف",
+                                  @"*رقم الجوال",
+                                  @"*البريد الإلكتروني",
+                                  @"*صورة المنتج",
+                                  @"Photo",            //To specify the photo area
+                                  @"*اسم المنتج",
+                                  @"حجم",
+                                  @"طول",
+                                  @"عرض",
+                                  @"ارتفاع",
+                                  @"سمك",
+                                  @"لون",
+                                  @"هذه المنتج يستخدم في",
+                                  @"*الكمية  المتاحة",
+                                  @"اسم المادة",
+                                  @"الوزن : (كيلو / طن)",
+                                  @"ملاحظة"]
+                 ,@"eliminateTheTextfieldItems":@[@"*السهل شراء أو بيع",@"*صورة المنتج",@"حجم",@"Photo"]
+                 };
+    }
+}
+
+
 @end
