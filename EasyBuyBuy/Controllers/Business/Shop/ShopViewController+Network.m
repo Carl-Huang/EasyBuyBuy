@@ -37,9 +37,6 @@
         [groupOpera addDependency:adOpera];
         [groupOpera addDependency:fetchDataOpera];
         
-        
-        
-        
         [self.workingQueue addOperation:adOpera];
         [self.workingQueue addOperation:fetchDataOpera];
         [self.workingQueue addOperation:groupOpera];
@@ -244,7 +241,6 @@
                 }
             }];
 #endif
-            
         }];
     }
 }

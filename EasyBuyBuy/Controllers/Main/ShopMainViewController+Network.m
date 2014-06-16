@@ -40,6 +40,11 @@
     [[HttpService sharedInstance]fetchAdParams:@{@"type":[NSString stringWithFormat:@"%d",HomeModel]} completionBlock:^(id object) {
         if (object) {
             [weakSelf refreshAdContent:object];
+        }else
+        {
+            if (weakSelf.refresh_data_group) {
+                dispatch_group_leave(weakSelf.refresh_data_group);
+            }
         }
     } failureBlock:^(NSError *error, NSString *responseString) {
         NSLog(@"%@",error.description);
@@ -223,6 +228,11 @@
     [[HttpService sharedInstance]getHomePageNewsWithParam:@{@"language":[[LanguageSelectorMng shareLanguageMng]currentLanguageType]} CompletionBlock:^(id object) {
         if (object) {
             [weakSelf refreshNewContent:object];
+        }else
+        {
+            if (weakSelf.refresh_data_group) {
+                dispatch_group_leave(weakSelf.refresh_data_group);
+            }
         }
     } failureBlock:^(NSError *error, NSString * responseString) {
         if (weakSelf.refresh_data_group) {
