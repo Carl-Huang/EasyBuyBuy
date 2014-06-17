@@ -30,4 +30,5 @@
 @property (strong ,nonatomic) NSString * remark;
 @property (strong ,nonatomic) NSString * total_price;
 
+
 @end

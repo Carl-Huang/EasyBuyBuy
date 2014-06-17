@@ -25,5 +25,6 @@
 @property (nonatomic, retain) NSString * quality;
 @property (nonatomic, retain) NSString * size;
 @property (nonatomic, retain) NSString * productID;
+@property (nonatomic, retain) NSString * shipping_fee;
 
 @end

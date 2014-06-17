@@ -642,7 +642,7 @@
                  @"viewControllTitle": @"Order details",
                  @"confirmBtn":@"Confirm",
                  @"costDesc":@"Total Cost:",
-                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"The total price:"],
+                 @"dataSource": @[@"Payment:",@"Transport:",@"Remark:",@"Product list",@"Order Status:",@"Order Time:",@"Freight",@"The total price:"],
                  @"remart":@"Leave a message",
                  @"pay":@"paid",
                  @"unpay":@"unpaid"
@@ -653,7 +653,7 @@
                  @"viewControllTitle": @"订单详情",
                  @"confirmBtn":@"确定",
                  @"costDesc":@"总价:",
-                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"总价钱:"],
+                 @"dataSource": @[@"付款方式:",@"运输方式:",@"留言:",@"商品列表",@"订单状态:",@"订单时间:",@"运费",@"总价钱:"],
                  @"remart":@"留言",
                  @"pay":@"已付款",
                  @"unpay":@"未付款"
@@ -664,7 +664,7 @@
                  @"viewControllTitle": @"تفاصيل الطلب",
                  @"confirmBtn":@"أكد الطلب",
                  @"costDesc":@"السعر الإجمالي",
-                 @"dataSource": @[@"دفع",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
+                 @"dataSource": @[@"دفع",@"شحن",@"نقل",@"ترك رسالة",@"سعر",@"النقل و لشحن",@"وقت الطلب",@"السعر الإجمالي"],
                  @"remart":@"ترك رسالة",
                  @"pay":@"مدفوع ",
                  @"unpay":@"غير مدفوع"

@@ -62,5 +62,6 @@
 @property (strong ,nonatomic) NSString * child_category;
 @property (strong ,nonatomic) NSString * parent_category;
 @property (strong ,nonatomic) NSArray  * image;
+@property (strong ,nonatomic) NSString * shipping_fee;
 
 @end

@@ -168,10 +168,11 @@ static NSString * descriptionCellIdentifier = @"descriptionCellIdentifier";
             inCarObject.quality = _good.quality;
             inCarObject.color   = _good.color;
             inCarObject.proNum  = _good.item_number;
-            inCarObject.proCount = @"1";
-            inCarObject.des     = _good.description;
+            inCarObject.proCount   = @"1";
+            inCarObject.des        = _good.description;
             inCarObject.isSelected = @"0"; //默认不选中
-            inCarObject.productID = _good.ID;
+            inCarObject.productID  = _good.ID;
+            inCarObject.shipping_fee = _good.shipping_fee;
             if ([_good.image count]) {
                 inCarObject.image = [[_good.image objectAtIndex:0] valueForKey:@"image"];
             }

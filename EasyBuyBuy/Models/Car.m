@@ -24,5 +24,5 @@
 @dynamic quality;
 @dynamic size;
 @dynamic productID;
-
+@dynamic shipping_fee;
 @end

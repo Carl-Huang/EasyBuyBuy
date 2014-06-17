@@ -137,6 +137,9 @@
         [[HttpService sharedInstance]fetchAdParams:@{@"type":buinesseType} completionBlock:^(id object) {
             if (object) {
                 [weakSelf refreshAdContent:object];
+            }else
+            {
+                dispatch_group_leave(weakSelf.refresh_data_group);
             }
         } failureBlock:^(NSError *error, NSString *responseString) {
             dispatch_group_leave(weakSelf.refresh_data_group);

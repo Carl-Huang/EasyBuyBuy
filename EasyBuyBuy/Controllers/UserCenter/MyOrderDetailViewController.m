@@ -22,7 +22,7 @@
 #import "RemartCell.h"
 #import "ShippingType.h"
 #import "MyOrderList.h"
-
+#import "GoodListSingleObj.h"
 static NSString * descriptioncellIdentifier = @"descriptioncellIdentifier";
 static NSString * userInfoCellIdentifier    = @"userInfoCellIdentifier";
 static NSString * remartCellIdentifier    = @"remartCellIdentifier";
@@ -161,7 +161,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         CGFloat cost = 0;
         
         for (Car * object in products) {
-            cost += object.price.floatValue * object.proCount.integerValue;
+            cost += object.price.floatValue * object.proCount.integerValue+object.shipping_fee.floatValue * object.proCount.integerValue;
         }
         _totalPrice.text = [NSString stringWithFormat:@"$%0.2f",cost];
     }else
@@ -182,7 +182,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     
     NSDictionary * userInfo = @{@"name":@"",@"phone":@"",@"address":@""};
     [dataSource insertObject:userInfo atIndex:0];
-    sectionOffset = @[@"1",@"1",@"1",@"1",@"1",@"3"];
+    sectionOffset = @[@"1",@"1",@"1",@"1",@"1",@"4"];
     fontSize = [GlobalMethod getDefaultFontSize] * DefaultFontSize;
     if (fontSize < 0) {
         fontSize = DefaultFontSize;
@@ -252,10 +252,18 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
             
         }else if (indexPath.row == 2)
         {
+            //运费
+            CGFloat cost = 0;
+            for (Car * object in products) {
+                cost += object.shipping_fee.floatValue * object.proCount.integerValue;
+            }
+            cell.content.text = [NSString stringWithFormat:@"$%0.2f",cost];
+        }else if(indexPath.row == 3)
+        {
             //总价钱
             CGFloat cost = 0;
             for (Car * object in products) {
-                cost += object.price.floatValue * object.proCount.integerValue;
+                cost += object.price.floatValue * object.proCount.integerValue+object.shipping_fee.floatValue * object.proCount.integerValue;
             }
             cell.content.text = [NSString stringWithFormat:@"$%0.2f",cost];
         }else
@@ -279,11 +287,18 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
             
         }else if (indexPath.row == 2)
         {
+            CGFloat cost = 0;
+            if ([products count]) {
+                for (GoodListSingleObj * obj in products) {
+                    cost += obj.shipping_fee.floatValue* obj.goods_amount.floatValue;
+                }
+            }
+            cell.content.text =[NSString stringWithFormat:@"%0.2f",cost];
+            
+        }else if(indexPath.row == 3)
+        {
             //总价钱
             cell.content.text = _orderListDetail.total_price;
-        }else
-        {
-            //未定义
         }
     }
     
@@ -389,6 +404,9 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 {
     if (!_isNewOrder) {
         _orderListDetail = orderDetail;
+        if ([_orderListDetail.status isEqualToString:@"1"]) {
+            [_confirmBtn setHidden:YES];
+        }
     }
     _isNewOrder = isNew;
     products = array;
@@ -611,6 +629,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
         if (_isNewOrder) {
             [self showTheExpressTable];
         }
+        
     }
 }
 
