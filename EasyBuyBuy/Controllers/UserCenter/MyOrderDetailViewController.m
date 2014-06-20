@@ -49,6 +49,7 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
     
     NSInteger  selectedExpressIndex;
     NSString * orderID;
+    NSInteger  shippingID;
     
     MyOrderUserInfoTableViewCell * addressCell;
 }
@@ -402,14 +403,21 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 #pragma  mark - Public
 -(void)orderDetailWithProduct:(NSArray *)array isNewOrder:(BOOL)isNew orderDetail:(MyOrderList *)orderDetail
 {
+    _isNewOrder = isNew;
     if (!_isNewOrder) {
         _orderListDetail = orderDetail;
         if ([_orderListDetail.status isEqualToString:@"1"]) {
             [_confirmBtn setHidden:YES];
         }
     }
-    _isNewOrder = isNew;
+    
     products = array;
+    
+//    shippingID = -1;
+//    if (!_isNewOrder) {
+//        NSString * shipID = [[products objectAtIndex:0] valueForKey:@"shipping_type"];
+//        shippingID = shipID.integerValue;
+//    }
     [_contentTable reloadData];
 }
 
@@ -418,39 +426,48 @@ static NSString * remartCellIdentifier    = @"remartCellIdentifier";
 - (IBAction)submitOrderAction:(id)sender {
     
     if (defaultAddress) {
-        if (selectedExpressIndex != -1) {
+        
             [[PaymentMng sharePaymentMng]configurePaymentSetting];
             User * user = [User getUserFromLocal];
             if (_isNewOrder) {
-                NSMutableArray * orderProducts = [self assembleOrderProducts];
-                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
-                                                                   options:0
-                                                                     error:nil];
-                NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-                
-                //把订单上传到服务器
-                __weak MyOrderDetailViewController * weakSelf =self;
-                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type": @"1",@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
-                 {
-                     [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-                     orderID = [object valueForKey:@"order_id"];
-                     [weakSelf paying];
-                 } failureBlock:^(NSError *error, NSString *responseString) {
-                     [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-                     [self showAlertViewWithMessage:@"Submit order failed"];
-                 }];
+                if (selectedExpressIndex != -1) {
+                    NSMutableArray * orderProducts = [self assembleOrderProducts];
+                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:orderProducts
+                                                                       options:0
+                                                                         error:nil];
+                    NSString * goodsDetail = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+                    
+                    //把订单上传到服务器
+                    __weak MyOrderDetailViewController * weakSelf =self;
+                    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    ShippingType * shippingType = nil;
+                    if (selectedExpressIndex !=-1) {
+                        if ([shippingTypeData count] > selectedExpressIndex) {
+                            shippingType = [shippingTypeData objectAtIndex:selectedExpressIndex];
+                        }
+                    }
+                    
+                    [[HttpService sharedInstance]submitOrderWithParams:@{@"user_id": user.user_id,@"goods_detail": goodsDetail,@"address_id":defaultAddress.ID,@"shipping_type":shippingType.ID,@"pay_method": @"Paypal",@"status": @"0",@"remark":remartContent} completionBlock:^(id object)
+                     {
+                         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                         orderID = [object valueForKey:@"order_id"];
+                         [weakSelf paying];
+                     } failureBlock:^(NSError *error, NSString *responseString) {
+                         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+                         [self showAlertViewWithMessage:@"Submit order failed"];
+                     }];
+
+                }else
+                {
+                    //选择运输方式
+                    [self showAlertViewWithMessage:@"Please selected an Transport"];
+                }
                 
             }else
             {
                 [self paying];
             }
 
-        }else
-        {
-            //选择运输方式
-            [self showAlertViewWithMessage:@"Please selected an Transport"];
-        }
     }else
     {
         //选择地址

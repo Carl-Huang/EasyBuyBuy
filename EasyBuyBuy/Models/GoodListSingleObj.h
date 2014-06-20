@@ -17,4 +17,5 @@
 @property (strong ,nonatomic) NSArray * goods_image;
 @property (strong ,nonatomic) NSString * goods_name;
 @property (strong ,nonatomic) NSString * shipping_fee;
+@property (strong ,nonatomic) NSString * shipping_type;
 @end

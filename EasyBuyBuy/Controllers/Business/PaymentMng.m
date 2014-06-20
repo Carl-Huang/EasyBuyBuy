@@ -55,7 +55,7 @@
     
     if (_payPalConfig == nil) {
         _payPalConfig = [[PayPalConfiguration alloc] init];
-        _payPalConfig.acceptCreditCards = YES;
+        _payPalConfig.acceptCreditCards = NO;
         _payPalConfig.languageOrLocale = @"en";
         _payPalConfig.merchantName = MerchantName;
         _payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"www.baidu.com"];
